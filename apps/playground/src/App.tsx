@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, IconButton, Dialog, Spinner, CloseIcon, type ButtonColor, type ButtonVariant } from '@koi/react';
+import { Button, IconButton, Dialog, Spinner, CloseIcon, ExternalIcon, type ButtonColor, type ButtonVariant } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
 
 // One section per component. scripts/shots.mjs screenshots each [data-shot] element in both themes.
@@ -42,6 +42,13 @@ export function App() {
           <Button size="lg">lg</Button>
           <IconButton label="关闭" icon={<CloseIcon />} />
           <Button loading>保存中</Button>
+        </div>
+        <div className={row}>
+          <span className={label}>as link</span>
+          <Button href="#button">阅读全文</Button>
+          <Button href="https://github.com/" target="_blank" rel="noopener noreferrer" color="secondary" variant="outline" iconEnd={<ExternalIcon />}>GitHub</Button>
+          <Button href="#button" disabled>已禁用</Button>
+          <IconButton href="https://github.com/" target="_blank" rel="noopener noreferrer" label="在新窗口打开" icon={<ExternalIcon />} />
         </div>
       </section>
 

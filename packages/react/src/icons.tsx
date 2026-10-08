@@ -15,3 +15,4 @@ function Svg({ size = 16, children, ...rest }: IconProps & { children: React.Rea
 
 export const CloseIcon = (p: IconProps) => <Svg {...p}><path d="M6 6l12 12M18 6L6 18" /></Svg>;
 export const CheckIcon = (p: IconProps) => <Svg {...p}><path d="M5 12.5l4.5 4.5L19 7.5" /></Svg>;
+export const ExternalIcon = (p: IconProps) => <Svg {...p}><path d="M14 5h5v5" /><path d="M19 5l-8 8" /><path d="M18 14v4a1 1 0 01-1 1H6a1 1 0 01-1-1V7a1 1 0 011-1h4" /></Svg>;

@@ -49,13 +49,14 @@ export const button = defineRecipe({
     _disabled: { opacity: '0.5', cursor: 'not-allowed' },
     // Loading buttons are also disabled; this outranks _disabled's opacity (legacy: .is-loading after :disabled).
     '&[aria-busy=true]:disabled': { opacity: '0.85', cursor: 'progress' },
-    '& svg': { width: 'icon', height: 'icon', flexShrink: '0' },
+    // Direct children only: the loading Spinner's svg sets its own size.
+    '& > svg': { width: 'icon', height: 'icon', flexShrink: '0' },
   },
   variants: {
     color: empty(BUTTON_COLORS),
     variant: empty(BUTTON_VARIANTS),
     size: {
-      sm: { height: 'control-sm', px: '3', textStyle: 'button-sm', '& svg': { width: 'icon-sm', height: 'icon-sm' } },
+      sm: { height: 'control-sm', px: '3', textStyle: 'button-sm', '& > svg': { width: 'icon-sm', height: 'icon-sm' } },
       md: { height: 'control-md', px: '4', textStyle: 'button' },
       lg: { height: 'control-lg', px: '5', textStyle: 'button' },
     },

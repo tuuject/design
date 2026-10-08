@@ -25,8 +25,9 @@ Order: simple and self-contained first, then the Base UI ones, then the composit
 
 | Component | Behavior from | Notes |
 | --- | --- | --- |
-| Button, IconButton | plain `<button>` | **Done**, checked against legacy in both themes. `loading` still needs the Spinner. |
-| Spinner, Skeleton, Badge, Divider, Card, Alert, Link | plain elements | Skeleton: keep the synced shimmer (`background-attachment: fixed`) and the reduced-motion fallback. Divider can use Base UI `Separator`. |
+| Button, IconButton | plain `<button>` | **Done**, checked against legacy in both themes. `loading` shows a Spinner (sm, md on lg buttons), as in legacy. |
+| Spinner | plain element | **Done**, checked against legacy. Same props. Under reduced motion it turns at half speed (`spin-slow`, 1.6s) instead of stopping; legacy didn't handle reduced motion for it. New durations `spin` / `spin-slow` in `motion.mjs`. |
+| Skeleton, Badge, Divider, Card, Alert, Link | plain elements | Skeleton: keep the synced shimmer (`background-attachment: fixed`) and the reduced-motion fallback. Divider can use Base UI `Separator`. |
 | Field, Input, Textarea | Base UI `Field` (+ `Input`) | Field replaces the hand-written id / `aria-describedby` / `aria-invalid` wiring. |
 | Checkbox, RadioGroup, Switch | Base UI `Checkbox`, `RadioGroup`+`Radio`, `Switch` | Springy check/dot/thumb motion on `spring` easing. |
 | Select | Base UI `Select` | Behavior change from the legacy native `<select>`: a custom listbox. Decide whether that's wanted. |

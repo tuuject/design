@@ -11,6 +11,7 @@ export const globalCss = defineGlobalStyles({
     textAutospace: 'normal',
   },
   '@media (prefers-reduced-motion: reduce)': {
-    '*, *::before, *::after': { animationDuration: '0.01ms !important', transitionDuration: '0.01ms !important' },
+    // Spinner is left out: it slows down instead (recipes/spinner.ts).
+    '*:not(.koi-spinner__svg), *::before, *::after': { animationDuration: '0.01ms !important', transitionDuration: '0.01ms !important' },
   },
 });

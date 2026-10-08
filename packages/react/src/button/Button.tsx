@@ -2,6 +2,7 @@ import * as React from 'react';
 import { cx } from '@koi/react/styled-system/css';
 import { button } from '@koi/react/styled-system/recipes';
 import { useButtonShape, type ButtonShape } from '../shape';
+import { Spinner } from '../spinner/Spinner';
 
 export type ButtonColor = 'primary' | 'accent' | 'secondary' | 'warning' | 'error';
 export type ButtonVariant = 'solid' | 'soft' | 'outline' | 'ghost';
@@ -19,7 +20,7 @@ export interface ButtonProps extends Omit<React.ComponentPropsWithRef<'button'>,
   iconStart?: React.ReactNode;
   iconEnd?: React.ReactNode;
   fullWidth?: boolean;
-  /** Disables the button and sets aria-busy. TODO: show a Spinner in place of iconStart (see legacy bundle.js). */
+  /** Shows a Spinner in place of iconStart, disables the button and sets aria-busy. */
   loading?: boolean;
 }
 
@@ -35,7 +36,7 @@ export function Button({
       className={cx(button({ color, variant, size, shape: resolvedShape, fullWidth }), className)}
       {...rest}
     >
-      {iconStart}
+      {loading ? <Spinner size={size === 'lg' ? 'md' : 'sm'} label="处理中" /> : iconStart}
       <span>{children}</span>
       {iconEnd}
     </button>

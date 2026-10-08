@@ -7,3 +7,4 @@ apps/playground/shots/*.png
 !apps/playground/shots/.gitkeep
 test-results
 playwright-report
+.idea

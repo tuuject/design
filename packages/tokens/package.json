@@ -7,10 +7,11 @@
     "./tokens.json": "./src/tokens.json",
     "./tokens.css": "./dist/tokens.css",
     "./theme-init.js": "./dist/theme-init.js",
+    "./fonts.css": "./fonts/fonts.css",
     "./panda": { "types": "./dist/panda-preset.d.ts", "default": "./dist/panda-preset.js" },
     "./native": "./dist/native.ts"
   },
-  "files": ["src", "dist"],
+  "files": ["src", "dist", "fonts"],
   "scripts": {
     "build": "node scripts/build.mjs",
     "contrast": "node scripts/contrast.mjs",

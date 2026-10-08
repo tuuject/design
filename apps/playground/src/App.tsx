@@ -13,11 +13,16 @@ const label = css({ textStyle: 'small', color: 'text-muted', width: '[88px]' });
 
 export function App() {
   const [open, setOpen] = React.useState(false);
+  const [chill, setChill] = React.useState(() => document.documentElement.dataset.font === 'chill');
+  const toggleFont = () => { window.koiSetFont?.(chill ? null : 'chill'); setChill(!chill); };
   return (
     <main className={page}>
       <header className={row}>
         <h1 className={css({ textStyle: 'display', m: '0', flex: '1' })}>Koi</h1>
-        <Button color="secondary" variant="outline" size="sm" onClick={() => (window as any).koiSetTheme?.(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark')}>
+        <Button color="secondary" variant="outline" size="sm" onClick={toggleFont}>
+          字体：{chill ? '寒蝉全圆体' : '系统'}
+        </Button>
+        <Button color="secondary" variant="outline" size="sm" onClick={() => window.koiSetTheme?.(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark')}>
           切换主题
         </Button>
       </header>

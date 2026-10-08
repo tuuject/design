@@ -64,6 +64,9 @@ When the repo is on GitHub, the Koi design-system artifact in Claude can sync fr
 
 ## Open decisions
 
-- Font: ChillRoundF (web subsets exist; native needs a full font file) or the system stack currently in `tokens.json`.
+- Font: ChillRoundF (web subsets exist; native needs a full font file) or the system stack currently in `tokens.json`. Both work now: `<html data-font="chill">` (or `koiSetFont('chill')`, saved in localStorage `koi-font`) switches `sans` to ChillRoundF, and the playground header has a toggle. `KOI_FONT=chill pnpm shots` screenshots with it. Default stays system until this is decided. Things to weigh:
+  - ChillRoundF's 700 is only a little heavier than its 400, so headings, labels and buttons read much less bold than with the system font.
+  - The system font costs nothing: with it, no woff2 is fetched. The playground page with ChillRoundF fetches 13 subsets.
+  - The legacy `--font-sans` never included ChillRoundF (fonts.css declared the face but nothing used it), so `reference/legacy-web/example.html` renders in the system font too. It's not a ChillRoundF reference.
 - Select: custom listbox (Base UI) or keep the native `<select>`.
 - Native stack (Phase 3).

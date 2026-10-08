@@ -1,7 +1,7 @@
 // Builds every token output from src/tokens.json. No dependencies: `node scripts/build.mjs`.
 //   dist/tokens.css        CSS variables with the legacy names (--surface, --radius-panel…) for non-Panda consumers
 //   dist/panda-preset.js   a Panda CSS preset: tokens, semanticTokens (light/_dark), textStyles, keyframes
-//   dist/theme-init.js     sets <html data-theme> from the OS before first paint and follows changes
+//   dist/theme-init.js     sets <html data-theme> from the OS before first paint and follows changes; <html data-font>
 //   dist/native.ts         plain values for React Native: hex/rgba colors per theme, numbers for sizes
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -34,7 +34,8 @@ const strip = (name, prefix) => name.replace(new RegExp(`^${prefix}-`), '');
     '/* GENERATED from src/tokens.json. Light by default; dark with <html data-theme="dark">, or by the OS unless data-theme="light". */',
     ':root, [data-theme="light"] {', ...light, '}', '',
     '@media (prefers-color-scheme: dark) {', '  :root:not([data-theme="light"]) {', ...dark.map((l) => '  ' + l), '  }', '}', '',
-    '[data-theme="dark"] {', ...dark, '}', '', ...typeRules, '',
+    '[data-theme="dark"] {', ...dark, '}', '',
+    '[data-font="chill"] {', `  --font-sans: ${tokens.type.families.chill};`, '}', '', ...typeRules, '',
   ].join('\n'));
 }
 
@@ -63,7 +64,8 @@ const strip = (name, prefix) => name.replace(new RegExp(`^${prefix}-`), '');
     // Dark mode is driven by <html data-theme="dark">. dist/theme-init.js sets it from the OS
     // (and keeps following it) unless the app has chosen a theme. Check the generated CSS once:
     // semantic tokens should come out as `[data-theme=dark] { --colors-surface: … }`.
-    conditions: { extend: { dark: '[data-theme=dark] &', light: '[data-theme=light] &' } },
+    // The font works the same way: <html data-font="chill"> swaps `sans` for ChillRoundF.
+    conditions: { extend: { dark: '[data-theme=dark] &', light: '[data-theme=light] &', fontChill: '[data-font=chill] &' } },
     theme: {
       extend: {
         tokens: {
@@ -73,11 +75,13 @@ const strip = (name, prefix) => name.replace(new RegExp(`^${prefix}-`), '');
           sizes: obj('size'),
           shadows: obj('shadow', 'shadow'),
           blurs: obj('blur', 'blur'),
-          fonts: { sans: { value: tokens.type.families.sans } },
           easings: Object.fromEntries(Object.entries(motion.easings).map(([k, v]) => [k, { value: v }])),
           durations: Object.fromEntries(Object.entries(motion.durations).map(([k, v]) => [k, { value: v }])),
         },
-        semanticTokens: { colors: semantic },
+        semanticTokens: {
+          colors: semantic,
+          fonts: { sans: { value: { base: tokens.type.families.sans, _fontChill: tokens.type.families.chill } } },
+        },
         textStyles,
         keyframes,
       },
@@ -89,7 +93,8 @@ const strip = (name, prefix) => name.replace(new RegExp(`^${prefix}-`), '');
 
 // ---------- 3. theme-init.js ----------
 write('theme-init.js', `/* GENERATED. Inline this in <head> before any CSS so there is no flash.
-   Follows the OS unless localStorage "koi-theme" is "light" or "dark". */
+   Follows the OS unless localStorage "koi-theme" is "light" or "dark".
+   Font: the system stack, or ChillRoundF when localStorage "koi-font" is "chill" (sets <html data-font="chill">). */
 (function () {
   var mq = window.matchMedia('(prefers-color-scheme: dark)');
   function pick() { var s = null; try { s = localStorage.getItem('koi-theme'); } catch (e) {}
@@ -98,6 +103,10 @@ write('theme-init.js', `/* GENERATED. Inline this in <head> before any CSS so th
   apply();
   mq.addEventListener('change', apply);
   window.koiSetTheme = function (t) { try { t ? localStorage.setItem('koi-theme', t) : localStorage.removeItem('koi-theme'); } catch (e) {} apply(); };
+  function applyFont() { var f = null; try { f = localStorage.getItem('koi-font'); } catch (e) {}
+    f === 'chill' ? document.documentElement.setAttribute('data-font', 'chill') : document.documentElement.removeAttribute('data-font'); }
+  applyFont();
+  window.koiSetFont = function (f) { try { f === 'chill' ? localStorage.setItem('koi-font', f) : localStorage.removeItem('koi-font'); } catch (e) {} applyFont(); };
 })();
 `);
 

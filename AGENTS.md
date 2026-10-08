@@ -30,6 +30,7 @@ The current plan and status are in `docs/plan.md`. Update it as phases complete.
 - **Motion:** color changes 150ms; moving things use the `spring` easing. Everything respects `prefers-reduced-motion`.
 - **Copy** in components (labels, aria-labels) is Simplified Chinese ("关闭", "加载中"). No emoji.
 - **Dark mode** is `<html data-theme="dark">`; `theme-init.js` sets it from the OS. In Panda it's the `_dark` condition.
+- **Font** is the system stack by default; `<html data-font="chill">` makes `sans` ChillRoundF (the `_fontChill` condition, `koiSetFont()` in `theme-init.js`). The faces are in `packages/tokens/fonts/` (`@koi/tokens/fonts.css`, copied from legacy). Components always use `fontFamily: 'sans'`, never the font name.
 - Keep each component's public props compatible with the legacy API in `reference/legacy-web/components/index.d.ts` unless the spec says otherwise; note any break in `docs/plan.md`.
 
 ## Porting a component

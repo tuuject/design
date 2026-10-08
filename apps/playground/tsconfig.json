@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": { "@koi/react/styled-system/*": ["../../packages/react/styled-system/*"] }
+  },
+  "include": ["src"]
+}

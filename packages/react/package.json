@@ -1,0 +1,28 @@
+{
+  "name": "@koi/react",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Koi components for React web: Base UI for behavior, Panda CSS v2 for styling.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styled-system/*": "./styled-system/*/index.js"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.8.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@koi/tokens": "workspace:*",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}

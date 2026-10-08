@@ -1,0 +1,44 @@
+# Koi
+
+Koi is a soft, rounded design system (pill controls, frosted glass, sky-blue actions, amber links) that started as tcdw's Koi Astro blog theme. This repo rebuilds it as packages:
+
+- `packages/tokens`: the single source of truth, `src/tokens.json`. `scripts/build.mjs` generates `dist/tokens.css`, `dist/panda-preset.js`, `dist/theme-init.js` and `dist/native.ts`.
+- `packages/react`: React web components. **Base UI** (`@base-ui/react`) for behavior and accessibility, **Panda CSS v2** for styling (recipes in `src/recipes/`).
+- `packages/native`: React Native, not started; the stack isn't chosen (see `docs/plan.md`).
+- `apps/playground`: Vite app that renders every component; `pnpm shots` screenshots it.
+- `docs/spec/`: the design spec. `README.md` is the brand book; `components/<Name>.md` says how each component looks and behaves. **Read the relevant spec file before touching a component.**
+- `reference/legacy-web/`: the previous implementation (React 18 + hand-written CSS). Frozen. Port from it; never import from it.
+
+The current plan and status are in `docs/plan.md`. Update it as phases complete.
+
+## Commands
+
+- `pnpm tokens`: rebuild token outputs after editing `packages/tokens/src/tokens.json`.
+- `pnpm codegen`: regenerate `packages/react/styled-system` after changing tokens, recipes or `panda.config.ts`.
+- `pnpm dev`: tokens + codegen + playground.
+- `pnpm shots`: screenshot each playground section in light and dark into `apps/playground/shots/`. Look at the PNGs after any visual change.
+- `pnpm check`: contrast pairs, raw-color scan and typecheck. Must pass before a commit.
+
+## Rules
+
+- **Tokens only.** Components use role tokens (`bg: 'surface'`, `color: 'text-muted'`, `borderColor: 'border-control'`), never palette steps (`primary.500`) and never literal colors. `scripts/check-raw-colors.mjs` enforces the second part.
+- **Contrast:** text pairs ≥ 4.5:1 and control edges / focus rings / icons ≥ 3:1, in both themes. When a component puts a token on a new background, add the pair to `packages/tokens/src/contrast-pairs.json` and run `pnpm contrast`.
+- **Generated files are never edited:** `packages/tokens/dist/`, `packages/react/styled-system/`. Change the source and rebuild.
+- **Sizes:** 14px base (`body`). Controls `control-sm` 28 / `control-md` 36 / `control-lg` 44; components in one row share a size. `prose` (16px) is only for long-form reading.
+- **Shape:** anything pressable is a pill (`radius-full`) except `shape="rounded"` (`radius-lg`, 8px). Dialog footers default to rounded through `ShapeProvider`; the dialog's 32px radius is that 8px plus its 24px padding (concentric). Cards and toasts `radius-panel` 24px, fields and alerts `radius-xl` 12px.
+- **Depth:** no shadows on buttons, ever. `shadow-raised` only on the active tab and switch thumbs; `shadow-float` only on things floating over the page (Dialog, Toast).
+- **Motion:** color changes 150ms; moving things use the `spring` easing. Everything respects `prefers-reduced-motion`.
+- **Copy** in components (labels, aria-labels) is Simplified Chinese ("关闭", "加载中"). No emoji.
+- **Dark mode** is `<html data-theme="dark">`; `theme-init.js` sets it from the OS. In Panda it's the `_dark` condition.
+- Keep each component's public props compatible with the legacy API in `reference/legacy-web/components/index.d.ts` unless the spec says otherwise; note any break in `docs/plan.md`.
+
+## Porting a component
+
+Use `/port-component <Name>`. In short: read `docs/spec/components/<Name>.md` and the legacy CSS/JS → write the recipe in `packages/react/src/recipes/` and register it in `recipes/index.ts` → write the component on the matching Base UI part → add a `data-shot` section to the playground → `pnpm codegen && pnpm shots` and compare light and dark against the legacy example → `pnpm check` → update `docs/plan.md`.
+
+## Gotchas
+
+- Panda v2: ESM only, Node 22+. Presets are no longer added automatically (that's why `@pandacss/preset-base` is listed). After upgrades run `pnpm codegen` (it uses `--clean`) so stale `.mjs` files don't shadow the new `.js`.
+- Library and playground import generated code as `@koi/react/styled-system/...` (aliased in `packages/react/tsconfig.json`, `apps/playground/tsconfig.json` and `apps/playground/vite.config.ts`). Don't use relative imports into `styled-system`, or Panda's `importMap` won't see them.
+- React Native can't read `oklch()`; `dist/native.ts` already converts every color to hex/rgba.
+- (Add what you learn here.)

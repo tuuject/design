@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Koi — example</title>
+  <!-- 1. font, 2. tokens, 3. component styles -->
+  <link rel="stylesheet" href="components/fonts.css">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="components/bundle.css">
+  <style>
+    body { margin: 0; background: var(--page-bg); color: var(--text); font: 400 14px/20px var(--font-sans); }
+    main { max-width: var(--content-max); margin: 0 auto; padding: 32px 16px; display: flex; flex-direction: column; gap: var(--space-6); }
+    .row { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; }
+    .sk-row { display: flex; gap: 12px; align-items: center; }
+    .sk-avatar { width: 36px; height: 36px; border-radius: var(--radius-full); flex: none; }
+    .sk-lines { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .sk-line { height: 12px; border-radius: var(--radius-sm); }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <!-- 4. React 18, 5. the Koi bundle (defines window.Koi) -->
+  <script src="components/lib/react.production.min.js"></script>
+  <script src="components/lib/react-dom.production.min.js"></script>
+  <script src="components/bundle.js"></script>
+  <script>
+    var K = window.Koi, h = React.createElement;
+    var nav = [{ items: [
+      { value: 'home', label: '首页' },
+      { value: 'posts', label: '文章', children: [{ value: 'tech', label: '技术' }, { value: 'life', label: '生活' }] },
+      { value: 'friends', label: '朋友们' }] }];
+    function Loading() {
+      var row = function (w) { return h('div', { className: 'sk-row' }, h(K.Skeleton, { className: 'sk-avatar' }),
+        h('div', { className: 'sk-lines' }, h(K.Skeleton, { className: 'sk-line', style: { width: '40%' } }), h(K.Skeleton, { className: 'sk-line', style: { width: w } }))); };
+      return h('div', { 'aria-busy': 'true', 'aria-label': '加载中', style: { display: 'flex', flexDirection: 'column', gap: 16 } }, row('85%'), row('70%'));
+    }
+    function App() {
+      var open = React.useState(false), t = K.useToast();
+      return h(React.Fragment, null,
+        h(K.NavMenu, { orientation: 'horizontal', sections: nav, defaultValue: 'home', brand: { title: 'Koi' } }),
+        h('main', null,
+          h('h1', { className: 'koi-type-display', style: { margin: 0 } }, 'Koi'),
+          h(K.Alert, { tone: 'info', title: '它能用了' }, '字体、颜色和组件都已从本地文件加载。'),
+          h(K.Card, { title: '订阅更新', description: '有新文章时通过邮件通知你。',
+              footer: [h(K.Button, { key: 'a', color: 'secondary', variant: 'ghost', onClick: function () { open[1](true); } }, '取消订阅'),
+                       h(K.Button, { key: 'b', onClick: function () { t.toast({ tone: 'success', title: '订阅成功', description: '下次更新时会通知你。' }); } }, '订阅')] },
+            h(K.Field, { label: '电子邮箱', help: '我们不会公开你的邮箱。' }, h(K.Input, { type: 'email', placeholder: 'you@example.com' }))),
+          h(K.Tabs, { label: '示例', items: [
+            { value: 'loading', label: '加载中', content: h(Loading) },
+            { value: 'done', label: '已加载', content: h('div', { className: 'row' }, h(K.Avatar, { name: 'tcdw' }), 'tcdw · Oct 7, 2026') }] }),
+          h('div', { className: 'row' }, h(K.Switch, { label: '暗黑模式跟随系统', defaultChecked: true }), h(K.Badge, { tone: 'accent' }, 'NEW'))),
+        h(K.Dialog, { open: open[0], onClose: function () { open[1](false); }, size: 'sm', title: '确定取消订阅？',
+          footer: [h(K.Button, { key: 'c', color: 'secondary', variant: 'ghost', onClick: function () { open[1](false); } }, '再想想'),
+                   h(K.Button, { key: 'd', color: 'error', onClick: function () { open[1](false); } }, '取消订阅')] }));
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(h(K.ToastProvider, null, h(App)));
+  </script>
+</body>
+</html>

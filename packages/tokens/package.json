@@ -1,0 +1,19 @@
+{
+  "name": "@koi/tokens",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Koi design tokens: one source (src/tokens.json), outputs for CSS, Panda CSS and React Native.",
+  "exports": {
+    "./tokens.json": "./src/tokens.json",
+    "./tokens.css": "./dist/tokens.css",
+    "./theme-init.js": "./dist/theme-init.js",
+    "./panda": { "types": "./dist/panda-preset.d.ts", "default": "./dist/panda-preset.js" },
+    "./native": "./dist/native.ts"
+  },
+  "files": ["src", "dist"],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "contrast": "node scripts/contrast.mjs",
+    "typecheck": "node scripts/build.mjs && node scripts/contrast.mjs"
+  }
+}

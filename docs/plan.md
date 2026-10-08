@@ -1,8 +1,16 @@
 # Plan
 
-## Phase 0: make the toolchain run
+## Phase 0: make the toolchain run (done 2026-10-08)
 
-This starter was written without network access to npm, so **nothing beyond `packages/tokens` has been run yet**. The Panda config, recipes, Button, Dialog and the playground are best-effort against the Panda CSS v2 and Base UI 1.x docs. First job:
+Result: tokens, codegen, dev server, shots and `pnpm check` all run. Button and Dialog match the legacy example in both themes, except the system font (see Open decisions) and the missing loading Spinner.
+
+- `pnpm up -r --latest`: Vite 7.3 → 8.3, `@vitejs/plugin-react` 5.2 → 6.1, TypeScript 6.0 → 7.0 (native `tsc`, no config changes needed), Panda 2.1.2, Base UI 1.8.0, React 19.3, Playwright 1.63 (1.64 exists; pnpm held it back, probably its minimum-release-age policy).
+- Added `@pandacss/preset-base` to the root devDependencies (it was missing; codegen failed without it).
+- `apps/playground/postcss.config.cjs`: absolute `configPath`/`cwd` (the plugin resolved the relative path against `cwd` and couldn't find the config).
+- Button recipe: icon-only padding moved to `compoundVariants` (IconButton was 40px wide instead of square), and the loading opacity now beats the disabled one (0.85, as in legacy).
+- Dark mode output checked: `[data-theme=dark] { --colors-surface: … }`. No change to `build.mjs` needed.
+
+Original checklist:
 
 1. `pnpm install`, then `pnpm up -r --latest` and note what changed (Panda v2, Base UI, Vite, plugin-react, Playwright).
 2. `pnpm tokens && pnpm codegen`. Open `packages/react/styled-system/styles.css` (or the generated tokens CSS) and confirm dark mode came out as `[data-theme=dark] { --colors-surface: … }`. If Panda emitted something else for the `dark` condition, fix the `conditions` block in `packages/tokens/scripts/build.mjs`, not the generated file.
@@ -17,7 +25,7 @@ Order: simple and self-contained first, then the Base UI ones, then the composit
 
 | Component | Behavior from | Notes |
 | --- | --- | --- |
-| Button, IconButton | plain `<button>` | **Done (untested).** `loading` still needs the Spinner. |
+| Button, IconButton | plain `<button>` | **Done**, checked against legacy in both themes. `loading` still needs the Spinner. |
 | Spinner, Skeleton, Badge, Divider, Card, Alert, Link | plain elements | Skeleton: keep the synced shimmer (`background-attachment: fixed`) and the reduced-motion fallback. Divider can use Base UI `Separator`. |
 | Field, Input, Textarea | Base UI `Field` (+ `Input`) | Field replaces the hand-written id / `aria-describedby` / `aria-invalid` wiring. |
 | Checkbox, RadioGroup, Switch | Base UI `Checkbox`, `RadioGroup`+`Radio`, `Switch` | Springy check/dot/thumb motion on `spring` easing. |
@@ -25,7 +33,7 @@ Order: simple and self-contained first, then the Base UI ones, then the composit
 | Tabs | Base UI `Tabs` | `Tabs.Indicator` could animate the active pill, which the legacy version can't. 36px tabs, 44px track. |
 | Tooltip, Avatar, Progress | Base UI `Tooltip`, `Avatar`, `Progress` | |
 | Toast | Base UI `Toast` (toast manager) | Keep the legacy API shape (`useToast().toast({ tone, title, description })`) as a thin wrapper. No border, keep `shadow-float`, `radius-panel`. |
-| Dialog | Base UI `Dialog` | **Done (untested).** Add the alert-dialog variant (`@base-ui/react/alert-dialog`) and a "can't dismiss by clicking outside" option. |
+| Dialog | Base UI `Dialog` | **Done**, checked against legacy in both themes. Add the alert-dialog variant (`@base-ui/react/alert-dialog`) and a "can't dismiss by clicking outside" option. |
 | Pagination, Tag | plain | |
 | NavMenu | vertical: Base UI `Collapsible`; horizontal: Base UI `Navigation Menu`, or `Menubar` + `Menu` for the cascading flyouts | The hardest one. Three levels deep, flyouts flip near the window edge. Base UI's positioning should replace the hand-written flip logic. |
 

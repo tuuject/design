@@ -41,4 +41,9 @@ Use `/port-component <Name>`. In short: read `docs/spec/components/<Name>.md` an
 - Panda v2: ESM only, Node 22+. Presets are no longer added automatically (that's why `@pandacss/preset-base` is listed). After upgrades run `pnpm codegen` (it uses `--clean`) so stale `.mjs` files don't shadow the new `.js`.
 - Library and playground import generated code as `@koi/react/styled-system/...` (aliased in `packages/react/tsconfig.json`, `apps/playground/tsconfig.json` and `apps/playground/vite.config.ts`). Don't use relative imports into `styled-system`, or Panda's `importMap` won't see them.
 - React Native can't read `oklch()`; `dist/native.ts` already converts every color to hex/rgba.
-- (Add what you learn here.)
+- `@pandacss/preset-base` is its own package and is not a dependency of `@pandacss/dev`; without it in the root `devDependencies`, codegen fails with `preset_resolution_failed`.
+- The Panda PostCSS plugin resolves `configPath` against `cwd`, not against the PostCSS config file. `apps/playground/postcss.config.cjs` builds both from `__dirname`; keep them absolute.
+- Recipe variants all land in one `@layer recipes.variants` sorted **alphabetically by variant name**, not in declaration order. When two variants set the same property (`iconOnly` and `size` both set padding), the later name wins. Put the override in `compoundVariants` (a later layer), even for a single-key condition: `{ iconOnly: true, css: {...} }`.
+- Same inside `base`: condition selectors aren't emitted in the order you write them (`_disabled` came out after `&[aria-busy=true]`). Win by specificity (`&[aria-busy=true]:disabled`), not by order.
+- The `dark` condition in the preset (`[data-theme=dark] &`) comes out as `[data-theme=dark] { --colors-… }` for semantic tokens, as intended.
+- `pnpm cssgen` isn't a script; to read the full generated CSS run `npx panda cssgen --outfile <somewhere outside the repo>`.

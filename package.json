@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@pandacss/dev": "^2.1.2",
+    "@pandacss/preset-base": "^2.1.2",
     "typescript": "^7.0.2"
   }
 }

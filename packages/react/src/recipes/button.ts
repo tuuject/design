@@ -47,7 +47,8 @@ export const button = defineRecipe({
     transitionDuration: 'fast',
     _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
     _disabled: { opacity: '0.5', cursor: 'not-allowed' },
-    '&[aria-busy=true]': { opacity: '0.85', cursor: 'progress' },
+    // Loading buttons are also disabled; this outranks _disabled's opacity (legacy: .is-loading after :disabled).
+    '&[aria-busy=true]:disabled': { opacity: '0.85', cursor: 'progress' },
     '& svg': { width: 'icon', height: 'icon', flexShrink: '0' },
   },
   variants: {
@@ -62,16 +63,17 @@ export const button = defineRecipe({
       pill: { borderRadius: 'full' },
       rounded: { borderRadius: 'lg' },
     },
-    /** Square, icon-only (IconButton). Width follows the size's height. */
-    iconOnly: {
-      true: { px: '0', flex: 'none', aspectRatio: '1' },
-    },
+    /** Square, icon-only (IconButton). Width follows the size's height. Styled in compoundVariants below. */
+    iconOnly: { true: {} },
     fullWidth: {
       true: { width: '100%' },
     },
   },
-  compoundVariants: BUTTON_COLORS.flatMap((color) =>
-    BUTTON_VARIANTS.map((variant) => ({ color, variant, css: look(color, variant) })),
-  ),
+  compoundVariants: [
+    ...BUTTON_COLORS.flatMap((color) => BUTTON_VARIANTS.map((variant) => ({ color, variant, css: look(color, variant) }))),
+    // Panda emits variants alphabetically within one layer, so `size`'s padding would beat a plain `iconOnly`
+    // variant. compound_variants is a later layer.
+    { iconOnly: true, css: { px: '0', flex: 'none', aspectRatio: '1' } },
+  ],
   defaultVariants: { color: 'primary', variant: 'solid', size: 'md', shape: 'pill' },
 });

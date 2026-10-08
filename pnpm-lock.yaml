@@ -11,6 +11,9 @@ importers:
       '@pandacss/dev':
         specifier: ^2.1.2
         version: 2.1.2(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(postcss@8.5.29)
+      '@pandacss/preset-base':
+        specifier: ^2.1.2
+        version: 2.1.2
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -400,6 +403,10 @@ packages:
     engines: {node: '>=22'}
     peerDependencies:
       postcss: '>=8'
+
+  '@pandacss/preset-base@2.1.2':
+    resolution: {integrity: sha512-Fi2Zo77qTwuqanR4r04PuygIHI7jF6mqMLJG+Nz13qSaCjzj6MCHE8lP72wlI2EGPA2jdE+mFfapLCzI4kQrPg==}
+    engines: {node: '>=22'}
 
   '@pandacss/types@2.1.2':
     resolution: {integrity: sha512-Vbu+E+PFjrkkJnyofMdxr7q0pzOlM6cUm8mLahUcWtpE8wzK7S/VnGhpFc4YfImvRC52yMt9ViKufYENbYKI2w==}
@@ -1370,6 +1377,10 @@ snapshots:
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
+
+  '@pandacss/preset-base@2.1.2':
+    dependencies:
+      '@pandacss/types': 2.1.2
 
   '@pandacss/types@2.1.2': {}
 

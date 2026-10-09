@@ -31,37 +31,39 @@ export const choiceRow = {
   },
 } as const;
 
+// The 16px box itself, minus its corner radius (Checkbox `sm`, Radio `full`). RadioGroup's radios share it.
+export const choiceControl = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flex: 'none',
+  boxSizing: 'border-box',
+  width: '[16px]',
+  height: '[16px]',
+  // Centers the 16px box on the label's 20px first line.
+  mt: '[2px]',
+  borderWidth: '[1.5px]',
+  borderStyle: 'solid',
+  borderColor: 'border-control',
+  bg: 'surface',
+  color: 'on-action',
+  transitionProperty: 'background-color, border-color',
+  transitionDuration: 'fast',
+  _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
+  '&[data-checked]': { bg: 'control-checked', borderColor: 'control-checked' },
+  // Inside a Field with an error (or with aria-invalid). Base UI never marks a disabled control invalid.
+  '&[aria-invalid=true]:not([data-checked])': { borderColor: 'error-control' },
+  '&[data-disabled]': { bg: 'surface-muted', borderColor: 'border' },
+  // Beats both rules above by specificity: a disabled tick or dot keeps its fill, faded (legacy's opacity .5).
+  '&[data-checked][data-disabled]': { bg: 'control-checked', borderColor: 'control-checked', opacity: '0.5' },
+} as const;
+
 export const checkbox = defineSlotRecipe({
   className: 'koi-checkbox',
   slots: ['root', 'control', 'indicator', 'text', 'label', 'description'],
   base: {
     ...choiceRow,
-    control: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 'none',
-      boxSizing: 'border-box',
-      width: '[16px]',
-      height: '[16px]',
-      // Centers the 16px box on the label's 20px first line.
-      mt: '[2px]',
-      borderWidth: '[1.5px]',
-      borderStyle: 'solid',
-      borderColor: 'border-control',
-      borderRadius: 'sm',
-      bg: 'surface',
-      color: 'on-action',
-      transitionProperty: 'background-color, border-color',
-      transitionDuration: 'fast',
-      _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
-      '&[data-checked]': { bg: 'control-checked', borderColor: 'control-checked' },
-      // Inside a Field with an error (or with aria-invalid). Base UI never marks a disabled control invalid.
-      '&[aria-invalid=true]:not([data-checked])': { borderColor: 'error-control' },
-      '&[data-disabled]': { bg: 'surface-muted', borderColor: 'border' },
-      // Beats both rules above by specificity: a disabled tick keeps its fill, faded (legacy's opacity .5).
-      '&[data-checked][data-disabled]': { bg: 'control-checked', borderColor: 'control-checked', opacity: '0.5' },
-    },
+    control: { ...choiceControl, borderRadius: 'sm' },
     // Kept mounted so the tick can pop in and out on the spring curve (global-css.ts stops it under reduced motion).
     indicator: {
       display: 'flex',

@@ -12,6 +12,7 @@ export { Textarea, type TextareaProps } from './textarea/Textarea';
 export { Checkbox, type CheckboxProps } from './checkbox/Checkbox';
 export { RadioGroup, type RadioGroupProps, type RadioOption } from './radio-group/RadioGroup';
 export { Switch, type SwitchProps } from './switch/Switch';
+export { Tabs, type TabsProps, type TabItem } from './tabs/Tabs';
 export { Dialog, type DialogProps } from './dialog/Dialog';
 export { ShapeProvider, useButtonShape, type ButtonShape } from './shape';
 export * from './icons';

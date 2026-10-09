@@ -3,11 +3,14 @@ import { badge } from './badge';
 import { button } from './button';
 import { card } from './card';
 import { dialog } from './dialog';
+import { field } from './field';
+import { input } from './input';
 import { link } from './link';
 import { separator } from './divider';
 import { skeleton } from './skeleton';
 import { spinner } from './spinner';
+import { textarea } from './textarea';
 
 // Register every recipe here; panda.config.ts spreads these into theme.extend.
-export const recipes = { button, separator, skeleton };
-export const slotRecipes = { alert, badge, card, dialog, link, spinner };
+export const recipes = { button, separator, skeleton, textarea };
+export const slotRecipes = { alert, badge, card, dialog, field, input, link, spinner };

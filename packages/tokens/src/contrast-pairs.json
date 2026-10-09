@@ -34,6 +34,7 @@
     ["control-checked", "surface"], ["control-checked", "page-bg"], ["control-checked", "surface-muted"], ["on-action", "control-checked"],
     ["border-control-hover", "page-bg"],
     ["white", "border-control"], ["white", "control-checked"],
+    ["focus-ring", "action-subtle"],
     ["text-brand", "surface-glass-tint"], ["warning-text", "surface-glass-tint"], ["error-text", "surface-glass-tint"], ["focus-ring", "surface-glass-tint"],
     ["text", "divider", "surface-glass-tint"],
     ["primary-edge", "page-bg"], ["accent-edge", "page-bg"], ["secondary-edge", "page-bg"], ["warning-edge", "page-bg"], ["error-edge", "page-bg"]

@@ -19,5 +19,6 @@ export { Avatar, type AvatarProps, type AvatarSize, type AvatarShape } from './a
 export { Toast, ToastProvider, useToast, type ToastProps, type ToastOptions, type ToastProviderProps, type ToastTone } from './toast/Toast';
 export { Progress, type ProgressProps, type ProgressSize } from './progress/Progress';
 export { Pagination, type PaginationProps, type PaginationVariant } from './pagination/Pagination';
+export { Tag, type TagProps } from './tag/Tag';
 export { ShapeProvider, useButtonShape, type ButtonShape } from './shape';
 export * from './icons';

@@ -5,6 +5,7 @@ export { Alert, type AlertProps, type AlertTone } from './alert/Alert';
 export { Badge, type BadgeProps, type BadgeTone } from './badge/Badge';
 export { Card, type CardProps } from './card/Card';
 export { Divider, type DividerProps } from './divider/Divider';
+export { Link, type LinkProps } from './link/Link';
 export { Dialog, type DialogProps } from './dialog/Dialog';
 export { ShapeProvider, useButtonShape, type ButtonShape } from './shape';
 export * from './icons';

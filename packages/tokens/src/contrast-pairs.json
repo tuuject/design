@@ -5,7 +5,7 @@
     ["text-muted", "page-bg"], ["text-muted", "surface"], ["text-muted", "surface-muted"],
     ["text", "surface-glass"], ["text-muted", "surface-glass"],
     ["text-brand", "page-bg"], ["text-brand", "surface"], ["text-brand", "surface-muted"],
-    ["link", "page-bg"], ["link", "surface"], ["link", "link-hover-bg"],
+    ["link", "page-bg"], ["link", "surface"], ["link", "surface-muted"], ["link", "link-hover-bg"],
     ["on-action", "action"], ["on-action", "action-hover"],
     ["on-action-subtle", "action-subtle"], ["on-action-subtle", "action-subtle-hover"],
     ["on-highlight", "highlight"],

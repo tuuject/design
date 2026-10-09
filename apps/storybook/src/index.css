@@ -1,0 +1,9 @@
+/* Panda injects its layers here. */
+@layer reset, base, tokens, recipes, utilities;
+
+/* Storybook's docs pages: Koi's page background behind the prose and the story previews,
+   so the components sit on the ground they were designed for in both themes. */
+.sbdocs.sbdocs-wrapper,
+.docs-story {
+  background: var(--colors-page-bg);
+}

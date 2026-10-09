@@ -9,10 +9,10 @@
     "tokens": "pnpm --filter @koi/tokens build",
     "contrast": "pnpm --filter @koi/tokens contrast",
     "codegen": "pnpm tokens && panda codegen --clean",
-    "dev": "pnpm codegen && pnpm --filter playground dev",
+    "dev": "pnpm codegen && pnpm --filter storybook dev",
     "build": "pnpm codegen && pnpm -r build",
     "typecheck": "pnpm -r typecheck",
-    "shots": "pnpm --filter playground shots",
+    "shots": "pnpm --filter storybook shots",
     "check": "pnpm codegen && pnpm contrast && node scripts/check-raw-colors.mjs && pnpm typecheck"
   },
   "devDependencies": {

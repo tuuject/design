@@ -3,8 +3,8 @@ dist
 styled-system
 *.tsbuildinfo
 .DS_Store
-apps/playground/shots/*.png
-!apps/playground/shots/.gitkeep
+apps/storybook/shots/*.png
+!apps/storybook/shots/.gitkeep
 test-results
 playwright-report
 .idea

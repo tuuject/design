@@ -3,5 +3,5 @@
   "compilerOptions": {
     "paths": { "@koi/react/styled-system/*": ["../../packages/react/styled-system/*"] }
   },
-  "include": ["src"]
+  "include": ["src", ".storybook"]
 }

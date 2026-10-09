@@ -1,0 +1,43 @@
+import { Meta, Unstyled } from '@storybook/addon-docs/blocks';
+import { Showcase } from './Showcase';
+
+<Meta title="Introduction" />
+
+# Koi
+
+Koi（こい，恋）是一套柔和、圆润的界面设计系统，源自 tcdw 的 Koi 博客主题：胶囊形的控件、色彩上的毛玻璃、天蓝色的操作、琥珀色的链接。每个组件都同时支持浅色和深色，默认跟随系统设置。
+
+<Unstyled>
+  <Showcase />
+</Unstyled>
+
+用工具栏的「主题」和「字体」可以切换浅色 / 深色，以及系统字体 / 寒蝉全圆体。
+
+## 设计原则
+
+- **圆润是标识。** 一切可按的东西都是胶囊（`radius-full`）；只有 `shape="rounded"`（8px）用于密集的工具栏、表格和表单，也是对话框底部按钮的默认形状。输入框和提示 12px，卡片和 Toast 24px，对话框 32px。
+- **层次靠半透明，不靠阴影。** 按钮永远没有阴影；`shadow-raised` 只给选中的标签页和开关滑块，`shadow-float` 只给浮在页面上的东西（Dialog、Toast）。
+- **天蓝是操作，琥珀是链接。** `primary` 用于主要操作和选中态；`accent` 用于链接和小面积的强调，每个视图最多一个 accent 按钮。
+- **14px 为基准。** 控件只有三种高度：28 / 36 / 44，同一行的组件用同一个尺寸。`prose`（16px）只用于长文阅读。
+- **动效有弹性。** 颜色变化 150ms，会动的东西用 Koi 的弹簧曲线；所有动效都尊重 `prefers-reduced-motion`。
+- **对比度达标。** 文字至少 4.5:1，控件边缘、焦点环和图标至少 3:1，两种主题都是。
+
+## 包结构
+
+- **`@koi/tokens`**：唯一的设计 token 来源 `src/tokens.json`，生成 CSS 变量、Panda 预设、主题初始化脚本和 React Native 用的值。
+- **`@koi/react`**：React Web 组件。行为和无障碍来自 [Base UI](https://base-ui.com)，样式用 Panda CSS v2 的 recipe。
+- **`@koi/native`**：React Native 组件，尚未开始。
+
+## 使用
+
+组件只用语义 token（`surface`、`text-muted`、`border-control`…），不直接用色阶或字面颜色，所以浅色和深色由同一套代码覆盖。
+
+- **主题：** 在 `<head>` 里内联 `@koi/tokens/theme-init.js`，它按系统设置写入 `<html data-theme>`，避免闪烁。`koiSetTheme('dark' | 'light' | null)` 手动切换。
+- **字体：** 默认是系统字体栈；加载 `@koi/tokens/fonts.css` 并调用 `koiSetFont('chill')` 后使用寒蝉全圆体。
+- **文案：** 组件内置的文字（「关闭」「加载中」）是简体中文，不使用 emoji。
+
+npm 发布方式还没定，见仓库里的 `docs/plan.md`。
+
+## 组件
+
+左侧「Components」下是已经移植好的组件：Button / IconButton、Spinner、Skeleton、Badge、Divider、Dialog。每个组件都有一个 Docs 页面和可调参数的 Playground。其余组件（Card、Field、Tabs、Toast…）正在从旧版逐个移植，进度见 `docs/plan.md`，外观和行为规范见 `docs/spec/`。

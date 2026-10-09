@@ -5,8 +5,8 @@ A soft, rounded design system, grown out of tcdw's Koi blog theme. Tokens in one
 ```sh
 nvm use            # Node 22+ (Panda v2 needs it)
 pnpm install
-pnpm dev           # builds tokens, runs Panda codegen, starts the playground
-pnpm shots         # screenshots of every playground section, light + dark
+pnpm dev           # builds tokens, runs Panda codegen, starts Storybook (localhost:6006)
+pnpm shots         # screenshots of every story, light + dark
 pnpm check         # contrast, raw-color scan, typecheck
 ```
 
@@ -17,6 +17,6 @@ pnpm check         # contrast, raw-color scan, typecheck
 | Package | What |
 | --- | --- |
 | `packages/tokens` | `src/tokens.json` → CSS variables, Panda preset, theme-init script, React Native values. Contrast checks. |
-| `packages/react` | Components: Button, IconButton and Dialog so far. |
+| `packages/react` | Components: Button, IconButton, Spinner, Skeleton, Badge, Divider and Dialog so far. |
 | `packages/native` | Not started. |
-| `apps/playground` | Visual test bed. |
+| `apps/storybook` | Storybook: an introduction to Koi and every component's stories. Also the visual test bed (`pnpm shots`). |

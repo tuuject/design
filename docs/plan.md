@@ -46,7 +46,7 @@ New components that Base UI makes cheap and the spec lists as "not included": Me
 ## Phase 2: package and document
 
 - Publish setup: Panda v2's `panda lib` / `designSystem` config, or ship source plus the preset. Decide which.
-- Keep the playground as the visual test bed; add Storybook only if it earns its keep.
+- ~~Keep the playground as the visual test bed; add Storybook only if it earns its keep.~~ **Done 2026-10-10:** the playground is replaced by Storybook 10.6 (`apps/storybook`). The landing page `Introduction.mdx` introduces Koi; each component has autodocs and stories; the toolbar switches theme and font, and docs pages follow it. `pnpm shots` now screenshots every story (`<Component>-<Story>_<theme>.png`). Still open: publishing the static build (`pnpm --filter storybook build` → `apps/storybook/dist`).
 - Move motion values from `packages/tokens/scripts/motion.mjs` into `src/tokens.json`.
 
 ## Phase 3: React Native
@@ -67,9 +67,9 @@ When the repo is on GitHub, the Koi design-system artifact in Claude can sync fr
 
 ## Open decisions
 
-- Font: ChillRoundF (web subsets exist; native needs a full font file) or the system stack currently in `tokens.json`. Both work now: `<html data-font="chill">` (or `koiSetFont('chill')`, saved in localStorage `koi-font`) switches `sans` to ChillRoundF, and the playground header has a toggle. `KOI_FONT=chill pnpm shots` screenshots with it. Default stays system until this is decided. Things to weigh:
+- Font: ChillRoundF (web subsets exist; native needs a full font file) or the system stack currently in `tokens.json`. Both work now: `<html data-font="chill">` (or `koiSetFont('chill')`, saved in localStorage `koi-font`) switches `sans` to ChillRoundF, and Storybook's toolbar has a switch. `KOI_FONT=chill pnpm shots` screenshots with it. Default stays system until this is decided. Things to weigh:
   - ChillRoundF's 700 is only a little heavier than its 400, so headings, labels and buttons read much less bold than with the system font.
-  - The system font costs nothing: with it, no woff2 is fetched. The playground page with ChillRoundF fetches 13 subsets.
+  - The system font costs nothing: with it, no woff2 is fetched. The old playground page with ChillRoundF fetched 13 subsets.
   - The legacy `--font-sans` never included ChillRoundF (fonts.css declared the face but nothing used it), so `reference/legacy-web/example.html` renders in the system font too. It's not a ChillRoundF reference.
 - Select: custom listbox (Base UI) or keep the native `<select>`.
 - Native stack (Phase 3).

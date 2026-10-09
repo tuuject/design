@@ -5,7 +5,7 @@ Koi is a soft, rounded design system (pill controls, frosted glass, sky-blue act
 - `packages/tokens`: the single source of truth, `src/tokens.json`. `scripts/build.mjs` generates `dist/tokens.css`, `dist/panda-preset.js`, `dist/theme-init.js` and `dist/native.ts`.
 - `packages/react`: React web components. **Base UI** (`@base-ui/react`) for behavior and accessibility, **Panda CSS v2** for styling (recipes in `src/recipes/`).
 - `packages/native`: React Native, not started; the stack isn't chosen (see `docs/plan.md`).
-- `apps/playground`: Vite app that renders every component; `pnpm shots` screenshots it.
+- `apps/storybook`: Storybook 10 (`@storybook/react-vite`). `src/Introduction.mdx` is the landing page (an overview of Koi); `src/components/<Name>.stories.tsx` has each component's stories. The toolbar switches theme and font. `pnpm shots` screenshots every story.
 - `docs/spec/`: the design spec. `README.md` is the brand book; `components/<Name>.md` says how each component looks and behaves. **Read the relevant spec file before touching a component.**
 - `reference/legacy-web/`: the previous implementation (React 18 + hand-written CSS). Frozen. Port from it; never import from it.
 
@@ -15,8 +15,8 @@ The current plan and status are in `docs/plan.md`. Update it as phases complete.
 
 - `pnpm tokens`: rebuild token outputs after editing `packages/tokens/src/tokens.json`.
 - `pnpm codegen`: regenerate `packages/react/styled-system` after changing tokens, recipes or `panda.config.ts`.
-- `pnpm dev`: tokens + codegen + playground.
-- `pnpm shots`: screenshot each playground section in light and dark into `apps/playground/shots/`. Look at the PNGs after any visual change.
+- `pnpm dev`: tokens + codegen + Storybook on port 6006.
+- `pnpm shots`: screenshot every story in light and dark into `apps/storybook/shots/<Component>-<Story>_<theme>.png` (`pnpm shots Button` for one component). Stories tagged `shot-viewport` (an open Dialog) are shot as the whole viewport. Look at the PNGs after any visual change.
 - `pnpm check`: contrast pairs, raw-color scan and typecheck. Must pass before a commit.
 
 ## Rules
@@ -35,15 +35,17 @@ The current plan and status are in `docs/plan.md`. Update it as phases complete.
 
 ## Porting a component
 
-Use `/port-component <Name>`. In short: read `docs/spec/components/<Name>.md` and the legacy CSS/JS → write the recipe in `packages/react/src/recipes/` and register it in `recipes/index.ts` → write the component on the matching Base UI part → add a `data-shot` section to the playground → `pnpm codegen && pnpm shots` and compare light and dark against the legacy example → `pnpm check` → update `docs/plan.md`.
+Use `/port-component <Name>`. In short: read `docs/spec/components/<Name>.md` and the legacy CSS/JS → write the recipe in `packages/react/src/recipes/` and register it in `recipes/index.ts` → write the component on the matching Base UI part → add `apps/storybook/src/components/<Name>.stories.tsx` → `pnpm codegen && pnpm shots` and compare light and dark against the legacy example → `pnpm check` → update `docs/plan.md`.
 
 ## Gotchas
 
 - Panda v2: ESM only, Node 22+. Presets are no longer added automatically (that's why `@pandacss/preset-base` is listed). After upgrades run `pnpm codegen` (it uses `--clean`) so stale `.mjs` files don't shadow the new `.js`.
-- Library and playground import generated code as `@koi/react/styled-system/...` (aliased in `packages/react/tsconfig.json`, `apps/playground/tsconfig.json` and `apps/playground/vite.config.ts`). Don't use relative imports into `styled-system`, or Panda's `importMap` won't see them.
+- Library and Storybook import generated code as `@koi/react/styled-system/...` (aliased in `packages/react/tsconfig.json`, `apps/storybook/tsconfig.json` and `viteFinal` in `apps/storybook/.storybook/main.ts`). Don't use relative imports into `styled-system`, or Panda's `importMap` won't see them.
 - React Native can't read `oklch()`; `dist/native.ts` already converts every color to hex/rgba.
 - `@pandacss/preset-base` is its own package and is not a dependency of `@pandacss/dev`; without it in the root `devDependencies`, codegen fails with `preset_resolution_failed`.
-- The Panda PostCSS plugin resolves `configPath` against `cwd`, not against the PostCSS config file. `apps/playground/postcss.config.cjs` builds both from `__dirname`; keep them absolute.
+- The Panda PostCSS plugin resolves `configPath` against `cwd`, not against the PostCSS config file. `apps/storybook/postcss.config.cjs` builds both from `__dirname`; keep them absolute.
+- Panda doesn't extract `css()` from `.mdx`. Styled blocks on docs pages live in a `.tsx` file (`Showcase.tsx`) and are wrapped in `<Unstyled>`, or Storybook's docs styles leak into them.
+- Docs pages follow the toolbar theme through `KoiDocsContainer` in `.storybook/preview.tsx`; `src/index.css` puts Koi's `page-bg` behind the docs and story previews.
 - Recipe variants all land in one `@layer recipes.variants` sorted **alphabetically by variant name**, not in declaration order. When two variants set the same property (`iconOnly` and `size` both set padding), the later name wins. Put the override in `compoundVariants` (a later layer), even for a single-key condition: `{ iconOnly: true, css: {...} }`.
 - Same inside `base`: condition selectors aren't emitted in the order you write them (`_disabled` came out after `&[aria-busy=true]`). Win by specificity (`&[aria-busy=true]:disabled`), not by order.
 - The `dark` condition in the preset (`[data-theme=dark] &`) comes out as `[data-theme=dark] { --colors-… }` for semantic tokens, as intended.

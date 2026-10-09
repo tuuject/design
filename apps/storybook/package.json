@@ -1,10 +1,10 @@
 {
-  "name": "playground",
+  "name": "storybook",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build -o dist",
     "typecheck": "tsc -p tsconfig.json",
     "shots": "node scripts/shots.mjs"
   },
@@ -16,10 +16,13 @@
   },
   "devDependencies": {
     "@pandacss/dev": "^2.1.2",
+    "@storybook/addon-docs": "^10.6.1",
+    "@storybook/react-vite": "^10.6.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
     "playwright": "^1.63.0",
+    "storybook": "^10.6.1",
     "typescript": "^7.0.2",
     "vite": "^8.3.3"
   }

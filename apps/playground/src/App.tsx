@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, IconButton, Dialog, Spinner, CloseIcon, ExternalIcon, type ButtonColor, type ButtonVariant } from '@koi/react';
+import { Button, IconButton, Dialog, Spinner, Skeleton, CloseIcon, ExternalIcon, type ButtonColor, type ButtonVariant } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
 
 // One section per component. scripts/shots.mjs screenshots each [data-shot] element in both themes.
@@ -72,6 +72,43 @@ export function App() {
           <Button size="lg" loading>保存中</Button>
           <Button color="secondary" variant="soft" loading>保存中</Button>
           <Button color="secondary" variant="outline" loading>保存中</Button>
+        </div>
+      </section>
+
+      <section className={section} data-shot="Skeleton">
+        <h2 className={css({ textStyle: 'heading-2', m: '0' })}>Skeleton</h2>
+        <div className={row}>
+          <span className={label}>card</span>
+          <div aria-busy="true" aria-label="加载中" className={css({ display: 'flex', flexDirection: 'column', gap: '3', p: '5', width: '[320px]', borderRadius: 'panel', borderWidth: '1px', borderColor: 'border', bg: 'surface' })}>
+            <Skeleton className={css({ height: '[140px]', borderRadius: 'xl' })} />
+            <div className={css({ display: 'flex', gap: '3', alignItems: 'center' })}>
+              <Skeleton className={css({ width: '[40px]', height: '[40px]', borderRadius: 'full', flexShrink: '0' })} />
+              <div className={css({ display: 'flex', flexDirection: 'column', gap: '2', flex: '1' })}>
+                <Skeleton className={css({ height: '[14px]', width: '60%', borderRadius: 'sm' })} />
+                <Skeleton className={css({ height: '[12px]', width: '40%', borderRadius: 'sm' })} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={row}>
+          <span className={label}>list</span>
+          <div aria-busy="true" aria-label="加载中" className={css({ display: 'flex', flexDirection: 'column', gap: '3', width: '[320px]' })}>
+            {[80, 65, 72].map((w) => (
+              <div key={w} className={css({ display: 'flex', gap: '3', alignItems: 'center' })}>
+                <Skeleton className={css({ width: '[28px]', height: '[28px]', borderRadius: 'full', flexShrink: '0' })} />
+                <Skeleton className={css({ height: '[12px]', borderRadius: 'full' })} style={{ width: `${w}%` }} />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={row}>
+          <span className={label}>in text</span>
+          <p className={css({ m: '0' })}>作者：<Skeleton as="span" className={css({ borderRadius: 'sm' })}>某某某</Skeleton> · 发布于 <Skeleton as="span" className={css({ borderRadius: 'sm' })}>2026 年 10 月 9 日</Skeleton></p>
+        </div>
+        <div className={row}>
+          <span className={label}>sized by text</span>
+          <Skeleton className={css({ textStyle: 'heading-2', borderRadius: 'lg' })}>示例标题</Skeleton>
+          <span className={css({ textStyle: 'heading-2' })}>示例标题</span>
         </div>
       </section>
 

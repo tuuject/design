@@ -52,3 +52,6 @@ Use `/port-component <Name>`. In short: read `docs/spec/components/<Name>.md` an
 - The reduced-motion kill switch in `global-css.ts` uses `!important` in `@layer base`. With `!important` the layer order flips (earlier layers win), so a recipe can't override it, not even with its own `!important`. A component that has to keep moving gets left out in that rule's selector (as `.koi-spinner__svg` is).
 - `pnpm cssgen` isn't a script; to read the full generated CSS run `npx panda cssgen --outfile <somewhere outside the repo>`.
 - Recipe keys share a namespace with preset-base's patterns (`divider`, `stack`, `grid`, `circle`, `float`…). A clash only warns (`config_artifact_name_conflict`), so key the recipe differently (Divider's is `separator`) and keep the `className`.
+- Recipe keys also can't be JS reserved words: Panda would emit `export const switch`. Switch's recipe is keyed `switchRecipe` (class stays `koi-switch`).
+- `'full'` is not a size token in this preset: `width: 'full'` comes out as the invalid `width: full`, silently. Write `'100%'`.
+- A pair in `contrast-pairs.json` takes an optional third item, the ground a translucent color is composited over (`["info-text", "divider", "info-surface"]`); the default is `page-bg`.

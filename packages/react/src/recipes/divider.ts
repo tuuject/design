@@ -9,12 +9,12 @@ export const separator = defineRecipe({
   base: { flexShrink: '0', borderWidth: '0' },
   variants: {
     kind: {
-      line: { ...line, width: 'full', my: '4' },
+      line: { ...line, width: '100%', my: '4' },
       label: {
         display: 'flex',
         alignItems: 'center',
         gap: '3',
-        width: 'full',
+        width: '100%',
         my: '4',
         fontFamily: 'sans',
         textStyle: 'small',

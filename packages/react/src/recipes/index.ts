@@ -14,7 +14,8 @@ import { spinner } from './spinner';
 import { switchRecipe } from './switch';
 import { tabs } from './tabs';
 import { textarea } from './textarea';
+import { tooltip } from './tooltip';
 
 // Register every recipe here; panda.config.ts spreads these into theme.extend.
 export const recipes = { button, separator, skeleton, textarea };
-export const slotRecipes = { alert, badge, card, checkbox, dialog, field, input, link, radioGroup, spinner, switchRecipe, tabs };
+export const slotRecipes = { alert, badge, card, checkbox, dialog, field, input, link, radioGroup, spinner, switchRecipe, tabs, tooltip };

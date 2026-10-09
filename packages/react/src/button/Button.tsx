@@ -78,9 +78,10 @@ export function IconButton({ label, icon, color = 'secondary', variant = 'ghost'
   const resolvedShape = useButtonShape(shape);
   return (
     <Pressable
+      // Before the spread so a passed title wins; Tooltip passes title={undefined} so the native one doesn't stack on it.
+      title={label}
       {...rest}
       aria-label={label}
-      title={label}
       className={cx(button({ color, variant, size, shape: resolvedShape, iconOnly: true }), className)}
     >
       {icon}

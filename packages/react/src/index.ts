@@ -14,5 +14,6 @@ export { RadioGroup, type RadioGroupProps, type RadioOption } from './radio-grou
 export { Switch, type SwitchProps } from './switch/Switch';
 export { Tabs, type TabsProps, type TabItem } from './tabs/Tabs';
 export { Dialog, type DialogProps } from './dialog/Dialog';
+export { Tooltip, type TooltipProps, type TooltipSide } from './tooltip/Tooltip';
 export { ShapeProvider, useButtonShape, type ButtonShape } from './shape';
 export * from './icons';

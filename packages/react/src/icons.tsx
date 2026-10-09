@@ -21,3 +21,5 @@ export const WarningIcon = (p: IconProps) => <Svg {...p}><path d="M10.3 4.3L2.8 
 export const SuccessIcon = (p: IconProps) => <Svg {...p}><circle cx={12} cy={12} r={9} /><path d="M8 12.5l2.5 2.5L16 9.5" /></Svg>;
 export const ErrorIcon = (p: IconProps) => <Svg {...p}><circle cx={12} cy={12} r={9} /><path d="M15 9l-6 6" /><path d="M9 9l6 6" /></Svg>;
 export const SearchIcon = (p: IconProps) => <Svg {...p}><circle cx={11} cy={11} r={6.5} /><path d="M20 20l-4.4-4.4" /></Svg>;
+export const ChevronLeftIcon = (p: IconProps) => <Svg {...p}><path d="M15 6l-6 6 6 6" /></Svg>;
+export const ChevronRightIcon = (p: IconProps) => <Svg {...p}><path d="M9 6l6 6-6 6" /></Svg>;

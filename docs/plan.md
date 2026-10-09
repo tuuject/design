@@ -35,7 +35,7 @@ Order: simple and self-contained first, then the Base UI ones, then the composit
 | Tabs | Base UI `Tabs` | `Tabs.Indicator` could animate the active pill, which the legacy version can't. 36px tabs, 44px track. |
 | Tooltip, Avatar, Progress | Base UI `Tooltip`, `Avatar`, `Progress` | |
 | Toast | Base UI `Toast` (toast manager) | Keep the legacy API shape (`useToast().toast({ tone, title, description })`) as a thin wrapper. No border, keep `shadow-float`, `radius-panel`. |
-| Dialog | Base UI `Dialog` | **Done**, checked against legacy in both themes. Add the alert-dialog variant (`@base-ui/react/alert-dialog`) and a "can't dismiss by clicking outside" option. |
+| Dialog | Base UI `Dialog` | **Done**, checked against legacy in both themes. Change from legacy: the popup scales from 96% around its center over 300ms (new `dialog` duration in `motion.mjs`) instead of rising 8px over 400ms, and the backdrop fades over the same 300ms (was `overlay`, 200ms). Add the alert-dialog variant (`@base-ui/react/alert-dialog`) and a "can't dismiss by clicking outside" option. |
 | Pagination, Tag | plain | |
 | NavMenu | vertical: Base UI `Collapsible`; horizontal: Base UI `Navigation Menu`, or `Menubar` + `Menu` for the cascading flyouts | The hardest one. Three levels deep, flyouts flip near the window edge. Base UI's positioning should replace the hand-written flip logic. |
 

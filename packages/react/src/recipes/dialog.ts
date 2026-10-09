@@ -14,7 +14,8 @@ export const dialog = defineSlotRecipe({
       bg: 'backdrop',
       backdropFilter: 'blur(var(--blurs-panel))',
       transitionProperty: 'opacity',
-      transitionDuration: 'overlay',
+      // Same 300ms as the popup, so the two open and close together.
+      transitionDuration: 'dialog',
       '&[data-starting-style], &[data-ending-style]': { opacity: '0' },
     },
     viewport: {
@@ -42,9 +43,10 @@ export const dialog = defineSlotRecipe({
       boxShadow: 'float',
       outline: 'none',
       transitionProperty: 'opacity, transform',
-      transitionDuration: 'spring',
-      transitionTimingFunction: 'spring',
-      '&[data-starting-style], &[data-ending-style]': { opacity: '0', transform: 'translateY(8px) scale(.97)' },
+      transitionDuration: 'dialog',
+      // Grows from and shrinks to its center; it never moves.
+      transformOrigin: 'center',
+      '&[data-starting-style], &[data-ending-style]': { opacity: '0', transform: 'scale(.95)' },
     },
     title: { m: '0', pe: '8', textStyle: 'heading-2' },
     description: { m: '0', textStyle: 'body', color: 'text-muted' },

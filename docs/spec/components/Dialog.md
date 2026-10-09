@@ -14,7 +14,7 @@ A modal panel on a blurred backdrop for decisions and short focused tasks.
 - It's labelled by its title and described by its description.
 
 **Styling:**
-- Backdrop: `backdrop` with `blur-panel`.
-- Panel: `surface` with `radius-dialog` (32px) corners, `space-6` padding and `shadow-float`. It pops in on the spring curve.
+- Backdrop: `backdrop` with `blur-panel`. It fades in and out over 300ms, together with the panel.
+- Panel: `surface` with `radius-dialog` (32px) corners, `space-6` padding and `shadow-float`. It scales in from 96% around its center (no slide) over 300ms on the spring curve, and scales back out the same way when it closes.
 - Actions and the close button: rounded (`radius-lg`, 8px), not pills. The panel radius is that 8px plus the 24px padding, so the corners of the panel and of the bottom-right button are concentric. Change the padding or the button shape and the panel radius should follow.
 - Title: `heading-2` (20px). Description and body: `body` (14px).

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Badge, Button, IconButton, Dialog, Spinner, Skeleton, CloseIcon, ExternalIcon, type BadgeTone, type ButtonColor, type ButtonVariant } from '@koi/react';
+import { Badge, Button, IconButton, Dialog, Divider, Spinner, Skeleton, CloseIcon, ExternalIcon, type BadgeTone, type ButtonColor, type ButtonVariant } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
 
 // One section per component. scripts/shots.mjs screenshots each [data-shot] element in both themes.
@@ -128,6 +128,32 @@ export function App() {
           <span className={css({ display: 'inline-flex', alignItems: 'center', gap: '2' })}>评论 <Badge tone="solid">12</Badge></span>
           <span className={css({ display: 'inline-flex', alignItems: 'center', gap: '2' })}>暗黑模式跟随系统 <Badge tone="accent">NEW</Badge></span>
           <Badge>草稿</Badge>
+        </div>
+      </section>
+
+      <section className={section} data-shot="Divider">
+        <h2 className={css({ textStyle: 'heading-2', m: '0' })}>Divider</h2>
+        <div className={row}>
+          <span className={label}>horizontal</span>
+          <div className={css({ flex: '1', p: '6', borderRadius: 'panel', borderWidth: '1px', borderColor: 'border', bg: 'surface' })}>
+            <p className={css({ m: '0' })}>账户信息</p>
+            <Divider />
+            <p className={css({ m: '0' })}>通知设置</p>
+          </div>
+        </div>
+        <div className={row}>
+          <span className={label}>label</span>
+          <div className={css({ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'stretch' })}>
+            <Button>使用邮箱登录</Button>
+            <Divider label="或" />
+            <Button color="secondary" variant="outline">使用 GitHub 登录</Button>
+          </div>
+        </div>
+        <div className={row}>
+          <span className={label}>vertical</span>
+          <span className={css({ display: 'inline-flex', alignItems: 'center', color: 'text-muted', textStyle: 'small' })}>
+            2026 年 10 月 9 日<Divider orientation="vertical" />阅读约 5 分钟<Divider orientation="vertical" />3 条评论
+          </span>
         </div>
       </section>
 

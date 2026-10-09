@@ -49,3 +49,4 @@ Use `/port-component <Name>`. In short: read `docs/spec/components/<Name>.md` an
 - The `dark` condition in the preset (`[data-theme=dark] &`) comes out as `[data-theme=dark] { --colors-… }` for semantic tokens, as intended.
 - The reduced-motion kill switch in `global-css.ts` uses `!important` in `@layer base`. With `!important` the layer order flips (earlier layers win), so a recipe can't override it, not even with its own `!important`. A component that has to keep moving gets left out in that rule's selector (as `.koi-spinner__svg` is).
 - `pnpm cssgen` isn't a script; to read the full generated CSS run `npx panda cssgen --outfile <somewhere outside the repo>`.
+- Recipe keys share a namespace with preset-base's patterns (`divider`, `stack`, `grid`, `circle`, `float`…). A clash only warns (`config_artifact_name_conflict`), so key the recipe differently (Divider's is `separator`) and keep the `className`.

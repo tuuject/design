@@ -16,6 +16,7 @@ export { Tabs, type TabsProps, type TabItem } from './tabs/Tabs';
 export { Dialog, type DialogProps } from './dialog/Dialog';
 export { Tooltip, type TooltipProps, type TooltipSide } from './tooltip/Tooltip';
 export { Avatar, type AvatarProps, type AvatarSize, type AvatarShape } from './avatar/Avatar';
+export { Toast, ToastProvider, useToast, type ToastProps, type ToastOptions, type ToastProviderProps, type ToastTone } from './toast/Toast';
 export { Progress, type ProgressProps, type ProgressSize } from './progress/Progress';
 export { ShapeProvider, useButtonShape, type ButtonShape } from './shape';
 export * from './icons';

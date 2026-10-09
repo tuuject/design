@@ -55,3 +55,6 @@ Use `/port-component <Name>`. In short: read `docs/spec/components/<Name>.md` an
 - Recipe keys also can't be JS reserved words: Panda would emit `export const switch`. Switch's recipe is keyed `switchRecipe` (class stays `koi-switch`).
 - `'full'` is not a size token in this preset: `width: 'full'` comes out as the invalid `width: full`, silently. Write `'100%'`.
 - A pair in `contrast-pairs.json` takes an optional third item, the ground a translucent color is composited over (`["info-text", "divider", "info-surface"]`); the default is `page-bg`.
+- A hover or state rule that changes a variant's fill goes inside that variant, not in `base`: variants come out in a later layer, so even a more specific `base` hover loses to the variant's plain `bg`.
+- Base UI `Tabs.Indicator` hides itself with the `hidden` attribute until it has measured the tab (that's what stops the slide-in on first paint), so its recipe must never set `display`.
+- Base UI Toast: call `Toast.useToastManager()` inside the provider, not a `createToastManager()` instance; the instance only hears calls after the provider's effect subscribes, so a toast fired from a child's mount effect is lost.

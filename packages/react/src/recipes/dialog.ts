@@ -46,7 +46,7 @@ export const dialog = defineSlotRecipe({
       transitionDuration: 'dialog',
       // Grows from and shrinks to its center; it never moves.
       transformOrigin: 'center',
-      '&[data-starting-style], &[data-ending-style]': { opacity: '0', transform: 'scale(.95)' },
+      '&[data-starting-style], &[data-ending-style]': { opacity: '0', transform: 'scale(.96)' },
     },
     title: { m: '0', pe: '8', textStyle: 'heading-2' },
     description: { m: '0', textStyle: 'body', color: 'text-muted' },

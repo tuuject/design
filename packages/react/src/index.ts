@@ -15,5 +15,6 @@ export { Switch, type SwitchProps } from './switch/Switch';
 export { Tabs, type TabsProps, type TabItem } from './tabs/Tabs';
 export { Dialog, type DialogProps } from './dialog/Dialog';
 export { Tooltip, type TooltipProps, type TooltipSide } from './tooltip/Tooltip';
+export { Avatar, type AvatarProps, type AvatarSize, type AvatarShape } from './avatar/Avatar';
 export { ShapeProvider, useButtonShape, type ButtonShape } from './shape';
 export * from './icons';

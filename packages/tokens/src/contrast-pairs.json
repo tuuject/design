@@ -11,6 +11,8 @@
     ["on-highlight", "highlight"],
     ["tooltip-text", "tooltip-bg"],
     ["info-text", "info-surface"], ["warning-text", "warning-surface"], ["error-text", "error-surface"],
+    ["text", "info-surface"], ["text", "warning-surface"], ["text", "error-surface"],
+    ["primary-fg", "info-surface"], ["warning-fg", "warning-surface"], ["error-fg", "error-surface"],
     ["error-text", "page-bg"], ["error-text", "surface"],
     ["nav-item-text", "page-bg"], ["nav-item-text", "surface"], ["nav-item-text", "nav-item-hover"], ["nav-item-text", "nav-item-active"],
     ["text", "nav-item-active"],
@@ -24,6 +26,9 @@
     ["border-control", "surface"], ["border-control", "page-bg"], ["border-control-hover", "surface"],
     ["error-control", "surface"],
     ["focus-ring", "page-bg"], ["focus-ring", "surface"],
+    ["focus-ring", "info-surface"], ["focus-ring", "warning-surface"], ["focus-ring", "error-surface"],
+    ["info-text", "divider", "info-surface"], ["warning-text", "divider", "warning-surface"], ["error-text", "divider", "error-surface"],
+    ["primary-edge", "info-surface"], ["warning-edge", "warning-surface"], ["error-edge", "error-surface"],
     ["control-checked", "surface"],
     ["primary-edge", "page-bg"], ["accent-edge", "page-bg"], ["secondary-edge", "page-bg"], ["warning-edge", "page-bg"], ["error-edge", "page-bg"]
   ]

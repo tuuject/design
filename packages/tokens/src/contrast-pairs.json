@@ -30,7 +30,8 @@
     ["focus-ring", "info-surface"], ["focus-ring", "warning-surface"], ["focus-ring", "error-surface"],
     ["info-text", "divider", "info-surface"], ["warning-text", "divider", "warning-surface"], ["error-text", "divider", "error-surface"],
     ["primary-edge", "info-surface"], ["warning-edge", "warning-surface"], ["error-edge", "error-surface"],
-    ["control-checked", "surface"],
+    ["control-checked", "surface"], ["control-checked", "page-bg"], ["control-checked", "surface-muted"], ["on-action", "control-checked"],
+    ["border-control-hover", "page-bg"],
     ["primary-edge", "page-bg"], ["accent-edge", "page-bg"], ["secondary-edge", "page-bg"], ["warning-edge", "page-bg"], ["error-edge", "page-bg"]
   ]
 }

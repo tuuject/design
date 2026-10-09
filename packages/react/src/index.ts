@@ -9,6 +9,7 @@ export { Link, type LinkProps } from './link/Link';
 export { Field, type FieldProps } from './field/Field';
 export { Input, type InputProps } from './input/Input';
 export { Textarea, type TextareaProps } from './textarea/Textarea';
+export { Checkbox, type CheckboxProps } from './checkbox/Checkbox';
 export { Dialog, type DialogProps } from './dialog/Dialog';
 export { ShapeProvider, useButtonShape, type ButtonShape } from './shape';
 export * from './icons';

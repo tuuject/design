@@ -2,6 +2,7 @@ import { alert } from './alert';
 import { badge } from './badge';
 import { button } from './button';
 import { card } from './card';
+import { checkbox } from './checkbox';
 import { dialog } from './dialog';
 import { field } from './field';
 import { input } from './input';
@@ -13,4 +14,4 @@ import { textarea } from './textarea';
 
 // Register every recipe here; panda.config.ts spreads these into theme.extend.
 export const recipes = { button, separator, skeleton, textarea };
-export const slotRecipes = { alert, badge, card, dialog, field, input, link, spinner };
+export const slotRecipes = { alert, badge, card, checkbox, dialog, field, input, link, spinner };

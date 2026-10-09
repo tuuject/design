@@ -1,5 +1,6 @@
 ---
-description: Port one Koi component from the legacy bundle to Base UI + Panda CSS v2
+name: port-component
+description: Port one Koi component from the legacy bundle to Base UI + Panda CSS v2. Use when the user says "port <Component>", "port-component <Component>", "移植 <Component>", or asks to port a component from the legacy web bundle to the new React package.
 argument-hint: <ComponentName>
 ---
 

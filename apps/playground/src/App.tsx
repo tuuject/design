@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Button, IconButton, Dialog, Spinner, Skeleton, CloseIcon, ExternalIcon, type ButtonColor, type ButtonVariant } from '@koi/react';
+import { Badge, Button, IconButton, Dialog, Spinner, Skeleton, CloseIcon, ExternalIcon, type BadgeTone, type ButtonColor, type ButtonVariant } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
 
 // One section per component. scripts/shots.mjs screenshots each [data-shot] element in both themes.
 const colors: ButtonColor[] = ['primary', 'accent', 'secondary', 'warning', 'error'];
 const variants: ButtonVariant[] = ['solid', 'soft', 'outline', 'ghost'];
+const tones: BadgeTone[] = ['neutral', 'primary', 'accent', 'warning', 'error', 'solid'];
 
 const page = css({ maxWidth: 'content-max', mx: 'auto', p: '8', display: 'flex', flexDirection: 'column', gap: '10' });
 const section = css({ display: 'flex', flexDirection: 'column', gap: '4' });
@@ -109,6 +110,24 @@ export function App() {
           <span className={label}>sized by text</span>
           <Skeleton className={css({ textStyle: 'heading-2', borderRadius: 'lg' })}>示例标题</Skeleton>
           <span className={css({ textStyle: 'heading-2' })}>示例标题</span>
+        </div>
+      </section>
+
+      <section className={section} data-shot="Badge">
+        <h2 className={css({ textStyle: 'heading-2', m: '0' })}>Badge</h2>
+        <div className={row}>
+          <span className={label}>tone</span>
+          {tones.map((t) => <Badge key={t} tone={t}>{t}</Badge>)}
+        </div>
+        <div className={row}>
+          <span className={label}>dot</span>
+          {tones.map((t) => <Badge key={t} tone={t} dot>已发布</Badge>)}
+        </div>
+        <div className={row}>
+          <span className={label}>in context</span>
+          <span className={css({ display: 'inline-flex', alignItems: 'center', gap: '2' })}>评论 <Badge tone="solid">12</Badge></span>
+          <span className={css({ display: 'inline-flex', alignItems: 'center', gap: '2' })}>暗黑模式跟随系统 <Badge tone="accent">NEW</Badge></span>
+          <Badge>草稿</Badge>
         </div>
       </section>
 

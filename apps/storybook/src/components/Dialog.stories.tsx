@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button, Dialog, type DialogProps } from '@koi/react';
+import { Button, Dialog, Field, Input, type DialogProps } from '@koi/react';
 
 function DeleteDialog({ initialOpen = false, ...args }: Partial<DialogProps> & { initialOpen?: boolean }) {
   const [open, setOpen] = React.useState(initialOpen);
@@ -23,11 +23,62 @@ function DeleteDialog({ initialOpen = false, ...args }: Partial<DialogProps> & {
   );
 }
 
+/** The legacy example's confirmation, as an alert dialog. */
+function UnsubscribeDialog({ initialOpen = false, ...args }: Partial<DialogProps> & { initialOpen?: boolean }) {
+  const [open, setOpen] = React.useState(initialOpen);
+  return (
+    <>
+      <Button color="secondary" variant="ghost" onClick={() => setOpen(true)}>取消订阅</Button>
+      <Dialog
+        role="alertdialog"
+        size="sm"
+        title="确定取消订阅？"
+        description="之后有新文章时，你不会再收到邮件通知。"
+        footer={<>
+          <Button color="secondary" variant="ghost" onClick={() => setOpen(false)}>再想想</Button>
+          <Button color="error" onClick={() => setOpen(false)}>取消订阅</Button>
+        </>}
+        {...args}
+        open={open}
+        onOpenChange={setOpen}
+      />
+    </>
+  );
+}
+
+/** A short form: a stray click outside shouldn't throw away what was typed. */
+function EditProfileDialog({ initialOpen = false, ...args }: Partial<DialogProps> & { initialOpen?: boolean }) {
+  const [open, setOpen] = React.useState(initialOpen);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>编辑资料</Button>
+      <Dialog
+        dismissible={false}
+        title="编辑资料"
+        description="点击对话框外面不会关闭它，按 Esc 或点「取消」才会。"
+        footer={<>
+          <Button color="secondary" variant="ghost" onClick={() => setOpen(false)}>取消</Button>
+          <Button onClick={() => setOpen(false)}>保存</Button>
+        </>}
+        {...args}
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <Field label="昵称">
+          <Input defaultValue="tcdw" />
+        </Field>
+      </Dialog>
+    </>
+  );
+}
+
 const meta = {
   title: 'Components/Dialog',
   component: Dialog,
   argTypes: {
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    role: { control: 'inline-radio', options: ['dialog', 'alertdialog'] },
+    dismissible: { control: 'boolean' },
     open: { control: false },
     onOpenChange: { control: false },
     footer: { control: false },
@@ -46,4 +97,34 @@ export const Default: Story = {};
 export const Open: Story = {
   tags: ['shot-viewport', '!autodocs'],
   render: (args) => <DeleteDialog {...args} initialOpen />,
+};
+
+/**
+ * `role="alertdialog"` for destructive confirmations (Base UI AlertDialog). Looks the same as a dialog; a click
+ * outside never closes it, and focus starts on the least destructive action, the first footer button (「再想想」).
+ * Esc and the × still cancel.
+ */
+export const AlertDialog: Story = {
+  args: { role: 'alertdialog', title: '确定取消订阅？', description: '之后有新文章时，你不会再收到邮件通知。' },
+  render: (args) => <UnsubscribeDialog {...args} />,
+};
+
+/** The alert dialog, open on load (whole-viewport screenshot). */
+export const AlertDialogOpen: Story = {
+  tags: ['shot-viewport', '!autodocs'],
+  args: { role: 'alertdialog', title: '确定取消订阅？', description: '之后有新文章时，你不会再收到邮件通知。' },
+  render: (args) => <UnsubscribeDialog {...args} initialOpen />,
+};
+
+/** `dismissible={false}`: a click on the backdrop doesn't close it; Esc, the × and the footer buttons do. */
+export const NotDismissible: Story = {
+  args: { dismissible: false, size: 'md', title: '编辑资料', description: '点击对话框外面不会关闭它，按 Esc 或点「取消」才会。' },
+  render: (args) => <EditProfileDialog {...args} />,
+};
+
+/** Not dismissible, open on load (whole-viewport screenshot). */
+export const NotDismissibleOpen: Story = {
+  tags: ['shot-viewport', '!autodocs'],
+  args: { dismissible: false, size: 'md', title: '编辑资料', description: '点击对话框外面不会关闭它，按 Esc 或点「取消」才会。' },
+  render: (args) => <EditProfileDialog {...args} initialOpen />,
 };

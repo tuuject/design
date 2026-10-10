@@ -8,3 +8,4 @@ apps/storybook/shots/*.png
 test-results
 playwright-report
 .idea
+.wrangler

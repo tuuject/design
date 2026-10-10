@@ -17,6 +17,7 @@ The current plan and status are in `docs/plan.md`. Update it as phases complete.
 - `pnpm codegen`: regenerate `packages/react/styled-system` after changing tokens, recipes or `panda.config.ts`.
 - `pnpm dev`: tokens + codegen + Storybook on port 6006.
 - `pnpm shots`: screenshot every story in light and dark into `apps/storybook/shots/<Component>-<Story>_<theme>.png` (`pnpm shots Button` for one component). Stories tagged `shot-viewport` (an open Dialog) are shot as the whole viewport. Look at the PNGs after any visual change.
+- `pnpm build:storybook`: codegen + static Storybook in `apps/storybook/dist`; `pnpm --filter storybook deploy` publishes it to Cloudflare Workers (`apps/storybook/wrangler.jsonc`).
 - `pnpm check`: contrast pairs, raw-color scan and typecheck. Must pass before a commit.
 
 ## Rules

@@ -5,11 +5,13 @@
   "engines": {
     "node": ">=24"
   },
+  "packageManager": "pnpm@11.16.0",
   "scripts": {
     "tokens": "pnpm --filter @koi/tokens build",
     "contrast": "pnpm --filter @koi/tokens contrast",
     "codegen": "pnpm tokens && panda codegen --clean",
     "dev": "pnpm codegen && pnpm --filter storybook dev",
+    "build:storybook": "pnpm codegen && pnpm --filter storybook build",
     "build": "pnpm codegen && pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "shots": "pnpm --filter storybook shots",

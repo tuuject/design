@@ -1,0 +1,13 @@
+// Static Storybook on Cloudflare Workers. Build first with `pnpm build:storybook` (repo root).
+// Storybook routes with ?path=, so no SPA fallback is needed.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "koi-storybook",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist"
+  },
+  "routes": [
+    { "pattern": "components.design.tuu.run", "custom_domain": true }
+  ]
+}

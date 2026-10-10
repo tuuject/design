@@ -6,7 +6,8 @@
     "dev": "storybook dev -p 6006",
     "build": "storybook build -o dist",
     "typecheck": "tsc -p tsconfig.json",
-    "shots": "node scripts/shots.mjs"
+    "shots": "node scripts/shots.mjs",
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "@koi/react": "workspace:*",
@@ -24,6 +25,7 @@
     "playwright": "^1.63.0",
     "storybook": "^10.6.1",
     "typescript": "^7.0.2",
-    "vite": "^8.3.3"
+    "vite": "^8.3.3",
+    "wrangler": "^4.149.0"
   }
 }

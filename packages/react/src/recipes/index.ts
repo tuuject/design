@@ -11,6 +11,7 @@ import { link } from './link';
 import { pagination } from './pagination';
 import { progress } from './progress';
 import { radioGroup } from './radio-group';
+import { select, selectPanel } from './select';
 import { separator } from './divider';
 import { skeleton } from './skeleton';
 import { spinner } from './spinner';
@@ -23,4 +24,4 @@ import { tooltip } from './tooltip';
 
 // Register every recipe here; panda.config.ts spreads these into theme.extend.
 export const recipes = { button, separator, skeleton, textarea };
-export const slotRecipes = { alert, avatar, badge, card, checkbox, dialog, field, input, link, pagination, progress, radioGroup, spinner, switchRecipe, tabs, tag, toast, tooltip };
+export const slotRecipes = { alert, avatar, badge, card, checkbox, dialog, field, input, link, pagination, progress, radioGroup, select, selectPanel, spinner, switchRecipe, tabs, tag, toast, tooltip };

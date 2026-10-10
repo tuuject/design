@@ -9,6 +9,8 @@ export { Link, type LinkProps } from './link/Link';
 export { Field, type FieldProps } from './field/Field';
 export { Input, type InputProps } from './input/Input';
 export { Textarea, type TextareaProps } from './textarea/Textarea';
+export { Select, type SelectProps, type SelectOption } from './select/Select';
+export { SelectPanel, SelectItem, SelectGroup, SelectSeparator, type SelectPanelProps, type SelectItemProps, type SelectGroupProps, type SelectOptionGroup } from './select/SelectPanel';
 export { Checkbox, type CheckboxProps } from './checkbox/Checkbox';
 export { RadioGroup, type RadioGroupProps, type RadioOption } from './radio-group/RadioGroup';
 export { Switch, type SwitchProps } from './switch/Switch';

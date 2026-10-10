@@ -7,3 +7,11 @@
 .docs-story {
   background: var(--colors-page-bg);
 }
+
+/* Storybook's docs styles set antialiased/grayscale on the content and its elements, and the stories inherit
+   it. Back to the platform default (see "Font smoothing" in AGENTS.md); two classes to beat emotion's one. */
+.sbdocs.sbdocs-wrapper,
+.sbdocs.sbdocs-wrapper * {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}

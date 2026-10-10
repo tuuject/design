@@ -2,6 +2,12 @@ import { defineGlobalStyles } from '@pandacss/dev';
 
 // Page-level defaults. Ported from the top of reference/legacy-web/components/bundle.css.
 export const globalCss = defineGlobalStyles({
+  // Panda's preflight sets antialiased/grayscale on html, which on macOS drops the stroke thickening and
+  // leaves ChillRoundF thin. Back to the platform default.
+  html: {
+    WebkitFontSmoothing: 'auto',
+    MozOsxFontSmoothing: 'auto',
+  },
   body: {
     fontFamily: 'sans',
     textStyle: 'body',

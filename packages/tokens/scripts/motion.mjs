@@ -2,7 +2,7 @@
 // TODO: move them into src/tokens.json and the design-system artifact, then delete this file.
 export const motion = {
   easings: { spring: 'cubic-bezier(.47,1.64,.41,.8)', out: 'cubic-bezier(0, 0, .2, 1)' },
-  durations: { fast: '150ms', overlay: '200ms', check: '250ms', dialog: '300ms', spring: '400ms', shimmer: '1.6s', spin: '800ms', 'spin-slow': '1.6s', indeterminate: '1.2s', pulse: '2s' },
+  durations: { fast: '150ms', overlay: '200ms', check: '250ms', dialog: '300ms', spring: '400ms', shimmer: '1.6s', spin: '800ms', 'spin-slow': '1.6s', indeterminate: '1.2s', pulse: '2s', ripple: '600ms' },
 };
 
 export const keyframes = {

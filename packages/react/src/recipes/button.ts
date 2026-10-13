@@ -23,11 +23,20 @@ function look(c: C, v: (typeof BUTTON_VARIANTS)[number]) {
   }
 }
 
+// Press ripple, done with a transition rather than an animation so a quick click still plays it in full: :active
+// snaps the shadow to the edge with no transition, and on release it eases back out to 6px and fades to nothing.
+// The resting shadow is fully transparent, so buttons stay flat. Its color is --koi-ripple (each color's solid).
+const RIPPLE_REST = '0 0 0 6px color-mix(in oklch, var(--koi-ripple) 0%, transparent)';
+const RIPPLE_PRESSED = '0 0 0 0 color-mix(in oklch, var(--koi-ripple) 45%, transparent)';
+const ripple = (c: C) => ({ '--koi-ripple': `token(colors.${c}-solid)` });
+const transition = (shadow: string) =>
+  ['background-color', 'color', 'border-color'].map((p) => `${p} token(durations.fast)`).concat(`box-shadow ${shadow}`).join(', ');
+
 const empty = <K extends string>(keys: readonly K[]) => Object.fromEntries(keys.map((k) => [k, {}])) as Record<K, {}>;
 
 export const button = defineRecipe({
   className: 'koi-btn',
-  description: 'Button and IconButton. No shadows on any variant: buttons stay flat.',
+  description: 'Button and IconButton. No shadows on any variant: buttons stay flat (the press ripple fades to nothing).',
   base: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -43,8 +52,9 @@ export const button = defineRecipe({
     userSelect: 'none',
     cursor: 'pointer',
     textDecoration: 'none',
-    transitionProperty: 'background-color, color, border-color',
-    transitionDuration: 'fast',
+    boxShadow: RIPPLE_REST,
+    transition: transition('token(durations.ripple) token(easings.out)'),
+    '&:active:not(:disabled, [data-disabled])': { boxShadow: RIPPLE_PRESSED, transition: transition('0s') },
     _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
     _disabled: { opacity: '0.5', cursor: 'not-allowed' },
     // Loading buttons are also disabled; this outranks _disabled's opacity (legacy: .is-loading after :disabled).
@@ -53,7 +63,7 @@ export const button = defineRecipe({
     '& > svg': { width: 'icon', height: 'icon', flexShrink: '0' },
   },
   variants: {
-    color: empty(BUTTON_COLORS),
+    color: { primary: ripple('primary'), accent: ripple('accent'), secondary: ripple('secondary'), warning: ripple('warning'), error: ripple('error') },
     variant: empty(BUTTON_VARIANTS),
     size: {
       sm: { height: 'control-sm', px: '3', textStyle: 'button-sm', '& > svg': { width: 'icon-sm', height: 'icon-sm' } },

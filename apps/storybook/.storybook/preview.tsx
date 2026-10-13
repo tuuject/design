@@ -6,10 +6,11 @@ import type { Preview } from '@storybook/react-vite';
 import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks';
 import { themes } from 'storybook/theming';
 
-/** Applies the toolbar's theme and font through theme-init's own switches. */
+/** Applies the toolbar's theme, font and palette through theme-init's own switches. */
 function applyGlobals(globals: Record<string, unknown>) {
   window.koiSetTheme?.(globals.theme === 'light' || globals.theme === 'dark' ? globals.theme : null);
   window.koiSetFont?.(globals.font === 'chill' ? 'chill' : null);
+  window.koiSetPalette?.(typeof globals.palette === 'string' && globals.palette !== 'koi' ? globals.palette : null);
 }
 
 /** Docs pages follow the toolbar theme too, or dark components land on a white page. */
@@ -50,8 +51,21 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    // The built-in palettes in @koi/tokens (tokens.json `color.palettes`).
+    palette: {
+      description: '配色',
+      toolbar: {
+        title: '配色',
+        icon: 'paintbrush',
+        items: [
+          { value: 'koi', title: 'Koi（天蓝 + 琥珀）' },
+          { value: 'rose', title: 'Rose（玫红 + 紫罗兰）' },
+        ],
+        dynamicTitle: true,
+      },
+    },
   },
-  initialGlobals: { theme: 'auto', font: 'system' },
+  initialGlobals: { theme: 'auto', font: 'system', palette: 'koi' },
   decorators: [
     (Story, { globals }) => {
       applyGlobals(globals);

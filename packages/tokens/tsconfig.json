@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // The TypeScript outputs (native.ts, palette.ts) and src/palette-kit.ts run on every platform: no DOM.
+    "lib": ["ES2022"]
+  },
+  "include": ["src/**/*.ts", "dist/**/*.ts"]
+}

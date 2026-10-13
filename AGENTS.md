@@ -6,7 +6,7 @@ Koi is a soft, rounded design system (pill controls, frosted glass, sky-blue act
 - `packages/core`: `@koi/core`, the platform-neutral layer: each component's props contract (`<Name>OwnProps`), `ChangeDetails<E>`, the UI copy (`strings`) and pure helpers. Plain TypeScript, no DOM. Rules in `docs/core.md`.
 - `packages/react`: React web components. **Base UI** (`@base-ui/react`) for behavior and accessibility, **Panda CSS v2** for styling (recipes in `src/recipes/`).
 - `packages/native`: React Native, not started; the stack isn't chosen (see `docs/plan.md`).
-- `apps/storybook`: Storybook 10 (`@storybook/react-vite`). `src/Introduction.mdx` is the landing page (an overview of Koi); `src/components/<Name>.stories.tsx` has each component's stories. The toolbar switches theme and font. `pnpm shots` screenshots every story.
+- `apps/storybook`: Storybook 10 (`@storybook/react-vite`). `src/Introduction.mdx` is the landing page (an overview of Koi); `src/components/<Name>.stories.tsx` has each component's stories. The toolbar switches theme, font and palette. `pnpm shots` screenshots every story.
 - `docs/spec/`: the design spec. `README.md` is the brand book; `components/<Name>.md` says how each component looks and behaves. **Read the relevant spec file before touching a component.**
 - `reference/legacy-web/`: the previous implementation (React 18 + hand-written CSS). Frozen. Port from it; never import from it.
 
@@ -17,7 +17,7 @@ The current plan and status are in `docs/plan.md`. Update it as phases complete.
 - `pnpm tokens`: rebuild token outputs after editing `packages/tokens/src/tokens.json`.
 - `pnpm codegen`: regenerate `packages/react/styled-system` after changing tokens, recipes or `panda.config.ts`.
 - `pnpm dev`: tokens + codegen + Storybook on port 6006.
-- `pnpm shots`: screenshot every story in light and dark into `apps/storybook/shots/<Component>-<Story>_<theme>.png` (`pnpm shots Button` for one component). Stories tagged `shot-viewport` (an open Dialog) are shot as the whole viewport. Look at the PNGs after any visual change.
+- `pnpm shots`: screenshot every story in light and dark into `apps/storybook/shots/<Component>-<Story>_<theme>.png` (`pnpm shots Button` for one component). Stories tagged `shot-viewport` (an open Dialog) are shot as the whole viewport. Look at the PNGs after any visual change. `KOI_PALETTE=rose pnpm shots` shoots another palette (files end in `_rose`).
 - `pnpm build:storybook`: codegen + static Storybook in `apps/storybook/dist`; `pnpm deploy:storybook` publishes it to Cloudflare Workers (`apps/storybook/wrangler.jsonc`).
 - `pnpm check`: contrast pairs, raw-color scan, headless-leak scan, core-boundary scan and typecheck. Must pass before a commit.
 
@@ -34,6 +34,7 @@ The current plan and status are in `docs/plan.md`. Update it as phases complete.
 - **Motion:** color changes 150ms; moving things use the `spring` easing. Everything respects `prefers-reduced-motion`.
 - **Copy** in components (labels, aria-labels) is Simplified Chinese ("关闭", "加载中"), from `strings` in `packages/core/src/strings.ts`. No emoji.
 - **Dark mode** is `<html data-theme="dark">`; `theme-init.js` sets it from the OS. In Panda it's the `_dark` condition.
+- **Palettes** swap `primary-*` and `accent-*` (tokens.json `color.palettes`; built-in `koi`, the default, and `rose`). On the web: `<html data-palette="rose">` or `koiSetPalette()` from `theme-init.js` (a built-in id, or a custom `{ primary, accent }` set as inline variables). Anywhere else: `createColors(palette, theme)` and `checkPalette(palette)` from `@koi/tokens/palette`. `pnpm contrast` checks every built-in palette; a user-made one must pass `checkPalette()` before it's applied. A role that should follow the palette points at a step (`{primary-950 / 0.8}` for one at an alpha), never at a literal color.
 - **Font** is the system stack by default; `<html data-font="chill">` makes `sans` ChillRoundF (the `_fontChill` condition, `koiSetFont()` in `theme-init.js`). The faces are in `packages/tokens/fonts/` (`@koi/tokens/fonts.css`, copied from legacy). Components always use `fontFamily: 'sans'`, never the font name.
 - **Font smoothing** stays `auto`. Never set `-webkit-font-smoothing: antialiased` / `-moz-osx-font-smoothing: grayscale`: on macOS it turns off the stroke thickening and leaves ChillRoundF thin and weak. Panda's preflight sets both on `html`, so `global-css.ts` puts them back to `auto`; `apps/storybook/src/index.css` does the same for Storybook's docs styles.
 - Keep each component's public props compatible with the legacy API in `reference/legacy-web/components/index.d.ts` unless the spec says otherwise; note any break in `docs/plan.md`.
@@ -54,6 +55,9 @@ Use `/port-component <Name>`. In short: read `docs/spec/components/<Name>.md` an
 - Recipe variants all land in one `@layer recipes.variants` sorted **alphabetically by variant name**, not in declaration order. When two variants set the same property (`iconOnly` and `size` both set padding), the later name wins. Put the override in `compoundVariants` (a later layer), even for a single-key condition: `{ iconOnly: true, css: {...} }`.
 - Same inside `base`: condition selectors aren't emitted in the order you write them (`_disabled` came out after `&[aria-busy=true]`). Win by specificity (`&[aria-busy=true]:disabled`), not by order.
 - The `dark` condition in the preset (`[data-theme=dark] &`) comes out as `[data-theme=dark] { --colors-… }` for semantic tokens, as intended.
+- Panda's `globalCss` lands in `@layer base`, which loses to the token variables in `@layer tokens` whatever the specificity. That's why palettes are conditions on semantic tokens (`primary.*` and `accent.*` are semantic, with `_paletteRose`…), not global CSS.
+- A palette has to sit on `<html>`, where the role variables are declared: a custom property is computed where it's declared, so `--colors-action: var(--colors-primary-700)` is already resolved before a nested `data-palette` could change `primary-700`.
+- `build.mjs` loads `src/palette-kit.ts` with Node's `stripTypeScriptTypes` to cross-check the runtime against the build, so the kit must stay import-free and use erasable TypeScript only (no enums, no namespaces).
 - The reduced-motion kill switch in `global-css.ts` uses `!important` in `@layer base`. With `!important` the layer order flips (earlier layers win), so a recipe can't override it, not even with its own `!important`. A component that has to keep moving gets left out in that rule's selector (as `.koi-spinner__svg` is).
 - `pnpm cssgen` isn't a script; to read the full generated CSS run `npx panda cssgen --outfile <somewhere outside the repo>`.
 - Recipe keys share a namespace with preset-base's patterns (`divider`, `stack`, `grid`, `circle`, `float`…). A clash only warns (`config_artifact_name_conflict`), so key the recipe differently (Divider's is `separator`) and keep the `className`.

@@ -3,6 +3,7 @@
 // Stories tagged `shot-viewport` (an open Dialog) are shot as the whole viewport, the rest as #storybook-root.
 // Usage: pnpm shots                  (starts its own Storybook on port 6199)
 //        KOI_FONT=chill pnpm shots   (ChillRoundF instead of the system font)
+//        KOI_PALETTE=rose pnpm shots (another built-in palette; files get a `_rose` suffix)
 //        pnpm shots Button Dialog    (only these components)
 import { spawn } from 'node:child_process';
 import { readdirSync, rmSync } from 'node:fs';
@@ -40,11 +41,12 @@ try {
     page.on('pageerror', (e) => errors.push(`${theme}: ${e.message}`));
     page.on('console', (m) => m.type() === 'error' && errors.push(`${theme}: ${m.text()}`));
     const font = process.env.KOI_FONT === 'chill' ? 'chill' : 'system';
+    const palette = process.env.KOI_PALETTE || 'koi';
     for (const s of stories) {
-      await page.goto(`${base}/iframe.html?id=${s.id}&viewMode=story&globals=theme:${theme};font:${font}`);
+      await page.goto(`${base}/iframe.html?id=${s.id}&viewMode=story&globals=theme:${theme};font:${font};palette:${palette}`);
       await page.waitForSelector('#storybook-root > *');
       await page.evaluate(() => document.fonts.ready);
-      const file = `${root}shots/${s.title.split('/').pop()}-${s.name.replace(/\s+/g, '-')}_${theme}.png`;
+      const file = `${root}shots/${s.title.split('/').pop()}-${s.name.replace(/\s+/g, '-')}_${theme}${palette === 'koi' ? '' : `_${palette}`}.png`;
       if (s.tags?.includes('shot-viewport')) {
         await page.waitForTimeout(600); // let the open animation finish
         await page.screenshot({ path: file });

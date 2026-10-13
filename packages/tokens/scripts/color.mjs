@@ -45,6 +45,16 @@ export function toNativeColor(v) {
   return `rgba(${b[0]}, ${b[1]}, ${b[2]}, ${+c.a.toFixed(3)})`;
 }
 
+/** The same color at `alpha` (times any alpha it already has). Keeps oklch() as oklch() so CSS-facing values stay exact. */
+export function withAlpha(v, alpha) {
+  const m = v.trim().match(/^oklch\(\s*([^/)]+?)\s*(?:\/\s*([\d.]+))?\s*\)$/);
+  if (m) return `oklch(${m[1]} / ${+(alpha * (m[2] === undefined ? 1 : +m[2])).toFixed(4)})`;
+  const c = parseColor(v);
+  if (!c) throw new Error(`Unparseable color: ${v}`);
+  const b = c.rgb.map((x) => Math.round(x * 255));
+  return `rgba(${b[0]}, ${b[1]}, ${b[2]}, ${+(alpha * c.a).toFixed(4)})`;
+}
+
 export function luminance(rgb) {
   const lin = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
   return 0.2126 * lin(rgb[0]) + 0.7152 * lin(rgb[1]) + 0.0722 * lin(rgb[2]);

@@ -4,23 +4,12 @@ import { cx } from '@koi/react/styled-system/css';
 import { select } from '@koi/react/styled-system/recipes';
 import { KoiFieldContext } from '../field/context';
 import { ChevronDownIcon } from '../icons';
+import type { SelectOwnProps } from '@koi/core';
 
-export interface SelectOption {
-  value: string;
-  label: string;
-  disabled?: boolean;
-}
+export type { SelectOption } from '@koi/core';
 
-export interface SelectProps extends Omit<React.ComponentPropsWithRef<'select'>, 'size'> {
-  /** The choices. `<option>` children work too. */
-  options?: SelectOption[];
-  /** A disabled first option shown until the user picks. */
-  placeholder?: string;
-  /** sm 28px · md 36px · lg 44px, the same heights as Input and Button. Default md. */
-  size?: 'sm' | 'md' | 'lg';
-  /** Red edge and aria-invalid. Set automatically inside a Field with an error. */
-  invalid?: boolean;
-}
+
+export interface SelectProps extends SelectOwnProps, Omit<React.ComponentPropsWithRef<'select'>, keyof SelectOwnProps> {}
 
 /**
  * A native dropdown styled like Input. It opens the platform picker (the system sheet on phones) and is fully

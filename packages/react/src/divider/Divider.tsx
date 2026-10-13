@@ -2,12 +2,9 @@ import * as React from 'react';
 import { Separator } from '@base-ui/react/separator';
 import { cx } from '@koi/react/styled-system/css';
 import { separator } from '@koi/react/styled-system/recipes';
+import type { DividerOwnProps } from '@koi/core';
 
-export interface DividerProps {
-  /** Default horizontal. Vertical renders an inline <span> that stretches to its row's height. */
-  orientation?: 'horizontal' | 'vertical';
-  /** Text centered in a horizontal divider ("或"). Ignored when vertical. */
-  label?: React.ReactNode;
+export interface DividerProps extends DividerOwnProps {
   className?: string;
 }
 

@@ -3,6 +3,7 @@
 Koi is a soft, rounded design system (pill controls, frosted glass, sky-blue actions, amber links) that started as tcdw's Koi Astro blog theme. This repo rebuilds it as packages:
 
 - `packages/tokens`: the single source of truth, `src/tokens.json`. `scripts/build.mjs` generates `dist/tokens.css`, `dist/panda-preset.js`, `dist/theme-init.js` and `dist/native.ts`.
+- `packages/core`: `@koi/core`, the platform-neutral layer: each component's props contract (`<Name>OwnProps`), `ChangeDetails<E>`, the UI copy (`strings`) and pure helpers. Plain TypeScript, no DOM. Rules in `docs/core.md`.
 - `packages/react`: React web components. **Base UI** (`@base-ui/react`) for behavior and accessibility, **Panda CSS v2** for styling (recipes in `src/recipes/`).
 - `packages/native`: React Native, not started; the stack isn't chosen (see `docs/plan.md`).
 - `apps/storybook`: Storybook 10 (`@storybook/react-vite`). `src/Introduction.mdx` is the landing page (an overview of Koi); `src/components/<Name>.stories.tsx` has each component's stories. The toolbar switches theme and font. `pnpm shots` screenshots every story.
@@ -18,18 +19,20 @@ The current plan and status are in `docs/plan.md`. Update it as phases complete.
 - `pnpm dev`: tokens + codegen + Storybook on port 6006.
 - `pnpm shots`: screenshot every story in light and dark into `apps/storybook/shots/<Component>-<Story>_<theme>.png` (`pnpm shots Button` for one component). Stories tagged `shot-viewport` (an open Dialog) are shot as the whole viewport. Look at the PNGs after any visual change.
 - `pnpm build:storybook`: codegen + static Storybook in `apps/storybook/dist`; `pnpm deploy:storybook` publishes it to Cloudflare Workers (`apps/storybook/wrangler.jsonc`).
-- `pnpm check`: contrast pairs, raw-color scan and typecheck. Must pass before a commit.
+- `pnpm check`: contrast pairs, raw-color scan, headless-leak scan, core-boundary scan and typecheck. Must pass before a commit.
 
 ## Rules
 
 - **Tokens only.** Components use role tokens (`bg: 'surface'`, `color: 'text-muted'`, `borderColor: 'border-control'`), never palette steps (`primary.500`) and never literal colors. `scripts/check-raw-colors.mjs` enforces the second part.
+- **Headless stays swappable.** Recipes never name the headless library's DOM: no `[data-…]` selectors, no `--anchor-width`-style variables, no preset conditions that also match `data-*` (`_active`, `_selected`, `_open`…). Use `state.*` / `vars.*` from `packages/react/src/recipes/headless.ts`, the only file that knows it's Base UI. Public props never expose Base UI types (change callbacks take Koi's `ChangeDetails` from `src/types.ts`). Full rules in `docs/headless.md`; `scripts/check-headless.mjs` enforces both parts.
+- **Props start in core.** Every component's `<Name>Props` in `@koi/react` is `<Name>OwnProps` from `@koi/core` plus DOM attributes; a prop a native version would also need goes in core. Callbacks with a platform event take it as a type parameter (`ChangeDetails<E>`). Copy comes from `strings` in core, never a literal. `scripts/check-core.mjs` enforces it; details in `docs/core.md`.
 - **Contrast:** text pairs ≥ 4.5:1 and control edges / focus rings / icons ≥ 3:1, in both themes. When a component puts a token on a new background, add the pair to `packages/tokens/src/contrast-pairs.json` and run `pnpm contrast`.
 - **Generated files are never edited:** `packages/tokens/dist/`, `packages/react/styled-system/`. Change the source and rebuild.
 - **Sizes:** 14px base (`body`). Controls `control-sm` 28 / `control-md` 36 / `control-lg` 44; components in one row share a size. `prose` (16px) is only for long-form reading.
 - **Shape:** anything pressable is a pill (`radius-full`) except `shape="rounded"` (`radius-lg`, 8px). Dialog footers default to rounded through `ShapeProvider`; the dialog's 32px radius is that 8px plus its 24px padding (concentric). Cards and toasts `radius-panel` 24px, fields and alerts `radius-xl` 12px.
 - **Depth:** no shadows on buttons, ever (the press ripple is a box-shadow that fades to nothing; it isn't depth). `shadow-raised` only on the active tab and switch thumbs; `shadow-float` only on things floating over the page (Dialog, Toast).
 - **Motion:** color changes 150ms; moving things use the `spring` easing. Everything respects `prefers-reduced-motion`.
-- **Copy** in components (labels, aria-labels) is Simplified Chinese ("关闭", "加载中"). No emoji.
+- **Copy** in components (labels, aria-labels) is Simplified Chinese ("关闭", "加载中"), from `strings` in `packages/core/src/strings.ts`. No emoji.
 - **Dark mode** is `<html data-theme="dark">`; `theme-init.js` sets it from the OS. In Panda it's the `_dark` condition.
 - **Font** is the system stack by default; `<html data-font="chill">` makes `sans` ChillRoundF (the `_fontChill` condition, `koiSetFont()` in `theme-init.js`). The faces are in `packages/tokens/fonts/` (`@koi/tokens/fonts.css`, copied from legacy). Components always use `fontFamily: 'sans'`, never the font name.
 - **Font smoothing** stays `auto`. Never set `-webkit-font-smoothing: antialiased` / `-moz-osx-font-smoothing: grayscale`: on macOS it turns off the stroke thickening and leaves ChillRoundF thin and weak. Panda's preflight sets both on `html`, so `global-css.ts` puts them back to `auto`; `apps/storybook/src/index.css` does the same for Storybook's docs styles.
@@ -55,6 +58,7 @@ Use `/port-component <Name>`. In short: read `docs/spec/components/<Name>.md` an
 - `pnpm cssgen` isn't a script; to read the full generated CSS run `npx panda cssgen --outfile <somewhere outside the repo>`.
 - Recipe keys share a namespace with preset-base's patterns (`divider`, `stack`, `grid`, `circle`, `float`…). A clash only warns (`config_artifact_name_conflict`), so key the recipe differently (Divider's is `separator`) and keep the `className`.
 - Recipe keys also can't be JS reserved words: Panda would emit `export const switch`. Switch's recipe is keyed `switchRecipe` (class stays `koi-switch`).
+- A computed style key built from a template (`` [`&${state.checked}`] ``) needs `as const` (`` [`&${state.checked}` as const] ``); otherwise TypeScript widens it to `string`, which clashes with Panda's template-literal index signatures and fails typecheck.
 - `'full'` is not a size token in this preset: `width: 'full'` comes out as the invalid `width: full`, silently. Write `'100%'`.
 - A pair in `contrast-pairs.json` takes an optional third item, the ground a translucent color is composited over (`["info-text", "divider", "info-surface"]`); the default is `page-bg`.
 - A hover or state rule that changes a variant's fill goes inside that variant, not in `base`: variants come out in a later layer, so even a more specific `base` hover loses to the variant's plain `bg`.

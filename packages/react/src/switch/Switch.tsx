@@ -3,17 +3,23 @@ import { Switch as BaseSwitch } from '@base-ui/react/switch';
 import { cx } from '@koi/react/styled-system/css';
 import { switchRecipe } from '@koi/react/styled-system/recipes';
 import { KoiFieldContext } from '../field/context';
+import type { SwitchOwnProps } from '@koi/core';
 
-type BaseProps = Pick<
-  BaseSwitch.Root.Props,
-  'checked' | 'defaultChecked' | 'disabled' | 'readOnly' | 'required' | 'name' | 'value' | 'uncheckedValue' | 'form' | 'inputRef'
->;
 
 export interface SwitchProps
-  extends BaseProps,
-    Omit<React.ComponentPropsWithRef<'button'>, keyof BaseProps | 'type' | 'children' | 'onChange' | 'defaultValue'> {
-  label?: React.ReactNode;
-  onCheckedChange?: (checked: boolean, details: BaseSwitch.Root.ChangeEventDetails) => void;
+  extends SwitchOwnProps<Event>,
+    Omit<React.ComponentPropsWithRef<'button'>, keyof SwitchOwnProps | 'required' | 'name' | 'value' | 'form' | 'type' | 'children' | 'onChange' | 'defaultValue'> {
+  required?: boolean;
+  /** The hidden input's name, for form submission. */
+  name?: string;
+  /** Submitted when on. */
+  value?: string;
+  /** Submitted when off (by default nothing is). */
+  uncheckedValue?: string;
+  /** The id of the form the hidden input belongs to. */
+  form?: string;
+  /** Reaches the hidden `<input>`. */
+  inputRef?: React.Ref<HTMLInputElement>;
 }
 
 /**

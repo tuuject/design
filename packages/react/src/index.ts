@@ -22,5 +22,6 @@ export { Toast, ToastProvider, useToast, type ToastProps, type ToastOptions, typ
 export { Progress, type ProgressProps, type ProgressSize } from './progress/Progress';
 export { Pagination, type PaginationProps, type PaginationVariant } from './pagination/Pagination';
 export { Tag, type TagProps } from './tag/Tag';
+export type { ChangeDetails } from './types';
 export { ShapeProvider, useButtonShape, type ButtonShape } from './shape';
 export * from './icons';

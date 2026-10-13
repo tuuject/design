@@ -3,46 +3,20 @@ import { Toast as BaseToast } from '@base-ui/react/toast';
 import { cx } from '@koi/react/styled-system/css';
 import { toast as toastRecipe } from '@koi/react/styled-system/recipes';
 import { CloseIcon, ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../icons';
+import { strings, TOAST_DURATION, TOAST_LIMIT, type ToastApi, type ToastOptions, type ToastOwnProps, type ToastProviderOwnProps, type ToastTone } from '@koi/core';
 
-export type ToastTone = 'info' | 'success' | 'warning' | 'error';
+export type { ToastOptions, ToastTone } from '@koi/core';
 
-export interface ToastProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
-  /** info and success (brand icon) · warning · error. Default info. */
-  tone?: ToastTone;
-  title?: React.ReactNode;
-  description?: React.ReactNode;
-  /** Usually a small Button, at the end of the toast. */
-  action?: React.ReactNode;
-  /** Shows a close button. */
-  onClose?: () => void;
-}
 
-export interface ToastOptions {
-  tone?: ToastTone;
-  title?: React.ReactNode;
-  description?: React.ReactNode;
-  action?: React.ReactNode;
-  /** ms before it closes on its own; 0 keeps it until it's closed. Default 4000. */
-  duration?: number;
-}
+export interface ToastProps extends ToastOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof ToastOwnProps> {}
 
-export interface ToastProviderProps {
-  children?: React.ReactNode;
-  /** Where the stack sits, centered. Default bottom. */
-  position?: 'bottom' | 'top';
-}
 
-interface ToastApi {
-  /** Shows a toast and returns its id. */
-  toast(options: ToastOptions): number;
-  dismiss(id: number): void;
-}
+export interface ToastProviderProps extends ToastProviderOwnProps {}
+
 
 type ToastData = { action?: React.ReactNode };
 
 const toneIcon = { info: InfoIcon, success: SuccessIcon, warning: WarningIcon, error: ErrorIcon };
-const LIMIT = 4;
-const DURATION = 4000;
 
 /**
  * A toast on its own, outside ToastProvider (the provider renders the same thing). Error is role="alert", the
@@ -60,7 +34,7 @@ export function Toast({ tone = 'info', title, description, action, onClose, clas
       </div>
       {action ? <div className={s.action}>{action}</div> : null}
       {onClose ? (
-        <button type="button" className={s.close} aria-label="关闭" title="关闭" onClick={onClose}>
+        <button type="button" className={s.close} aria-label={strings.close} title={strings.close} onClick={onClose}>
           <CloseIcon />
         </button>
       ) : null}
@@ -78,10 +52,10 @@ const ToastContext = React.createContext<ToastApi | null>(null);
 export function ToastProvider({ children, position = 'bottom' }: ToastProviderProps) {
   const s = toastRecipe({ position });
   return (
-    <BaseToast.Provider limit={LIMIT} timeout={DURATION}>
+    <BaseToast.Provider limit={TOAST_LIMIT} timeout={TOAST_DURATION}>
       <ToastApiProvider>{children}</ToastApiProvider>
       <BaseToast.Portal>
-        <BaseToast.Viewport aria-label="通知" className={s.viewport}>
+        <BaseToast.Viewport aria-label={strings.notifications} className={s.viewport}>
           <ToastList position={position} />
         </BaseToast.Viewport>
       </BaseToast.Portal>
@@ -142,7 +116,7 @@ function ToastList({ position }: { position: 'bottom' | 'top' }) {
           <BaseToast.Description className={s.description} />
         </div>
         {t.data?.action ? <div className={s.action}>{t.data.action}</div> : null}
-        <BaseToast.Close className={s.close} aria-label="关闭" title="关闭">
+        <BaseToast.Close className={s.close} aria-label={strings.close} title={strings.close}>
           <CloseIcon />
         </BaseToast.Close>
       </BaseToast.Root>

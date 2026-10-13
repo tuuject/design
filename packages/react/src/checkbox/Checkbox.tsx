@@ -4,14 +4,13 @@ import { cx } from '@koi/react/styled-system/css';
 import { checkbox } from '@koi/react/styled-system/recipes';
 import { CheckIcon } from '../icons';
 import { KoiFieldContext } from '../field/context';
+import type { CheckboxOwnProps } from '@koi/core';
 
-export interface CheckboxProps extends Omit<React.ComponentPropsWithRef<'input'>, 'type' | 'value' | 'onChange' | 'children'> {
-  label?: React.ReactNode;
-  /** Shown under the label in text-muted. Needs a label. */
-  description?: React.ReactNode;
+export interface CheckboxProps
+  extends CheckboxOwnProps<Event>,
+    Omit<React.ComponentPropsWithRef<'input'>, keyof CheckboxOwnProps | 'type' | 'value' | 'onChange' | 'children'> {
   /** Submitted with the form while ticked (the native "on" when omitted). */
   value?: string;
-  onCheckedChange?: (checked: boolean, details: BaseCheckbox.Root.ChangeEventDetails) => void;
   /**
    * The legacy native handler: React's change event from the hidden input, caught as it bubbles to the row,
    * so `event.target.checked` is the new state (`currentTarget` is the row). Runs after `onCheckedChange`.

@@ -2,28 +2,14 @@ import * as React from 'react';
 import { Tabs as BaseTabs } from '@base-ui/react/tabs';
 import { cx } from '@koi/react/styled-system/css';
 import { tabs } from '@koi/react/styled-system/recipes';
+import type { TabsOwnProps } from '@koi/core';
 
-export interface TabItem {
-  value: string;
-  label: React.ReactNode;
-  /** The panel shown while this tab is active. Leave it out on every item for a pure segmented control. */
-  content?: React.ReactNode;
-  disabled?: boolean;
-}
+export type { TabItem } from '@koi/core';
+
 
 export interface TabsProps
-  extends Omit<React.ComponentPropsWithRef<'div'>, 'onChange' | 'defaultValue' | 'children' | 'aria-label'> {
-  items: TabItem[];
-  value?: string;
-  /** Defaults to the first enabled item. */
-  defaultValue?: string;
-  /** Called with the newly chosen value (and Base UI's event details) when the user picks a tab. */
-  onChange?: (value: string, details: BaseTabs.Root.ChangeEventDetails) => void;
-  /** Accessible name of the tab list (not shown). */
-  label?: string;
-  /** Stretch the track to the container and share its width between the tabs. */
-  fullWidth?: boolean;
-}
+  extends TabsOwnProps<Event>,
+    Omit<React.ComponentPropsWithRef<'div'>, keyof TabsOwnProps | 'defaultValue' | 'children' | 'aria-label'> {}
 
 /**
  * A segmented pill track for 2–6 peer views. The active tab is a white pill (Base UI's Tabs.Indicator) that

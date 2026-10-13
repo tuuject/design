@@ -1,4 +1,5 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { state, vars } from './headless';
 
 // Port of .koi-select* in reference/legacy-web/components/bundle.css and docs/spec/components/Select.md.
 // Two recipes: `select` is the native <select> (legacy); `selectPanel` is the custom dropdown (Base UI Select or
@@ -77,10 +78,10 @@ export const select = defineSlotRecipe({
   defaultVariants: { size: 'md' },
 });
 
-// Custom dropdown: the trigger is a <button>, so its states come from Base UI's attributes. Same edge as above;
-// an open popup keeps the focus edge. Invalid and disabled never meet a focused edge, so nothing overlaps.
-const OPEN = ':is(:focus, [data-popup-open])';
-const BAD = ':is([aria-invalid=true], [data-invalid]):not([data-disabled])';
+// Custom dropdown: the trigger is a <button>, so its states come from the headless layer (headless.ts). Same edge
+// as above; an open popup keeps the focus edge. Invalid and disabled never meet a focused edge, so nothing overlaps.
+const OPEN = `:is(:focus, ${state.popupOpen})` as const;
+const BAD = `:is([aria-invalid=true], ${state.invalid}):not(${state.disabled})` as const;
 
 export const selectPanel = defineSlotRecipe({
   className: 'koi-select-panel',
@@ -109,11 +110,11 @@ export const selectPanel = defineSlotRecipe({
       outline: 'none',
       transitionProperty: 'border-color, box-shadow',
       transitionDuration: 'fast',
-      [`&:hover:not(${OPEN}, [data-disabled], ${BAD})`]: { borderColor: 'border-control-hover' },
-      [`&${OPEN}:not(${BAD})`]: { borderColor: 'focus-ring', boxShadow: '0 0 0 1px {colors.focus-ring}' },
-      [`&${BAD}`]: { borderColor: 'error-control' },
-      [`&${BAD}${OPEN}`]: { boxShadow: '0 0 0 1px {colors.error-control}' },
-      '&[data-disabled]': { bg: 'surface-muted', color: 'text-disabled', borderColor: 'border', cursor: 'not-allowed' },
+      [`&:hover:not(${OPEN}, ${state.disabled}, ${BAD})` as const]: { borderColor: 'border-control-hover' },
+      [`&${OPEN}:not(${BAD})` as const]: { borderColor: 'focus-ring', boxShadow: '0 0 0 1px {colors.focus-ring}' },
+      [`&${BAD}` as const]: { borderColor: 'error-control' },
+      [`&${BAD}${OPEN}` as const]: { boxShadow: '0 0 0 1px {colors.error-control}' },
+      [`&${state.disabled}` as const]: { bg: 'surface-muted', color: 'text-disabled', borderColor: 'border', cursor: 'not-allowed' },
     },
     value: {
       flex: '1',
@@ -122,7 +123,7 @@ export const selectPanel = defineSlotRecipe({
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       lineHeight: '[20px]',
-      '[data-placeholder]:not([data-disabled]) > &': { color: 'text-muted' },
+      [`${state.placeholder}:not(${state.disabled}) > &` as const]: { color: 'text-muted' },
     },
     icon: {
       display: 'inline-flex',
@@ -135,8 +136,8 @@ export const selectPanel = defineSlotRecipe({
       transitionDuration: 'check',
       transitionTimingFunction: 'spring',
       '& > svg': { width: 'icon', height: 'icon' },
-      '[data-popup-open] > &': { transform: 'rotate(180deg)' },
-      '[data-disabled] > &': { color: 'text-disabled' },
+      [`${state.popupOpen} > &` as const]: { transform: 'rotate(180deg)' },
+      [`${state.disabled} > &` as const]: { color: 'text-disabled' },
     },
     positioner: {
       // Portaled to <body>: above a Dialog (900), below a Tooltip (1000).
@@ -147,9 +148,9 @@ export const selectPanel = defineSlotRecipe({
       boxSizing: 'border-box',
       display: 'flex',
       flexDirection: 'column',
-      minWidth: 'var(--anchor-width)',
-      maxWidth: 'var(--available-width)',
-      maxHeight: 'min(360px, var(--available-height))',
+      minWidth: vars.anchorWidth,
+      maxWidth: vars.availableWidth,
+      maxHeight: `min(360px, ${vars.availableHeight})`,
       overflow: 'hidden',
       bg: 'surface',
       borderWidth: '1px',
@@ -162,10 +163,10 @@ export const selectPanel = defineSlotRecipe({
       textStyle: 'body',
       outline: 'none',
       // Pops from the trigger on the spring (NavMenu's flyouts); the fade stays on `out` so it doesn't dip.
-      transformOrigin: 'var(--transform-origin)',
+      transformOrigin: vars.transformOrigin,
       transition: 'opacity {durations.fast} {easings.out}, transform {durations.check} {easings.spring}',
-      '&[data-starting-style], &[data-ending-style]': { opacity: '0', transform: 'scale(.96)' },
-      '&[data-ending-style]': { transitionTimingFunction: 'out' },
+      [`&${state.entering}, &${state.exiting}` as const]: { opacity: '0', transform: 'scale(.96)' },
+      [`&${state.exiting}` as const]: { transitionTimingFunction: 'out' },
     },
     search: {
       display: 'flex',
@@ -229,8 +230,8 @@ export const selectPanel = defineSlotRecipe({
       scrollMarginBlock: '1',
       transitionProperty: 'background-color',
       transitionDuration: 'fast',
-      '&[data-highlighted]': { bg: 'surface-muted' },
-      '&[data-disabled]': { color: 'text-disabled', cursor: 'not-allowed' },
+      [`&${state.highlighted}` as const]: { bg: 'surface-muted' },
+      [`&${state.disabled}` as const]: { color: 'text-disabled', cursor: 'not-allowed' },
     },
     itemText: { flex: '1', minWidth: '0' },
     itemIndicator: {

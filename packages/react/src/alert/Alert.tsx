@@ -2,21 +2,12 @@ import * as React from 'react';
 import { cx } from '@koi/react/styled-system/css';
 import { alert } from '@koi/react/styled-system/recipes';
 import { CloseIcon, ErrorIcon, InfoIcon, WarningIcon } from '../icons';
+import { strings, type AlertOwnProps } from '@koi/core';
 
-export type AlertTone = 'info' | 'warning' | 'error';
+export type { AlertTone } from '@koi/core';
 
-export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
-  /** info (sky) · warning (yellow) · error (red). Default info. */
-  tone?: AlertTone;
-  title?: React.ReactNode;
-  children?: React.ReactNode;
-  /** Replaces the tone icon; null hides it. */
-  icon?: React.ReactNode | null;
-  /** Usually a small Button, below the text. */
-  action?: React.ReactNode;
-  /** Shows a close button. */
-  onClose?: () => void;
-}
+
+export interface AlertProps extends AlertOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof AlertOwnProps> {}
 
 const toneIcon = { info: InfoIcon, warning: WarningIcon, error: ErrorIcon };
 
@@ -37,7 +28,7 @@ export function Alert({ tone = 'info', title, icon, action, onClose, className, 
         {action ? <div className={s.action}>{action}</div> : null}
       </div>
       {onClose ? (
-        <button type="button" className={s.close} aria-label="关闭" title="关闭" onClick={onClose}>
+        <button type="button" className={s.close} aria-label={strings.close} title={strings.close} onClick={onClose}>
           <CloseIcon />
         </button>
       ) : null}

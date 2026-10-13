@@ -41,7 +41,8 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@base-ui/react": "^1.8.0"
+    "@base-ui/react": "^1.8.0",
+    "@koi/core": "workspace:*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

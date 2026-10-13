@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { cx } from '@koi/react/styled-system/css';
 import { button } from '@koi/react/styled-system/recipes';
-import { useButtonShape, type ButtonShape } from '../shape';
+import { strings, type ButtonOwnProps, type IconButtonOwnProps } from '@koi/core';
+import { useButtonShape } from '../shape';
 import { Spinner } from '../spinner/Spinner';
 
-export type ButtonColor = 'primary' | 'accent' | 'secondary' | 'warning' | 'error';
-export type ButtonVariant = 'solid' | 'soft' | 'outline' | 'ghost';
-type Size = 'sm' | 'md' | 'lg';
+export type { ButtonColor, ButtonVariant } from '@koi/core';
 
 type NativeButtonProps = Omit<React.ComponentPropsWithRef<'button'>, 'color'>;
 type NativeAnchorProps = Omit<React.ComponentPropsWithRef<'a'>, 'color' | 'type'>;
@@ -20,23 +19,7 @@ type AsButtonOrLink<Own> =
   | (Own & Omit<NativeButtonProps, keyof Own> & { href?: undefined })
   | (Own & Omit<NativeAnchorProps, keyof Own> & { href: string; disabled?: boolean; type?: never });
 
-type OwnButtonProps = {
-  /** What the action means. Default primary. */
-  color?: ButtonColor;
-  /** How loud it is. Default solid. One solid button per group. */
-  variant?: ButtonVariant;
-  /** control-sm 28 · control-md 36 · control-lg 44. Default md. */
-  size?: Size;
-  /** pill (radius-full) or rounded (radius-lg, 8px). Default pill, or whatever the surrounding ShapeProvider says. */
-  shape?: ButtonShape;
-  iconStart?: React.ReactNode;
-  iconEnd?: React.ReactNode;
-  fullWidth?: boolean;
-  /** Shows a Spinner in place of iconStart, disables the button and sets aria-busy. */
-  loading?: boolean;
-};
-
-export type ButtonProps = AsButtonOrLink<OwnButtonProps>;
+export type ButtonProps = AsButtonOrLink<ButtonOwnProps>;
 
 /** Renders <a> or <button> for Button and IconButton. */
 function Pressable({ href, disabled, type = 'button', ...rest }: AsButtonOrLink<{}>) {
@@ -57,21 +40,14 @@ export function Button({
       aria-busy={loading || undefined}
       className={cx(button({ color, variant, size, shape: resolvedShape, fullWidth }), className)}
     >
-      {loading ? <Spinner size={size === 'lg' ? 'md' : 'sm'} label="处理中" /> : iconStart}
+      {loading ? <Spinner size={size === 'lg' ? 'md' : 'sm'} label={strings.processing} /> : iconStart}
       <span>{children}</span>
       {iconEnd}
     </Pressable>
   );
 }
 
-type OwnIconButtonProps = Pick<OwnButtonProps, 'color' | 'variant' | 'size' | 'shape'> & {
-  /** Required: the accessible name, also used as the native tooltip. */
-  label: string;
-  icon: React.ReactNode;
-  children?: never;
-};
-
-export type IconButtonProps = AsButtonOrLink<OwnIconButtonProps>;
+export type IconButtonProps = AsButtonOrLink<IconButtonOwnProps>;
 
 /** Square icon-only button. Defaults to secondary ghost, like the legacy IconButton. `href` makes it a link, as on Button. */
 export function IconButton({ label, icon, color = 'secondary', variant = 'ghost', size, shape, className, ...rest }: IconButtonProps) {

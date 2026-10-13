@@ -4,21 +4,11 @@ import { cx } from '@koi/react/styled-system/css';
 import { field } from '@koi/react/styled-system/recipes';
 import { ErrorIcon } from '../icons';
 import { KoiFieldContext } from './context';
+import { strings, type FieldOwnProps } from '@koi/core';
 
-export interface FieldProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'id' | 'children'> {
-  label?: React.ReactNode;
-  /** Shown under the control in text-muted. */
-  help?: React.ReactNode;
-  /** Shown under the control in error-text; marks the control invalid. */
-  error?: React.ReactNode;
-  /** Adds a red asterisk and sets `required` on the control. */
-  required?: boolean;
-  /** Appends "（选填）" to the label. */
-  optional?: boolean;
+export interface FieldProps extends FieldOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof FieldOwnProps | 'id'> {
   /** The control's id (the label points at it). Generated when omitted. */
   id?: string;
-  /** One Input, Textarea or Select; it receives id, aria-describedby and aria-invalid. */
-  children: React.ReactNode;
 }
 
 /**
@@ -36,7 +26,7 @@ export function Field({ label, help, error, required, optional, id, className, c
           <BaseField.Label className={s.label}>
             {label}
             {required ? <span className={s.required} aria-hidden="true"> *</span> : null}
-            {optional ? <span className={s.optional}>（选填）</span> : null}
+            {optional ? <span className={s.optional}>{strings.optional}</span> : null}
           </BaseField.Label>
         ) : null}
         {children}

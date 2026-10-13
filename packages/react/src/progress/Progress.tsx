@@ -2,21 +2,12 @@ import * as React from 'react';
 import { Progress as BaseProgress } from '@base-ui/react/progress';
 import { cx } from '@koi/react/styled-system/css';
 import { progress } from '@koi/react/styled-system/recipes';
+import { strings, type ProgressOwnProps } from '@koi/core';
 
-export type ProgressSize = 'sm' | 'md' | 'lg';
+export type { ProgressSize } from '@koi/core';
 
-export interface ProgressProps extends Omit<React.ComponentPropsWithRef<'div'>, 'children'> {
-  /** 0–`max`. Omit (or pass null) for an indeterminate bar. */
-  value?: number | null;
-  /** Default 100. */
-  max?: number;
-  /** Shown above the bar and used as its accessible name. Without it the bar is named "进度". */
-  label?: string;
-  /** Show the rounded percentage at the end of the head row (determinate bars only). */
-  showValue?: boolean;
-  /** Track height: sm 4px, md 8px (default), lg 12px. */
-  size?: ProgressSize;
-}
+
+export interface ProgressProps extends ProgressOwnProps, Omit<React.ComponentPropsWithRef<'div'>, keyof ProgressOwnProps | 'children'> {}
 
 /** A rounded progress bar. Base UI's root is the `role="progressbar"` element and carries the aria-value attributes. */
 export function Progress({ value, max, label, showValue, size = 'md', className, ...rest }: ProgressProps) {
@@ -30,9 +21,9 @@ export function Progress({ value, max, label, showValue, size = 'md', className,
     <BaseProgress.Root
       value={known ? value : null}
       max={top}
-      aria-label={label ? undefined : '进度'}
+      aria-label={label ? undefined : strings.progress}
       // Base UI's default text is English ("indeterminate progress"); the percentage stays as it formats it.
-      getAriaValueText={(formatted) => (known ? formatted : '进行中')}
+      getAriaValueText={(formatted) => (known ? formatted : strings.inProgress)}
       {...rest}
       className={cx(s.root, className)}
     >

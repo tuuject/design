@@ -1,16 +1,14 @@
 import { defineRecipe } from '@pandacss/dev';
+import { BUTTON_COLORS, BUTTON_VARIANTS, type ButtonColor, type ButtonVariant } from '@koi/core';
+import { state } from './headless';
 
 // Port of .koi-btn / .koi-iconbtn in reference/legacy-web/components/bundle.css and docs/spec/components/Button.md.
 // color (what the action means) and variant (how loud it is) are independent; their 5 × 4 combinations are
 // compound variants generated below, so every combination uses only the per-color role tokens.
 
-export const BUTTON_COLORS = ['primary', 'accent', 'secondary', 'warning', 'error'] as const;
-export const BUTTON_VARIANTS = ['solid', 'soft', 'outline', 'ghost'] as const;
-type C = (typeof BUTTON_COLORS)[number];
+const HOVER = `&:hover:not(:disabled, ${state.disabled})` as const;
 
-const HOVER = '&:hover:not(:disabled, [data-disabled])';
-
-function look(c: C, v: (typeof BUTTON_VARIANTS)[number]) {
+function look(c: ButtonColor, v: ButtonVariant) {
   switch (v) {
     case 'solid':
       return { bg: `${c}-solid` as const, color: `on-${c}-solid` as const, [HOVER]: { bg: `${c}-solid-hover` as const } };
@@ -28,7 +26,7 @@ function look(c: C, v: (typeof BUTTON_VARIANTS)[number]) {
 // The resting shadow is fully transparent, so buttons stay flat. Its color is --koi-ripple (each color's solid).
 const RIPPLE_REST = '0 0 0 6px color-mix(in oklch, var(--koi-ripple) 0%, transparent)';
 const RIPPLE_PRESSED = '0 0 0 0 color-mix(in oklch, var(--koi-ripple) 45%, transparent)';
-const ripple = (c: C) => ({ '--koi-ripple': `token(colors.${c}-solid)` });
+const ripple = (c: ButtonColor) => ({ '--koi-ripple': `token(colors.${c}-solid)` });
 const transition = (shadow: string) =>
   ['background-color', 'color', 'border-color'].map((p) => `${p} token(durations.fast)`).concat(`box-shadow ${shadow}`).join(', ');
 
@@ -54,7 +52,7 @@ export const button = defineRecipe({
     textDecoration: 'none',
     boxShadow: RIPPLE_REST,
     transition: transition('token(durations.ripple) token(easings.out)'),
-    '&:active:not(:disabled, [data-disabled])': { boxShadow: RIPPLE_PRESSED, transition: transition('0s') },
+    [`&:active:not(:disabled, ${state.disabled})` as const]: { boxShadow: RIPPLE_PRESSED, transition: transition('0s') },
     _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
     _disabled: { opacity: '0.5', cursor: 'not-allowed' },
     // Loading buttons are also disabled; this outranks _disabled's opacity (legacy: .is-loading after :disabled).

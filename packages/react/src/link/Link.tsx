@@ -2,11 +2,9 @@ import * as React from 'react';
 import { cx } from '@koi/react/styled-system/css';
 import { link } from '@koi/react/styled-system/recipes';
 import { ExternalIcon } from '../icons';
+import { strings, type LinkOwnProps } from '@koi/core';
 
-export interface LinkProps extends React.ComponentPropsWithRef<'a'> {
-  /** Opens in a new tab with rel="noopener noreferrer", an arrow glyph and a screen-reader note. */
-  external?: boolean;
-}
+export interface LinkProps extends LinkOwnProps, Omit<React.ComponentPropsWithRef<'a'>, keyof LinkOwnProps> {}
 
 /**
  * An inline text link: amber text over a dashed underline that fills with a soft tint on hover.
@@ -22,7 +20,7 @@ export function Link({ external, className, children, ...rest }: LinkProps) {
       {external ? (
         <span className={s.external}>
           <ExternalIcon size={14} />
-          <span className={s.srOnly}>（在新窗口打开）</span>
+          <span className={s.srOnly}>{strings.opensInNewWindow}</span>
         </span>
       ) : null}
     </a>

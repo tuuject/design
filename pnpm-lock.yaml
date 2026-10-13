@@ -67,11 +67,27 @@ importers:
         specifier: ^4.149.0
         version: 4.149.0
 
+  packages/core:
+    dependencies:
+      react:
+        specifier: ^19.0.0
+        version: 19.3.0
+    devDependencies:
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+
   packages/react:
     dependencies:
       '@base-ui/react':
         specifier: ^1.8.0
         version: 1.8.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@koi/core':
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       '@koi/tokens':
         specifier: workspace:*

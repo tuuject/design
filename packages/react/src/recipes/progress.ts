@@ -1,4 +1,5 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { state } from './headless';
 
 // Port of .koi-progress in reference/legacy-web/components/bundle.css and docs/spec/components/Progress.md.
 // Base UI's Progress.Root is the role="progressbar" element and wraps the whole thing (label, value and track);
@@ -27,7 +28,7 @@ export const progress = defineSlotRecipe({
       transitionProperty: 'width',
       transitionDuration: 'spring',
       transitionTimingFunction: 'spring',
-      '&[data-indeterminate]': {
+      [`&${state.indeterminate}` as const]: {
         position: 'absolute',
         insetBlock: '0',
         // Physical, like the keyframes: the slide runs left to right in RTL too (as legacy).

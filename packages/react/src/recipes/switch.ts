@@ -1,9 +1,10 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { state } from './headless';
 import { choiceRow } from './checkbox';
 
 // Port of .koi-switch* in reference/legacy-web/components/bundle.css and docs/spec/components/Switch.md.
 // DOM: <label root> <button control role=switch><span thumb/></button> <span label/> </label> <input hidden/>.
-// Base UI puts data-checked / data-disabled on the button and the thumb. The row is Checkbox's `choiceRow`
+// The headless layer marks the button and the thumb checked / disabled. The row is Checkbox's `choiceRow`
 // (the 20px track is exactly one label line tall, so it lines up like the 16px box does).
 export const switchRecipe = defineSlotRecipe({
   className: 'koi-switch',
@@ -27,9 +28,9 @@ export const switchRecipe = defineSlotRecipe({
       transitionProperty: 'background-color',
       transitionDuration: 'fast',
       _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
-      '&[data-checked]': { bg: 'control-checked' },
+      [`&${state.checked}` as const]: { bg: 'control-checked' },
       // On or off, a disabled track keeps its fill, faded (legacy's opacity .5).
-      '&[data-disabled]': { opacity: '0.5', cursor: 'not-allowed' },
+      [`&${state.disabled}` as const]: { opacity: '0.5', cursor: 'not-allowed' },
     },
     // Slides on the spring curve; global-css.ts stops it under reduced motion (the spec says all motion stops).
     thumb: {
@@ -42,7 +43,7 @@ export const switchRecipe = defineSlotRecipe({
       bg: 'white',
       boxShadow: 'raised',
       transition: 'transform {durations.spring} {easings.spring}',
-      '&[data-checked]': { transform: 'translateX(16px)' },
+      [`&${state.checked}` as const]: { transform: 'translateX(16px)' },
     },
   },
 });

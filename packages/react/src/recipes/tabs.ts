@@ -1,9 +1,10 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { state, vars } from './headless';
 
 // Port of .koi-tabs* in reference/legacy-web/components/bundle.css and docs/spec/components/Tabs.md.
 // DOM: <div root> <div list role=tablist> <button tab role=tab/>… <span indicator/> </div> <div panel role=tabpanel/> </div>.
 // The white pill is Base UI's Tabs.Indicator, not the tab's own background, so it can slide between tabs.
-// Base UI measures the active tab into --active-tab-left/-top/-width/-height and re-measures on resize
+// Base UI measures the active tab (`vars.activeTab*` in headless.ts) and re-measures on resize
 // (a ResizeObserver on the list and every tab), so a font swap or the bold label moves the pill too.
 export const tabs = defineSlotRecipe({
   className: 'koi-tabs',
@@ -41,9 +42,9 @@ export const tabs = defineSlotRecipe({
       transitionDuration: 'fast',
       _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
       // Three states that can't overlap, so Panda's emit order doesn't matter.
-      '&[data-active]:not([data-disabled])': { color: 'text', fontWeight: 'bold' },
-      '&:hover:not([data-active], [data-disabled])': { color: 'text' },
-      '&[data-disabled]': { color: 'text-disabled', cursor: 'not-allowed' },
+      [`&${state.selected}:not(${state.disabled})` as const]: { color: 'text', fontWeight: 'bold' },
+      [`&:hover:not(${state.selected}, ${state.disabled})` as const]: { color: 'text' },
+      [`&${state.disabled}` as const]: { color: 'text-disabled', cursor: 'not-allowed' },
     },
     // Hidden (by Base UI) until the active tab is measured, so it appears in place instead of sliding in from 0.
     // Slides on the spring curve; global-css.ts stops it under reduced motion.
@@ -52,9 +53,9 @@ export const tabs = defineSlotRecipe({
       zIndex: '-1',
       top: '0',
       left: '0',
-      width: '[var(--active-tab-width)]',
-      height: '[var(--active-tab-height)]',
-      translate: '[var(--active-tab-left) var(--active-tab-top)]',
+      width: `[${vars.activeTabWidth}]`,
+      height: `[${vars.activeTabHeight}]`,
+      translate: `[${vars.activeTabLeft} ${vars.activeTabTop}]`,
       borderRadius: 'full',
       bg: 'surface',
       boxShadow: 'raised',

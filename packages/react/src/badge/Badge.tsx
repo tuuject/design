@@ -1,16 +1,12 @@
 import * as React from 'react';
 import { cx } from '@koi/react/styled-system/css';
 import { badge } from '@koi/react/styled-system/recipes';
+import type { BadgeOwnProps } from '@koi/core';
 
-export type BadgeTone = 'neutral' | 'primary' | 'accent' | 'warning' | 'error' | 'solid';
+export type { BadgeTone } from '@koi/core';
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  /** Default neutral. */
-  tone?: BadgeTone;
-  /** A 6px dot in the text color before the label. */
-  dot?: boolean;
-  children?: React.ReactNode;
-}
+
+export interface BadgeProps extends BadgeOwnProps, Omit<React.HTMLAttributes<HTMLSpanElement>, keyof BadgeOwnProps> {}
 
 /** A small, non-interactive pill label for status or counts. For filters or removable chips, use Tag. */
 export function Badge({ tone = 'neutral', dot, className, children, ...rest }: BadgeProps) {

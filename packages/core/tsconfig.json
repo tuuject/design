@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // No DOM: this package is shared with React Native. `document`, `window` and friends don't compile here
+    // (scripts/check-core.mjs catches the DOM types @types/react stubs out globally).
+    "lib": ["ES2022"],
+    "jsx": "preserve"
+  },
+  "include": ["src"]
+}

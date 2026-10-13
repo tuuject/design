@@ -3,15 +3,9 @@ import { Input as BaseInput } from '@base-ui/react/input';
 import { cx } from '@koi/react/styled-system/css';
 import { input } from '@koi/react/styled-system/recipes';
 import { KoiFieldContext } from '../field/context';
+import type { InputOwnProps } from '@koi/core';
 
-export interface InputProps extends Omit<React.ComponentPropsWithRef<'input'>, 'size'> {
-  /** sm 28px · md 36px · lg 44px, the same heights as Button. Default md. */
-  size?: 'sm' | 'md' | 'lg';
-  /** Red edge and aria-invalid. Set automatically inside a Field with an error. */
-  invalid?: boolean;
-  iconStart?: React.ReactNode;
-  iconEnd?: React.ReactNode;
-}
+export interface InputProps extends InputOwnProps, Omit<React.ComponentPropsWithRef<'input'>, keyof InputOwnProps> {}
 
 /**
  * A single-line text field. Inside a Field it picks up the label, help, error and required state;

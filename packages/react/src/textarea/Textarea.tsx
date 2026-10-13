@@ -3,11 +3,9 @@ import { Field as BaseField } from '@base-ui/react/field';
 import { cx } from '@koi/react/styled-system/css';
 import { textarea } from '@koi/react/styled-system/recipes';
 import { KoiFieldContext } from '../field/context';
+import type { TextareaOwnProps } from '@koi/core';
 
-export interface TextareaProps extends React.ComponentPropsWithRef<'textarea'> {
-  /** Red edge and aria-invalid. Set automatically inside a Field with an error. */
-  invalid?: boolean;
-}
+export interface TextareaProps extends TextareaOwnProps, Omit<React.ComponentPropsWithRef<'textarea'>, keyof TextareaOwnProps> {}
 
 /**
  * A multi-line text field that matches Input. Resizes vertically, at least 80px tall.

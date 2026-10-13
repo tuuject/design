@@ -1,4 +1,5 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { state } from './headless';
 
 // Port of .koi-tooltip* in reference/legacy-web/components/bundle.css and docs/spec/components/Tooltip.md.
 // Base UI positions the positioner (side, 8px offset, flip near the viewport edge); the popup is the bubble.
@@ -27,9 +28,9 @@ export const tooltip = defineSlotRecipe({
       transitionProperty: 'opacity',
       transitionDuration: 'fast',
       transitionTimingFunction: 'out',
-      '&[data-starting-style], &[data-ending-style]': { opacity: '0' },
+      [`&${state.entering}, &${state.exiting}` as const]: { opacity: '0' },
       // Esc hides it at once.
-      '&[data-instant=dismiss]': { transitionDuration: '0s' },
+      [`&${state.instantClose}` as const]: { transitionDuration: '0s' },
     },
   },
 });

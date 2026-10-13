@@ -1,14 +1,14 @@
 import { defineSlotRecipe, defineStyles } from '@pandacss/dev';
+import { state, vars } from './headless';
 
 // Port of .koi-toast* / .koi-toaster in reference/legacy-web/components/bundle.css and docs/spec/components/Toast.md.
 //
 // Managed toasts (ToastProvider) are Base UI Toast.Roots, absolutely positioned in the viewport and moved into place
-// with transforms: Base UI sets --toast-offset-y (heights of the newer toasts in front of this one) and --toast-index
-// (its place among the toasts still showing). A closing toast's height drops to 0, so the ones behind it slide over
-// on the same transition. --toast-swipe-movement-x/y follow a swipe; data-swipe-direction says where it was flung.
-const shift = 'calc(var(--toast-offset-y, 0px) + var(--toast-index, 0) * token(spacing.2))';
-const swipeX = 'var(--toast-swipe-movement-x, 0px)';
-const swipeY = 'var(--toast-swipe-movement-y, 0px)';
+// with transforms from the offsets Base UI measures (`vars.toast*` in headless.ts). A closing toast's height drops
+// to 0, so the ones behind it slide over on the same transition.
+const shift = `calc(${vars.toastOffsetY} + ${vars.toastIndex} * token(spacing.2))`;
+const swipeX = vars.toastSwipeX;
+const swipeY = vars.toastSwipeY;
 
 function stacked(edge: 'bottom' | 'top') {
   // Bottom stacks grow upward, top stacks downward; the newest toast is the one nearest the edge.
@@ -25,13 +25,13 @@ function stacked(edge: 'bottom' | 'top') {
     '--koi-toast-shift': shift,
     transform: `translateX(${swipeX}) translateY(${y})`,
     // Rises in from 12px toward the edge and 96%, on the spring curve (legacy koi-rise).
-    '&[data-starting-style]': { opacity: '0', transform: `translateY(${edge === 'bottom' ? '12px' : '-12px'}) scale(.96)` },
-    '&[data-ending-style]': { opacity: '0', transform: `translateY(${y}) scale(.96)` },
+    [`&${state.entering}` as const]: { opacity: '0', transform: `translateY(${edge === 'bottom' ? '12px' : '-12px'}) scale(.96)` },
+    [`&${state.exiting}` as const]: { opacity: '0', transform: `translateY(${y}) scale(.96)` },
     // Flung away: keep going the way the swipe went.
-    '&[data-ending-style][data-swipe-direction=left]': { transform: `translateX(calc(${swipeX} - 150%)) translateY(${y})` },
-    '&[data-ending-style][data-swipe-direction=right]': { transform: `translateX(calc(${swipeX} + 150%)) translateY(${y})` },
-    '&[data-ending-style][data-swipe-direction=up]': { transform: `translateY(calc(${y} - 150%))` },
-    '&[data-ending-style][data-swipe-direction=down]': { transform: `translateY(calc(${y} + 150%))` },
+    [`&${state.exiting}${state.swiped.left}` as const]: { transform: `translateX(calc(${swipeX} - 150%)) translateY(${y})` },
+    [`&${state.exiting}${state.swiped.right}` as const]: { transform: `translateX(calc(${swipeX} + 150%)) translateY(${y})` },
+    [`&${state.exiting}${state.swiped.up}` as const]: { transform: `translateY(calc(${y} - 150%))` },
+    [`&${state.exiting}${state.swiped.down}` as const]: { transform: `translateY(calc(${y} + 150%))` },
   });
 }
 
@@ -70,7 +70,7 @@ export const toast = defineSlotRecipe({
       transition: 'opacity token(durations.overlay) token(easings.out), transform token(durations.spring) token(easings.spring)',
       _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
       // Leaving: a quick fade, without the spring's overshoot.
-      '&[data-ending-style]': { transitionDuration: 'overlay', transitionTimingFunction: 'out' },
+      [`&${state.exiting}` as const]: { transitionDuration: 'overlay', transitionTimingFunction: 'out' },
     },
     // 18px icon, 3px down so it centers on the title's first 24px line.
     icon: { flex: 'none', display: 'inline-flex', mt: '[3px]', '& > svg': { width: '[18px]', height: '[18px]' } },

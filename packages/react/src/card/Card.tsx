@@ -1,18 +1,9 @@
 import * as React from 'react';
 import { cx } from '@koi/react/styled-system/css';
 import { card } from '@koi/react/styled-system/recipes';
+import type { CardOwnProps } from '@koi/core';
 
-export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
-  /** outlined (default) · filled · glass (Koi's frosted panel: put it over imagery or color). */
-  variant?: 'outlined' | 'filled' | 'glass';
-  title?: React.ReactNode;
-  description?: React.ReactNode;
-  /** Full-bleed content above the head, e.g. an <img>. */
-  media?: React.ReactNode;
-  /** Actions, aligned right. */
-  footer?: React.ReactNode;
-  padding?: 'default' | 'none';
-}
+export interface CardProps extends CardOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof CardOwnProps> {}
 
 /** A rounded container that groups related content. Don't nest cards. */
 export function Card({ variant = 'outlined', padding = 'default', title, description, media, footer, className, children, ...rest }: CardProps) {

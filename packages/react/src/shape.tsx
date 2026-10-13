@@ -1,6 +1,7 @@
 import * as React from 'react';
+import type { ButtonShape } from '@koi/core';
 
-export type ButtonShape = 'pill' | 'rounded';
+export type { ButtonShape };
 
 /**
  * The default button shape for a surface. Buttons are pills everywhere except where a

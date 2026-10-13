@@ -5,28 +5,16 @@ import { Field as BaseField } from '@base-ui/react/field';
 import { cx } from '@koi/react/styled-system/css';
 import { radioGroup } from '@koi/react/styled-system/recipes';
 import { KoiFieldContext } from '../field/context';
+import type { RadioGroupOwnProps } from '@koi/core';
 
-export interface RadioOption {
-  value: string;
-  label: React.ReactNode;
-  /** Shown under the label in text-muted. */
-  description?: React.ReactNode;
-  disabled?: boolean;
-}
+export type { RadioOption } from '@koi/core';
+
 
 export interface RadioGroupProps
-  extends Omit<React.ComponentPropsWithRef<'div'>, 'onChange' | 'defaultValue' | 'children' | 'aria-label'> {
-  options: RadioOption[];
-  value?: string;
-  defaultValue?: string;
-  /** Called with the newly chosen value (and Base UI's event details). */
-  onChange?: (value: string, details: BaseRadioGroup.ChangeEventDetails) => void;
-  /** Accessible name of the group (not shown). Inside a Field, the Field's label names it instead. */
-  label?: string;
+  extends RadioGroupOwnProps<Event>,
+    Omit<React.ComponentPropsWithRef<'div'>, keyof RadioGroupOwnProps | 'defaultValue' | 'children' | 'aria-label'> {
   /** Submitted with the form as `name=value`. */
   name?: string;
-  orientation?: 'vertical' | 'horizontal';
-  disabled?: boolean;
   /** A choice must be made before the form submits. Taken from the Field when omitted. */
   required?: boolean;
 }

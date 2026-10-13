@@ -1,8 +1,8 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { state } from './headless';
 
 // Port of .koi-dialog* in reference/legacy-web/components/bundle.css and docs/spec/components/Dialog.md.
-// Base UI puts data-starting-style / data-ending-style on Backdrop and Popup during the open/close
-// transitions; the styles below animate from/to those states.
+// Backdrop and Popup transition from `state.entering` when they open and to `state.exiting` when they close.
 export const dialog = defineSlotRecipe({
   className: 'koi-dialog',
   slots: ['backdrop', 'viewport', 'popup', 'title', 'description', 'body', 'footer', 'close'],
@@ -16,7 +16,7 @@ export const dialog = defineSlotRecipe({
       transitionProperty: 'opacity',
       // Same 300ms as the popup, so the two open and close together.
       transitionDuration: 'dialog',
-      '&[data-starting-style], &[data-ending-style]': { opacity: '0' },
+      [`&${state.entering}, &${state.exiting}` as const]: { opacity: '0' },
     },
     viewport: {
       position: 'fixed',
@@ -46,7 +46,7 @@ export const dialog = defineSlotRecipe({
       transitionDuration: 'dialog',
       // Grows from and shrinks to its center; it never moves.
       transformOrigin: 'center',
-      '&[data-starting-style], &[data-ending-style]': { opacity: '0', transform: 'scale(.96)' },
+      [`&${state.entering}, &${state.exiting}` as const]: { opacity: '0', transform: 'scale(.96)' },
     },
     title: { m: '0', pe: '8', textStyle: 'heading-2' },
     description: { m: '0', textStyle: 'body', color: 'text-muted' },

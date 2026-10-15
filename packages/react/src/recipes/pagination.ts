@@ -1,4 +1,6 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { components as c } from '@koi/tokens/dimensions';
+import { focusRing, toPx } from './dimensions';
 
 // Port of .koi-pagination in reference/legacy-web/components/bundle.css and docs/spec/components/Pagination.md.
 // Prev/next are Koi Buttons (their look comes from the button recipe); this recipe styles the row, the page
@@ -34,11 +36,11 @@ export const pagination = defineSlotRecipe({
       transitionProperty: 'background-color, color',
       transitionDuration: 'fast',
       // Same ring as Button.
-      _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
+      _focusVisible: focusRing,
       '&:hover:not([aria-current=page])': { bg: 'surface-muted' },
       '&[aria-current=page]': { bg: 'action', color: 'on-action', fontWeight: '700' },
     },
-    gap: { minWidth: '[24px]', textAlign: 'center', color: 'text-muted', textStyle: 'body', userSelect: 'none' },
+    gap: { minWidth: toPx(c.pagination.gapWidth), textAlign: 'center', color: 'text-muted', textStyle: 'body', userSelect: 'none' },
     count: { color: 'text', textStyle: 'body', fontVariantNumeric: 'tabular-nums' },
   },
   variants: {

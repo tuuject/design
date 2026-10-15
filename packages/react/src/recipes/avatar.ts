@@ -1,4 +1,6 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { components as c } from '@koi/tokens/dimensions';
+import { toPx } from './dimensions';
 
 // Port of .koi-avatar in reference/legacy-web/components/bundle.css and docs/spec/components/Avatar.md.
 // Base UI renders either the image (once it has loaded) or the fallback initials inside the root.
@@ -35,10 +37,10 @@ export const avatar = defineSlotRecipe({
   },
   variants: {
     size: {
-      sm: { root: { width: 'control-sm', height: 'control-sm', fontSize: '[12px]' } },
-      md: { root: { width: 'control-md', height: 'control-md', fontSize: '[14px]' } },
-      lg: { root: { width: 'control-lg', height: 'control-lg', fontSize: '[16px]' } },
-      xl: { root: { width: '[64px]', height: '[64px]', fontSize: '[24px]' } },
+      sm: { root: { width: 'control-sm', height: 'control-sm', fontSize: toPx(c.avatar.fontSm) } },
+      md: { root: { width: 'control-md', height: 'control-md', fontSize: toPx(c.avatar.fontMd) } },
+      lg: { root: { width: 'control-lg', height: 'control-lg', fontSize: toPx(c.avatar.fontLg) } },
+      xl: { root: { width: toPx(c.avatar.sizeXl), height: toPx(c.avatar.sizeXl), fontSize: toPx(c.avatar.fontXl) } },
     },
     shape: {
       circle: {},

@@ -13,6 +13,7 @@
       "default": "./dist/panda-preset.js"
     },
     "./native": "./dist/native.ts",
+    "./dimensions": "./dist/dimensions.ts",
     "./palette": "./dist/palette.ts"
   },
   "files": [

@@ -1,4 +1,6 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { components as c } from '@koi/tokens/dimensions';
+import { toPx } from './dimensions';
 
 // Port of .koi-badge in reference/legacy-web/components/bundle.css and docs/spec/components/Badge.md.
 export const badge = defineSlotRecipe({
@@ -9,15 +11,15 @@ export const badge = defineSlotRecipe({
       display: 'inline-flex',
       alignItems: 'center',
       gap: '1',
-      height: '[22px]',
-      px: '[10px]',
+      height: toPx(c.badge.height),
+      px: toPx(c.badge.paddingX),
       boxSizing: 'border-box',
       borderRadius: 'full',
       fontFamily: 'sans',
       textStyle: 'caption',
       whiteSpace: 'nowrap',
     },
-    dot: { flexShrink: '0', width: '[6px]', height: '[6px]', borderRadius: 'full', bg: 'currentColor' },
+    dot: { flexShrink: '0', width: toPx(c.badge.dot), height: toPx(c.badge.dot), borderRadius: 'full', bg: 'currentColor' },
   },
   variants: {
     tone: {

@@ -1,5 +1,6 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 import { state, vars } from './headless';
+import { focusRing } from './dimensions';
 
 // Port of .koi-tabs* in reference/legacy-web/components/bundle.css and docs/spec/components/Tabs.md.
 // DOM: <div root> <div list role=tablist> <button tab role=tab/>… <span indicator/> </div> <div panel role=tabpanel/> </div>.
@@ -40,7 +41,7 @@ export const tabs = defineSlotRecipe({
       userSelect: 'none',
       transitionProperty: 'color',
       transitionDuration: 'fast',
-      _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
+      _focusVisible: focusRing,
       // Three states that can't overlap, so Panda's emit order doesn't matter.
       [`&${state.selected}:not(${state.disabled})` as const]: { color: 'text', fontWeight: 'bold' },
       [`&:hover:not(${state.selected}, ${state.disabled})` as const]: { color: 'text' },
@@ -66,7 +67,7 @@ export const tabs = defineSlotRecipe({
     panel: {
       textStyle: 'body',
       borderRadius: 'lg',
-      _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
+      _focusVisible: focusRing,
     },
   },
   variants: {

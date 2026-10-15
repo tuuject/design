@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip';
 import { tooltip } from '@koi/react/styled-system/recipes';
 import type { TooltipOwnProps } from '@koi/core';
+import { components } from '@koi/tokens/dimensions';
 
 export type { TooltipSide } from '@koi/core';
 
@@ -53,7 +54,7 @@ export function Tooltip({
     >
       <BaseTooltip.Trigger id={triggerId} delay={delay} closeDelay={closeDelay} render={trigger} />
       <BaseTooltip.Portal>
-        <BaseTooltip.Positioner side={side} sideOffset={8} className={s.positioner}>
+        <BaseTooltip.Positioner side={side} sideOffset={components.tooltip.offset} className={s.positioner}>
           <BaseTooltip.Popup id={popupId} role="tooltip" className={s.popup}>
             {content}
           </BaseTooltip.Popup>

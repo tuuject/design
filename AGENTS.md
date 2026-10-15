@@ -2,7 +2,7 @@
 
 Koi is a soft, rounded design system (pill controls, frosted glass, sky-blue actions, amber links) that started as tcdw's Koi Astro blog theme. This repo rebuilds it as packages:
 
-- `packages/tokens`: the single source of truth, `src/tokens.json`. `scripts/build.mjs` generates `dist/tokens.css`, `dist/panda-preset.js`, `dist/theme-init.js` and `dist/native.ts`.
+- `packages/tokens`: the single source of truth, `src/tokens.json`. `scripts/build.mjs` generates `dist/tokens.css`, `dist/panda-preset.js`, `dist/theme-init.js`, `dist/dimensions.ts` (every size as a number, components' own included), `dist/native.ts` and `dist/palette.ts`.
 - `packages/core`: `@koi/core`, the platform-neutral layer: each component's props contract (`<Name>OwnProps`), `ChangeDetails<E>`, the UI copy (`strings`) and pure helpers. Plain TypeScript, no DOM. Rules in `docs/core.md`.
 - `packages/react`: React web components. **Base UI** (`@base-ui/react`) for behavior and accessibility, **Panda CSS v2** for styling (recipes in `src/recipes/`).
 - `packages/native`: React Native, not started; the stack isn't chosen (see `docs/plan.md`).
@@ -19,7 +19,7 @@ The current plan and status are in `docs/plan.md`. Update it as phases complete.
 - `pnpm dev`: tokens + codegen + Storybook on port 6006.
 - `pnpm shots`: screenshot every story in light and dark into `apps/storybook/shots/<Component>-<Story>_<theme>.png` (`pnpm shots Button` for one component). Stories tagged `shot-viewport` (an open Dialog) are shot as the whole viewport. Look at the PNGs after any visual change. `KOI_PALETTE=rose pnpm shots` shoots another palette (files end in `_rose`).
 - `pnpm build:storybook`: codegen + static Storybook in `apps/storybook/dist`; `pnpm deploy:storybook` publishes it to Cloudflare Workers (`apps/storybook/wrangler.jsonc`).
-- `pnpm check`: contrast pairs, raw-color scan, headless-leak scan, core-boundary scan and typecheck. Must pass before a commit.
+- `pnpm check`: contrast pairs, raw-color and raw-size scans, headless-leak scan, core-boundary scan and typecheck. Must pass before a commit.
 
 ## Rules
 
@@ -29,6 +29,7 @@ The current plan and status are in `docs/plan.md`. Update it as phases complete.
 - **Contrast:** text pairs ≥ 4.5:1 and control edges / focus rings / icons ≥ 3:1, in both themes. When a component puts a token on a new background, add the pair to `packages/tokens/src/contrast-pairs.json` and run `pnpm contrast`.
 - **Generated files are never edited:** `packages/tokens/dist/`, `packages/react/styled-system/`. Change the source and rebuild.
 - **Sizes:** 14px base (`body`). Controls `control-sm` 28 / `control-md` 36 / `control-lg` 44; components in one row share a size. `prose` (16px) is only for long-form reading.
+- **No literal sizes.** Every size a component uses comes from tokens.json, because native builds the same components from the same numbers. Shared ones by token name (`height: 'control-md'`, `px: '3'`, `width: 'icon'`); a component's own from the `component` group via `@koi/tokens/dimensions` (`toPx(c.switch.trackWidth)` in recipes, `components.tooltip.offset` in TSX; `focusRing` in `recipes/dimensions.ts` for the focus outline). Add a missing one to tokens.json with a usage note. Only a web-only detail (a pseudo-element hit area, a baseline nudge, the press ripple) keeps a literal, marked `// koi-web-only: <why>`. `scripts/check-raw-sizes.mjs` enforces it.
 - **Shape:** anything pressable is a pill (`radius-full`) except `shape="rounded"` (`radius-lg`, 8px). Dialog footers default to rounded through `ShapeProvider`; the dialog's 32px radius is that 8px plus its 24px padding (concentric). Cards and toasts `radius-panel` 24px, fields and alerts `radius-xl` 12px.
 - **Depth:** no shadows on buttons, ever (the press ripple is a box-shadow that fades to nothing; it isn't depth). `shadow-raised` only on the active tab and switch thumbs; `shadow-float` only on things floating over the page (Dialog, Toast).
 - **Motion:** color changes 150ms; moving things use the `spring` easing. Everything respects `prefers-reduced-motion`.

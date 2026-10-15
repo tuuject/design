@@ -1,5 +1,6 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 import { state } from './headless';
+import { components as c, space } from '@koi/tokens/dimensions';
 
 // Port of .koi-dialog* in reference/legacy-web/components/bundle.css and docs/spec/components/Dialog.md.
 // Backdrop and Popup transition from `state.entering` when they open and to `state.exiting` when they close.
@@ -30,7 +31,7 @@ export const dialog = defineSlotRecipe({
     popup: {
       position: 'relative',
       width: '100%',
-      maxHeight: 'calc(100vh - 32px)',
+      maxHeight: `calc(100vh - ${2 * space[4]}px)`,
       overflow: 'auto',
       display: 'flex',
       flexDirection: 'column',
@@ -56,9 +57,9 @@ export const dialog = defineSlotRecipe({
   },
   variants: {
     size: {
-      sm: { popup: { maxWidth: '400px' } },
-      md: { popup: { maxWidth: '520px' } },
-      lg: { popup: { maxWidth: '720px' } },
+      sm: { popup: { maxWidth: `${c.dialog.widthSm}px` } },
+      md: { popup: { maxWidth: `${c.dialog.widthMd}px` } },
+      lg: { popup: { maxWidth: `${c.dialog.widthLg}px` } },
     },
   },
   defaultVariants: { size: 'md' },

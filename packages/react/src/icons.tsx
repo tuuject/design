@@ -1,12 +1,13 @@
 import * as React from 'react';
+import { components, sizes } from '@koi/tokens/dimensions';
 
-// Koi icons: 24px grid, 2.25px stroke, round caps and joins, drawn in currentColor.
+// Koi icons: 24px grid, `components.icon.stroke` (2.25) stroke, round caps and joins, drawn in currentColor.
 // Port the rest of the set from reference/legacy-web/components/bundle.js (Icons).
 type IconProps = { size?: number } & React.SVGProps<SVGSVGElement>;
 
-function Svg({ size = 16, children, ...rest }: IconProps & { children: React.ReactNode }) {
+function Svg({ size = sizes.icon, children, ...rest }: IconProps & { children: React.ReactNode }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.25}
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={components.icon.stroke}
       strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...rest}>
       {children}
     </svg>

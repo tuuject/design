@@ -2,6 +2,7 @@
 //   dist/tokens.css        CSS variables with the legacy names (--surface, --radius-panel…) for non-Panda consumers
 //   dist/panda-preset.js   a Panda CSS preset: tokens, semanticTokens (light/_dark), textStyles, keyframes
 //   dist/theme-init.js     sets <html data-theme> from the OS before first paint and follows changes; <html data-font>
+//   dist/dimensions.ts     every size as a plain number (px), components' own included, for any platform
 //   dist/native.ts         plain values for React Native: hex/rgba colors per theme, numbers for sizes
 //   dist/palette.ts        palettes at runtime, on any platform: createColors(palette, theme), checkPalette(palette)
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -142,11 +143,26 @@ write('theme-init.js', `/* GENERATED. Inline this in <head> before any CSS so th
 })();
 `);
 
-// ---------- 4. native.ts ----------
+// ---------- 4. dimensions.ts ----------
+// Plain numbers. Recipes import `components` and wrap them with px(); native reads them as they are. The component
+// group is not a Panda token category or a CSS variable on purpose: nothing themes it, and apps don't style with it.
+const camel = (s) => s.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
+const px = (v) => { const n = parseFloat(v); if (!/px$/.test(v)) throw new Error(`Expected px: ${v}`); return n; };
+const nums = (key, prefix) => Object.fromEntries(group(key).filter((t) => /px$/.test(t.value)).map((t) => [prefix ? strip(t.name, prefix) : t.name, px(t.value)]));
 {
-  const px = (v) => { const n = parseFloat(v); if (!/px$/.test(v)) throw new Error(`Expected px: ${v}`); return n; };
+  // px, or unitless where the usage says so (the icon stroke is in 24-grid units).
+  const value = (t) => { if (!/^-?[\d.]+(px)?$/.test(t.value)) throw new Error(`component.${t.name}: expected px or a number, got ${t.value}`); return parseFloat(t.value); };
+  const components = Object.fromEntries(tokens.component.groups.map((g) => [camel(g.name), Object.fromEntries(g.tokens.map((t) => [camel(t.name), value(t)]))]));
+  const body = { space: nums('spacing', 'space'), radii: nums('radius', 'radius'), sizes: nums('size'), components };
+  write('dimensions.ts', banner +
+    '// Every size as a number in px (the icon stroke is in 24-grid units). Same on every platform: Panda recipes\n' +
+    '// write `[${n}px]`, React Native and Tamagui use the numbers. `components` holds each component\'s own sizes.\n' +
+    Object.entries(body).map(([k, v]) => `export const ${k} = ${JSON.stringify(v, null, 2)} as const;`).join('\n\n') + '\n');
+}
+
+// ---------- 5. native.ts ----------
+{
   const colors = Object.fromEntries(THEMES.map((th) => [th, Object.fromEntries(colorTokens.map((t) => [t.name, toNativeColor(resolveColor(t.name, th))]))]));
-  const nums = (key, prefix) => Object.fromEntries(group(key).filter((t) => /px$/.test(t.value)).map((t) => [prefix ? strip(t.name, prefix) : t.name, px(t.value)]));
   const type = {};
   for (const g of tokens.type.groups) for (const s of g.styles) {
     const size = px(s.fontSize);
@@ -154,16 +170,17 @@ write('theme-init.js', `/* GENERATED. Inline this in <head> before any CSS so th
     type[s.name] = { fontSize: size, lineHeight: lh, fontWeight: String(s.fontWeight) };
   }
   const body = {
-    colors, space: nums('spacing', 'space'), radii: nums('radius', 'radius'), sizes: nums('size'), blur: nums('blur', 'blur'), type,
+    colors, blur: nums('blur', 'blur'), type,
     motion: { springBezier: [0.47, 1.64, 0.41, 0.8], fastMs: 150 },
   };
   write('native.ts', banner +
     '// React Native has no CSS variables, no oklch() and no backdrop-filter: colors are pre-resolved per theme,\n' +
     '// sizes are plain numbers (dp). Shadows are not exported: build them per platform (iOS shadow*, Android elevation).\n' +
+    "export { space, radii, sizes, components } from './dimensions';\n\n" +
     Object.entries(body).map(([k, v]) => `export const ${k} = ${JSON.stringify(v, null, 2)} as const;`).join('\n\n') +
     '\n\nexport type ThemeName = keyof typeof colors;\nexport type ColorToken = keyof typeof colors.light;\n');
 }
-// ---------- 5. palette.ts ----------
+// ---------- 6. palette.ts ----------
 // Palettes at runtime on any platform. The logic is src/palette-kit.ts; this binds it to the data. Then the build
 // runs that same logic over the built-in palettes and checks it agrees with what it resolved itself (native.ts) and
 // with `pnpm contrast`, so the runtime can't drift from the build.

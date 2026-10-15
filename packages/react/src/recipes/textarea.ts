@@ -1,4 +1,6 @@
 import { defineRecipe } from '@pandacss/dev';
+import { components as c } from '@koi/tokens/dimensions';
+import { toPx } from './dimensions';
 
 // Port of .koi-textarea in reference/legacy-web/components/bundle.css and docs/spec/components/Textarea.md.
 // Same edge, corners, focus and invalid states as Input (recipes/input.ts), on the element itself.
@@ -9,14 +11,14 @@ export const textarea = defineRecipe({
     display: 'block',
     width: '100%',
     boxSizing: 'border-box',
-    minHeight: '[80px]',
+    minHeight: toPx(c.textarea.minHeight),
     m: '0',
     py: '2',
     px: '3',
     resize: 'vertical',
     bg: 'surface',
     color: 'text',
-    borderWidth: '1px',
+    borderWidth: `${c.stroke.hairline}px`,
     borderStyle: 'solid',
     borderColor: 'border-control',
     borderRadius: 'xl',
@@ -27,9 +29,9 @@ export const textarea = defineRecipe({
     transitionDuration: 'fast',
     _placeholder: { color: 'text-muted' },
     '&:hover:not(:focus, :disabled, [aria-invalid=true])': { borderColor: 'border-control-hover' },
-    '&:focus': { borderColor: 'focus-ring', boxShadow: '0 0 0 1px {colors.focus-ring}' },
+    '&:focus': { borderColor: 'focus-ring', boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.focus-ring}` },
     '&[aria-invalid=true]': { borderColor: 'error-control' },
-    '&[aria-invalid=true]:focus': { borderColor: 'error-control', boxShadow: '0 0 0 1px {colors.error-control}' },
+    '&[aria-invalid=true]:focus': { borderColor: 'error-control', boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.error-control}` },
     '&:disabled': {
       bg: 'surface-muted',
       color: 'text-disabled',

@@ -3,6 +3,7 @@ import { cx } from '@koi/react/styled-system/css';
 import { link } from '@koi/react/styled-system/recipes';
 import { ExternalIcon } from '../icons';
 import { strings, type LinkOwnProps } from '@koi/core';
+import { sizes } from '@koi/tokens/dimensions';
 
 export interface LinkProps extends LinkOwnProps, Omit<React.ComponentPropsWithRef<'a'>, keyof LinkOwnProps> {}
 
@@ -19,7 +20,7 @@ export function Link({ external, className, children, ...rest }: LinkProps) {
       {children}
       {external ? (
         <span className={s.external}>
-          <ExternalIcon size={14} />
+          <ExternalIcon size={sizes['icon-sm']} />
           <span className={s.srOnly}>{strings.opensInNewWindow}</span>
         </span>
       ) : null}

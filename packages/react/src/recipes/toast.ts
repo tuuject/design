@@ -1,5 +1,7 @@
 import { defineSlotRecipe, defineStyles } from '@pandacss/dev';
 import { state, vars } from './headless';
+import { components as c, space } from '@koi/tokens/dimensions';
+import { focusRing, toPx } from './dimensions';
 
 // Port of .koi-toast* / .koi-toaster in reference/legacy-web/components/bundle.css and docs/spec/components/Toast.md.
 //
@@ -25,7 +27,7 @@ function stacked(edge: 'bottom' | 'top') {
     '--koi-toast-shift': shift,
     transform: `translateX(${swipeX}) translateY(${y})`,
     // Rises in from 12px toward the edge and 96%, on the spring curve (legacy koi-rise).
-    [`&${state.entering}` as const]: { opacity: '0', transform: `translateY(${edge === 'bottom' ? '12px' : '-12px'}) scale(.96)` },
+    [`&${state.entering}` as const]: { opacity: '0', transform: `translateY(${edge === 'bottom' ? '' : '-'}${c.toast.enterOffset}px) scale(.96)` },
     [`&${state.exiting}` as const]: { opacity: '0', transform: `translateY(${y}) scale(.96)` },
     // Flung away: keep going the way the swipe went.
     [`&${state.exiting}${state.swiped.left}` as const]: { transform: `translateX(calc(${swipeX} - 150%)) translateY(${y})` },
@@ -45,8 +47,8 @@ export const toast = defineSlotRecipe({
       zIndex: '1000',
       insetInline: '0',
       mx: 'auto',
-      width: '[360px]',
-      maxWidth: 'calc(100vw - 32px)',
+      width: toPx(c.toast.width),
+      maxWidth: `calc(100vw - ${2 * space[4]}px)`,
       outline: 'none',
     },
     root: {
@@ -55,8 +57,8 @@ export const toast = defineSlotRecipe({
       alignItems: 'flex-start',
       gap: '3',
       boxSizing: 'border-box',
-      width: '[360px]',
-      maxWidth: 'calc(100vw - 32px)',
+      width: toPx(c.toast.width),
+      maxWidth: `calc(100vw - ${2 * space[4]}px)`,
       p: '4',
       // No border: the shadow alone lifts it off the page.
       bg: 'surface-glass-tint',
@@ -68,12 +70,12 @@ export const toast = defineSlotRecipe({
       textStyle: 'body',
       // Moves on the spring curve; fades without it (the curve's overshoot would make the opacity dip near the end).
       transition: 'opacity token(durations.overlay) token(easings.out), transform token(durations.spring) token(easings.spring)',
-      _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
+      _focusVisible: focusRing,
       // Leaving: a quick fade, without the spring's overshoot.
       [`&${state.exiting}` as const]: { transitionDuration: 'overlay', transitionTimingFunction: 'out' },
     },
     // 18px icon, 3px down so it centers on the title's first 24px line.
-    icon: { flex: 'none', display: 'inline-flex', mt: '[3px]', '& > svg': { width: '[18px]', height: '[18px]' } },
+    icon: { flex: 'none', display: 'inline-flex', mt: toPx(c.toast.iconOffset), '& > svg': { width: 'icon-lg', height: 'icon-lg' } },
     content: { flex: '1', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '1' },
     // One step above the 14px base on purpose: a toast is only glanced at.
     title: { m: '0', textStyle: 'heading-3' },
@@ -87,8 +89,8 @@ export const toast = defineSlotRecipe({
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      width: '[24px]',
-      height: '[24px]',
+      width: toPx(c.closeButton.size),
+      height: toPx(c.closeButton.size),
       p: '0',
       borderWidth: '0',
       borderRadius: 'full',
@@ -98,7 +100,7 @@ export const toast = defineSlotRecipe({
       transitionProperty: 'background-color',
       transitionDuration: 'fast',
       _hover: { bg: 'divider' },
-      _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
+      _focusVisible: focusRing,
       '& > svg': { width: 'icon', height: 'icon' },
     },
   },
@@ -111,7 +113,7 @@ export const toast = defineSlotRecipe({
     },
     // Room on the right for the close button (legacy: padding-inline-end 44px = 12px + 24px + 8px).
     closable: {
-      true: { root: { pe: '[44px]' } },
+      true: { root: { pe: toPx(c.toast.closableInset) } },
       false: {},
     },
     // static: a Toast rendered on its own. bottom / top: inside ToastProvider's viewport.

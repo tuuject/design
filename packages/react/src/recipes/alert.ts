@@ -1,4 +1,6 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { components as c } from '@koi/tokens/dimensions';
+import { focusRing, toPx } from './dimensions';
 
 // Port of .koi-alert* in reference/legacy-web/components/bundle.css and docs/spec/components/Alert.md.
 export const alert = defineSlotRecipe({
@@ -11,14 +13,14 @@ export const alert = defineSlotRecipe({
       gap: '2',
       p: '3',
       boxSizing: 'border-box',
-      borderWidth: '1px',
+      borderWidth: `${c.stroke.hairline}px`,
       borderStyle: 'solid',
       borderRadius: 'xl',
       fontFamily: 'sans',
       textStyle: 'body',
     },
     // 2px down so the 16px icon centers on the title's first 20px line.
-    icon: { flex: 'none', display: 'inline-flex', mt: '[2px]', '& > svg': { width: 'icon', height: 'icon' } },
+    icon: { flex: 'none', display: 'inline-flex', mt: toPx(c.alert.iconOffset), '& > svg': { width: 'icon', height: 'icon' } },
     // space-1 between title and body; the action sits space-3 below (gap + mt).
     content: { flex: '1', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '1' },
     title: { m: '0', fontWeight: '700' },
@@ -31,8 +33,8 @@ export const alert = defineSlotRecipe({
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      width: '[24px]',
-      height: '[24px]',
+      width: toPx(c.closeButton.size),
+      height: toPx(c.closeButton.size),
       p: '0',
       borderWidth: '0',
       borderRadius: 'full',
@@ -42,7 +44,7 @@ export const alert = defineSlotRecipe({
       transitionProperty: 'background-color',
       transitionDuration: 'fast',
       _hover: { bg: 'divider' },
-      _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
+      _focusVisible: focusRing,
       '& > svg': { width: 'icon', height: 'icon' },
     },
   },

@@ -1,5 +1,7 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 import { state } from './headless';
+import { components as c } from '@koi/tokens/dimensions';
+import { focusRing, toPx } from './dimensions';
 
 // Port of .koi-check* in reference/legacy-web/components/bundle.css and docs/spec/components/Checkbox.md.
 // DOM: <label root> <span control role=checkbox><span indicator><svg/></span></span> <input hidden/> <span text>…</span> </label>.
@@ -39,18 +41,18 @@ export const choiceControl = {
   justifyContent: 'center',
   flex: 'none',
   boxSizing: 'border-box',
-  width: '[16px]',
-  height: '[16px]',
+  width: toPx(c.checkbox.box),
+  height: toPx(c.checkbox.box),
   // Centers the 16px box on the label's 20px first line.
-  mt: '[2px]',
-  borderWidth: '[1.5px]',
+  mt: toPx(c.checkbox.offset),
+  borderWidth: toPx(c.stroke.check),
   borderStyle: 'solid',
   borderColor: 'border-control',
   bg: 'surface',
   color: 'on-action',
   transitionProperty: 'background-color, border-color',
   transitionDuration: 'fast',
-  _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
+  _focusVisible: focusRing,
   [`&${state.checked}` as const]: { bg: 'control-checked', borderColor: 'control-checked' },
   // Inside a Field with an error (or with aria-invalid). A disabled control is never marked invalid (headless.ts).
   [`&[aria-invalid=true]:not(${state.checked})` as const]: { borderColor: 'error-control' },
@@ -72,7 +74,7 @@ export const checkbox = defineSlotRecipe({
       transform: 'scale(.6)',
       transition: 'opacity {durations.fast}, transform {durations.check} {easings.spring}',
       [`&${state.checked}` as const]: { opacity: '1', transform: 'scale(1)' },
-      '& > svg': { width: '[12px]', height: '[12px]' },
+      '& > svg': { width: 'icon-xs', height: 'icon-xs' },
     },
   },
 });

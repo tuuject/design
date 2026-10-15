@@ -1,7 +1,7 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
 // Port of .koi-spinner in reference/legacy-web/components/bundle.css and docs/spec/components/Spinner.md.
-// Draws in currentColor; size is set on the <svg> (16 / 20 / 32), as in legacy.
+// Draws in currentColor; size is set on the <svg> (`components.spinner` in tokens.json), as in legacy.
 export const spinner = defineSlotRecipe({
   className: 'koi-spinner',
   slots: ['root', 'svg'],

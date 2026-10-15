@@ -7,6 +7,7 @@ import { ShapeProvider } from '../shape';
 import { IconButton } from '../button/Button';
 import { CloseIcon } from '../icons';
 import { strings, type DialogOwnProps } from '@koi/core';
+import { sizes } from '@koi/tokens/dimensions';
 
 export interface DialogProps extends DialogOwnProps {
   className?: string;
@@ -61,7 +62,7 @@ export function Dialog({
           {!hideClose && (
             <BaseDialog.Close
               className={s.close}
-              render={<IconButton label={strings.close} icon={<CloseIcon size={18} />} size="sm" shape="rounded" />}
+              render={<IconButton label={strings.close} icon={<CloseIcon size={sizes['icon-lg']} />} size="sm" shape="rounded" />}
             />
           )}
         </BaseDialog.Popup>

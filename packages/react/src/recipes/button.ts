@@ -1,6 +1,8 @@
 import { defineRecipe } from '@pandacss/dev';
 import { BUTTON_COLORS, BUTTON_VARIANTS, type ButtonColor, type ButtonVariant } from '@koi/core';
 import { state } from './headless';
+import { components as c } from '@koi/tokens/dimensions';
+import { focusRing } from './dimensions';
 
 // Port of .koi-btn / .koi-iconbtn in reference/legacy-web/components/bundle.css and docs/spec/components/Button.md.
 // color (what the action means) and variant (how loud it is) are independent; their 5 × 4 combinations are
@@ -24,7 +26,7 @@ function look(c: ButtonColor, v: ButtonVariant) {
 // Press ripple, done with a transition rather than an animation so a quick click still plays it in full: :active
 // snaps the shadow to the edge with no transition, and on release it eases back out to 6px and fades to nothing.
 // The resting shadow is fully transparent, so buttons stay flat. Its color is --koi-ripple (each color's solid).
-const RIPPLE_REST = '0 0 0 6px color-mix(in oklch, var(--koi-ripple) 0%, transparent)';
+const RIPPLE_REST = '0 0 0 6px color-mix(in oklch, var(--koi-ripple) 0%, transparent)'; // koi-web-only: a box-shadow ripple; native presses differently
 const RIPPLE_PRESSED = '0 0 0 0 color-mix(in oklch, var(--koi-ripple) 45%, transparent)';
 const ripple = (c: ButtonColor) => ({ '--koi-ripple': `token(colors.${c}-solid)` });
 const transition = (shadow: string) =>
@@ -40,7 +42,7 @@ export const button = defineRecipe({
     alignItems: 'center',
     justifyContent: 'center',
     gap: '2',
-    borderWidth: '1px',
+    borderWidth: `${c.stroke.hairline}px`,
     borderStyle: 'solid',
     borderColor: 'transparent',
     borderRadius: 'full',
@@ -53,7 +55,7 @@ export const button = defineRecipe({
     boxShadow: RIPPLE_REST,
     transition: transition('token(durations.ripple) token(easings.out)'),
     [`&:active:not(:disabled, ${state.disabled})` as const]: { boxShadow: RIPPLE_PRESSED, transition: transition('0s') },
-    _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
+    _focusVisible: focusRing,
     _disabled: { opacity: '0.5', cursor: 'not-allowed' },
     // Loading buttons are also disabled; this outranks _disabled's opacity (legacy: .is-loading after :disabled).
     '&[aria-busy=true]:disabled': { opacity: '0.85', cursor: 'progress' },

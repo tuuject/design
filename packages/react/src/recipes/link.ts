@@ -1,4 +1,6 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { components as c } from '@koi/tokens/dimensions';
+import { focusRing, toPx } from './dimensions';
 
 // Port of .koi-link* in reference/legacy-web/components/bundle.css and docs/spec/components/Link.md.
 // The blog's dashed amber underline: a 2px dashed bottom border, not text-decoration.
@@ -9,22 +11,22 @@ export const link = defineSlotRecipe({
     root: {
       color: 'link',
       textDecoration: 'none',
-      borderBottomWidth: '2px',
+      borderBottomWidth: `${c.link.underline}px`,
       borderBottomStyle: 'dashed',
       borderBottomColor: 'link-border',
       // Rounds the corners of the hover tint (legacy 2px; no radius token that small).
-      borderRadius: '[2px]',
+      borderRadius: toPx(c.link.radius),
       cursor: 'pointer',
       transitionProperty: 'color, background-color, border-color',
       transitionDuration: 'fast',
       _hover: { bg: 'link-hover-bg', borderBottomColor: 'link-hover-border' },
-      _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
+      _focusVisible: focusRing,
     },
     // The arrow scales with the text; -1px sits it on the baseline of CJK and Latin text alike.
     external: {
       display: 'inline-flex',
-      verticalAlign: '[-1px]',
-      marginInlineStart: '[2px]',
+      verticalAlign: '[-1px]', // koi-web-only: sits the inline arrow on the text baseline
+      marginInlineStart: toPx(c.link.iconGap),
       '& > svg': { width: '[0.85em]', height: '[0.85em]' },
     },
     srOnly: { srOnly: true },

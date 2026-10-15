@@ -1,6 +1,8 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 import { state } from './headless';
 import { choiceControl, choiceRow } from './checkbox';
+import { components as c } from '@koi/tokens/dimensions';
+import { toPx } from './dimensions';
 
 // Port of .koi-radio* / .koi-radios in reference/legacy-web/components/bundle.css and docs/spec/components/RadioGroup.md.
 // DOM: <div root role=radiogroup> <label item> <span control role=radio><span indicator/></span> <input hidden/> <span text>…</span> </label>… </div>.
@@ -18,8 +20,8 @@ export const radioGroup = defineSlotRecipe({
     control: { ...choiceControl, borderRadius: 'full' },
     // Kept mounted so the dot can spring in and out (global-css.ts stops it under reduced motion).
     indicator: {
-      width: '[6px]',
-      height: '[6px]',
+      width: toPx(c.radio.dot),
+      height: toPx(c.radio.dot),
       borderRadius: 'full',
       bg: 'on-action',
       transform: 'scale(0)',

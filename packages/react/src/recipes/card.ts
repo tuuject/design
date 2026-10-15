@@ -1,4 +1,5 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { components as c } from '@koi/tokens/dimensions';
 
 // Port of .koi-card* in reference/legacy-web/components/bundle.css and docs/spec/components/Card.md.
 export const card = defineSlotRecipe({
@@ -26,7 +27,7 @@ export const card = defineSlotRecipe({
   },
   variants: {
     variant: {
-      outlined: { root: { bg: 'surface', borderWidth: '1px', borderStyle: 'solid', borderColor: 'border' } },
+      outlined: { root: { bg: 'surface', borderWidth: `${c.stroke.hairline}px`, borderStyle: 'solid', borderColor: 'border' } },
       filled: { root: { bg: 'surface-muted' } },
       glass: { root: { bg: 'surface-glass', backdropFilter: 'blur(var(--blurs-panel))' } },
     },

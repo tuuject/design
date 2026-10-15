@@ -1,5 +1,7 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 import { state } from './headless';
+import { components as c } from '@koi/tokens/dimensions';
+import { toPx } from './dimensions';
 
 // Port of .koi-tooltip* in reference/legacy-web/components/bundle.css and docs/spec/components/Tooltip.md.
 // Base UI positions the positioner (side, 8px offset, flip near the viewport edge); the popup is the bubble.
@@ -14,7 +16,7 @@ export const tooltip = defineSlotRecipe({
     popup: {
       boxSizing: 'border-box',
       width: 'max-content',
-      maxWidth: '[240px]',
+      maxWidth: toPx(c.tooltip.maxWidth),
       px: '2',
       py: '1',
       borderRadius: 'lg',

@@ -1,6 +1,7 @@
 import { defineRecipe } from '@pandacss/dev';
+import { components as c } from '@koi/tokens/dimensions';
 
-const line = { borderTopWidth: '1px', borderTopStyle: 'solid', borderTopColor: 'divider' } as const;
+const line = { borderTopWidth: `${c.stroke.hairline}px`, borderTopStyle: 'solid', borderTopColor: 'divider' } as const;
 
 // Port of .koi-divider in reference/legacy-web/components/bundle.css and docs/spec/components/Divider.md.
 // Keyed `separator`: preset-base already has a `divider` pattern. `kind` is internal: Divider picks it from `orientation` and `label`.
@@ -22,7 +23,7 @@ export const separator = defineRecipe({
         _before: { content: '""', flex: '1', ...line },
         _after: { content: '""', flex: '1', ...line },
       },
-      vertical: { display: 'inline-block', alignSelf: 'stretch', width: '1px', minHeight: '1em', mx: '2', bg: 'divider' },
+      vertical: { display: 'inline-block', alignSelf: 'stretch', width: `${c.stroke.hairline}px`, minHeight: '1em', mx: '2', bg: 'divider' },
     },
   },
   defaultVariants: { kind: 'line' },

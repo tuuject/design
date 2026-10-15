@@ -1,5 +1,7 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 import { state } from './headless';
+import { components as c } from '@koi/tokens/dimensions';
+import { toPx } from './dimensions';
 
 // Port of .koi-progress in reference/legacy-web/components/bundle.css and docs/spec/components/Progress.md.
 // Base UI's Progress.Root is the role="progressbar" element and wraps the whole thing (label, value and track);
@@ -16,7 +18,7 @@ export const progress = defineSlotRecipe({
     track: {
       position: 'relative',
       overflow: 'hidden',
-      height: '[8px]',
+      height: toPx(c.progress.trackMd),
       borderRadius: 'full',
       bg: 'surface-muted',
     },
@@ -51,9 +53,9 @@ export const progress = defineSlotRecipe({
   },
   variants: {
     size: {
-      sm: { track: { height: '[4px]' } },
+      sm: { track: { height: toPx(c.progress.trackSm) } },
       md: {},
-      lg: { track: { height: '[12px]' } },
+      lg: { track: { height: toPx(c.progress.trackLg) } },
     },
   },
   defaultVariants: { size: 'md' },

@@ -1,5 +1,7 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 import { state, vars } from './headless';
+import { components as c } from '@koi/tokens/dimensions';
+import { toPx } from './dimensions';
 
 // Port of .koi-select* in reference/legacy-web/components/bundle.css and docs/spec/components/Select.md.
 // Two recipes: `select` is the native <select> (legacy); `selectPanel` is the custom dropdown (Base UI Select or
@@ -21,7 +23,7 @@ export const select = defineSlotRecipe({
       width: '100%',
       boxSizing: 'border-box',
       bg: 'surface',
-      borderWidth: '1px',
+      borderWidth: `${c.stroke.hairline}px`,
       borderStyle: 'solid',
       borderColor: 'border-control',
       borderRadius: 'xl',
@@ -30,9 +32,9 @@ export const select = defineSlotRecipe({
       transitionProperty: 'border-color, box-shadow',
       transitionDuration: 'fast',
       '&:hover:not(:focus-within, :has(> select:disabled, > select[aria-invalid=true]))': { borderColor: 'border-control-hover' },
-      '&:focus-within': { borderColor: 'focus-ring', boxShadow: '0 0 0 1px {colors.focus-ring}' },
+      '&:focus-within': { borderColor: 'focus-ring', boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.focus-ring}` },
       [INVALID]: { borderColor: 'error-control' },
-      [`${INVALID}:focus-within`]: { boxShadow: '0 0 0 1px {colors.error-control}' },
+      [`${INVALID}:focus-within`]: { boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.error-control}` },
       [DISABLED]: { bg: 'surface-muted', color: 'text-disabled', borderColor: 'border', cursor: 'not-allowed' },
     },
     el: {
@@ -41,14 +43,14 @@ export const select = defineSlotRecipe({
       height: '100%',
       m: '0',
       // The padding is on the <select>, not the wrapper (legacy), so the whole box opens the picker.
-      pe: '[36px]',
+      pe: toPx(c.field.chevronSpace),
       borderWidth: '0',
       borderRadius: 'inherit',
       outline: 'none',
       bg: 'transparent',
       color: 'inherit',
       font: 'inherit',
-      lineHeight: '[20px]',
+      lineHeight: toPx(c.field.lineHeight),
       appearance: 'none',
       cursor: 'pointer',
       textOverflow: 'ellipsis',
@@ -59,7 +61,7 @@ export const select = defineSlotRecipe({
     },
     chevron: {
       position: 'absolute',
-      insetInlineEnd: '[10px]',
+      insetInlineEnd: toPx(c.field.chevronInset),
       display: 'inline-flex',
       pointerEvents: 'none',
       color: 'text-muted',
@@ -70,9 +72,9 @@ export const select = defineSlotRecipe({
   variants: {
     // Input's heights and side padding.
     size: {
-      sm: { root: { height: 'control-sm', textStyle: 'small' }, el: { ps: '[10px]' } },
-      md: { root: { height: 'control-md', textStyle: 'body' }, el: { ps: '3' } },
-      lg: { root: { height: 'control-lg', textStyle: 'body' }, el: { ps: '[14px]' } },
+      sm: { root: { height: 'control-sm', textStyle: 'small' }, el: { ps: toPx(c.field.paddingXSm) } },
+      md: { root: { height: 'control-md', textStyle: 'body' }, el: { ps: toPx(c.field.paddingXMd) } },
+      lg: { root: { height: 'control-lg', textStyle: 'body' }, el: { ps: toPx(c.field.paddingXLg) } },
     },
   },
   defaultVariants: { size: 'md' },
@@ -99,7 +101,7 @@ export const selectPanel = defineSlotRecipe({
       boxSizing: 'border-box',
       m: '0',
       bg: 'surface',
-      borderWidth: '1px',
+      borderWidth: `${c.stroke.hairline}px`,
       borderStyle: 'solid',
       borderColor: 'border-control',
       borderRadius: 'xl',
@@ -111,9 +113,9 @@ export const selectPanel = defineSlotRecipe({
       transitionProperty: 'border-color, box-shadow',
       transitionDuration: 'fast',
       [`&:hover:not(${OPEN}, ${state.disabled}, ${BAD})` as const]: { borderColor: 'border-control-hover' },
-      [`&${OPEN}:not(${BAD})` as const]: { borderColor: 'focus-ring', boxShadow: '0 0 0 1px {colors.focus-ring}' },
+      [`&${OPEN}:not(${BAD})` as const]: { borderColor: 'focus-ring', boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.focus-ring}` },
       [`&${BAD}` as const]: { borderColor: 'error-control' },
-      [`&${BAD}${OPEN}` as const]: { boxShadow: '0 0 0 1px {colors.error-control}' },
+      [`&${BAD}${OPEN}` as const]: { boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.error-control}` },
       [`&${state.disabled}` as const]: { bg: 'surface-muted', color: 'text-disabled', borderColor: 'border', cursor: 'not-allowed' },
     },
     value: {
@@ -122,14 +124,14 @@ export const selectPanel = defineSlotRecipe({
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
-      lineHeight: '[20px]',
+      lineHeight: toPx(c.field.lineHeight),
       [`${state.placeholder}:not(${state.disabled}) > &` as const]: { color: 'text-muted' },
     },
     icon: {
       display: 'inline-flex',
       flex: 'none',
       // Legacy's chevron sat 10px from the edge; the trigger's padding is 12px at md.
-      marginInlineEnd: '[-2px]',
+      marginInlineEnd: toPx(-c.selectPanel.chevronOverhang),
       color: 'text-muted',
       // Turns over while open, on the spring like NavMenu's chevron.
       transitionProperty: 'transform',
@@ -150,10 +152,10 @@ export const selectPanel = defineSlotRecipe({
       flexDirection: 'column',
       minWidth: vars.anchorWidth,
       maxWidth: vars.availableWidth,
-      maxHeight: `min(360px, ${vars.availableHeight})`,
+      maxHeight: `min(${c.selectPanel.maxHeight}px, ${vars.availableHeight})`,
       overflow: 'hidden',
       bg: 'surface',
-      borderWidth: '1px',
+      borderWidth: `${c.stroke.hairline}px`,
       borderStyle: 'solid',
       borderColor: 'border',
       borderRadius: 'xl',
@@ -175,7 +177,7 @@ export const selectPanel = defineSlotRecipe({
       flex: 'none',
       height: 'control-md',
       px: '3',
-      borderBottomWidth: '1px',
+      borderBottomWidth: `${c.stroke.hairline}px`,
       borderBottomStyle: 'solid',
       borderBottomColor: 'divider',
       color: 'text-muted',
@@ -193,7 +195,7 @@ export const selectPanel = defineSlotRecipe({
       bg: 'transparent',
       color: 'text',
       font: 'inherit',
-      lineHeight: '[20px]',
+      lineHeight: toPx(c.field.lineHeight),
       _placeholder: { color: 'text-muted' },
     },
     list: {
@@ -223,7 +225,7 @@ export const selectPanel = defineSlotRecipe({
       // radius-lg (8px) inside the popup's radius-xl (12px) and 4px padding: concentric.
       borderRadius: 'lg',
       color: 'text',
-      lineHeight: '[20px]',
+      lineHeight: toPx(c.field.lineHeight),
       cursor: 'pointer',
       userSelect: 'none',
       outline: 'none',
@@ -252,17 +254,17 @@ export const selectPanel = defineSlotRecipe({
       userSelect: 'none',
     },
     separator: {
-      height: '1px',
+      height: `${c.stroke.hairline}px`,
       my: '1',
-      mx: '[-4px]',
+      mx: '-1',
       bg: 'divider',
     },
   },
   variants: {
     size: {
-      sm: { trigger: { height: 'control-sm', px: '[10px]', textStyle: 'small' } },
-      md: { trigger: { height: 'control-md', px: '3', textStyle: 'body' } },
-      lg: { trigger: { height: 'control-lg', px: '[14px]', textStyle: 'body' } },
+      sm: { trigger: { height: 'control-sm', px: toPx(c.field.paddingXSm), textStyle: 'small' } },
+      md: { trigger: { height: 'control-md', px: toPx(c.field.paddingXMd), textStyle: 'body' } },
+      lg: { trigger: { height: 'control-lg', px: toPx(c.field.paddingXLg), textStyle: 'body' } },
     },
   },
   defaultVariants: { size: 'md' },

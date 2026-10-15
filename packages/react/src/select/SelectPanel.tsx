@@ -5,6 +5,7 @@ import { cx } from '@koi/react/styled-system/css';
 import { selectPanel } from '@koi/react/styled-system/recipes';
 import { KoiFieldContext } from '../field/context';
 import { CheckIcon, ChevronDownIcon, SearchIcon } from '../icons';
+import { components } from '@koi/tokens/dimensions';
 import {
   strings,
   type SelectEntry as Entry,
@@ -105,7 +106,7 @@ export function SelectPanel<I extends Entry = Entry>({
       <Combobox.Root {...root} items={collection}>
         {trigger(Combobox)}
         <Combobox.Portal>
-          <Combobox.Positioner align="start" sideOffset={4} className={s.positioner}>
+          <Combobox.Positioner align="start" sideOffset={components.popup.offset} className={s.positioner}>
             <Combobox.Popup className={s.popup}>
               <div className={s.search}>
                 <SearchIcon />
@@ -129,7 +130,7 @@ export function SelectPanel<I extends Entry = Entry>({
       {trigger(BaseSelect)}
       <BaseSelect.Portal>
         {/* Below the trigger like the searchable panel, not over it (Base UI's default for Select). */}
-        <BaseSelect.Positioner alignItemWithTrigger={false} align="start" sideOffset={4} className={s.positioner}>
+        <BaseSelect.Positioner alignItemWithTrigger={false} align="start" sideOffset={components.popup.offset} className={s.positioner}>
           <BaseSelect.Popup className={s.popup}>
             <BaseSelect.List className={s.list}>
               <ModeContext.Provider value="select">{render([...items])}</ModeContext.Provider>

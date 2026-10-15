@@ -1,6 +1,8 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 import { state } from './headless';
 import { choiceRow } from './checkbox';
+import { components as c } from '@koi/tokens/dimensions';
+import { focusRing, toPx } from './dimensions';
 
 // Port of .koi-switch* in reference/legacy-web/components/bundle.css and docs/spec/components/Switch.md.
 // DOM: <label root> <button control role=switch><span thumb/></button> <span label/> </label> <input hidden/>.
@@ -17,8 +19,8 @@ export const switchRecipe = defineSlotRecipe({
       position: 'relative',
       flex: 'none',
       boxSizing: 'border-box',
-      width: '[36px]',
-      height: '[20px]',
+      width: toPx(c.switch.trackWidth),
+      height: toPx(c.switch.trackHeight),
       p: '0',
       borderWidth: '0',
       borderRadius: 'full',
@@ -27,7 +29,7 @@ export const switchRecipe = defineSlotRecipe({
       cursor: 'pointer',
       transitionProperty: 'background-color',
       transitionDuration: 'fast',
-      _focusVisible: { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' },
+      _focusVisible: focusRing,
       [`&${state.checked}` as const]: { bg: 'control-checked' },
       // On or off, a disabled track keeps its fill, faded (legacy's opacity .5).
       [`&${state.disabled}` as const]: { opacity: '0.5', cursor: 'not-allowed' },
@@ -35,15 +37,15 @@ export const switchRecipe = defineSlotRecipe({
     // Slides on the spring curve; global-css.ts stops it under reduced motion (the spec says all motion stops).
     thumb: {
       position: 'absolute',
-      top: '[3px]',
-      left: '[3px]',
-      width: '[14px]',
-      height: '[14px]',
+      top: toPx(c.switch.thumbInset),
+      left: toPx(c.switch.thumbInset),
+      width: toPx(c.switch.thumb),
+      height: toPx(c.switch.thumb),
       borderRadius: 'full',
       bg: 'white',
       boxShadow: 'raised',
       transition: 'transform {durations.spring} {easings.spring}',
-      [`&${state.checked}` as const]: { transform: 'translateX(16px)' },
+      [`&${state.checked}` as const]: { transform: `translateX(${c.switch.trackWidth - c.switch.thumb - 2 * c.switch.thumbInset}px)` },
     },
   },
 });

@@ -5,6 +5,7 @@ import { field } from '@koi/react/styled-system/recipes';
 import { ErrorIcon } from '../icons';
 import { KoiFieldContext } from './context';
 import { strings, type FieldOwnProps } from '@koi/core';
+import { sizes } from '@koi/tokens/dimensions';
 
 export interface FieldProps extends FieldOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof FieldOwnProps | 'id'> {
   /** The control's id (the label points at it). Generated when omitted. */
@@ -32,7 +33,7 @@ export function Field({ label, help, error, required, optional, id, className, c
         {children}
         {hasError ? (
           <BaseField.Error match className={s.error} render={<p />}>
-            <ErrorIcon size={12} />
+            <ErrorIcon size={sizes['icon-xs']} />
             <span>{error}</span>
           </BaseField.Error>
         ) : null}

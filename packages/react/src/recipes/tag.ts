@@ -1,11 +1,12 @@
 import { defineSlotRecipe } from '@pandacss/dev';
+import { components as c } from '@koi/tokens/dimensions';
+import { focusRing, toPx } from './dimensions';
 
 // Port of .koi-tag* in reference/legacy-web/components/bundle.css and docs/spec/components/Tag.md.
 // The root is always a <span>. A selectable tag puts a <button aria-pressed> (`toggle`) inside it whose ::before
 // stretches over the whole pill, so the remove button can stay a sibling (no button inside a button).
 // The pill draws the toggle's hover and focus ring through :has().
 const TOGGLE = '> button[aria-pressed]';
-const FOCUS_RING = { outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'focus-ring', outlineOffset: '2px' } as const;
 
 export const tag = defineSlotRecipe({
   className: 'koi-tag',
@@ -17,9 +18,9 @@ export const tag = defineSlotRecipe({
       alignItems: 'center',
       gap: '1',
       height: 'control-sm',
-      px: '[10px]',
+      px: toPx(c.tag.paddingX),
       boxSizing: 'border-box',
-      borderWidth: '1px',
+      borderWidth: `${c.stroke.hairline}px`,
       borderStyle: 'solid',
       borderRadius: 'full',
       fontFamily: 'sans',
@@ -27,7 +28,7 @@ export const tag = defineSlotRecipe({
       whiteSpace: 'nowrap',
       transitionProperty: 'background-color, color, border-color',
       transitionDuration: 'fast',
-      [`&:has(${TOGGLE}:focus-visible)`]: FOCUS_RING,
+      [`&:has(${TOGGLE}:focus-visible)`]: focusRing,
     },
     toggle: {
       display: 'inline-flex',
@@ -42,7 +43,7 @@ export const tag = defineSlotRecipe({
       userSelect: 'none',
       outline: 'none',
       // The whole pill (border included) is the click target; the remove button sits above it.
-      _before: { content: '""', position: 'absolute', inset: '[-1px]', borderRadius: 'full' },
+      _before: { content: '""', position: 'absolute', inset: '[-1px]', borderRadius: 'full' }, // koi-web-only: a pseudo-element over the pill's edge,
     },
     icon: { display: 'inline-flex', flexShrink: '0', '& > svg': { width: 'icon-sm', height: 'icon-sm' } },
     label: {},
@@ -53,9 +54,9 @@ export const tag = defineSlotRecipe({
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      width: '[16px]',
-      height: '[16px]',
-      me: '[-4px]',
+      width: toPx(c.tag.remove),
+      height: toPx(c.tag.remove),
+      me: toPx(-c.tag.removeOverhang),
       p: '0',
       borderWidth: '0',
       borderRadius: 'full',
@@ -65,9 +66,9 @@ export const tag = defineSlotRecipe({
       transitionProperty: 'background-color, color',
       transitionDuration: 'fast',
       // A 24px hit area around the 16px circle (WCAG 2.5.8), still inside the 28px pill.
-      _after: { content: '""', position: 'absolute', inset: '[-4px]', borderRadius: 'full' },
+      _after: { content: '""', position: 'absolute', inset: '[-4px]', borderRadius: 'full' }, // koi-web-only: a pseudo-element hit area,
       _hover: { bg: 'surface-muted', color: 'text' },
-      _focusVisible: FOCUS_RING,
+      _focusVisible: focusRing,
       '& > svg': { width: 'icon-sm', height: 'icon-sm' },
     },
   },

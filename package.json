@@ -16,7 +16,7 @@
     "build": "pnpm codegen && pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "shots": "pnpm --filter storybook shots",
-    "check": "pnpm codegen && pnpm contrast && node scripts/check-raw-colors.mjs && node scripts/check-headless.mjs && node scripts/check-core.mjs && pnpm typecheck"
+    "check": "pnpm codegen && pnpm contrast && node scripts/check-raw-colors.mjs && node scripts/check-raw-sizes.mjs && node scripts/check-headless.mjs && node scripts/check-core.mjs && pnpm typecheck"
   },
   "devDependencies": {
     "@pandacss/dev": "^2.1.2",

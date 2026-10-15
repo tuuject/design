@@ -6,7 +6,7 @@
 // Standard HTML and ARIA stay in the recipes as they are (`:disabled`, `[aria-invalid=true]`,
 // `[aria-current=page]`, `[aria-pressed]`, `[aria-busy=true]`): any library has to render those.
 // `scripts/check-headless.mjs` (part of `pnpm check`) fails on a data-* attribute or a foreign CSS variable
-// anywhere else in the recipes. The rules are in docs/headless.md.
+// anywhere else in the recipes. The rules are in agent-doc/headless.md.
 //
 // What the recipes also rely on, which a new adapter has to provide:
 // - `invalid` (and `aria-invalid`) is never set on a disabled control, so the two states never overlap.

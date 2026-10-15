@@ -175,7 +175,7 @@ const nums = (key, prefix) => Object.fromEntries(group(key).filter((t) => /px$/.
   const body = {
     colors, blur: nums('blur', 'blur'), type,
     // CSS font stacks, for Expo web. On iOS / Android the system font is the default; ChillRoundF needs a full font file
-    // loaded under that name (see the font decision in docs/plan.md).
+    // loaded under that name (see the font decision in agent-doc/plan.md).
     fontStacks: tokens.type.families,
     motion: { springBezier: [0.47, 1.64, 0.41, 0.8], fastMs: 150 },
   };

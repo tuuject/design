@@ -1,6 +1,6 @@
 /**
  * The second argument of Koi's change callbacks (`onCheckedChange`, `onChange`, `onOpenChange`). Koi's own type,
- * not a headless library's (docs/headless.md, rule 5). `E` is the platform's event: `Event` on the web, a
+ * not a headless library's (agent-doc/headless.md, rule 5). `E` is the platform's event: `Event` on the web, a
  * gesture or press event on native.
  */
 export interface ChangeDetails<E = unknown> {

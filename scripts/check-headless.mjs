@@ -2,7 +2,7 @@
 // headless library's own DOM contract: its data-* attributes, its CSS variables, or a preset-base condition that
 // quietly matches data-* attributes (`_active` is `[data-active]` too, which Base UI puts on the current tab).
 // Also fails if a component's type declarations (its public props) mention a type imported from the library.
-// Why, and what to do instead: docs/headless.md.
+// Why, and what to do instead: agent-doc/headless.md.
 // Usage: node scripts/check-headless.mjs [dir…]   (default: packages/react/src)
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join, normalize } from 'node:path';
@@ -63,6 +63,6 @@ for (const f of files) {
   });
 }
 console.log(bad
-  ? `\n${bad} headless leak(s). See docs/headless.md. Add "// koi-allow-headless" to a line only with a reason.`
+  ? `\n${bad} headless leak(s). See agent-doc/headless.md. Add "// koi-allow-headless" to a line only with a reason.`
   : `No headless leaks in ${files.length} files.`);
 process.exit(bad ? 1 : 0);

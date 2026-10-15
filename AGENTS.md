@@ -1,71 +1,130 @@
-# Koi
+# Repository Guidelines
 
-Koi is a soft, rounded design system (pill controls, frosted glass, sky-blue actions, amber links) that started as tcdw's Koi Astro blog theme. This repo rebuilds it as packages:
+本文件是所有 AI agent 的统一入口。**Compatible with**: Claude Code, opencode, OpenAI Codex, Gemini CLI。
 
-- `packages/tokens`: the single source of truth, `src/tokens.json`. `scripts/build.mjs` generates `dist/tokens.css`, `dist/panda-preset.js`, `dist/theme-init.js`, `dist/dimensions.ts` (every size as a number, components' own included), `dist/native.ts` and `dist/palette.ts`.
-- `packages/core`: `@koi/core`, the platform-neutral layer: each component's props contract (`<Name>OwnProps`), `ChangeDetails<E>`, the UI copy (`strings`) and pure helpers. Plain TypeScript, no DOM. Rules in `docs/core.md`.
-- `packages/react`: React web components. **Base UI** (`@base-ui/react`) for behavior and accessibility, **Panda CSS v2** for styling (recipes in `src/recipes/`).
-- `packages/native`: `@koi/native`, Koi for Expo apps (iOS, Android, Expo web) on **Tamagui** 2.4.x. So far `createKoiConfig()`, a Tamagui config built entirely from `@koi/tokens` (tokens, a light/dark theme per palette, Koi's text styles as a font); components next. See its README.
-- `apps/storybook`: Storybook 10 (`@storybook/react-vite`). `src/Introduction.mdx` is the landing page (an overview of Koi); `src/components/<Name>.stories.tsx` has each component's stories. The toolbar switches theme, font and palette. `pnpm shots` screenshots every story.
-- `docs/spec/`: the design spec. `README.md` is the brand book; `components/<Name>.md` says how each component looks and behaves. **Read the relevant spec file before touching a component.**
-- `reference/legacy-web/`: the previous implementation (React 18 + hand-written CSS). Frozen. Port from it; never import from it.
+> **IMPORTANT**: 优先「检索式」推理，而非「预训练记忆」式推理。项目约定请从 `agent-doc/` 检索阅读，不要凭通用知识臆测本仓库的结构与规则。
 
-The current plan and status are in `docs/plan.md`. Update it as phases complete.
+Koi 是一个柔和、圆润的设计系统（pill 形控件、毛玻璃、天蓝色操作、琥珀色链接），起源于 tcdw 的 Koi 博客主题。本仓库把它做成可复用的包：一份 tokens，加上 DOM web 组件（Base UI + Panda CSS）和 Expo 组件（Tamagui）。
 
-## Commands
+## Project Goals
 
-- `pnpm tokens`: rebuild token outputs after editing `packages/tokens/src/tokens.json`.
-- `pnpm codegen`: regenerate `packages/react/styled-system` after changing tokens, recipes or `panda.config.ts`.
-- `pnpm dev`: tokens + codegen + Storybook on port 6006.
-- `pnpm shots`: screenshot every story in light and dark into `apps/storybook/shots/<Component>-<Story>_<theme>.png` (`pnpm shots Button` for one component). Stories tagged `shot-viewport` (an open Dialog) are shot as the whole viewport. Look at the PNGs after any visual change. `KOI_PALETTE=rose pnpm shots` shoots another palette (files end in `_rose`).
-- `pnpm build:storybook`: codegen + static Storybook in `apps/storybook/dist`; `pnpm deploy:storybook` publishes it to Cloudflare Workers (`apps/storybook/wrangler.jsonc`).
-- `pnpm check`: contrast pairs, raw-color and raw-size scans, headless-leak scan, core-boundary scan and typecheck. Must pass before a commit.
+- 一个设计系统服务多个应用、多个平台：DOM 网站用 `@koi/react`，Expo 应用（iOS、Android、Expo web）用 `@koi/native`。第一个 native 消费方是 Bilisound。
+- 所有数值和颜色只有一个来源：`packages/tokens/src/tokens.json`。各平台读同一份数据，不各自写死。
+- 组件的 props、文案、纯逻辑放在平台无关的 `@koi/core`，两个平台实现的是同一套 API。
+- headless 库可替换：样式不点名 Base UI，公开 props 不暴露库的类型。
+- 不做：某个应用专属的组件（留在应用里）；在 DOM web 上用 Tamagui；修改 `reference/legacy-web/`。
 
-## Rules
+## Project Structure & Module Organization
 
-- **Tokens only.** Components use role tokens (`bg: 'surface'`, `color: 'text-muted'`, `borderColor: 'border-control'`), never palette steps (`primary.500`) and never literal colors. `scripts/check-raw-colors.mjs` enforces the second part.
-- **Headless stays swappable.** Recipes never name the headless library's DOM: no `[data-…]` selectors, no `--anchor-width`-style variables, no preset conditions that also match `data-*` (`_active`, `_selected`, `_open`…). Use `state.*` / `vars.*` from `packages/react/src/recipes/headless.ts`, the only file that knows it's Base UI. Public props never expose Base UI types (change callbacks take Koi's `ChangeDetails` from `src/types.ts`). Full rules in `docs/headless.md`; `scripts/check-headless.mjs` enforces both parts.
-- **Props start in core.** Every component's `<Name>Props` in `@koi/react` is `<Name>OwnProps` from `@koi/core` plus DOM attributes; a prop a native version would also need goes in core. Callbacks with a platform event take it as a type parameter (`ChangeDetails<E>`). Copy comes from `strings` in core, never a literal. `scripts/check-core.mjs` enforces it; details in `docs/core.md`.
-- **Contrast:** text pairs ≥ 4.5:1 and control edges / focus rings / icons ≥ 3:1, in both themes. When a component puts a token on a new background, add the pair to `packages/tokens/src/contrast-pairs.json` and run `pnpm contrast`.
-- **Generated files are never edited:** `packages/tokens/dist/`, `packages/react/styled-system/`. Change the source and rebuild.
-- **Sizes:** 14px base (`body`). Controls `control-sm` 28 / `control-md` 36 / `control-lg` 44; components in one row share a size. `prose` (16px) is only for long-form reading.
-- **No literal sizes.** Every size a component uses comes from tokens.json, because native builds the same components from the same numbers. Shared ones by token name (`height: 'control-md'`, `px: '3'`, `width: 'icon'`); a component's own from the `component` group via `@koi/tokens/dimensions` (`toPx(c.switch.trackWidth)` in recipes, `components.tooltip.offset` in TSX; `focusRing` in `recipes/dimensions.ts` for the focus outline). Add a missing one to tokens.json with a usage note. Only a web-only detail (a pseudo-element hit area, a baseline nudge, the press ripple) keeps a literal, marked `// koi-web-only: <why>`. `scripts/check-raw-sizes.mjs` enforces it.
-- **Shape:** anything pressable is a pill (`radius-full`) except `shape="rounded"` (`radius-lg`, 8px). Dialog footers default to rounded through `ShapeProvider`; the dialog's 32px radius is that 8px plus its 24px padding (concentric). Cards and toasts `radius-panel` 24px, fields and alerts `radius-xl` 12px.
-- **Depth:** no shadows on buttons, ever (the press ripple is a box-shadow that fades to nothing; it isn't depth). `shadow-raised` only on the active tab and switch thumbs; `shadow-float` only on things floating over the page (Dialog, Toast).
-- **Motion:** color changes 150ms; moving things use the `spring` easing. Everything respects `prefers-reduced-motion`.
-- **Copy** in components (labels, aria-labels) is Simplified Chinese ("关闭", "加载中"), from `strings` in `packages/core/src/strings.ts`. No emoji.
-- **Dark mode** is `<html data-theme="dark">`; `theme-init.js` sets it from the OS. In Panda it's the `_dark` condition.
-- **Palettes** swap `primary-*` and `accent-*` (tokens.json `color.palettes`; built-in `koi`, the default, and `rose`). On the web: `<html data-palette="rose">` or `koiSetPalette()` from `theme-init.js` (a built-in id, or a custom `{ primary, accent }` set as inline variables). Anywhere else: `createColors(palette, theme)` and `checkPalette(palette)` from `@koi/tokens/palette`. `pnpm contrast` checks every built-in palette; a user-made one must pass `checkPalette()` before it's applied. A role that should follow the palette points at a step (`{primary-950 / 0.8}` for one at an alpha), never at a literal color.
-- **Font** is the system stack by default; `<html data-font="chill">` makes `sans` ChillRoundF (the `_fontChill` condition, `koiSetFont()` in `theme-init.js`). The faces are in `packages/tokens/fonts/` (`@koi/tokens/fonts.css`, copied from legacy). Components always use `fontFamily: 'sans'`, never the font name.
-- **Font smoothing** stays `auto`. Never set `-webkit-font-smoothing: antialiased` / `-moz-osx-font-smoothing: grayscale`: on macOS it turns off the stroke thickening and leaves ChillRoundF thin and weak. Panda's preflight sets both on `html`, so `global-css.ts` puts them back to `auto`; `apps/storybook/src/index.css` does the same for Storybook's docs styles.
-- Keep each component's public props compatible with the legacy API in `reference/legacy-web/components/index.d.ts` unless the spec says otherwise; note any break in `docs/plan.md`.
+```text
+koi-ui/
+├── packages/
+│   ├── tokens/      # @koi/tokens：tokens.json → CSS 变量、Panda preset、theme-init、数值、palette 运行时
+│   ├── core/        # @koi/core：<Name>OwnProps、文案 strings、纯函数；纯 TS，无 DOM
+│   ├── react/       # @koi/react：web 组件，Base UI（行为）+ Panda CSS v2（recipes）
+│   └── native/      # @koi/native：Expo 组件，Tamagui；目前只有 config
+├── apps/storybook/  # Storybook 10：组件文档 + 视觉测试台（pnpm shots）
+├── docs/spec/       # 设计规范：README.md 是品牌手册，components/<Name>.md 是逐组件 spec
+├── agent-doc/       # 面向 agent 的主题文档、计划
+├── scripts/         # pnpm check 里的静态检查
+└── reference/legacy-web/  # 旧实现，冻结，只读参考
+```
 
-## Porting a component
+- 依赖只能向下：`react` / `native` → `core`、`tokens`。`react` 与 `native` 互不依赖。
+- 根目录 `panda.config.ts` 扫描 `packages/react/src` 和 `apps/storybook/src`，生成 `packages/react/styled-system/`。
 
-Use `/port-component <Name>`. In short: read `docs/spec/components/<Name>.md` and the legacy CSS/JS → write the recipe in `packages/react/src/recipes/` and register it in `recipes/index.ts` → write the component on the matching Base UI part → add `apps/storybook/src/components/<Name>.stories.tsx` → `pnpm codegen && pnpm shots` and compare light and dark against the legacy example → `pnpm check` → update `docs/plan.md`.
+## Architecture Overview
 
-## Gotchas
+**数据流**：`tokens.json → build.mjs → dist/*（Panda preset / dimensions / palette / native）→ @koi/react（recipes → CSS）| @koi/native（createKoiConfig → Tamagui）`
 
-- Panda v2: ESM only, Node 22+. Presets are no longer added automatically (that's why `@pandacss/preset-base` is listed). After upgrades run `pnpm codegen` (it uses `--clean`) so stale `.mjs` files don't shadow the new `.js`.
-- Library and Storybook import generated code as `@koi/react/styled-system/...` (aliased in `packages/react/tsconfig.json`, `apps/storybook/tsconfig.json` and `viteFinal` in `apps/storybook/.storybook/main.ts`). Don't use relative imports into `styled-system`, or Panda's `importMap` won't see them.
-- React Native can't read `oklch()`; `dist/native.ts` already converts every color to hex/rgba.
-- `@pandacss/preset-base` is its own package and is not a dependency of `@pandacss/dev`; without it in the root `devDependencies`, codegen fails with `preset_resolution_failed`.
-- The Panda PostCSS plugin resolves `configPath` against `cwd`, not against the PostCSS config file. `apps/storybook/postcss.config.cjs` builds both from `__dirname`; keep them absolute.
-- Panda doesn't extract `css()` from `.mdx`. Styled blocks on docs pages live in a `.tsx` file (`Showcase.tsx`) and are wrapped in `<Unstyled>`, or Storybook's docs styles leak into them.
-- Docs pages follow the toolbar theme through `KoiDocsContainer` in `.storybook/preview.tsx`; `src/index.css` puts Koi's `page-bg` behind the docs and story previews.
-- Recipe variants all land in one `@layer recipes.variants` sorted **alphabetically by variant name**, not in declaration order. When two variants set the same property (`iconOnly` and `size` both set padding), the later name wins. Put the override in `compoundVariants` (a later layer), even for a single-key condition: `{ iconOnly: true, css: {...} }`.
-- Same inside `base`: condition selectors aren't emitted in the order you write them (`_disabled` came out after `&[aria-busy=true]`). Win by specificity (`&[aria-busy=true]:disabled`), not by order.
-- The `dark` condition in the preset (`[data-theme=dark] &`) comes out as `[data-theme=dark] { --colors-… }` for semantic tokens, as intended.
-- Panda's `globalCss` lands in `@layer base`, which loses to the token variables in `@layer tokens` whatever the specificity. That's why palettes are conditions on semantic tokens (`primary.*` and `accent.*` are semantic, with `_paletteRose`…), not global CSS.
-- A palette has to sit on `<html>`, where the role variables are declared: a custom property is computed where it's declared, so `--colors-action: var(--colors-primary-700)` is already resolved before a nested `data-palette` could change `primary-700`.
-- `build.mjs` loads `src/palette-kit.ts` with Node's `stripTypeScriptTypes` to cross-check the runtime against the build, so the kit must stay import-free and use erasable TypeScript only (no enums, no namespaces).
-- The reduced-motion kill switch in `global-css.ts` uses `!important` in `@layer base`. With `!important` the layer order flips (earlier layers win), so a recipe can't override it, not even with its own `!important`. A component that has to keep moving gets left out in that rule's selector (as `.koi-spinner__svg` is).
-- `pnpm cssgen` isn't a script; to read the full generated CSS run `npx panda cssgen --outfile <somewhere outside the repo>`.
-- Recipe keys share a namespace with preset-base's patterns (`divider`, `stack`, `grid`, `circle`, `float`…). A clash only warns (`config_artifact_name_conflict`), so key the recipe differently (Divider's is `separator`) and keep the `className`.
-- Recipe keys also can't be JS reserved words: Panda would emit `export const switch`. Switch's recipe is keyed `switchRecipe` (class stays `koi-switch`).
-- A computed style key built from a template (`` [`&${state.checked}`] ``) needs `as const` (`` [`&${state.checked}` as const] ``); otherwise TypeScript widens it to `string`, which clashes with Panda's template-literal index signatures and fails typecheck.
-- `'full'` is not a size token in this preset: `width: 'full'` comes out as the invalid `width: full`, silently. Write `'100%'`.
-- A pair in `contrast-pairs.json` takes an optional third item, the ground a translucent color is composited over (`["info-text", "divider", "info-surface"]`); the default is `page-bg`.
-- A hover or state rule that changes a variant's fill goes inside that variant, not in `base`: variants come out in a later layer, so even a more specific `base` hover loses to the variant's plain `bg`.
-- Base UI `Tabs.Indicator` hides itself with the `hidden` attribute until it has measured the tab (that's what stops the slide-in on first paint), so its recipe must never set `display`.
-- Base UI Toast: call `Toast.useToastManager()` inside the provider, not a `createToastManager()` instance; the instance only hears calls after the provider's effect subscribes, so a toast fired from a child's mount effect is lost.
+架构细节参见 **[agent-doc/architecture.md](agent-doc/architecture.md)**。
+
+## Where to Look
+
+| 你想了解…… | 去看…… |
+| --- | --- |
+| 包分层、数据流、平台分工 | [agent-doc/architecture.md](agent-doc/architecture.md) |
+| 加 / 改 token、palette、组件尺寸、对比度 pair | [agent-doc/tokens.md](agent-doc/tokens.md) |
+| 写或改 web 组件，Panda / Base UI 的坑 | [agent-doc/web-components.md](agent-doc/web-components.md) |
+| 写 native 组件，Tamagui config 与写法对应 | [agent-doc/native.md](agent-doc/native.md) |
+| prop / 文案 / 逻辑该放 core 还是平台包 | [agent-doc/core.md](agent-doc/core.md) |
+| recipe 里引用组件状态（不点名 Base UI） | [agent-doc/headless.md](agent-doc/headless.md) |
+| 验证：`pnpm check`、截图、像素与 CSS 比对 | [agent-doc/verification.md](agent-doc/verification.md) |
+| 现在的进度、下一步、未决事项 | [agent-doc/plan.md](agent-doc/plan.md) |
+| 某个组件移植时定下的 API / 行为决定 | [agent-doc/web-port-record.md](agent-doc/web-port-record.md) |
+| 本仓库术语 | [agent-doc/glossary.md](agent-doc/glossary.md) |
+| 组件应该长什么样、怎么交互 | `docs/spec/README.md`、`docs/spec/components/<Name>.md`（改组件前必读） |
+| 移植一个组件的步骤 | `.agents/skills/port-component/SKILL.md` |
+| 各包对外的用法 | `packages/native/README.md` 等各包 README |
+
+| 用户提到…… | 去看…… |
+| --- | --- |
+| 颜色、尺寸、主题、配色、字体 | `packages/tokens` |
+| web 组件、Storybook 里的组件 | `packages/react`、`apps/storybook` |
+| React Native、Expo、Tamagui、Bilisound 接入 | `packages/native`、[agent-doc/native.md](agent-doc/native.md) |
+| props、文案 | `packages/core` |
+
+## Build, Test, and Development Commands
+
+前置：Node 版本见 `.nvmrc`（Panda v2 至少要 Node 22）；pnpm 版本见根 `package.json` 的 `packageManager`。像素比对要用 ImageMagick（`compare`、`magick`）。
+
+- `pnpm install`：安装依赖。
+- `pnpm tokens`：改完 `tokens.json` 后重建 token 输出。
+- `pnpm contrast`：检查每套 palette、两种主题下的对比度。
+- `pnpm codegen`：tokens + Panda codegen；改了 tokens、recipe 或 `panda.config.ts` 之后跑。
+- `pnpm check`：codegen + 对比度 + raw 颜色 / raw 尺寸 / headless / core 检查 + 全部 typecheck。**提交前必须通过。**
+- `pnpm shots [组件…]`：截每个 story 的浅色和深色到 `apps/storybook/shots/`。`KOI_PALETTE=rose` / `KOI_FONT=chill` 截其它配色 / 字体。任何视觉改动后都要打开 PNG 看。
+- `pnpm dev`：tokens + codegen + Storybook（端口 6006）。长期进程。
+- `pnpm build:storybook` / `pnpm deploy:storybook`：静态 Storybook 构建 / 部署到 Cloudflare Workers。
+
+## Long-Running Process Rules
+
+`pnpm dev`、`pnpm --filter storybook dev`，以及将来的 `expo start`，都不会自行退出，**禁止直接裸跑**。必须使用以下任一方式：
+
+1. 后台运行，等就绪后验证，最后 kill。
+2. 用 `timeout` 包裹。
+3. 调用工具时设置超时参数。
+
+**判断标准**：正常情况下不会自行退出的命令，就属于长期进程。`pnpm shots` 会自己启动并关闭 Storybook，`pnpm check`、构建都会正常结束，不受此限制。
+
+## Agent Temporary Files
+
+agent 运行中产生的临时文件（截图基线、生成的 CSS、比对图、日志、临时脚本）统一放在仓库根目录的 `.temp/`（已 gitignore），不要写到仓库外或混进源码目录。
+
+## Design Invariants
+
+视觉规则的完整说明在 `docs/spec/README.md`。以下几条是硬性规定：
+
+- **只用 role token**：`bg: 'surface'`、`color: 'text-muted'`，不用色阶（`primary.500`），不写字面颜色。
+- **不写字面尺寸**：共享尺寸按 token 名引用，组件自己的尺寸来自 `@koi/tokens/dimensions` 的 `components`；只属于 web 的标 `// koi-web-only: <原因>`（[tokens.md](agent-doc/tokens.md)）。
+- **对比度**：文字 ≥ 4.5:1，控件边缘 / 焦点环 / 图标 ≥ 3:1，两种主题、每套内置 palette 都要达标。组件把 token 放到新背景上时，在 `contrast-pairs.json` 里加一对。
+- **尺寸**：基准 14px（`body`）。控件三档 `control-sm` 28 / `control-md` 36 / `control-lg` 44，同一行的组件用同一档。`prose`（16px）只用于长文阅读。
+- **形状**：可按压的东西都是 pill（`radius-full`），`shape="rounded"` 例外（`radius-lg`，8px）。Dialog footer 通过 `ShapeProvider` 默认 rounded；Dialog 的 32px 圆角 = 8px + 24px padding（同心圆角）。Card 和 Toast 用 `radius-panel` 24px，输入框和 Alert 用 `radius-xl` 12px。
+- **深度**：按钮永远不加阴影（按压波纹不算）。`shadow-raised` 只用于当前 tab 和 Switch 滑块；`shadow-float` 只用于浮在页面上的东西（Dialog、Toast）。
+- **动效**：颜色变化 150ms；会移动的东西用 `spring` 缓动。一切都尊重 `prefers-reduced-motion`。
+- **文案**：组件里的文案（label、aria-label）用简体中文，来自 `@koi/core` 的 `strings`，不用 emoji。
+- **主题 / 配色 / 字体**：web 上分别是 `<html>` 的 `data-theme`、`data-palette`、`data-font`（`theme-init.js` 设置）；组件永远写 `fontFamily: 'sans'`。字体平滑保持 `auto`。
+- **props 兼容 legacy**：公开 props 与 `reference/legacy-web/components/index.d.ts` 保持兼容，除非 spec 另有规定；不兼容之处记进 [plan.md](agent-doc/plan.md)。
+
+## Coding Style & Naming Conventions
+
+- 代码注释、commit message、`docs/spec/` 用英文；`agent-doc/` 用中文正文 + 英文术语；组件里的 UI 文案用简体中文。
+- 注释解释“为什么”，不复述代码。
+- 组件目录 kebab-case、组件文件 PascalCase（`radio-group/RadioGroup.tsx`）；recipe 文件 kebab-case，在 `recipes/index.ts` 注册。recipe 的 key 避开 preset-base 的 pattern 名和 JS 保留字（[web-components.md](agent-doc/web-components.md)）。
+- 生成的代码通过包名导入（`@koi/react/styled-system/...`），不用相对路径。
+- **生成的文件永远不手改**：`packages/tokens/dist/`、`packages/react/styled-system/`。改源头再重建。
+
+## Testing Guidelines
+
+没有单元测试，也没有 CI 测试。正确性靠 `pnpm check`（静态检查 + typecheck）、`pnpm shots` 截图人工检查，以及重构时的像素 / CSS 比对。具体做法和结果怎么汇报见 [agent-doc/verification.md](agent-doc/verification.md)。新增静态规则时，写成 `scripts/check-*.mjs` 并接进 `pnpm check`。
+
+## Commit & Pull Request Guidelines
+
+- 标题是简短的英文祈使句（`Port Tag`、`Move component dimensions into tokens`），不用 Conventional Commits 前缀。正文说明改了什么、为什么改，以及怎么验证的。
+- 提交前 `pnpm check` 必须通过；有视觉改动的要看过截图。
+- 移植组件时一个组件一个 commit。
+
+## Security & Configuration Tips
+
+- 仓库里没有密钥。Storybook 通过 Cloudflare Workers Builds 部署（`apps/storybook/wrangler.jsonc`）；凭据在 Cloudflare 后台，`.wrangler/` 已 gitignore，不要提交。
+- `reference/legacy-web/` 冻结：只读，不 import，不修改。

@@ -1,22 +1,23 @@
 # Koi
 
-A soft, rounded design system, grown out of tcdw's Koi blog theme. Tokens in one place; components for React web (Base UI + Panda CSS v2) now, React Native later.
+A soft, rounded design system, grown out of tcdw's Koi blog theme. One set of tokens; components for DOM web apps (Base UI + Panda CSS v2) and for Expo apps (Tamagui, in progress).
 
 ```sh
-nvm use            # Node 22+ (Panda v2 needs it)
+nvm use            # the Node version in .nvmrc
 pnpm install
 pnpm dev           # builds tokens, runs Panda codegen, starts Storybook (localhost:6006)
 pnpm shots         # screenshots of every story, light + dark
-pnpm check         # contrast, raw-color scan, typecheck
+pnpm check         # contrast, raw-color / raw-size / headless / core checks, typecheck
 ```
 
-- Working with Claude Code: start with `CLAUDE.md`, then `docs/plan.md` (Phase 0 first: the web toolchain hasn't been run yet).
+- Working with an AI agent: start with `AGENTS.md`; topic docs and the plan are in `agent-doc/`.
 - Design spec: `docs/spec/README.md` and `docs/spec/components/`.
 - Previous implementation, for reference: `reference/legacy-web/example.html`.
 
 | Package | What |
 | --- | --- |
-| `packages/tokens` | `src/tokens.json` → CSS variables, Panda preset, theme-init script, React Native values. Contrast checks. |
-| `packages/react` | Components: Button, IconButton, Spinner, Skeleton, Badge, Divider and Dialog so far. |
-| `packages/native` | Not started. |
+| `packages/tokens` | `src/tokens.json` → CSS variables, Panda preset, theme-init script, plain numbers for every size, runtime palettes, React Native values. Contrast checks. |
+| `packages/core` | Each component's props contract, UI copy and pure helpers, shared by web and native. No DOM. |
+| `packages/react` | Web components: Button, IconButton, Spinner, Skeleton, Badge, Divider, Card, Alert, Link, Field, Input, Textarea, Select, SelectPanel, Checkbox, RadioGroup, Switch, Tabs, Tooltip, Avatar, Progress, Dialog, Pagination, Tag, Toast. |
+| `packages/native` | Expo components on Tamagui. So far the Tamagui config, built from the tokens. |
 | `apps/storybook` | Storybook: an introduction to Koi and every component's stories. Also the visual test bed (`pnpm shots`). |

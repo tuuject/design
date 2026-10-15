@@ -1,6 +1,6 @@
 // @koi/core: what every Koi platform shares. Each component's props contract (`<Name>OwnProps`), the change
 // details its callbacks pass, the copy it writes and the pure logic behind it. No DOM, no styling, no headless
-// library: @koi/react adds the DOM attributes on top, a native package will add its own. Rules: docs/core.md.
+// library: @koi/react adds the DOM attributes on top, a native package will add its own. Rules: agent-doc/core.md.
 export * from './change-details';
 export * from './common';
 export * from './strings';

@@ -1,4 +1,4 @@
-// Keeps @koi/core platform-neutral and the platforms built on it (docs/core.md):
+// Keeps @koi/core platform-neutral and the platforms built on it (agent-doc/core.md):
 // 1. packages/core imports nothing but types from 'react' and its own files.
 // 2. packages/core names no platform type. Its tsconfig has no DOM lib, but @types/react declares empty
 //    stand-ins for Event, HTMLElement and the like, so those would still compile without this check.
@@ -45,6 +45,6 @@ for (const f of webFiles) {
 }
 
 console.log(bad
-  ? `\n${bad} core problem(s). See docs/core.md. Add "// koi-allow-core" to a line only with a reason.`
+  ? `\n${bad} core problem(s). See agent-doc/core.md. Add "// koi-allow-core" to a line only with a reason.`
   : `Core is platform-neutral (${coreFiles.length} files); all ${webFiles.length} web component files build on it.`);
 process.exit(bad ? 1 : 0);

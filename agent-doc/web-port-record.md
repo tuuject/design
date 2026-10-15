@@ -1,4 +1,10 @@
-# Plan
+# Web 组件移植记录（Phase 0–1，英文原文）
+
+> 本页是 `@koi/react` 从 `reference/legacy-web/` 移植时的逐组件记录，**原文归档、不再改写**，写于 2026-10-08 至 2026-10-10。当前计划与状态见 [plan.md](plan.md)。
+>
+> **什么时候读**：移植或修改某个组件时（web 或 native），按组件名查对应行。每行记录了该组件基于哪个 Base UI part、相对 legacy 的 API 与行为变化（"Change from legacy"、"Decided"）、新增的 contrast pair 与 icon。这些决定对 native 版同样成立，除非 native 的平台差异另有说明（见 [native.md](native.md)）。
+>
+> 行内提到的 `docs/plan.md`、`docs/headless.md`、`docs/core.md` 已分别挪到 `agent-doc/plan.md`、`agent-doc/headless.md`、`agent-doc/core.md`；`apps/playground` 已被 `apps/storybook` 取代。以当前源码为准。
 
 ## Phase 0: make the toolchain run (done 2026-10-08)
 
@@ -49,38 +55,3 @@ Order: simple and self-contained first, then the Base UI ones, then the composit
 | NavMenu | vertical: Base UI `Collapsible`; horizontal: Base UI `Navigation Menu`, or `Menubar` + `Menu` for the cascading flyouts | The hardest one. Three levels deep, flyouts flip near the window edge. Base UI's positioning should replace the hand-written flip logic. |
 
 New components that Base UI makes cheap and the spec lists as "not included": Menu (dropdown), Popover. (A searchable Combobox now exists as `SelectPanel searchable`.) Add them only after the port.
-
-## Phase 2: package and document
-
-- Publish setup: Panda v2's `panda lib` / `designSystem` config, or ship source plus the preset. Decide which.
-- ~~Keep the playground as the visual test bed; add Storybook only if it earns its keep.~~ **Done 2026-10-10:** the playground is replaced by Storybook 10.6 (`apps/storybook`). The landing page `Introduction.mdx` introduces Koi; each component has autodocs and stories; the toolbar switches theme and font, and docs pages follow it. `pnpm shots` now screenshots every story (`<Component>-<Story>_<theme>.png`). Publishing (set up 2026-10-10, not live yet): Cloudflare Workers static assets, `apps/storybook/wrangler.jsonc` (Worker `koi-storybook`, custom domain `components.design.tuu.run`). Workers Builds, connected to the GitHub repo: root directory `/`, build command `pnpm build:storybook`, deploy command `pnpm deploy:storybook` (not `pnpm --filter storybook deploy`: that runs pnpm's built-in `deploy`); Node comes from `.nvmrc` and pnpm from `packageManager`. Still to do in the Cloudflare dashboard: create the Worker, connect the repo, and set build watch paths (`apps/storybook/**`, `packages/**`, root config) so a future `apps/site` (design.tuu.run) doesn't rebuild it.
-- Move motion values from `packages/tokens/scripts/motion.mjs` into `src/tokens.json`.
-- **Done 2026-10-13: decouple the recipes from Base UI** (`docs/headless.md`), so a Solid package on Kobalte could reuse them later. Every Base UI `data-*` selector and CSS variable in the recipes and `global-css.ts` (67 of them) now goes through `state.*` / `vars.*` in `packages/react/src/recipes/headless.ts`; the generated CSS is byte-identical. `scripts/check-headless.mjs` runs in `pnpm check` and fails on new leaks, including preset-base conditions that also match `data-*` (`_active` would have matched Base UI's current tab).
-- **Done 2026-10-13: public props no longer expose Base UI types** (rule 5). The six change callbacks (`Checkbox` and `Switch` `onCheckedChange`, `RadioGroup` and `Tabs` `onChange`, `Tooltip` `onOpenChange`, `SelectPanel` `onChange`/`onOpenChange`) now type their second argument as Koi's `ChangeDetails` (`src/types.ts`, exported from the root): `reason`, `event` and `cancel()` only, the subset a Kobalte adapter could also provide. Base UI's object is still what's passed at runtime. `SwitchProps` writes its form props out instead of `Pick<BaseSwitch.Root.Props, …>`. `check-headless.mjs` now also fails on a Base UI type in a component's type declarations.
-- Later, if Solid happens: move `recipes/` (with `headless.ts`) out of `@koi/react` into a framework-neutral package. Open question for then: Kobalte's presence waits for CSS animations, not transitions, and has no "entering" marker, so `entering` / `exiting` need either a Koi-set attribute or keyframes.
-
-## Phase 3: React Native
-
-**Decided 2026-10-14: Tamagui** (2.4.x), for iOS, Android and Expo web, since Bilisound's next major is on it and Expo web renders through it. DOM web apps keep `@koi/react`; both share `@koi/tokens` and `@koi/core`. The options weighed are below. See `packages/native/README.md` for what doesn't translate.
-
-**Done 2026-10-15: the Tamagui config.** `@koi/native` exports `createKoiConfig()`, built entirely from tokens.json: size / space / radius / zIndex tokens under Koi's names (a new `layer` group gives z-index; recipes use it too), a theme per palette and appearance from `createColors()` (role keys in camelCase), and Koi's text styles as one font. The animation driver is the app's. Next: an Expo app in this repo (`apps/expo`?) to show the native components and run their Storybook, then the first components (Button, Switch, Dialog) with screenshot parity against `@koi/react`.
-
-| Option | For | Against |
-| --- | --- | --- |
-| rn-primitives (the layer under React Native Reusables) + NativeWind | Radix-like headless API; NativeWind's Tailwind classes fit Koi's Tailwind origins | Two different headless libraries across web (Base UI) and native |
-| Tamagui | One component set for web and native, its own compiler | Would compete with Panda + Base UI on web rather than sit beside them |
-| Plain RN + a styling layer (e.g. Unistyles) | Fewest moving parts | Hand-roll accessibility and behavior |
-
-Whatever the choice: match the web **props API** (Button `color` × `variant` × `size` × `shape`, Dialog `footer`, etc.), not the implementation. **Done 2026-10-14:** that API now exists outside the web package: `@koi/core` has every component's `<Name>OwnProps`, `ChangeDetails<E>`, the copy (`strings`) and the pure helpers (`pageList`, `initials`, the toast limit and duration), and `@koi/react` builds each `<Name>Props` on them (`docs/core.md`, enforced by `scripts/check-core.mjs`). A native package builds `<Name>OwnProps<GestureResponderEvent> & ViewProps` the same way. **Done 2026-10-14: palettes.** Bilisound lets users pick theme colors, so Koi's `primary-*` / `accent-*` scales are swappable: tokens.json `color.palettes` (built-in `koi` and `rose`), `data-palette` / `koiSetPalette()` on the web, `createColors()` / `checkPalette()` in `@koi/tokens/palette` everywhere. The two glass colors became `{secondary-950 / 0.7}` / `{primary-950 / 0.8}` so they follow the palette; the Koi palette's CSS and screenshots are unchanged. `pnpm contrast` checks every built-in palette. Not done: fixing up a user palette that fails `checkPalette()` (today the app has to reject it). **Done 2026-10-15: component dimensions.** Every size a component used as a literal (134, in 21 recipes and 7 component files: Switch's 36 × 20 track, the 16px checkbox, dialog widths, popup offsets, the icon stroke…) now comes from tokens.json: two new shared sizes (`icon-xs` 12, `icon-lg` 18) and a `component` group, generated as plain numbers into `@koi/tokens/dimensions` (`components.switch.trackWidth`) for recipes (`toPx()`) and native alike. The generated CSS only changed where a value became a shared token. `scripts/check-raw-sizes.mjs` keeps new literals out; four web-only ones stay, marked `// koi-web-only` (the press ripple, the link arrow's baseline nudge, two pseudo-element areas on Tag). Next: generate the Tamagui config from tokens.json.
-
-## Phase 4: sync back
-
-When the repo is on GitHub, the Koi design-system artifact in Claude can sync from it, so the visual spec there stays current.
-
-## Open decisions
-
-- Font: ChillRoundF (web subsets exist; native needs a full font file) or the system stack currently in `tokens.json`. Both work now: `<html data-font="chill">` (or `koiSetFont('chill')`, saved in localStorage `koi-font`) switches `sans` to ChillRoundF, and Storybook's toolbar has a switch. `KOI_FONT=chill pnpm shots` screenshots with it. Default stays system until this is decided. Things to weigh:
-  - ChillRoundF's 700 is only a little heavier than its 400, so headings, labels and buttons read much less bold than with the system font.
-  - The system font costs nothing: with it, no woff2 is fetched. The old playground page with ChillRoundF fetched 13 subsets.
-  - The legacy `--font-sans` never included ChillRoundF (fonts.css declared the face but nothing used it), so `reference/legacy-web/example.html` renders in the system font too. It's not a ChillRoundF reference.
-- Native stack (Phase 3).

@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // Runs on iOS / Android as well as the web: no DOM.
+    "lib": ["ES2022"]
+  },
+  "include": ["src"]
+}

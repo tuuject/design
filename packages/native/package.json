@@ -1,0 +1,29 @@
+{
+  "name": "@koi/native",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Koi for Expo apps (iOS, Android and Expo web): Tamagui, built on @koi/tokens and @koi/core.",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@koi/core": "workspace:*",
+    "@koi/tokens": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tamagui/core": ">=2.4.2 <2.5.0",
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tamagui/core": "2.4.2",
+    "@types/react": "^19.3.0",
+    "react": "^19.3.0",
+    "tsx": "4.23.12",
+    "typescript": "^7.0.2"
+  }
+}

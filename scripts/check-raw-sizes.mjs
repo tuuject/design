@@ -3,11 +3,11 @@
 // Use a shared token by name ('control-md', 'icon', '3'), or `components.<name>.<part>` from
 // @koi/tokens/dimensions through toPx() (recipes/dimensions.ts). A size that only exists on the web (a pseudo-element
 // hit area, a baseline nudge) keeps its literal with a `// koi-web-only: <why>` comment on the line.
-// Usage: node scripts/check-raw-sizes.mjs [dir…]   (default: packages/react/src)
+// Usage: node scripts/check-raw-sizes.mjs [dir…]   (default: packages/react/src packages/native/src)
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join, normalize } from 'node:path';
 
-const dirs = process.argv.slice(2).length ? process.argv.slice(2) : ['packages/react/src'];
+const dirs = process.argv.slice(2).length ? process.argv.slice(2) : ['packages/react/src', 'packages/native/src'];
 const PX = /(?<![\w$.{-])-?\d+(?:\.\d+)?px\b/g;
 // Numeric JSX props that are sizes: <CloseIcon size={18} />, sideOffset={8}, and an icon's default size.
 const JSX = /\b(?:size|sideOffset|alignOffset|strokeWidth)\s*=\s*\{?\s*-?\d/g;

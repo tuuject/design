@@ -41,7 +41,7 @@ importers:
         version: 10.6.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0))
       '@storybook/react-vite':
         specifier: ^10.6.1
-        version: 10.6.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0))(supports-color@10.2.2)(typescript@7.0.2)(vite@8.3.3(esbuild@0.28.2))
+        version: 10.6.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0))(supports-color@10.2.2)(typescript@7.0.2)(vite@8.3.3(esbuild@0.28.2)(tsx@4.23.12))
       '@types/react':
         specifier: ^19.3.0
         version: 19.3.0
@@ -50,7 +50,7 @@ importers:
         version: 19.3.0(@types/react@19.3.0)
       '@vitejs/plugin-react':
         specifier: ^6.1.2
-        version: 6.1.2(vite@8.3.3(esbuild@0.28.2))
+        version: 6.1.2(vite@8.3.3(esbuild@0.28.2)(tsx@4.23.12))
       playwright:
         specifier: ^1.63.0
         version: 1.63.0
@@ -62,7 +62,7 @@ importers:
         version: 7.0.2
       vite:
         specifier: ^8.3.3
-        version: 8.3.3(esbuild@0.28.2)
+        version: 8.3.3(esbuild@0.28.2)(tsx@4.23.12)
       wrangler:
         specifier: ^4.149.0
         version: 4.149.0
@@ -76,6 +76,31 @@ importers:
       '@types/react':
         specifier: ^19.3.0
         version: 19.3.0
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+
+  packages/native:
+    dependencies:
+      '@koi/core':
+        specifier: workspace:*
+        version: link:../core
+      '@koi/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+    devDependencies:
+      '@tamagui/core':
+        specifier: 2.4.2
+        version: 2.4.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      react:
+        specifier: ^19.3.0
+        version: 19.3.0
+      tsx:
+        specifier: 4.23.12
+        version: 4.23.12
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -1102,6 +1127,9 @@ packages:
   '@poppinss/exception@1.2.3':
     resolution: {integrity: sha512-dCED+QRChTVatE9ibtoaxc+WkdzOSjYTKi/+uacHWIsfodVfpsueo3+DKpgU5Px8qXjgmXkSvhXvSCz3fnP9lw==}
 
+  '@react-native/normalize-color@2.1.0':
+    resolution: {integrity: sha512-Z1jQI2NpdFJCVgpY+8Dq/Bt3d+YUi1928Q+/CZm/oh66fzM0RUl54vvuXlPJKybH4pdCZey1eDTPaLHkMPNgWA==}
+
   '@rolldown/binding-android-arm-eabi@1.2.12':
     resolution: {integrity: sha512-dB/a1214qKfHMXCpgqR4OZT+jS4kTyEXbQGJPqzobt5EwH5rX080pxE37alt3RzvR1bf1Yz/yGqRfrYAxuPw0A==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -1378,6 +1406,82 @@ packages:
         optional: true
       typescript:
         optional: true
+
+  '@tamagui/compose-refs@2.4.2':
+    resolution: {integrity: sha512-UN7HwIsymYvYRnWU4QSvlfNQRTkqM871QSx6F7T+i4oJvGZXEoIsiEwcm4wBY+VS5k/o7Gnosqr4vyvEGYjMDg==}
+    peerDependencies:
+      react: '>=19'
+
+  '@tamagui/constants@2.4.2':
+    resolution: {integrity: sha512-zamHG2Waiwb23pyVH969Fq1LLQbmD+xwMzo9GEyd3SQolvl77Dtvb66yC03dbXyg/E+41Nzu42lR9GT+vKUPfg==}
+    peerDependencies:
+      react: '>=19'
+
+  '@tamagui/core@2.4.2':
+    resolution: {integrity: sha512-/feRqrZOrUl5EJIxlIij4Q6DKf9iv5Lo0e2keJcqHTZkEYiT8xIl+gXNwp8wwXLbGTGEgVMtIQzIkAUeoabLjw==}
+    peerDependencies:
+      react: '>=19'
+
+  '@tamagui/helpers@2.4.2':
+    resolution: {integrity: sha512-wTcH11qc3Nvgg29eybjAEQzi0BZrLaQgguZWGuQ0t+3Au9O2x1Kbd2Gnxh3SXU3NM6WhKhUAD7ePDHzYiizMOQ==}
+    peerDependencies:
+      react: '>=19'
+
+  '@tamagui/is-equal-shallow@2.4.2':
+    resolution: {integrity: sha512-TWyku55o/xYI2tHvithI7JjylmZzVHl4kC49rOGYVUDwk7AZkuJiWZGWBxucaALg41UtSjX6+EQeaU+RRGR4Ig==}
+    peerDependencies:
+      react: '>=19'
+
+  '@tamagui/native@2.4.2':
+    resolution: {integrity: sha512-MaRdKejp5Pz5YVgFfx6Z7lnVH06+0P/92lIOMQbjytRqacWXFEu3O5xrXJfUA7030e/hIg56c2Zj9vvDSkfYHQ==}
+    peerDependencies:
+      react: '*'
+
+  '@tamagui/normalize-css-color@2.4.2':
+    resolution: {integrity: sha512-a+2DgzihKKjCVh7XWTCE8zPyzxMVimRq72gN/SJE5NU4kgv532WjU8qfn2IZqROd/HLY/uqGWRRO5AOk02heGQ==}
+
+  '@tamagui/react-native-media-driver@2.4.2':
+    resolution: {integrity: sha512-fbAwG/DKDamXx18L5Z418XIpqelNruuiS5j6bGQbg2SduV0xYX5jHJ+wPpy1h1TfNjd6ytPKPJeyCWxgY4e2tg==}
+
+  '@tamagui/react-native-use-pressable@2.4.2':
+    resolution: {integrity: sha512-B3F3nkK+gdhk/lYh2HSj7OelfnprHCj8ogSVnHu9ctGk1M9KJ4TtIjRnXkBYsTYCtrB4aXOMUu5R3ce1lSZg7A==}
+    peerDependencies:
+      react: '>=19'
+
+  '@tamagui/simple-hash@2.4.2':
+    resolution: {integrity: sha512-HDVgoVtJBK+g5Nzswbkg29K0Odt2G6FmiramntPEimsMYMW2Yp4dO5rv3ZTDxoOlvFCsCpUosVrkXHmtltwjxQ==}
+
+  '@tamagui/timer@2.4.2':
+    resolution: {integrity: sha512-29vA5REvyC2vrEuO1oEAQDhLNM0t9Cj0gsNo/hnOq+cxYA29vzncdm+pFg6ZdeIEwH4VYcprtJ5cAxizorm7Ig==}
+
+  '@tamagui/types@2.4.2':
+    resolution: {integrity: sha512-MElN5ilnrwhH0i1aQG/Q3p065JNRDzT7TmJRTd8DME7cimh67QJQln2cCLdV/p6aHEf2FBy269bN0XvY01c/6Q==}
+
+  '@tamagui/use-did-finish-ssr@2.4.2':
+    resolution: {integrity: sha512-BnzjmLzvZ9L/yBPMWEmiDMzmLu3489zAHSkXr8yC2uASGdonA40HkDUoiNXLwaoA3BESYQzrxIc+ghyaa1MaXw==}
+    peerDependencies:
+      react: '>=19'
+
+  '@tamagui/use-element-layout@2.4.2':
+    resolution: {integrity: sha512-CCDbF/ksls2Rmho3cAtF1b2xeHImaah4c92msrvhHDi797o/AGRcWy/FAoS+0T6UkK3G/kzA9CyY565FCSdTzw==}
+    peerDependencies:
+      react: '>=19'
+
+  '@tamagui/use-event@2.4.2':
+    resolution: {integrity: sha512-efIDDWTZn2isSNZwIGfooh9fiPP0TCsOg/ppNNmXGgDl5ep/NfHGvM1IZTrQehFQlTKHRODmTDBfcmZqHA3tDQ==}
+    peerDependencies:
+      react: '>=19'
+
+  '@tamagui/use-force-update@2.4.2':
+    resolution: {integrity: sha512-W/4BlUuS57uAgfbUTEvIhbh8kFMhekKaKNOP43bvFrx/3XkP9HXQuZzYfcRWRWpuRyTbGflJbDkyj9dUeZA5og==}
+    peerDependencies:
+      react: '>=19'
+
+  '@tamagui/web@2.4.2':
+    resolution: {integrity: sha512-J22xPQVXSl/bLr3sKOUwLNIlb9E3CvvtXHnpurbmzIniVtfYbX7gtS22OlbVjVNRXZ2F73f91j1CAbicN65DIw==}
+    peerDependencies:
+      react: '>=19'
+      react-dom: '*'
 
   '@testing-library/dom@10.4.2':
     resolution: {integrity: sha512-yzr2S9HyAIdhz2/6qHgbs665Q7PKVcDF05vsOlHPxG1mo36gKVesdYVeDLnXgfjJ03CrKRk08knc6+E/9m8v2Q==}
@@ -2191,6 +2295,11 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
+  tsx@4.23.12:
+    resolution: {integrity: sha512-FDf4L4sYzKtzWYhU/Xm0AQFdTjdIxNo9ElTf2mxXM6k8YMHXzYUe4yODVaXP4V9uMFbVg8c0qyBccK2OOxb45Q==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+
   typescript@7.0.2:
     resolution: {integrity: sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==}
     engines: {node: '>=16.20.0'}
@@ -2730,11 +2839,11 @@ snapshots:
   '@img/sharp-win32-x64@0.35.5':
     optional: true
 
-  '@joshwooding/vite-plugin-react-docgen-typescript@0.7.0(typescript@7.0.2)(vite@8.3.3(esbuild@0.28.2))':
+  '@joshwooding/vite-plugin-react-docgen-typescript@0.7.0(typescript@7.0.2)(vite@8.3.3(esbuild@0.28.2)(tsx@4.23.12))':
     dependencies:
       glob: 13.0.6
       react-docgen-typescript: 2.4.0(typescript@7.0.2)
-      vite: 8.3.3(esbuild@0.28.2)
+      vite: 8.3.3(esbuild@0.28.2)(tsx@4.23.12)
     optionalDependencies:
       typescript: 7.0.2
 
@@ -3093,6 +3202,8 @@ snapshots:
 
   '@poppinss/exception@1.2.3': {}
 
+  '@react-native/normalize-color@2.1.0': {}
+
   '@rolldown/binding-android-arm-eabi@1.2.12':
     optional: true
 
@@ -3210,11 +3321,11 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react-dom'
 
-  '@storybook/builder-vite@10.6.1(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0))(vite@8.3.3(esbuild@0.28.2))':
+  '@storybook/builder-vite@10.6.1(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0))(vite@8.3.3(esbuild@0.28.2)(tsx@4.23.12))':
     dependencies:
       storybook: 10.6.1(@types/react@19.3.0)(react@19.3.0)
       ts-dedent: 2.3.0
-      vite: 8.3.3(esbuild@0.28.2)
+      vite: 8.3.3(esbuild@0.28.2)(tsx@4.23.12)
 
   '@storybook/global@5.0.0': {}
 
@@ -3231,11 +3342,11 @@ snapshots:
       '@types/react': 19.3.0
       '@types/react-dom': 19.3.0(@types/react@19.3.0)
 
-  '@storybook/react-vite@10.6.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0))(supports-color@10.2.2)(typescript@7.0.2)(vite@8.3.3(esbuild@0.28.2))':
+  '@storybook/react-vite@10.6.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0))(supports-color@10.2.2)(typescript@7.0.2)(vite@8.3.3(esbuild@0.28.2)(tsx@4.23.12))':
     dependencies:
-      '@joshwooding/vite-plugin-react-docgen-typescript': 0.7.0(typescript@7.0.2)(vite@8.3.3(esbuild@0.28.2))
+      '@joshwooding/vite-plugin-react-docgen-typescript': 0.7.0(typescript@7.0.2)(vite@8.3.3(esbuild@0.28.2)(tsx@4.23.12))
       '@rollup/pluginutils': 5.4.0
-      '@storybook/builder-vite': 10.6.1(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0))(vite@8.3.3(esbuild@0.28.2))
+      '@storybook/builder-vite': 10.6.1(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0))(vite@8.3.3(esbuild@0.28.2)(tsx@4.23.12))
       '@storybook/react': 10.6.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0))(supports-color@10.2.2)(typescript@7.0.2)
       empathic: 2.1.0
       magic-string: 1.4.3
@@ -3245,7 +3356,7 @@ snapshots:
       resolve: 1.22.13
       storybook: 10.6.1(@types/react@19.3.0)(react@19.3.0)
       tsconfig-paths: 4.2.0
-      vite: 8.3.3(esbuild@0.28.2)
+      vite: 8.3.3(esbuild@0.28.2)(tsx@4.23.12)
     optionalDependencies:
       typescript: 7.0.2
     transitivePeerDependencies:
@@ -3269,6 +3380,95 @@ snapshots:
       typescript: 7.0.2
     transitivePeerDependencies:
       - supports-color
+
+  '@tamagui/compose-refs@2.4.2(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+
+  '@tamagui/constants@2.4.2(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+
+  '@tamagui/core@2.4.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+    dependencies:
+      '@tamagui/helpers': 2.4.2(react@19.3.0)
+      '@tamagui/react-native-media-driver': 2.4.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@tamagui/react-native-use-pressable': 2.4.2(react@19.3.0)
+      '@tamagui/use-element-layout': 2.4.2(react@19.3.0)
+      '@tamagui/use-event': 2.4.2(react@19.3.0)
+      '@tamagui/web': 2.4.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      react: 19.3.0
+    transitivePeerDependencies:
+      - react-dom
+
+  '@tamagui/helpers@2.4.2(react@19.3.0)':
+    dependencies:
+      '@tamagui/constants': 2.4.2(react@19.3.0)
+      '@tamagui/simple-hash': 2.4.2
+      react: 19.3.0
+
+  '@tamagui/is-equal-shallow@2.4.2(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+
+  '@tamagui/native@2.4.2(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+
+  '@tamagui/normalize-css-color@2.4.2':
+    dependencies:
+      '@react-native/normalize-color': 2.1.0
+
+  '@tamagui/react-native-media-driver@2.4.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+    dependencies:
+      '@tamagui/web': 2.4.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+    transitivePeerDependencies:
+      - react
+      - react-dom
+
+  '@tamagui/react-native-use-pressable@2.4.2(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+
+  '@tamagui/simple-hash@2.4.2': {}
+
+  '@tamagui/timer@2.4.2': {}
+
+  '@tamagui/types@2.4.2': {}
+
+  '@tamagui/use-did-finish-ssr@2.4.2(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+
+  '@tamagui/use-element-layout@2.4.2(react@19.3.0)':
+    dependencies:
+      '@tamagui/constants': 2.4.2(react@19.3.0)
+      '@tamagui/is-equal-shallow': 2.4.2(react@19.3.0)
+      react: 19.3.0
+
+  '@tamagui/use-event@2.4.2(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+
+  '@tamagui/use-force-update@2.4.2(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+
+  '@tamagui/web@2.4.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+    dependencies:
+      '@tamagui/compose-refs': 2.4.2(react@19.3.0)
+      '@tamagui/constants': 2.4.2(react@19.3.0)
+      '@tamagui/helpers': 2.4.2(react@19.3.0)
+      '@tamagui/is-equal-shallow': 2.4.2(react@19.3.0)
+      '@tamagui/native': 2.4.2(react@19.3.0)
+      '@tamagui/normalize-css-color': 2.4.2
+      '@tamagui/timer': 2.4.2
+      '@tamagui/types': 2.4.2
+      '@tamagui/use-did-finish-ssr': 2.4.2(react@19.3.0)
+      '@tamagui/use-event': 2.4.2(react@19.3.0)
+      '@tamagui/use-force-update': 2.4.2(react@19.3.0)
+      react: 19.3.0
+      react-dom: 19.3.0(react@19.3.0)
 
   '@testing-library/dom@10.4.2':
     dependencies:
@@ -3404,10 +3604,10 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  '@vitejs/plugin-react@6.1.2(vite@8.3.3(esbuild@0.28.2))':
+  '@vitejs/plugin-react@6.1.2(vite@8.3.3(esbuild@0.28.2)(tsx@4.23.12))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
-      vite: 8.3.3(esbuild@0.28.2)
+      vite: 8.3.3(esbuild@0.28.2)(tsx@4.23.12)
 
   '@vitest/expect@3.2.4':
     dependencies:
@@ -4042,6 +4242,12 @@ snapshots:
 
   tslib@2.8.1: {}
 
+  tsx@4.23.12:
+    dependencies:
+      esbuild: 0.28.2
+    optionalDependencies:
+      fsevents: 2.3.3
+
   typescript@7.0.2:
     optionalDependencies:
       '@typescript/typescript-aix-ppc64': 7.0.2
@@ -4088,7 +4294,7 @@ snapshots:
     dependencies:
       react: 19.3.0
 
-  vite@8.3.3(esbuild@0.28.2):
+  vite@8.3.3(esbuild@0.28.2)(tsx@4.23.12):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -4098,6 +4304,7 @@ snapshots:
     optionalDependencies:
       esbuild: 0.28.2
       fsevents: 2.3.3
+      tsx: 4.23.12
 
   webpack-virtual-modules@0.6.2: {}
 

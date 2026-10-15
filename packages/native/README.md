@@ -1,8 +1,23 @@
-# @koi/native (not started)
+# @koi/native
 
-React Native components for Koi. The stack isn't chosen yet; that's the first decision of Phase 3 in `docs/plan.md`.
+Koi for Expo apps: iOS, Android and Expo web, on **Tamagui** (2.4.x, the line Bilisound's `apps/mobile-next` uses). Expo web renders through Tamagui too; DOM web apps use `@koi/react`. Both build on the same `@koi/tokens` and `@koi/core`.
 
-What already exists for it: `@koi/core` (each component's props contract `<Name>OwnProps`, `ChangeDetails<E>`, the copy and the pure helpers; build `<Name>Props` on them, see `docs/core.md`) `@koi/tokens/palette` (`createColors(palette, theme)` for every role token under any palette, built-in or user-made, and `checkPalette()` for user-made ones) `@koi/tokens/dimensions` (every size as a number, each component's own under `components`) and `@koi/tokens/native` (`packages/tokens/dist/native.ts`), with every color resolved per theme to hex/rgba (RN can't read `oklch()` or CSS variables), and spacing, radii, sizes and type as plain numbers.
+So far it's the Tamagui config; components come next (`docs/plan.md`, Phase 3).
+
+```ts
+import { createKoiConfig, type KoiConfig } from '@koi/native';
+import { TamaguiProvider } from '@tamagui/core';
+
+const config = createKoiConfig({ animations /* the app's driver */, palettes: { user: savedPalette } });
+declare module '@tamagui/core' { interface TamaguiCustomConfig extends KoiConfig {} }
+// <TamaguiProvider config={config} defaultTheme="light">…  <Theme name="rose">…
+```
+
+- **Tokens** keep Koi's names: size `$control-md` / `$icon`, space `$3`, radius `$panel`, zIndex `$dialog`.
+- **Themes**: `light` / `dark` in the default palette, `light_<id>` / `dark_<id>` for `rose` and every palette passed in. Keys are the role tokens in camelCase (`text-muted` → `$textMuted`), plus `background`, `color`, `borderColor`, `placeholderColor` and `outlineColor` for Tamagui's own primitives. Run a user-made palette through `checkPalette()` (`@koi/tokens/palette`) first.
+- **Font**: one font whose keys are Koi's text styles: `fontSize="$body"`, with the same key for `lineHeight` and `fontWeight`. Koi's system stack on the web, the system font on iOS / Android; `fontFamily` names another (ChillRoundF needs a full font file loaded natively).
+- **Not chosen here**: the animation driver (react-native, reanimated or CSS) and media queries. The app passes `animations`.
+- Every value comes from tokens.json through `@koi/tokens` (`createColors`, `dimensions`, `native`). Change it there, not in `src/config.ts`.
 
 Things the web version does that need a native answer:
 

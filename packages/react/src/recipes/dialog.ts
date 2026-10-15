@@ -11,7 +11,7 @@ export const dialog = defineSlotRecipe({
     backdrop: {
       position: 'fixed',
       inset: '0',
-      zIndex: '900',
+      zIndex: 'dialog',
       bg: 'backdrop',
       backdropFilter: 'blur(var(--blurs-panel))',
       transitionProperty: 'opacity',
@@ -22,7 +22,7 @@ export const dialog = defineSlotRecipe({
     viewport: {
       position: 'fixed',
       inset: '0',
-      zIndex: '900',
+      zIndex: 'dialog',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',

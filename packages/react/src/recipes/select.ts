@@ -142,8 +142,8 @@ export const selectPanel = defineSlotRecipe({
       [`${state.disabled} > &` as const]: { color: 'text-disabled' },
     },
     positioner: {
-      // Portaled to <body>: above a Dialog (900), below a Tooltip (1000).
-      zIndex: '950',
+      // Portaled to <body>: above a Dialog, below a Tooltip (the `layer` tokens).
+      zIndex: 'popup',
       outline: 'none',
     },
     popup: {

@@ -44,7 +44,7 @@ export const toast = defineSlotRecipe({
     // Centered, 16px from the edge; holds no layout of its own (the toasts are absolute), only hover and focus.
     viewport: {
       position: 'fixed',
-      zIndex: '1000',
+      zIndex: 'toast',
       insetInline: '0',
       mx: 'auto',
       width: toPx(c.toast.width),

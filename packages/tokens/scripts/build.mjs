@@ -36,7 +36,7 @@ const mixAlpha = (ref, a) => `color-mix(in oklch, ${ref} ${+(a * 100).toFixed(2)
     light.push(`  --${t.name}: ${cssRef(rawValue(t, 'light'))};`);
     if (isThemed(t)) dark.push(`  --${t.name}: ${cssRef(rawValue(t, 'dark'))};`);
   }
-  for (const key of ['spacing', 'radius', 'size', 'shadow', 'blur'])
+  for (const key of ['spacing', 'radius', 'size', 'shadow', 'blur', 'layer'])
     for (const t of group(key)) light.push(`  --${t.name}: ${t.value};`);
   light.push(`  --font-sans: ${tokens.type.families.sans};`);
   light.push(`  --ease-spring: ${motion.easings.spring};`, `  --duration-fast: ${motion.durations.fast};`);
@@ -97,6 +97,7 @@ const mixAlpha = (ref, a) => `color-mix(in oklch, ${ref} ${+(a * 100).toFixed(2)
           blurs: obj('blur', 'blur'),
           easings: Object.fromEntries(Object.entries(motion.easings).map(([k, v]) => [k, { value: v }])),
           durations: Object.fromEntries(Object.entries(motion.durations).map(([k, v]) => [k, { value: v }])),
+          zIndex: Object.fromEntries(group('layer').map((t) => [strip(t.name, 'layer'), { value: t.value, description: t.usage }])),
         },
         semanticTokens: {
           colors: semantic,
@@ -153,10 +154,12 @@ const nums = (key, prefix) => Object.fromEntries(group(key).filter((t) => /px$/.
   // px, or unitless where the usage says so (the icon stroke is in 24-grid units).
   const value = (t) => { if (!/^-?[\d.]+(px)?$/.test(t.value)) throw new Error(`component.${t.name}: expected px or a number, got ${t.value}`); return parseFloat(t.value); };
   const components = Object.fromEntries(tokens.component.groups.map((g) => [camel(g.name), Object.fromEntries(g.tokens.map((t) => [camel(t.name), value(t)]))]));
-  const body = { space: nums('spacing', 'space'), radii: nums('radius', 'radius'), sizes: nums('size'), components };
+  const layers = Object.fromEntries(group('layer').map((t) => [strip(t.name, 'layer'), t.value]));
+  const body = { space: nums('spacing', 'space'), radii: nums('radius', 'radius'), sizes: nums('size'), layers, components };
   write('dimensions.ts', banner +
     '// Every size as a number in px (the icon stroke is in 24-grid units). Same on every platform: Panda recipes\n' +
-    '// write `[${n}px]`, React Native and Tamagui use the numbers. `components` holds each component\'s own sizes.\n' +
+    '// write `[${n}px]`, React Native and Tamagui use the numbers. `components` holds each component\'s own sizes;\n' +
+    '// `layers` is the stacking order (z-index) of things that float over the page.\n' +
     Object.entries(body).map(([k, v]) => `export const ${k} = ${JSON.stringify(v, null, 2)} as const;`).join('\n\n') + '\n');
 }
 
@@ -171,12 +174,15 @@ const nums = (key, prefix) => Object.fromEntries(group(key).filter((t) => /px$/.
   }
   const body = {
     colors, blur: nums('blur', 'blur'), type,
+    // CSS font stacks, for Expo web. On iOS / Android the system font is the default; ChillRoundF needs a full font file
+    // loaded under that name (see the font decision in docs/plan.md).
+    fontStacks: tokens.type.families,
     motion: { springBezier: [0.47, 1.64, 0.41, 0.8], fastMs: 150 },
   };
   write('native.ts', banner +
     '// React Native has no CSS variables, no oklch() and no backdrop-filter: colors are pre-resolved per theme,\n' +
     '// sizes are plain numbers (dp). Shadows are not exported: build them per platform (iOS shadow*, Android elevation).\n' +
-    "export { space, radii, sizes, components } from './dimensions';\n\n" +
+    "export { space, radii, sizes, layers, components } from './dimensions';\n\n" +
     Object.entries(body).map(([k, v]) => `export const ${k} = ${JSON.stringify(v, null, 2)} as const;`).join('\n\n') +
     '\n\nexport type ThemeName = keyof typeof colors;\nexport type ColorToken = keyof typeof colors.light;\n');
 }

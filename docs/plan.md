@@ -61,7 +61,9 @@ New components that Base UI makes cheap and the spec lists as "not included": Me
 
 ## Phase 3: React Native
 
-Decide the stack first; tokens are already there (`@koi/tokens/native`). See `packages/native/README.md` for what doesn't translate.
+**Decided 2026-10-14: Tamagui** (2.4.x), for iOS, Android and Expo web, since Bilisound's next major is on it and Expo web renders through it. DOM web apps keep `@koi/react`; both share `@koi/tokens` and `@koi/core`. The options weighed are below. See `packages/native/README.md` for what doesn't translate.
+
+**Done 2026-10-15: the Tamagui config.** `@koi/native` exports `createKoiConfig()`, built entirely from tokens.json: size / space / radius / zIndex tokens under Koi's names (a new `layer` group gives z-index; recipes use it too), a theme per palette and appearance from `createColors()` (role keys in camelCase), and Koi's text styles as one font. The animation driver is the app's. Next: an Expo app in this repo (`apps/expo`?) to show the native components and run their Storybook, then the first components (Button, Switch, Dialog) with screenshot parity against `@koi/react`.
 
 | Option | For | Against |
 | --- | --- | --- |

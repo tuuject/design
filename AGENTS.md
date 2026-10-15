@@ -5,7 +5,7 @@ Koi is a soft, rounded design system (pill controls, frosted glass, sky-blue act
 - `packages/tokens`: the single source of truth, `src/tokens.json`. `scripts/build.mjs` generates `dist/tokens.css`, `dist/panda-preset.js`, `dist/theme-init.js`, `dist/dimensions.ts` (every size as a number, components' own included), `dist/native.ts` and `dist/palette.ts`.
 - `packages/core`: `@koi/core`, the platform-neutral layer: each component's props contract (`<Name>OwnProps`), `ChangeDetails<E>`, the UI copy (`strings`) and pure helpers. Plain TypeScript, no DOM. Rules in `docs/core.md`.
 - `packages/react`: React web components. **Base UI** (`@base-ui/react`) for behavior and accessibility, **Panda CSS v2** for styling (recipes in `src/recipes/`).
-- `packages/native`: React Native, not started; the stack isn't chosen (see `docs/plan.md`).
+- `packages/native`: `@koi/native`, Koi for Expo apps (iOS, Android, Expo web) on **Tamagui** 2.4.x. So far `createKoiConfig()`, a Tamagui config built entirely from `@koi/tokens` (tokens, a light/dark theme per palette, Koi's text styles as a font); components next. See its README.
 - `apps/storybook`: Storybook 10 (`@storybook/react-vite`). `src/Introduction.mdx` is the landing page (an overview of Koi); `src/components/<Name>.stories.tsx` has each component's stories. The toolbar switches theme, font and palette. `pnpm shots` screenshots every story.
 - `docs/spec/`: the design spec. `README.md` is the brand book; `components/<Name>.md` says how each component looks and behaves. **Read the relevant spec file before touching a component.**
 - `reference/legacy-web/`: the previous implementation (React 18 + hand-written CSS). Frozen. Port from it; never import from it.

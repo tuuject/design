@@ -10,8 +10,8 @@ export const tooltip = defineSlotRecipe({
   slots: ['positioner', 'popup'],
   base: {
     positioner: {
-      // Portaled to <body>, so it has to clear the Dialog (900) to work on triggers inside one.
-      zIndex: '1000',
+      // Portaled to <body>, so it has to clear the Dialog layer to work on triggers inside one.
+      zIndex: 'tooltip',
     },
     popup: {
       boxSizing: 'border-box',

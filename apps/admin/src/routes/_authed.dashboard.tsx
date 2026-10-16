@@ -3,8 +3,8 @@ import { css } from '@koi/react/styled-system/css';
 import { createFileRoute } from '@tanstack/react-router';
 import { Badge } from '@koi/react/badge';
 import { Card } from '@koi/react/card';
+import { DataTable, type DataTableColumn } from '@koi/react/data-table';
 import { Skeleton } from '@koi/react/skeleton';
-import { DataTable, type Column } from '../components/DataTable';
 import { PageHeader } from '../components/PageHeader';
 import { AppLink } from '../components/AppLink';
 import { ArrowRightIcon } from '../components/icons';
@@ -24,6 +24,8 @@ const s = {
   statValueRow: css({ marginBlockStart: '1' }),
   statHint: css({ margin: '0', marginBlockStart: '1', textStyle: 'small', color: 'text-muted' }),
   recent: css({ marginBlockStart: '6' }),
+  // Columns stop squeezing below this; the table's container scrolls sideways instead.
+  dataTable: css({ minWidth: '640px' }),
   // Panda's reset makes svg a block, which broke the arrow onto its own line inside the inline link.
   moreIcon: css({ display: 'inline-block', verticalAlign: 'middle', marginInlineStart: '1' }),
 };
@@ -52,18 +54,18 @@ function DashboardPage() {
     };
   }, []);
 
-  const recentColumns: Array<Column<Order>> = [
-    { key: 'id', title: '订单号', render: (o) => o.id, skeleton: 'SO-24100' },
-    { key: 'customer', title: '客户', render: (o) => o.customer, skeleton: '林晚照' },
-    { key: 'product', title: '商品', render: (o) => o.product, skeleton: '锦鲤抱枕' },
-    { key: 'amount', title: '金额', align: 'right', render: (o) => formatMoney(o.amount), skeleton: '¥199.00' },
+  const recentColumns: Array<DataTableColumn<Order>> = [
+    { key: 'id', header: '订单号', cell: (o) => o.id, skeleton: 'SO-24100' },
+    { key: 'customer', header: '客户', cell: (o) => o.customer, skeleton: '林晚照' },
+    { key: 'product', header: '商品', cell: (o) => o.product, skeleton: '锦鲤抱枕' },
+    { key: 'amount', header: '金额', align: 'end', cell: (o) => formatMoney(o.amount), skeleton: '¥199.00' },
     {
       key: 'status',
-      title: '状态',
-      render: (o) => <Badge tone={ORDER_STATUS[o.status].badge}>{ORDER_STATUS[o.status].label}</Badge>,
+      header: '状态',
+      cell: (o) => <Badge tone={ORDER_STATUS[o.status].badge}>{ORDER_STATUS[o.status].label}</Badge>,
       skeleton: '已完成',
     },
-    { key: 'createdAt', title: '创建时间', render: (o) => formatDateTime(o.createdAt), skeleton: 'Oct 16, 14:30' },
+    { key: 'createdAt', header: '创建时间', cell: (o) => formatDateTime(o.createdAt), skeleton: 'Oct 16, 14:30' },
   ];
 
   return (
@@ -87,7 +89,7 @@ function DashboardPage() {
       <Card title="最近订单" className={s.recent} footer={
         <AppLink to="/orders">查看全部<ArrowRightIcon size={sizes['icon-sm']} className={s.moreIcon} /></AppLink>
       }>
-        <DataTable cols={recentColumns} rows={recent ?? []} getRowId={(o) => o.id} loading={recent === null} skeletonRows={5} />
+        <DataTable className={s.dataTable} columns={recentColumns} rows={recent ?? []} getRowKey={(o) => o.id} loading={recent === null} skeletonRows={5} />
       </Card>
     </div>
   );

@@ -17,7 +17,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 | --- | --- |
 | 侧边栏导航 | 模板内 `Sidebar`，样式按 NavMenu spec 的竖版规则（`nav-item-*` token、36px、radius-xl、当前项加粗），但只是三分实现；**NavMenu 仍是库里未移植的组件**，移植后应替换 |
 | 用户下拉菜单 | 直接用 `@base-ui/react/menu`（Menu.Root/Trigger/Positioner/Popup），样式照 SelectPanel spec 的面板（36px 项、`radius-lg`、分隔线贴边、scale 96% 弹出）；等库里出了 Menu 再换 |
-| 表格 | 模板内 `DataTable`（语义化 table + Skeleton + 空态），规格上表格是库的 "not included"，将来进库要走 spec 流程 |
+| 表格 | 已进库：`@koi/react/data-table` 的 `DataTable`（2026-10-16，spec `docs/spec/components/Table.md`）。要排序 / 选择时改用 `@koi/react/table` 的 parts 自己拼，可直接接 TanStack Table |
 | 面包屑 | 模板内 `Breadcrumbs`，靠路由 `staticData.title` |
 | 业务图标 | `components/icons.tsx`，按 Koi 图标规范画（24 网格、2.25 描边、currentColor） |
 
@@ -26,7 +26,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 - **断点在 config，不在 tokens**：`panda.config.ts` 的 `theme.extend.breakpoints = { md: '768px' }`（与 Bilisound 的 md 768 约定一致）。preset-base 不带断点；等 tokens.json 收编后应挪过去（plan.md 未决事项）。
 - **这版 Panda 的断点条件没有下划线**：顶层写 `md: {...}`、响应式值写 `display: { base: 'none', md: 'inline' }`，不是 `_md`。嵌套选择器必须以 `&` 开头（`'& [data-nav-label]'`），`&[data-x]` 是同元素匹配，不是后代。
 - **spacing token 是裸数字**：`gap: '4'`、`padding: '6'`，**不是** `'space-4'`——写错会生成空规则（`.px_space-4 { }`），`strictTokens: false` 下静默通过。radius/shadow/size 才用名字（`'xl'`、`'float'`、`'control-md'`）。
-- **JSX 属性名别撞 CSS 属性名**：`<DataTable columns={…}>` 会被 Panda 抽取器当成样式对象并报 `nested_property` 告警，prop 改名 `cols` 后消失。
+- **JSX 属性名撞 CSS 属性名**：Panda 默认把任何 JSX 上与 CSS 属性同名的 prop 当 style prop 抽取（`<DataTable columns={…}>` 报 `nested_property`，Tooltip 的 `content` 生成过 `content: 关闭` 之类的垃圾规则）。根配置已设 `jsxStyleProps: 'none'`，样式只走 `css()` 和 recipe，prop 可以放心叫 `columns`。
 - **产物告警**：库侧两条既有 `pure_helper_unevaluated`（Pagination 的 `useButtonShape`、SelectPanel 的 `useParts`）来自抽取器无法求值 hook，样式实际由 `staticCss: { recipes: '*' }` 预生成，渲染无影响；属于库的已知行为，不是模板引入的。
 - 布局常量（侧边栏 248/72、顶栏 56、app 层 z-index 60/40）是模板自己的 chrome 常量，低于 Koi 浮层（dialog 900+）；库的 focusRing 没有导出，`shared.ts` 里镜像了一份。
 - **自己 portal 的浮层要给 z-index**：模板里直接用 Base UI 的浮层（如 UserMenu 的 `Menu.Positioner`）portal 到 `<body>` 后没有层级，会被 sticky 顶栏（z-index 40）盖住上沿。照 SelectPanel 给 Positioner `zIndex: 'popup'`。

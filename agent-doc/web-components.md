@@ -49,6 +49,7 @@ packages/react/src/
 - `base` 里的条件选择器也不按书写顺序输出（`_disabled` 排在了 `&[aria-busy=true]` 后面）。靠特异性取胜（`&[aria-busy=true]:disabled`），别靠顺序。
 - 改变某个 variant 填充色的 hover / 状态规则，要写在那个 variant 里面，不能写在 `base`：variant 在更后的 layer，即使 `base` 的 hover 更具体也会输给 variant 的普通 `bg`。
 - 用模板字符串拼出的计算 key（`` [`&${state.checked}`] ``）要加 `as const`，否则 TypeScript 会把它放宽成 `string`，和 Panda 的模板字面量索引签名冲突，typecheck 失败。
+- 根配置 `jsxStyleProps: 'none'`：不支持 `<Box p="4">` 式的 JSX style props，样式只走 `css()` 和 recipe。否则组件 prop 只要跟 CSS 属性同名（`columns`、`content`、`page`…）就会被当样式抽取，生成垃圾规则或报 `nested_property`。
 - `'full'` 不是这个 preset 的尺寸 token：`width: 'full'` 会静默输出非法的 `width: full`。写 `'100%'`。
 - recipe 的 key 和 preset-base 的 pattern 共用命名空间（`divider`、`stack`、`grid`、`circle`、`float`…），冲突只给警告（`config_artifact_name_conflict`），所以要换个 key（Divider 的 recipe 叫 `separator`），`className` 保持不变。
 - recipe 的 key 也不能是 JS 保留字：Panda 会生成 `export const switch`。Switch 的 recipe 叫 `switchRecipe`（class 仍是 `koi-switch`）。

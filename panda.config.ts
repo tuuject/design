@@ -21,6 +21,9 @@ export default defineConfig({
   // never by relative path, so one importMap covers both.
   importMap: '@koi/react/styled-system',
   jsxFramework: 'react',
+  // Styles come from css() and recipes only. Without this, any JSX prop named like a CSS property is read as a
+  // style prop: <DataTable columns={…}> was extracted as the `columns` property (nested_property warnings).
+  jsxStyleProps: 'none',
   preflight: true,
   // Off for now: with only Koi's tokens loaded, strict mode also rejects plain values like `0`, `100%` or
   // `400px` for sizes and spacing. Hard-coded colors are caught by scripts/check-raw-colors.mjs instead.

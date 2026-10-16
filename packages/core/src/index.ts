@@ -22,6 +22,7 @@ export * from './select';
 export * from './skeleton';
 export * from './spinner';
 export * from './switch';
+export * from './table';
 export * from './tabs';
 export * from './tag';
 export * from './toast';

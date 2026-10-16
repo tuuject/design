@@ -30,6 +30,8 @@
     "./skeleton": "./src/skeleton/Skeleton.tsx",
     "./spinner": "./src/spinner/Spinner.tsx",
     "./switch": "./src/switch/Switch.tsx",
+    "./table": "./src/table/Table.tsx",
+    "./data-table": "./src/table/DataTable.tsx",
     "./tabs": "./src/tabs/Tabs.tsx",
     "./tag": "./src/tag/Tag.tsx",
     "./textarea": "./src/textarea/Textarea.tsx",

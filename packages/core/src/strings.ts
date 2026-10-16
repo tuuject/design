@@ -20,6 +20,8 @@ export const strings = {
   noMatches: '无匹配项',
   /** Tag's × button; the tag's label follows it. */
   remove: '移除',
+  /** An empty Table's message. */
+  noData: '暂无数据',
   /** The toast region's accessible name. */
   notifications: '通知',
 } as const;

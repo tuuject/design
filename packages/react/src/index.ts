@@ -22,6 +22,12 @@ export { Toast, ToastProvider, useToast, type ToastProps, type ToastOptions, typ
 export { Progress, type ProgressProps, type ProgressSize } from './progress/Progress';
 export { Pagination, type PaginationProps, type PaginationVariant } from './pagination/Pagination';
 export { Tag, type TagProps } from './tag/Tag';
+export {
+  Table, TableHeader, TableBody, TableFooter, TableRow, TableHeaderCell, TableCell, TableEmpty, TableCaption,
+  type TableProps, type TableHeaderProps, type TableBodyProps, type TableFooterProps, type TableRowProps,
+  type TableHeaderCellProps, type TableCellProps, type TableEmptyProps, type TableCaptionProps, type TableAlign, type TableSortDirection,
+} from './table/Table';
+export { DataTable, type DataTableProps, type DataTableColumn } from './table/DataTable';
 export type { ChangeDetails } from './types';
 export { ShapeProvider, useButtonShape, type ButtonShape } from './shape';
 export * from './icons';

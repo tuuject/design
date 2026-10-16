@@ -28,7 +28,7 @@ Demo account: `admin` / `123456`. All data is mock (`src/mock/api.ts`), generate
 - **Routes** (`src/routes/`): `login`, `_authed` (guard + shell) → `dashboard`, `orders` (search/filter/pagination in the URL via `validateSearch`), `settings` (validation + submit), `$.tsx` 404.
 - **Navigation config** (`src/nav.ts`): single source for the sidebar; titles come from each route's `staticData.title` (breadcrumb + `document.title`).
 - **Theming**: `theme-init.js` inlined into `<head>` by `rsbuild.config.ts` (`html.tags`) — no flash of the wrong theme. The toggle calls `koiSetTheme`, exactly like any Koi consumer.
-- **Business pieces built here, not in the library**: DataTable, sidebar nav, breadcrumbs, user menu (Base UI `Menu` directly), admin icons. See `agent-doc/admin.md` for what should move into `@koi/react` once specced (Menu, NavMenu, Breadcrumb, Table).
+- **Business pieces built here, not in the library**: sidebar nav, breadcrumbs, user menu (Base UI `Menu` directly), admin icons. See `agent-doc/admin.md` for what should move into `@koi/react` once specced (Menu, NavMenu, Breadcrumb). Tables come from the library (`@koi/react/data-table`).
 
 ## Copying this template
 

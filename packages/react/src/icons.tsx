@@ -23,5 +23,8 @@ export const SuccessIcon = (p: IconProps) => <Svg {...p}><circle cx={12} cy={12}
 export const ErrorIcon = (p: IconProps) => <Svg {...p}><circle cx={12} cy={12} r={9} /><path d="M15 9l-6 6" /><path d="M9 9l6 6" /></Svg>;
 export const SearchIcon = (p: IconProps) => <Svg {...p}><circle cx={11} cy={11} r={6.5} /><path d="M20 20l-4.4-4.4" /></Svg>;
 export const ChevronDownIcon = (p: IconProps) => <Svg {...p}><path d="M6 9l6 6 6-6" /></Svg>;
+export const ChevronUpIcon = (p: IconProps) => <Svg {...p}><path d="M6 15l6-6 6 6" /></Svg>;
+/** A sortable column that isn't sorted. */
+export const ChevronUpDownIcon = (p: IconProps) => <Svg {...p}><path d="M8 9.5l4-4 4 4" /><path d="M8 14.5l4 4 4-4" /></Svg>;
 export const ChevronLeftIcon = (p: IconProps) => <Svg {...p}><path d="M15 6l-6 6 6 6" /></Svg>;
 export const ChevronRightIcon = (p: IconProps) => <Svg {...p}><path d="M9 6l6 6-6 6" /></Svg>;

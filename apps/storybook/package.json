@@ -19,6 +19,7 @@
     "@pandacss/dev": "^2.1.2",
     "@storybook/addon-docs": "^10.6.1",
     "@storybook/react-vite": "^10.6.1",
+    "@tanstack/react-table": "^9.3.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",

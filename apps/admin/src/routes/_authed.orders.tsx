@@ -4,13 +4,13 @@ import { createFileRoute } from '@tanstack/react-router';
 import { Badge } from '@koi/react/badge';
 import { Button } from '@koi/react/button';
 import { Card } from '@koi/react/card';
+import { DataTable, type DataTableColumn } from '@koi/react/data-table';
 import { Dialog } from '@koi/react/dialog';
 import { Input } from '@koi/react/input';
 import { Pagination } from '@koi/react/pagination';
 import { Select } from '@koi/react/select';
 import { SearchIcon } from '@koi/react/icons';
 import { useToast } from '@koi/react/toast';
-import { DataTable, type Column } from '../components/DataTable';
 import { PageHeader } from '../components/PageHeader';
 import { deleteOrder, fetchOrders, ORDER_STATUS, type Order, type OrderPage, type OrderStatus } from '../mock/api';
 import { formatDateTime, formatMoney } from '../lib/format';
@@ -33,6 +33,8 @@ export const Route = createFileRoute('/_authed/orders')({
 
 const s = {
   card: css({ marginBlockStart: '6' }),
+  // Columns stop squeezing below this; the table's container scrolls sideways instead.
+  dataTable: css({ minWidth: '640px' }),
   head: css({
     display: 'flex',
     flexWrap: 'wrap',
@@ -130,23 +132,23 @@ function OrdersPage() {
     toast.toast({ tone: 'success', title: '订单已删除' });
   };
 
-  const orderColumns: Array<Column<Order>> = [
-    { key: 'id', title: '订单号', render: (o) => o.id, skeleton: 'SO-24100' },
-    { key: 'customer', title: '客户', render: (o) => o.customer, skeleton: '林晚照' },
-    { key: 'product', title: '商品', render: (o) => o.product, skeleton: '锦鲤抱枕' },
-    { key: 'amount', title: '金额', align: 'right', render: (o) => formatMoney(o.amount), skeleton: '¥199.00' },
+  const orderColumns: Array<DataTableColumn<Order>> = [
+    { key: 'id', header: '订单号', cell: (o) => o.id, skeleton: 'SO-24100' },
+    { key: 'customer', header: '客户', cell: (o) => o.customer, skeleton: '林晚照' },
+    { key: 'product', header: '商品', cell: (o) => o.product, skeleton: '锦鲤抱枕' },
+    { key: 'amount', header: '金额', align: 'end', cell: (o) => formatMoney(o.amount), skeleton: '¥199.00' },
     {
       key: 'status',
-      title: '状态',
-      render: (o) => <Badge tone={ORDER_STATUS[o.status].badge}>{ORDER_STATUS[o.status].label}</Badge>,
+      header: '状态',
+      cell: (o) => <Badge tone={ORDER_STATUS[o.status].badge}>{ORDER_STATUS[o.status].label}</Badge>,
       skeleton: '已完成',
     },
-    { key: 'createdAt', title: '创建时间', render: (o) => formatDateTime(o.createdAt), skeleton: 'Oct 16, 14:30' },
+    { key: 'createdAt', header: '创建时间', cell: (o) => formatDateTime(o.createdAt), skeleton: 'Oct 16, 14:30' },
     {
       key: 'actions',
-      title: '操作',
-      align: 'right',
-      render: (o) => (
+      header: '操作',
+      align: 'end',
+      cell: (o) => (
         <span className={s.rowActions}>
           <Button size="sm" variant="ghost" color="secondary" onClick={() => openDetail(o)}>详情</Button>
           <Button size="sm" variant="ghost" color="error" onClick={() => openDelete(o)}>删除</Button>
@@ -197,9 +199,10 @@ function OrdersPage() {
           </div>
         </div>
         <DataTable
-          cols={orderColumns}
+          className={s.dataTable}
+          columns={orderColumns}
           rows={data?.items ?? []}
-          getRowId={(o) => o.id}
+          getRowKey={(o) => o.id}
           loading={loading}
           skeletonRows={5}
           empty={<>没有找到匹配的订单，换个关键词或<Button variant="ghost" color="secondary" size="sm" onClick={resetFilters}>重置筛选</Button>试试。</>}

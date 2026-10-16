@@ -16,6 +16,7 @@ Phase 0–1 的逐组件记录（每个组件相对 legacy 的 API / 行为决�
 
 - **NavMenu**：唯一没移植的组件。spec 在 `docs/spec/components/NavMenu.md`。竖版用 Base UI `Collapsible`，横版用 `Navigation Menu`（或 `Menubar` + `Menu` 做多级 flyout）。三级嵌套、靠近窗口边缘时 flyout 翻转，用 Base UI 的定位替换 legacy 手写的翻转逻辑。
 - 移植完成后再加的新组件（Base UI 做起来便宜、spec 列为 "not included"）：Menu（下拉菜单）、Popover。可搜索的 Combobox 已经以 `SelectPanel searchable` 存在。
+- [x] **Table / DataTable**（2026-10-16，新组件，非移植）：从 admin 模板挪进库。两层：`@koi/react/table` 的 parts（原生 table 元素，props 全透传；`TableHeaderCell` 的 `sort` / `onSort` 与 TanStack Table 的 `getIsSorted()` / `getToggleSortingHandler()` 同形）和 `@koi/react/data-table` 的 `DataTable`（columns + rows + loading + empty）。不依赖 headless 库，选中行用 Koi 自己的 `data-koi-selected`。Storybook 里有 TanStack Table v9 的接法。**native 版暂缓**（core 里的 `Table*OwnProps` 已经平台无关，到时直接建在上面）。
 
 ## Phase 2：打包与文档
 

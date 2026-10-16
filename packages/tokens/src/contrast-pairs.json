@@ -1,7 +1,7 @@
 {
   "$comment": "Foreground/background pairs that must meet WCAG contrast in BOTH themes. text = 4.5:1, ui = 3:1 (control edges, focus rings, icons). Translucent colors are composited over `ground` (default page-bg). Add a pair whenever a component puts a new token on another.",
   "text": [
-    ["text", "page-bg"], ["text", "surface"], ["text", "surface-muted"],
+    ["text", "page-bg"], ["text", "surface"], ["text", "surface-muted"], ["text", "action-subtle"], ["text", "action-subtle-hover"],
     ["text-muted", "page-bg"], ["text-muted", "surface"], ["text-muted", "surface-muted"],
     ["text", "surface-glass"], ["text-muted", "surface-glass"],
     ["text", "surface-glass-tint"], ["text-muted", "surface-glass-tint"], ["primary-fg", "surface-glass-tint"], ["error-fg", "surface-glass-tint"],

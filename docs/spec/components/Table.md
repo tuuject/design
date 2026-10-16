@@ -25,7 +25,7 @@ A plain, quiet data table: hairline rows, muted bold column headers, and rows th
 - Header cells: `small` (12px) bold `text-muted`, 8px vertical padding.
 - Body rows: at least 48px tall (`table.row-height`), with 8px vertical and 16px side padding in each cell, so taller content still grows the row. Content is vertically centered.
 - Every cell has a 1px `divider` bottom edge.
-- Hover: the whole row fills `surface-muted`. Selected rows fill `action-subtle` and keep `text`.
+- Hover: the whole row fills `table-row-hover`, a step lighter than `surface-muted` (the ghost-button hover), so a hovered action button still shows in a hovered row. Selected rows fill `action-subtle` and keep `text`.
 - Sort button: inherits the header type; it turns `text` on hover and when sorted. Sortable columns show a 14px up/down chevron pair in `text-muted`; the sorted column shows a single chevron pointing up (ascending) or down (descending). Focus: the standard 2px `focus-ring` at a 2px offset.
 - Empty row: centered `text-muted`, 40px vertical padding.
 - Actions in a row: `sm` `ghost` Buttons, next to each other with no gap. Buttons inside a cell default to `shape="rounded"`, whose `sm` size has 8px sides, so a row of actions stays compact; this holds even when a pill Pagination sits under the table. End-align the actions column and pull the group 8px outward (`margin-inline-end: -8px`) so the last label lines up with the header.

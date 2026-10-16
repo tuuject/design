@@ -29,7 +29,8 @@ export const table = defineSlotRecipe({
       // `height` on a row is its minimum in table layout (min-height is ignored on rows and cells); the cells keep
       // their padding, so taller content still grows the row.
       'tbody > &': { height: toPx(c.table.rowHeight) },
-      'tbody > &:hover': { bg: 'surface-muted' },
+      // Not surface-muted: that's the ghost-button hover, which would vanish into the row.
+      'tbody > &:hover': { bg: 'table-row-hover' },
       'tbody > &[data-koi-selected]': { bg: 'action-subtle' },
       'tbody > &[data-koi-selected]:hover': { bg: 'action-subtle-hover' },
     },

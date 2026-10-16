@@ -19,6 +19,10 @@ const s = {
     borderCollapse: 'collapse',
     textStyle: 'body',
     '& tbody tr:hover > td': { bg: 'surface-muted' },
+    // Body rows are at least 48px whatever the cells hold (text, a Badge, sm buttons), with the cells' 8px
+    // padding kept for taller content. `height` on a row is its minimum in table layout; min-height is
+    // ignored on table rows and cells.
+    '& tbody tr': { height: 'token(spacing.12)' },
   }),
   th: css({
     textAlign: 'left',
@@ -34,6 +38,7 @@ const s = {
     '&[data-align=right]': { textAlign: 'right' },
   }),
   td: css({
+    verticalAlign: 'middle',
     paddingInline: '4',
     paddingBlock: '2',
     borderBottomWidth: '1px',

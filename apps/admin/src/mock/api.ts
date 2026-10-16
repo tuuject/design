@@ -2,10 +2,10 @@ import type { AdminUser } from '../stores/auth';
 
 export type OrderStatus = 'pending' | 'shipped' | 'completed' | 'cancelled';
 
-export const ORDER_STATUS: Record<OrderStatus, { label: string; badge: 'warning' | 'primary' | 'solid' | 'neutral' }> = {
+export const ORDER_STATUS: Record<OrderStatus, { label: string; badge: 'warning' | 'primary' | 'neutral' }> = {
   pending: { label: '待付款', badge: 'warning' },
   shipped: { label: '已发货', badge: 'primary' },
-  completed: { label: '已完成', badge: 'solid' },
+  completed: { label: '已完成', badge: 'neutral' },
   cancelled: { label: '已取消', badge: 'neutral' },
 };
 

@@ -18,7 +18,7 @@ const s = {
     minWidth: '640px',
     borderCollapse: 'collapse',
     textStyle: 'body',
-    '& td:hover': { bg: 'surface-muted' },
+    '& tbody tr:hover > td': { bg: 'surface-muted' },
   }),
   th: css({
     textAlign: 'left',

@@ -26,7 +26,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const s = {
   card: css({ marginBlockStart: '6' }),
   profile: css({ display: 'flex', alignItems: 'center', gap: '3', marginBlockEnd: '6' }),
-  profileText: css({ display: 'flex', flexDirection: 'column', gap: '1' }),
+  // flex-start: a stretched Badge would fill the column with its label stuck to the left.
+  profileText: css({ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '1' }),
   profileName: css({ textStyle: 'heading-3', fontWeight: 'bold', color: 'text' }),
   form: css({ display: 'flex', flexDirection: 'column', gap: '4', maxW: '480px' }),
   actions: css({ display: 'flex', gap: '2', marginBlockStart: '2' }),
@@ -42,6 +43,7 @@ function SettingsPage() {
   const [bio, setBio] = React.useState('');
   const [role, setRole] = React.useState('admin');
   const [emailNotify, setEmailNotify] = React.useState(true);
+  const [systemNotify, setSystemNotify] = React.useState(true);
   const [errors, setErrors] = React.useState<{ name?: string; email?: string }>({});
   const [saving, setSaving] = React.useState(false);
 
@@ -75,6 +77,7 @@ function SettingsPage() {
     setBio('');
     setRole('admin');
     setEmailNotify(true);
+    setSystemNotify(true);
     setErrors({});
   };
 
@@ -113,7 +116,7 @@ function SettingsPage() {
           <Field label="个人简介" optional help={`${bio.length} / ${BIO_MAX}`}>
             <Textarea value={bio} maxLength={BIO_MAX} onChange={(e) => setBio(e.target.value)} rows={4} />
           </Field>
-          <Field label="角色" help="演示数据，仅展示 RadioGroup 的用法">
+          <Field label="角色">
             <RadioGroup
               orientation="horizontal"
               value={role}
@@ -131,7 +134,7 @@ function SettingsPage() {
             checked={emailNotify}
             onCheckedChange={(checked) => setEmailNotify(checked)}
           />
-          <Switch label="接收系统通知" checked={emailNotify} onCheckedChange={(checked) => setEmailNotify(checked)} />
+          <Switch label="接收系统通知" checked={systemNotify} onCheckedChange={(checked) => setSystemNotify(checked)} />
           <div className={s.actions}>
             <Button type="submit" loading={saving}>保存更改</Button>
             <Button type="button" variant="ghost" color="secondary" onClick={reset}>重置</Button>

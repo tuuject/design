@@ -58,7 +58,8 @@ const s = {
     padding: '4',
   }),
   total: css({ textStyle: 'small', color: 'text-muted' }),
-  rowActions: css({ display: 'flex', justifyContent: 'flex-end', gap: '1' }),
+  // Pulls the last ghost button's padding back out, so its label lines up with the right-aligned header.
+  rowActions: css({ display: 'flex', justifyContent: 'flex-end', gap: '1', marginInlineEnd: '-3' }),
   detail: css({ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2 6', margin: '0', textStyle: 'body' }),
   detailLabel: css({ color: 'text-muted', whiteSpace: 'nowrap' }),
   detailValue: css({ margin: '0' }),
@@ -73,9 +74,24 @@ function OrdersPage() {
   const [data, setData] = React.useState<OrderPage | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [version, setVersion] = React.useState(0);
+  // Open state is kept apart from the order a dialog shows: closing only flips `open`, so the old order
+  // stays rendered while the dialog fades out instead of blanking first.
   const [detail, setDetail] = React.useState<Order | null>(null);
+  const [detailOpen, setDetailOpen] = React.useState(false);
   const [pendingDelete, setPendingDelete] = React.useState<Order | null>(null);
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
   const [deleting, setDeleting] = React.useState(false);
+
+  const openDetail = (order: Order) => {
+    setDetail(order);
+    setDetailOpen(true);
+  };
+  const openDelete = (order: Order) => {
+    setPendingDelete(order);
+    // Reset here rather than after the request, so the button keeps its spinner through the fade-out.
+    setDeleting(false);
+    setDeleteOpen(true);
+  };
 
   // Debounce the keyword into the URL (?q=), always landing on the first page.
   React.useEffect(() => {
@@ -109,8 +125,7 @@ function OrdersPage() {
     if (!pendingDelete) return;
     setDeleting(true);
     await deleteOrder(pendingDelete.id);
-    setDeleting(false);
-    setPendingDelete(null);
+    setDeleteOpen(false);
     setVersion((v) => v + 1);
     toast.toast({ tone: 'success', title: '订单已删除' });
   };
@@ -133,8 +148,8 @@ function OrdersPage() {
       align: 'right',
       render: (o) => (
         <span className={s.rowActions}>
-          <Button size="sm" shape="rounded" variant="ghost" color="secondary" onClick={() => setDetail(o)}>详情</Button>
-          <Button size="sm" shape="rounded" variant="ghost" color="error" onClick={() => setPendingDelete(o)}>删除</Button>
+          <Button size="sm" variant="ghost" color="secondary" onClick={() => openDetail(o)}>详情</Button>
+          <Button size="sm" variant="ghost" color="error" onClick={() => openDelete(o)}>删除</Button>
         </span>
       ),
       skeleton: '详情 删除',
@@ -187,7 +202,7 @@ function OrdersPage() {
           getRowId={(o) => o.id}
           loading={loading}
           skeletonRows={5}
-          empty={<>没有找到匹配的订单，换个关键词或<Button variant="ghost" color="secondary" size="sm" shape="rounded" onClick={resetFilters}>重置筛选</Button>试试。</>}
+          empty={<>没有找到匹配的订单，换个关键词或<Button variant="ghost" color="secondary" size="sm" onClick={resetFilters}>重置筛选</Button>试试。</>}
         />
         <div className={s.tableFooter}>
           <span className={s.total}>{data ? `第 ${page} / ${pageCount} 页` : ''}</span>
@@ -201,11 +216,11 @@ function OrdersPage() {
       </Card>
 
       <Dialog
-        open={detail !== null}
-        onOpenChange={(open) => { if (!open) setDetail(null); }}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
         title={detail ? `订单 ${detail.id}` : undefined}
         size="sm"
-        footer={<Button variant="ghost" color="secondary" onClick={() => setDetail(null)}>关闭</Button>}
+        footer={<Button variant="ghost" color="secondary" onClick={() => setDetailOpen(false)}>关闭</Button>}
       >
         {detail ? (
           <dl className={s.detail}>
@@ -222,13 +237,13 @@ function OrdersPage() {
       <Dialog
         role="alertdialog"
         hideClose
-        open={pendingDelete !== null}
-        onOpenChange={(open) => { if (!open) setPendingDelete(null); }}
+        open={deleteOpen}
+        onOpenChange={setDeleteOpen}
         title="删除订单"
         description={pendingDelete ? `确定删除订单 ${pendingDelete.id}（${pendingDelete.customer}）吗？此操作不可撤销。` : undefined}
         footer={
           <>
-            <Button variant="ghost" color="secondary" onClick={() => setPendingDelete(null)}>取消</Button>
+            <Button variant="ghost" color="secondary" onClick={() => setDeleteOpen(false)}>取消</Button>
             <Button color="error" loading={deleting} onClick={confirmDelete}>删除</Button>
           </>
         }

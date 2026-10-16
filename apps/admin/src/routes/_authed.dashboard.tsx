@@ -24,6 +24,8 @@ const s = {
   statValueRow: css({ marginBlockStart: '1' }),
   statHint: css({ margin: '0', marginBlockStart: '1', textStyle: 'small', color: 'text-muted' }),
   recent: css({ marginBlockStart: '6' }),
+  // Panda's reset makes svg a block, which broke the arrow onto its own line inside the inline link.
+  moreIcon: css({ display: 'inline-block', verticalAlign: 'middle', marginInlineStart: '1' }),
 };
 
 const statCards: Array<{ key: keyof DashboardStats; label: string; hint: string; format: (value: number) => string }> = [
@@ -83,7 +85,7 @@ function DashboardPage() {
         ))}
       </div>
       <Card title="最近订单" className={s.recent} footer={
-        <AppLink to="/orders">查看全部 <ArrowRightIcon size={sizes['icon-sm']} /></AppLink>
+        <AppLink to="/orders">查看全部<ArrowRightIcon size={sizes['icon-sm']} className={s.moreIcon} /></AppLink>
       }>
         <DataTable cols={recentColumns} rows={recent ?? []} getRowId={(o) => o.id} loading={recent === null} skeletonRows={5} />
       </Card>

@@ -5,15 +5,20 @@ import { components, sizes } from '@koi/tokens/dimensions';
 import { Menu } from '@base-ui/react/menu';
 import { useNavigate } from '@tanstack/react-router';
 import { useAuthStore } from '../../stores/auth';
+import { LogoutIcon, SlidersIcon } from '../icons';
 import { focusRing } from './shared';
 
+// Styled after SelectPanel's panel (docs/spec/components/SelectPanel.md), the closest floating list Koi
+// specs today, so the menu reads as part of the system rather than a one-off.
 const s = {
   trigger: css({
     display: 'flex',
     alignItems: 'center',
     gap: '2',
     height: 'control-md',
-    paddingInline: '2',
+    // 4px around the 28px avatar on every side keeps it concentric with the 36px pill.
+    paddingInlineStart: '1',
+    paddingInlineEnd: '3',
     borderRadius: 'full',
     cursor: 'pointer',
     transitionProperty: 'background-color',
@@ -23,7 +28,14 @@ const s = {
     '&[data-popup-open]': { bg: 'surface-muted' },
   }),
   name: css({ textStyle: 'body', color: 'text', display: { base: 'none', md: 'inline' }, whiteSpace: 'nowrap' }),
-  chevron: css({ color: 'text-muted', display: { base: 'none', md: 'flex' } }),
+  chevron: css({
+    color: 'text-muted',
+    display: { base: 'none', md: 'flex' },
+    transition: 'transform token(durations.check) token(easings.spring)',
+    '[data-popup-open] > &': { transform: 'rotate(180deg)' },
+  }),
+  // Portaled to <body>: without a layer the sticky topbar (z-index 40) paints over the popup's top edge.
+  positioner: css({ zIndex: 'popup', outline: 'none' }),
   popup: css({
     minWidth: '208px',
     bg: 'surface',
@@ -31,26 +43,35 @@ const s = {
     borderRadius: 'xl',
     boxShadow: 'float',
     padding: '1',
-    transition: 'transform token(durations.spring) token(easings.spring), opacity token(durations.fast) token(easings.out)',
-    '&[data-starting-style], &[data-ending-style]': { opacity: '0', transform: 'translateY(-4px)' },
+    outline: 'none',
+    transformOrigin: 'var(--transform-origin)',
+    transition: 'opacity token(durations.fast) token(easings.out), transform token(durations.check) token(easings.spring)',
+    '&[data-starting-style], &[data-ending-style]': { opacity: '0', transform: 'scale(.96)' },
   }),
-  header: css({ display: 'flex', flexDirection: 'column', padding: '2', gap: '1' }),
+  header: css({ display: 'flex', alignItems: 'center', gap: '3', paddingInline: '3', paddingBlock: '2' }),
+  headerText: css({ display: 'flex', flexDirection: 'column', minWidth: '0' }),
   headerName: css({ textStyle: 'body', fontWeight: 'bold', color: 'text' }),
   headerEmail: css({ textStyle: 'small', color: 'text-muted' }),
-  separator: css({ height: '1px', bg: 'divider', marginBlock: '1' }),
+  // Edge to edge across the 4px popup padding, like SelectPanel's separators.
+  separator: css({ height: '1px', bg: 'divider', marginBlock: '1', marginInline: '-1' }),
   item: css({
     display: 'flex',
     alignItems: 'center',
+    gap: '2',
     width: '100%',
-    height: 'control-sm',
-    paddingInline: '2',
+    minHeight: 'control-md',
+    paddingInline: '3',
+    // radius-lg inside the popup's radius-xl and 4px padding: concentric.
     borderRadius: 'lg',
-    color: 'nav-item-text',
+    color: 'text',
     textStyle: 'body',
     cursor: 'pointer',
-    transitionProperty: 'background-color, color',
+    outline: 'none',
+    userSelect: 'none',
+    transitionProperty: 'background-color',
     transitionDuration: 'fast',
-    '&[data-highlighted]': { bg: 'nav-item-hover', color: 'text' },
+    '& > svg': { flex: 'none', color: 'text-muted' },
+    '&[data-highlighted]': { bg: 'surface-muted' },
   }),
 };
 
@@ -74,14 +95,20 @@ export function UserMenu() {
         )}
       />
       <Menu.Portal>
-        <Menu.Positioner align="end" sideOffset={components.popup.offset}>
+        <Menu.Positioner className={s.positioner} align="end" sideOffset={components.popup.offset}>
           <Menu.Popup className={s.popup}>
             <div className={s.header}>
-              <span className={s.headerName}>{user.name}</span>
-              <span className={s.headerEmail}>{user.email}</span>
+              <Avatar name={user.name} size="md" />
+              <div className={s.headerText}>
+                <span className={s.headerName}>{user.name}</span>
+                <span className={s.headerEmail}>{user.email}</span>
+              </div>
             </div>
             <Menu.Separator className={s.separator} />
-            <Menu.Item className={s.item} onClick={() => navigate({ to: '/settings' })}>个人设置</Menu.Item>
+            <Menu.Item className={s.item} onClick={() => navigate({ to: '/settings' })}>
+              <SlidersIcon />
+              个人设置
+            </Menu.Item>
             <Menu.Item
               className={s.item}
               onClick={() => {
@@ -89,6 +116,7 @@ export function UserMenu() {
                 navigate({ to: '/login' });
               }}
             >
+              <LogoutIcon />
               退出登录
             </Menu.Item>
           </Menu.Popup>

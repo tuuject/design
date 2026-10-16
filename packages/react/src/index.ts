@@ -25,7 +25,7 @@ export { Tag, type TagProps } from './tag/Tag';
 export {
   Table, TableHeader, TableBody, TableFooter, TableRow, TableHeaderCell, TableCell, TableEmpty, TableCaption,
   type TableProps, type TableHeaderProps, type TableBodyProps, type TableFooterProps, type TableRowProps,
-  type TableHeaderCellProps, type TableCellProps, type TableEmptyProps, type TableCaptionProps, type TableAlign, type TableSortDirection,
+  type TableHeaderCellProps, type TableCellProps, type TableEmptyProps, type TableCaptionProps, type TableAlign, type TableLayout, type TableSortDirection,
 } from './table/Table';
 export { DataTable, type DataTableProps, type DataTableColumn } from './table/DataTable';
 export type { ChangeDetails } from './types';

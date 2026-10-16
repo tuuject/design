@@ -55,17 +55,19 @@ function DashboardPage() {
   }, []);
 
   const recentColumns: Array<DataTableColumn<Order>> = [
-    { key: 'id', header: '订单号', cell: (o) => o.id, skeleton: 'SO-24100' },
-    { key: 'customer', header: '客户', cell: (o) => o.customer, skeleton: '林晚照' },
+    { key: 'id', header: '订单号', width: 120, cell: (o) => o.id, skeleton: 'SO-24100' },
+    { key: 'customer', header: '客户', width: 120, cell: (o) => o.customer, skeleton: '林晚照' },
+    // No width: the product name takes the rest.
     { key: 'product', header: '商品', cell: (o) => o.product, skeleton: '锦鲤抱枕' },
-    { key: 'amount', header: '金额', align: 'end', cell: (o) => formatMoney(o.amount), skeleton: '¥199.00' },
+    { key: 'amount', header: '金额', align: 'end', width: 120, cell: (o) => formatMoney(o.amount), skeleton: '¥199.00' },
     {
       key: 'status',
       header: '状态',
+      width: 104,
       cell: (o) => <Badge tone={ORDER_STATUS[o.status].badge}>{ORDER_STATUS[o.status].label}</Badge>,
-      skeleton: '已完成',
+      skeleton: <Badge>已完成</Badge>,
     },
-    { key: 'createdAt', header: '创建时间', cell: (o) => formatDateTime(o.createdAt), skeleton: 'Oct 16, 14:30' },
+    { key: 'createdAt', header: '创建时间', width: 152, cell: (o) => formatDateTime(o.createdAt), skeleton: 'Oct 16, 14:30' },
   ];
 
   return (
@@ -89,7 +91,7 @@ function DashboardPage() {
       <Card title="最近订单" className={s.recent} footer={
         <AppLink to="/orders">查看全部<ArrowRightIcon size={sizes['icon-sm']} className={s.moreIcon} /></AppLink>
       }>
-        <DataTable className={s.dataTable} columns={recentColumns} rows={recent ?? []} getRowKey={(o) => o.id} loading={recent === null} skeletonRows={5} />
+        <DataTable className={s.dataTable} layout="fixed" columns={recentColumns} rows={recent ?? []} getRowKey={(o) => o.id} loading={recent === null} skeletonRows={5} />
       </Card>
     </div>
   );

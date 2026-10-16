@@ -15,7 +15,7 @@ import {
   type TableRowOwnProps,
 } from '@koi/core';
 
-export type { TableAlign, TableSortDirection } from '@koi/core';
+export type { TableAlign, TableLayout, TableSortDirection } from '@koi/core';
 
 // Plain table elements with every native attribute passed through (colSpan, style, ref…), so a headless table
 // library renders straight into them: TanStack Table's header groups map onto TableHeader > TableRow >
@@ -27,8 +27,8 @@ export interface TableProps extends TableOwnProps, Omit<React.ComponentPropsWith
 }
 
 /** A data table inside a container that scrolls sideways when the table is wider than it. */
-export function Table({ containerClassName, className, ...rest }: TableProps) {
-  const s = table();
+export function Table({ layout, containerClassName, className, ...rest }: TableProps) {
+  const s = table({ layout });
   return (
     <div className={cx(s.container, containerClassName)}>
       <table {...rest} className={cx(s.root, className)} />

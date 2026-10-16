@@ -92,6 +92,27 @@ export const Playground: Story = {};
 
 export const Loading: Story = { args: { loading: true } };
 
+const fixedColumns: Array<DataTableColumn<Order>> = columns.map((c) => ({
+  ...c,
+  // The product name takes what's left; every other column has a width.
+  width: ({ id: 120, customer: 104, amount: 112, status: 96, createdAt: 136 } as Record<string, number | undefined>)[c.key],
+  skeleton: c.key === 'status' ? <Badge>已完成</Badge> : c.skeleton,
+}));
+
+/**
+ * `layout="fixed"` with column widths: the columns keep their widths whatever the cells hold, so nothing moves when
+ * the skeletons turn into rows. Toggle `loading` to compare.
+ */
+export const FixedLayout: Story = {
+  name: 'Fixed layout',
+  args: { columns: fixedColumns, layout: 'fixed' },
+};
+
+export const FixedLayoutLoading: Story = {
+  name: 'Fixed layout, loading',
+  args: { columns: fixedColumns, layout: 'fixed', loading: true },
+};
+
 export const Empty: Story = { args: { rows: [], empty: '没有找到匹配的订单，换个关键词试试。' } };
 
 type SortKey = 'customer' | 'amount';

@@ -6,8 +6,17 @@ export type TableAlign = 'start' | 'center' | 'end';
 /** A column's sort state. The same shape TanStack Table's `column.getIsSorted()` returns. */
 export type TableSortDirection = 'asc' | 'desc' | false;
 
+/**
+ * How column widths are decided. `auto` (default): by content, so they shift when the content changes (a skeleton
+ * being replaced, the next page). `fixed`: by the widths you give (the header row's cells, or DataTable's column
+ * `width`); columns without one share what's left. Content that doesn't fit ends in an ellipsis.
+ */
+export type TableLayout = 'auto' | 'fixed';
+
 /** The table itself. Its parts are plain table elements, so a headless table library can drive them directly. */
 export interface TableOwnProps {
+  /** auto (default) · fixed. Use fixed with column widths when the rows load or page in place. */
+  layout?: TableLayout;
   children?: ReactNode;
 }
 
@@ -56,7 +65,9 @@ export interface DataTableColumn<T> {
   header: ReactNode;
   cell: (row: T, index: number) => ReactNode;
   align?: TableAlign;
-  /** Placeholder for this column's cells while loading, sized like the real content (e.g. a sample value). */
+  /** The column's width: a number is px, a string any CSS length ('20%'). Pair with the table's `layout="fixed"`. */
+  width?: number | string;
+  /** Sample content for this column's loading placeholder, which takes its size (e.g. '¥199.00'). */
   skeleton?: ReactNode;
 }
 
@@ -73,4 +84,6 @@ export interface DataTableOwnProps<T> {
   empty?: ReactNode;
   /** The table's accessible name, read by screen readers only. */
   caption?: ReactNode;
+  /** auto (default) · fixed. With `fixed` and column widths, columns hold still while rows load and page. */
+  layout?: TableLayout;
 }

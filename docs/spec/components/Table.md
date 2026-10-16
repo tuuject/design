@@ -6,17 +6,19 @@ A plain, quiet data table: hairline rows, muted bold column headers, and rows th
 
 **The consumer supplies:**
 - **Parts:** `Table` (the `<table>`, inside a horizontally scrolling container), `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHeaderCell` and `TableCell`, plus `TableEmpty` for a "no data" row. Each renders its native element and passes every native attribute through (`colSpan`, `style`, `onClick`, `ref`…), so a headless library can drive them directly.
+  - `Table`: optional `layout` (`auto` or `fixed`, see Behavior).
   - `TableHeaderCell` and `TableCell`: optional `align` (`start`, `center` or `end`). Put numbers at `end`.
   - `TableHeaderCell`: optional `sort` (`'asc'`, `'desc'` or `false`) and `onSort(event)`. With `onSort`, the header becomes a sort button; these are the shapes TanStack Table's `column.getIsSorted()` and `column.getToggleSortingHandler()` return.
   - `TableRow`: optional `selected`.
   - `TableEmpty`: `colSpan` (the column count) and optional children (default "暂无数据").
-- **DataTable:** `columns` (`{key, header, cell(row, index), align?, skeleton?}`), `rows`, `getRowKey(row, index)`, and optionally `loading` with `skeletonRows` (default 5), `empty` and `caption`.
+- **DataTable:** `columns` (`{key, header, cell(row, index), align?, width?, skeleton?}`), `rows`, `getRowKey(row, index)`, and optionally `layout`, `loading` with `skeletonRows` (default 5), `empty` and `caption`. A column's `width` is a number (px) or any CSS length.
 
 **Behavior:**
 - The container scrolls sideways when the table is wider than it; the page itself never scrolls sideways. Give the table a `min-width` when its columns shouldn't squeeze.
 - A sortable header is a real `<button>` inside the `<th>`, so it's reachable with Tab and works with Enter and Space. The sorted column's `<th>` carries `aria-sort` (`ascending` or `descending`).
 - Header cells are `<th scope="col">`.
-- While DataTable is `loading`, it shows skeleton rows (shaped like the real content through each column's `skeleton`) and marks the table `aria-busy`.
+- `layout="auto"` (default) sizes columns by their content, so they shift whenever the content changes. `layout="fixed"` sizes them by the widths given (DataTable's column `width`, or the header cells' widths when composing parts, e.g. TanStack Table's `header.getSize()`); columns without a width share the rest, and content that doesn't fit ends in an ellipsis. Use `fixed`, with widths on every column but the one that should stretch, wherever rows load or page in place: nothing moves when skeletons turn into data.
+- While DataTable is `loading`, it shows skeleton rows and marks the table `aria-busy`. Each placeholder takes the size of its column's `skeleton` sample (a sample value, or the element itself, such as a Badge) and follows the column's alignment. Set `skeletonRows` to the page size so the table keeps its height.
 
 **Styling:**
 - Type: `body` (14px) in `text`, with tabular figures so numbers line up. Cells don't wrap.

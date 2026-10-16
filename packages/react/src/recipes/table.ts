@@ -7,7 +7,7 @@ import { focusRing, toPx } from './dimensions';
 // The parts are separate components, so `align` is resolved per cell: `table({ align })` and take one slot.
 export const table = defineSlotRecipe({
   className: 'koi-table',
-  slots: ['container', 'root', 'header', 'body', 'footer', 'row', 'headerCell', 'cell', 'sortButton', 'empty', 'caption'],
+  slots: ['container', 'root', 'header', 'body', 'footer', 'row', 'headerCell', 'cell', 'sortButton', 'empty', 'caption', 'skeleton'],
   base: {
     // Wide tables scroll inside their container, never the page.
     container: { width: '100%', overflowX: 'auto' },
@@ -86,13 +86,20 @@ export const table = defineSlotRecipe({
       whiteSpace: 'normal',
     },
     caption: { srOnly: true },
+    // Hugs its sample content and follows the cell's text-align, so a loading column looks like the loaded one.
+    skeleton: { display: 'inline-block', maxWidth: '100%', verticalAlign: 'middle', borderRadius: 'sm' },
   },
   variants: {
+    layout: {
+      auto: {},
+      // Widths come from the first row (the header) and <col>s, never from the content.
+      fixed: { root: { tableLayout: 'fixed', '& :is(th, td)': { overflow: 'hidden', textOverflow: 'ellipsis' } } },
+    },
     align: {
       start: {},
       center: { headerCell: { textAlign: 'center' }, cell: { textAlign: 'center' } },
       end: { headerCell: { textAlign: 'end' }, cell: { textAlign: 'end' } },
     },
   },
-  defaultVariants: { align: 'start' },
+  defaultVariants: { layout: 'auto', align: 'start' },
 });

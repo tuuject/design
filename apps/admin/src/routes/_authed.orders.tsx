@@ -133,28 +133,36 @@ function OrdersPage() {
   };
 
   const orderColumns: Array<DataTableColumn<Order>> = [
-    { key: 'id', header: '订单号', cell: (o) => o.id, skeleton: 'SO-24100' },
-    { key: 'customer', header: '客户', cell: (o) => o.customer, skeleton: '林晚照' },
+    { key: 'id', header: '订单号', width: 120, cell: (o) => o.id, skeleton: 'SO-24100' },
+    { key: 'customer', header: '客户', width: 120, cell: (o) => o.customer, skeleton: '林晚照' },
+    // No width: the product name takes the rest.
     { key: 'product', header: '商品', cell: (o) => o.product, skeleton: '锦鲤抱枕' },
-    { key: 'amount', header: '金额', align: 'end', cell: (o) => formatMoney(o.amount), skeleton: '¥199.00' },
+    { key: 'amount', header: '金额', align: 'end', width: 120, cell: (o) => formatMoney(o.amount), skeleton: '¥199.00' },
     {
       key: 'status',
       header: '状态',
+      width: 104,
       cell: (o) => <Badge tone={ORDER_STATUS[o.status].badge}>{ORDER_STATUS[o.status].label}</Badge>,
-      skeleton: '已完成',
+      skeleton: <Badge>已完成</Badge>,
     },
-    { key: 'createdAt', header: '创建时间', cell: (o) => formatDateTime(o.createdAt), skeleton: 'Oct 16, 14:30' },
+    { key: 'createdAt', header: '创建时间', width: 152, cell: (o) => formatDateTime(o.createdAt), skeleton: 'Oct 16, 14:30' },
     {
       key: 'actions',
       header: '操作',
       align: 'end',
+      width: 144,
       cell: (o) => (
         <span className={s.rowActions}>
           <Button size="sm" variant="ghost" color="secondary" onClick={() => openDetail(o)}>详情</Button>
           <Button size="sm" variant="ghost" color="error" onClick={() => openDelete(o)}>删除</Button>
         </span>
       ),
-      skeleton: '详情 删除',
+      skeleton: (
+        <>
+          <Button size="sm" variant="ghost">详情</Button>
+          <Button size="sm" variant="ghost">删除</Button>
+        </>
+      ),
     },
   ];
 
@@ -204,7 +212,8 @@ function OrdersPage() {
           rows={data?.items ?? []}
           getRowKey={(o) => o.id}
           loading={loading}
-          skeletonRows={5}
+          layout="fixed"
+          skeletonRows={PAGE_SIZE}
           empty={<>没有找到匹配的订单，换个关键词或<Button variant="ghost" color="secondary" size="sm" onClick={resetFilters}>重置筛选</Button>试试。</>}
         />
         <div className={s.tableFooter}>

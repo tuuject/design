@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { table } from '@koi/react/styled-system/recipes';
 import { Skeleton } from '../skeleton/Skeleton';
 import { Table, TableBody, TableCaption, TableCell, TableEmpty, TableHeader, TableHeaderCell, TableRow } from './Table';
 import type { DataTableOwnProps } from '@koi/core';
@@ -15,9 +16,15 @@ export interface DataTableProps<T> extends DataTableOwnProps<T>, Omit<React.Comp
  * parts; for sorting, selection or a table library such as TanStack Table, compose those parts directly.
  */
 export function DataTable<T>({ columns, rows, getRowKey, loading, skeletonRows = 5, empty, caption, ...rest }: DataTableProps<T>) {
+  const s = table();
   return (
     <Table {...rest} aria-busy={loading || undefined}>
       {caption != null ? <TableCaption>{caption}</TableCaption> : null}
+      {columns.some((col) => col.width != null) ? (
+        <colgroup>
+          {columns.map((col) => <col key={col.key} style={col.width != null ? { width: col.width } : undefined} />)}
+        </colgroup>
+      ) : null}
       <TableHeader>
         <TableRow>
           {columns.map((col) => <TableHeaderCell key={col.key} align={col.align}>{col.header}</TableHeaderCell>)}
@@ -30,7 +37,7 @@ export function DataTable<T>({ columns, rows, getRowKey, loading, skeletonRows =
                 {columns.map((col) => (
                   <TableCell key={col.key} align={col.align}>
                     {/* A sample value, invisible, sizes the bar like the real content. */}
-                    <Skeleton>{col.skeleton ?? '──────'}</Skeleton>
+                    <Skeleton as="span" className={s.skeleton}>{col.skeleton ?? '──────'}</Skeleton>
                   </TableCell>
                 ))}
               </TableRow>

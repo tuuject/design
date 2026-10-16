@@ -12,13 +12,18 @@ export interface AvatarOwnProps {
   shape?: AvatarShape;
 }
 
-/** First character of a CJK name ("咕咕" → "咕"), else the first letters of the first and last words ("Ada Lovelace" → "AL"). */
+/**
+ * First character of a CJK name ("咕咕" → "咕"), else the first letters of the first and last words ("Ada Lovelace" → "AL").
+ * A mixed name keeps only its leading initial ("Koi 管理员" → "K"): "K管" reads as neither script's initials.
+ */
 export function initials(name: string | undefined) {
   const s = (name ?? '').trim();
   if (!s) return '?';
   // Code points, not UTF-16 units, so a surrogate pair isn't cut in half.
   const first = (w: string | undefined) => (w ? Array.from(w)[0] : '');
-  if (/[㐀-鿿]/.test(first(s))) return first(s);
+  const isCjk = (ch: string) => /[㐀-鿿]/.test(ch);
+  if (isCjk(first(s))) return first(s);
   const words = s.split(/\s+/);
-  return (first(words[0]) + (words.length > 1 ? first(words[words.length - 1]) : '')).toUpperCase();
+  const last = words.length > 1 ? first(words[words.length - 1]) : '';
+  return (first(words[0]) + (isCjk(last) ? '' : last)).toUpperCase();
 }

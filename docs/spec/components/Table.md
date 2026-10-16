@@ -28,7 +28,7 @@ A plain, quiet data table: hairline rows, muted bold column headers, and rows th
 - Hover: the whole row fills `surface-muted`. Selected rows fill `action-subtle` and keep `text`.
 - Sort button: inherits the header type; it turns `text` on hover and when sorted. Sortable columns show a 14px up/down chevron pair in `text-muted`; the sorted column shows a single chevron pointing up (ascending) or down (descending). Focus: the standard 2px `focus-ring` at a 2px offset.
 - Empty row: centered `text-muted`, 40px vertical padding.
-- Actions in a row: `sm` `ghost` Buttons. Use the same button shape as the rest of the surface (pills next to Pagination).
+- Actions in a row: `sm` `ghost` Buttons, next to each other with no gap. Buttons inside a cell default to `shape="rounded"`, whose `sm` size has 8px sides, so a row of actions stays compact; this holds even when a pill Pagination sits under the table. End-align the actions column and pull the group 8px outward (`margin-inline-end: -8px`) so the last label lines up with the header.
 - The table has no background, border or radius of its own; the Card around it provides them.
 
 - Don't put a `primary` Badge in a row that can be selected: its `action-subtle` fill is the selected row's fill, so the badge disappears into it.

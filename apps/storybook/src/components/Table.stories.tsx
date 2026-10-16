@@ -270,7 +270,7 @@ export const WithTanStackTable: Story = {
   },
 };
 
-/** Row actions are `sm` ghost Buttons, in the same shape as the rest of the surface. */
+/** Row actions are `sm` ghost Buttons with no gap; cells make them rounded, the dense shape. */
 export const WithRowActions: Story = {
   name: 'With row actions',
   args: {
@@ -281,7 +281,7 @@ export const WithRowActions: Story = {
         header: '操作',
         align: 'end',
         cell: () => (
-          <span className={css({ display: 'inline-flex', gap: '1', marginInlineEnd: '-3' })}>
+          <span className={css({ display: 'inline-flex', marginInlineEnd: '-2' })}>
             <Button size="sm" variant="ghost" color="secondary">详情</Button>
             <Button size="sm" variant="ghost" color="error">删除</Button>
           </span>

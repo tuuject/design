@@ -60,8 +60,9 @@ const s = {
     padding: '4',
   }),
   total: css({ textStyle: 'small', color: 'text-muted' }),
-  // Pulls the last ghost button's padding back out, so its label lines up with the right-aligned header.
-  rowActions: css({ display: 'flex', justifyContent: 'flex-end', gap: '1', marginInlineEnd: '-3' }),
+  // No gap between the rounded actions; -2 pulls the last one's 8px side back out, so its label lines up with
+  // the right-aligned header.
+  rowActions: css({ display: 'flex', justifyContent: 'flex-end', marginInlineEnd: '-2' }),
   detail: css({ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2 6', margin: '0', textStyle: 'body' }),
   detailLabel: css({ color: 'text-muted', whiteSpace: 'nowrap' }),
   detailValue: css({ margin: '0' }),

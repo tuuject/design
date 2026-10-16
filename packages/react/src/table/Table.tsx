@@ -2,6 +2,7 @@ import * as React from 'react';
 import { cx } from '@koi/react/styled-system/css';
 import { table } from '@koi/react/styled-system/recipes';
 import { ChevronDownIcon, ChevronUpDownIcon, ChevronUpIcon } from '../icons';
+import { ShapeProvider } from '../shape';
 import {
   strings,
   type TableBodyOwnProps,
@@ -84,8 +85,13 @@ export function TableHeaderCell({ align, sort = false, onSort, className, childr
 
 export interface TableCellProps extends TableCellOwnProps, Omit<React.ComponentPropsWithRef<'td'>, keyof TableCellOwnProps | 'align'> {}
 
-export function TableCell({ align, className, ...rest }: TableCellProps) {
-  return <td {...rest} className={cx(table({ align }).cell, className)} />;
+/** A body or footer cell. Buttons inside default to shape="rounded", the dense shape, as in Dialog footers. */
+export function TableCell({ align, className, children, ...rest }: TableCellProps) {
+  return (
+    <td {...rest} className={cx(table({ align }).cell, className)}>
+      <ShapeProvider shape="rounded">{children}</ShapeProvider>
+    </td>
+  );
 }
 
 export interface TableEmptyProps extends TableEmptyOwnProps, Omit<React.ComponentPropsWithRef<'td'>, keyof TableEmptyOwnProps> {}
@@ -94,7 +100,9 @@ export interface TableEmptyProps extends TableEmptyOwnProps, Omit<React.Componen
 export function TableEmpty({ colSpan, className, children, ...rest }: TableEmptyProps) {
   return (
     <tr>
-      <td {...rest} colSpan={colSpan} className={cx(table().empty, className)}>{children ?? strings.noData}</td>
+      <td {...rest} colSpan={colSpan} className={cx(table().empty, className)}>
+        <ShapeProvider shape="rounded">{children ?? strings.noData}</ShapeProvider>
+      </td>
     </tr>
   );
 }

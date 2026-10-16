@@ -75,16 +75,20 @@ export const button = defineRecipe({
       rounded: { borderRadius: 'lg' },
     },
     /** Square, icon-only (IconButton). Width follows the size's height. Styled in compoundVariants below. */
-    iconOnly: { true: {} },
+    iconOnly: { true: {}, false: {} },
     fullWidth: {
       true: { width: '100%' },
     },
   },
   compoundVariants: [
     ...BUTTON_COLORS.flatMap((color) => BUTTON_VARIANTS.map((variant) => ({ color, variant, css: look(color, variant) }))),
+    // The rounded shape is the dense one (table rows, toolbars): a pill needs its 12px sides to read as a pill, a
+    // rounded sm button doesn't, and side by side the extra space reads as gaps. Text buttons only: Panda emits
+    // compound variants in its own order, so this can't rely on iconOnly's px 0 coming later.
+    { shape: 'rounded', size: 'sm', iconOnly: false, css: { px: '2' } },
     // Panda emits variants alphabetically within one layer, so `size`'s padding would beat a plain `iconOnly`
     // variant. compound_variants is a later layer.
     { iconOnly: true, css: { px: '0', flex: 'none', aspectRatio: '1' } },
   ],
-  defaultVariants: { color: 'primary', variant: 'solid', size: 'md', shape: 'pill' },
+  defaultVariants: { color: 'primary', variant: 'solid', size: 'md', shape: 'pill', iconOnly: false },
 });

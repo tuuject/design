@@ -23,6 +23,7 @@ Phase 0–1 的逐组件记录（每个组件相对 legacy 的 API / 行为决�
 - [ ] **motion 进 tokens.json**：现在在 `packages/tokens/scripts/motion.mjs`（文件头有 TODO）。native 的动画驱动也需要这些值。
 - [x] **Storybook 取代 playground**（2026-10-10）：`apps/storybook`，Storybook 10。`Introduction.mdx` 是首页，每个组件有 autodocs 和 stories，工具栏切换主题 / 字体 / 配色，docs 页面跟随工具栏主题。`pnpm shots` 截每个 story。
 - [ ] **Storybook 上线**：Cloudflare Workers 静态资源，`apps/storybook/wrangler.jsonc`（Worker `koi-storybook`，自定义域名 `components.design.tuu.run`）。Workers Builds 连 GitHub：root `/`，build `pnpm build:storybook`，deploy `pnpm deploy:storybook`（不能用 `pnpm --filter storybook deploy`，那会跑 pnpm 自带的 `deploy`）；Node 版本取自 `.nvmrc`，pnpm 取自 `packageManager`。还差 Cloudflare 后台操作：建 Worker、连仓库、设置 build watch paths（`apps/storybook/**`、`packages/**`、根配置），免得将来的 `apps/site`（design.tuu.run）触发它重建。
+- [x] **Admin Template**（2026-10-16）：`apps/admin`，Rsbuild + TanStack Router + Zustand 的后台管理模板，`@koi/react` 的综合集成示例。见 [admin.md](admin.md)。
 - [x] **recipes 与 Base UI 解耦**（2026-10-13）：见 [headless.md](headless.md)。生成的 CSS 逐字节不变。
 - [x] **公开 props 不暴露 Base UI 类型**（2026-10-13）：change callback 的第二个参数是 Koi 的 `ChangeDetails`。
 - [x] **`@koi/core`**（2026-10-14）：每个组件的 `<Name>OwnProps`、文案、纯函数。见 [core.md](core.md)。

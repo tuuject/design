@@ -24,6 +24,7 @@ koi-ui/
 │   ├── react/       # @koi/react：web 组件，Base UI（行为）+ Panda CSS v2（recipes）
 │   └── native/      # @koi/native：Expo 组件，Tamagui；目前只有 config
 ├── apps/storybook/  # Storybook 10：组件文档 + 视觉测试台（pnpm shots）
+├── apps/admin/      # Koi Admin Template：Rsbuild + TanStack Router + Zustand 后台模板（pnpm dev:admin）
 ├── docs/spec/       # 设计规范：README.md 是品牌手册，components/<Name>.md 是逐组件 spec
 ├── agent-doc/       # 面向 agent 的主题文档、计划
 ├── scripts/         # pnpm check 里的静态检查
@@ -45,7 +46,8 @@ koi-ui/
 | --- | --- |
 | 包分层、数据流、平台分工 | [agent-doc/architecture.md](agent-doc/architecture.md) |
 | 加 / 改 token、palette、组件尺寸、对比度 pair | [agent-doc/tokens.md](agent-doc/tokens.md) |
-| 写或改 web 组件，Panda / Base UI 的坑 | [agent-doc/web-components.md](agent-doc/web-components.md) |
+|写或改 web 组件，Panda / Base UI 的坑|[agent-doc/web-components.md](agent-doc/web-components.md)|
+|Admin 模板（Rsbuild、TanStack Router、集成示例、组件缺口）|[agent-doc/admin.md](agent-doc/admin.md)、`apps/admin/README.md`|
 | 写 native 组件，Tamagui config 与写法对应 | [agent-doc/native.md](agent-doc/native.md) |
 | prop / 文案 / 逻辑该放 core 还是平台包 | [agent-doc/core.md](agent-doc/core.md) |
 | recipe 里引用组件状态（不点名 Base UI） | [agent-doc/headless.md](agent-doc/headless.md) |
@@ -75,6 +77,7 @@ koi-ui/
 - `pnpm check`：codegen + 对比度 + raw 颜色 / raw 尺寸 / headless / core 检查 + 全部 typecheck。**提交前必须通过。**
 - `pnpm shots [组件…]`：截每个 story 的浅色和深色到 `apps/storybook/shots/`。`KOI_PALETTE=rose` / `KOI_FONT=chill` 截其它配色 / 字体。任何视觉改动后都要打开 PNG 看。
 - `pnpm dev`：tokens + codegen + Storybook（端口 6006）。长期进程。
+- `pnpm dev:admin`：tokens + codegen + Admin 模板 dev server（端口 3000）。长期进程。
 - `pnpm build:storybook` / `pnpm deploy:storybook`：静态 Storybook 构建 / 部署到 Cloudflare Workers。
 
 ## Long-Running Process Rules

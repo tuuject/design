@@ -10,7 +10,11 @@ export default defineConfig({
   // preset-base gives the utilities and the _hover/_focusVisible… conditions. We deliberately do NOT
   // include @pandacss/preset-panda: the only tokens that exist are Koi's.
   presets: ['@pandacss/preset-base', koiPreset],
-  include: ['./packages/react/src/**/*.{ts,tsx}', './apps/storybook/src/**/*.{ts,tsx}'],
+  include: [
+    './packages/react/src/**/*.{ts,tsx}',
+    './apps/storybook/src/**/*.{ts,tsx}',
+    './apps/admin/src/**/*.{ts,tsx}',
+  ],
   exclude: [],
   outdir: 'packages/react/styled-system',
   // Library and apps import the generated code by package name (`@koi/react/styled-system/css`),
@@ -22,7 +26,15 @@ export default defineConfig({
   // `400px` for sizes and spacing. Hard-coded colors are caught by scripts/check-raw-colors.mjs instead.
   // Revisit once Phase 1 is done (escape hatch syntax: '[12px]').
   strictTokens: false,
-  theme: { extend: { recipes, slotRecipes } },
+  theme: {
+    extend: {
+      recipes,
+      slotRecipes,
+      // The only breakpoint this repo needs so far (Bilisound switches layouts at md 768). Lives here
+      // until breakpoints move into tokens.json (plan.md 未决事项).
+      breakpoints: { md: '768px' },
+    },
+  },
   // The library must ship every variant, not just the ones the stories happen to use.
   staticCss: { recipes: '*' },
   globalCss,

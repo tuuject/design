@@ -39,7 +39,7 @@ const s = {
       },
     },
   }),
-  brand: css({ display: 'flex', alignItems: 'center', gap: '2', height: 'control-lg' }),
+  brand: css({ display: 'flex', alignItems: 'center', gap: '3', height: 'control-lg' }),
   logo: css({
     flexShrink: 0,
     display: 'flex',
@@ -53,7 +53,7 @@ const s = {
     textStyle: 'heading-3',
     fontWeight: 'bold',
   }),
-  brandText: css({ display: 'flex', flexDirection: 'column', lineHeight: '1.25' }),
+  brandText: css({ display: 'flex', flexDirection: 'column', gap: '0.125rem' }),
   brandTitle: css({ textStyle: 'heading-3', fontWeight: 'bold', color: 'text' }),
   brandSubtitle: css({ textStyle: 'small', color: 'text-muted' }),
   nav: css({ display: 'flex', flexDirection: 'column', flex: '1', minH: '0' }),

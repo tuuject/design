@@ -1,27 +1,23 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
+
+type Theme = 'light' | 'dark';
+
+const root = document.documentElement;
+const readTheme = (): Theme => (root.dataset.theme === 'dark' ? 'dark' : 'light');
+
+// Watch the attribute itself, so every writer is seen: koiSetTheme, and theme-init following an OS flip.
+function subscribe(onChange: () => void) {
+  const observer = new MutationObserver(onChange);
+  observer.observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  return () => observer.disconnect();
+}
 
 /**
  * Light / dark state for the shell. The source of truth is theme-init.js (localStorage "koi-theme"
- * or the OS setting, applied as <html data-theme>); this hook only mirrors it for icons and labels.
+ * or the OS setting, applied as <html data-theme>); this hook only reads it for icons and labels.
  */
 export function useTheme() {
-  const [theme, setTheme] = useState<'light' | 'dark'>(() =>
-    document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
-  );
-
-  useEffect(() => {
-    // While on "follow the OS", a system flip must update the toggle. theme-init re-applies on change.
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const sync = () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
-  }, []);
-
-  const toggle = useCallback(() => {
-    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-    window.koiSetTheme?.(next);
-    setTheme(next);
-  }, []);
-
+  const theme = useSyncExternalStore(subscribe, readTheme);
+  const toggle = () => window.koiSetTheme?.(theme === 'dark' ? 'light' : 'dark');
   return { theme, toggle };
 }

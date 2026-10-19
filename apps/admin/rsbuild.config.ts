@@ -14,7 +14,8 @@ const themeInit = readFileSync(require.resolve('@koi/tokens/theme-init.js'), 'ut
 export default defineConfig({
   plugins: [pluginReact()],
   html: {
-    title: 'Koi Admin',
+    // Empty skips the template <title> (unset falls back to "Rsbuild App"); routes/__root.tsx renders the real one.
+    title: '',
     tags: [{ tag: 'script', head: true, append: false, children: themeInit }],
   },
   tools: {

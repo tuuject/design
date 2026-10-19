@@ -1,7 +1,7 @@
-import { defineSlotRecipe } from '@pandacss/dev';
-import { state } from './headless';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev';
 import { focusRing, toPx } from './dimensions';
+import { state } from './headless';
 
 // Port of .koi-check* in reference/legacy-web/components/bundle.css and docs/spec/components/Checkbox.md.
 // DOM: <label root> <span control role=checkbox><span indicator><svg/></span></span> <input hidden/> <span text>…</span> </label>.
@@ -21,7 +21,9 @@ export const choiceRow = {
     textStyle: 'body',
     [`&:has(> ${state.disabled})` as const]: { color: 'text-disabled', cursor: 'not-allowed' },
     // Hovering anywhere on the row darkens an unticked, enabled, valid edge.
-    [`&:hover > ${state.unchecked}:not(${state.disabled}, [aria-invalid=true])` as const]: { borderColor: 'border-control-hover' },
+    [`&:hover > ${state.unchecked}:not(${state.disabled}, [aria-invalid=true])` as const]: {
+      borderColor: 'border-control-hover',
+    },
   },
   text: { display: 'flex', flexDirection: 'column' },
   label: { textStyle: 'body' },
@@ -58,7 +60,11 @@ export const choiceControl = {
   [`&[aria-invalid=true]:not(${state.checked})` as const]: { borderColor: 'error-control' },
   [`&${state.disabled}` as const]: { bg: 'surface-muted', borderColor: 'border' },
   // Beats both rules above by specificity: a disabled tick or dot keeps its fill, faded (legacy's opacity .5).
-  [`&${state.checked}${state.disabled}` as const]: { bg: 'control-checked', borderColor: 'control-checked', opacity: '0.5' },
+  [`&${state.checked}${state.disabled}` as const]: {
+    bg: 'control-checked',
+    borderColor: 'control-checked',
+    opacity: '0.5',
+  },
 } as const;
 
 export const checkbox = defineSlotRecipe({

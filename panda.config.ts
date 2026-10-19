@@ -2,9 +2,9 @@
 // and writes the generated styled-system into packages/react/styled-system (gitignored).
 // Panda v2 notes: ESM only, Node 22+, presets are NOT added automatically, `panda codegen --clean` after upgrades.
 import { defineConfig } from '@pandacss/dev';
-import koiPreset from './packages/tokens/dist/panda-preset.js';
-import { recipes, slotRecipes } from './packages/react/src/recipes';
 import { globalCss } from './packages/react/src/global-css';
+import { recipes, slotRecipes } from './packages/react/src/recipes';
+import koiPreset from './packages/tokens/dist/panda-preset.js';
 
 export default defineConfig({
   // preset-base gives the utilities and the _hover/_focusVisible… conditions. We deliberately do NOT

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { fn } from 'storybook/test';
 import { Button, Field, Input, Select } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
-import { stack, row, label } from '../layout';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
+import { label, row, stack } from '../layout';
 
 const width = css({ width: '[320px]', maxWidth: '100%' });
 const narrow = css({ width: '[200px]' });
@@ -34,11 +34,26 @@ export const Playground: Story = {};
 export const States: Story = {
   render: (args) => (
     <div className={stack}>
-      <div className={row}><span className={label}>placeholder</span><Select {...args} /></div>
-      <div className={row}><span className={label}>filled</span><Select {...args} defaultValue="sh" /></div>
-      <div className={row}><span className={label}>invalid</span><Select {...args} invalid /></div>
-      <div className={row}><span className={label}>disabled</span><Select {...args} disabled /></div>
-      <div className={row}><span className={label}>disabled filled</span><Select {...args} defaultValue="sh" disabled /></div>
+      <div className={row}>
+        <span className={label}>placeholder</span>
+        <Select {...args} />
+      </div>
+      <div className={row}>
+        <span className={label}>filled</span>
+        <Select {...args} defaultValue="sh" />
+      </div>
+      <div className={row}>
+        <span className={label}>invalid</span>
+        <Select {...args} invalid />
+      </div>
+      <div className={row}>
+        <span className={label}>disabled</span>
+        <Select {...args} disabled />
+      </div>
+      <div className={row}>
+        <span className={label}>disabled filled</span>
+        <Select {...args} defaultValue="sh" disabled />
+      </div>
     </div>
   ),
 };

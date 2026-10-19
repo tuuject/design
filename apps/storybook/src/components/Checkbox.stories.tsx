@@ -1,9 +1,9 @@
+import { Button, Card, Checkbox, Field } from '@koi/react';
+import { css } from '@koi/react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { fn } from 'storybook/test';
-import { Button, Card, Checkbox, Field } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
-import { stack, row, label } from '../layout';
+import { label, row, stack } from '../layout';
 
 const width = css({ width: '[360px]', maxWidth: '100%' });
 const list = css({ display: 'flex', flexDirection: 'column', gap: '3' });
@@ -35,12 +35,30 @@ export const Playground: Story = {};
 export const States: Story = {
   render: (args) => (
     <div className={stack}>
-      <div className={row}><span className={label}>unchecked</span><Checkbox {...args} label="记住我" /></div>
-      <div className={row}><span className={label}>checked</span><Checkbox {...args} label="记住我" defaultChecked /></div>
-      <div className={row}><span className={label}>invalid</span><Checkbox {...args} label="我已阅读并同意服务条款" aria-invalid /></div>
-      <div className={row}><span className={label}>disabled</span><Checkbox {...args} label="记住我" disabled /></div>
-      <div className={row}><span className={label}>disabled checked</span><Checkbox {...args} label="记住我" defaultChecked disabled /></div>
-      <div className={row}><span className={label}>no label</span><Checkbox {...args} label={undefined} aria-label="选择这一行" defaultChecked /></div>
+      <div className={row}>
+        <span className={label}>unchecked</span>
+        <Checkbox {...args} label="记住我" />
+      </div>
+      <div className={row}>
+        <span className={label}>checked</span>
+        <Checkbox {...args} label="记住我" defaultChecked />
+      </div>
+      <div className={row}>
+        <span className={label}>invalid</span>
+        <Checkbox {...args} label="我已阅读并同意服务条款" aria-invalid />
+      </div>
+      <div className={row}>
+        <span className={label}>disabled</span>
+        <Checkbox {...args} label="记住我" disabled />
+      </div>
+      <div className={row}>
+        <span className={label}>disabled checked</span>
+        <Checkbox {...args} label="记住我" defaultChecked disabled />
+      </div>
+      <div className={row}>
+        <span className={label}>no label</span>
+        <Checkbox {...args} label={undefined} aria-label="选择这一行" defaultChecked />
+      </div>
     </div>
   ),
 };
@@ -92,11 +110,20 @@ export const InAForm: Story = {
       <form className={form} onSubmit={(e) => e.preventDefault()}>
         <div className={list}>
           <Checkbox {...args} name="notify" value="posts" label="新文章" defaultChecked />
-          <Checkbox {...args} name="notify" value="replies" label="评论回复" description="只在有人直接回复你时提醒。" defaultChecked />
+          <Checkbox
+            {...args}
+            name="notify"
+            value="replies"
+            label="评论回复"
+            description="只在有人直接回复你时提醒。"
+            defaultChecked
+          />
           <Checkbox {...args} name="notify" value="digest" label="每周摘要" />
         </div>
         <div className={actions}>
-          <Button color="secondary" variant="ghost" type="button">取消</Button>
+          <Button color="secondary" variant="ghost" type="button">
+            取消
+          </Button>
           <Button type="submit">保存</Button>
         </div>
       </form>

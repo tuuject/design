@@ -1,10 +1,10 @@
-import * as React from 'react';
 import { css } from '@koi/react/styled-system/css';
 import { Outlet, useRouterState } from '@tanstack/react-router';
-import { Sidebar } from './Sidebar';
-import { Topbar } from './Topbar';
+import * as React from 'react';
 import { useUiStore } from '../../stores/ui';
+import { Sidebar } from './Sidebar';
 import { SHELL_Z_INDEX } from './shared';
+import { Topbar } from './Topbar';
 
 const s = {
   root: css({ display: 'flex', minHeight: '100%', bg: 'page-bg' }),
@@ -36,8 +36,11 @@ export function AppShell() {
 
   // Any navigation closes the mobile drawer (skip the very first render).
   const mounted = React.useRef(false);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: the effect must re-run on every navigation
   React.useEffect(() => {
-    if (mounted.current) setMobileNavOpen(false);
+    if (mounted.current) {
+      setMobileNavOpen(false);
+    }
     mounted.current = true;
   }, [pathname, setMobileNavOpen]);
 

@@ -1,9 +1,9 @@
-import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { fn } from 'storybook/test';
-import { Tag, CheckIcon, SearchIcon, type TagProps } from '@koi/react';
+import { CheckIcon, SearchIcon, Tag, type TagProps } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
-import { stack, row, label } from '../layout';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import * as React from 'react';
+import { fn } from 'storybook/test';
+import { label, row, stack } from '../layout';
 
 const tagRow = css({ display: 'flex', gap: '2', flexWrap: 'wrap', alignItems: 'center' });
 
@@ -45,21 +45,35 @@ export const States: Story = {
         <Tag>设计系统</Tag>
         <Tag icon={<SearchIcon />}>搜索词</Tag>
         <Tag onRemove={() => {}}>可移除</Tag>
-        <Tag icon={<SearchIcon />} onRemove={() => {}}>可移除</Tag>
+        <Tag icon={<SearchIcon />} onRemove={() => {}}>
+          可移除
+        </Tag>
       </div>
       <div className={row}>
         <span className={label}>selected</span>
         <Tag selected>设计系统</Tag>
-        <Tag selected icon={<CheckIcon />}>已选择</Tag>
-        <Tag selected onRemove={() => {}}>可移除</Tag>
-        <Tag selected icon={<CheckIcon />} onRemove={() => {}}>可移除</Tag>
+        <Tag selected icon={<CheckIcon />}>
+          已选择
+        </Tag>
+        <Tag selected onRemove={() => {}}>
+          可移除
+        </Tag>
+        <Tag selected icon={<CheckIcon />} onRemove={() => {}}>
+          可移除
+        </Tag>
       </div>
       <div className={row}>
         <span className={label}>toggle</span>
         <Tag onSelectedChange={() => {}}>未选</Tag>
-        <Tag selected onSelectedChange={() => {}}>已选</Tag>
-        <Tag onSelectedChange={() => {}} onRemove={() => {}}>未选可移除</Tag>
-        <Tag selected onSelectedChange={() => {}} onRemove={() => {}}>已选可移除</Tag>
+        <Tag selected onSelectedChange={() => {}}>
+          已选
+        </Tag>
+        <Tag onSelectedChange={() => {}} onRemove={() => {}}>
+          未选可移除
+        </Tag>
+        <Tag selected onSelectedChange={() => {}} onRemove={() => {}}>
+          已选可移除
+        </Tag>
       </div>
     </div>
   ),
@@ -72,18 +86,21 @@ export const Filters: Story = {
   render: function Render() {
     const [chosen, setChosen] = React.useState<string[]>(['前端', '设计']);
     return (
-      <div className={tagRow} role="group" aria-label="按主题筛选">
-        {topics.map((t) => (
-          <Tag
-            key={t}
-            selected={chosen.includes(t)}
-            icon={chosen.includes(t) ? <CheckIcon /> : undefined}
-            onSelectedChange={(on) => setChosen((c) => (on ? [...c, t] : c.filter((x) => x !== t)))}
-          >
-            {t}
-          </Tag>
-        ))}
-      </div>
+      <>
+        {/* biome-ignore lint/a11y/useSemanticElements: a fieldset's default border and padding would break the chip row */}
+        <div className={tagRow} role="group" aria-label="按主题筛选">
+          {topics.map((t) => (
+            <Tag
+              key={t}
+              selected={chosen.includes(t)}
+              icon={chosen.includes(t) ? <CheckIcon /> : undefined}
+              onSelectedChange={(on) => setChosen((c) => (on ? [...c, t] : c.filter((x) => x !== t)))}
+            >
+              {t}
+            </Tag>
+          ))}
+        </div>
+      </>
     );
   },
 };
@@ -97,9 +114,13 @@ export const Removable: Story = {
     return (
       <div className={tagRow}>
         {list.map((p) => (
-          <Tag key={p} onRemove={() => setList((l) => l.filter((x) => x !== p))}>{p}</Tag>
+          <Tag key={p} onRemove={() => setList((l) => l.filter((x) => x !== p))}>
+            {p}
+          </Tag>
         ))}
-        {list.length === 0 ? <span className={css({ textStyle: 'small', color: 'text-muted' })}>没有收件人</span> : null}
+        {list.length === 0 ? (
+          <span className={css({ textStyle: 'small', color: 'text-muted' })}>没有收件人</span>
+        ) : null}
       </div>
     );
   },

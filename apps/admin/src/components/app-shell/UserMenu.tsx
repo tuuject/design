@@ -1,8 +1,8 @@
-import { css } from '@koi/react/styled-system/css';
+import { Menu } from '@base-ui/react/menu';
 import { Avatar } from '@koi/react/avatar';
 import { ChevronDownIcon } from '@koi/react/icons';
+import { css } from '@koi/react/styled-system/css';
 import { components, sizes } from '@koi/tokens/dimensions';
-import { Menu } from '@base-ui/react/menu';
 import { useNavigate } from '@tanstack/react-router';
 import { useAuthStore } from '../../stores/auth';
 import { LogoutIcon, SlidersIcon } from '../icons';
@@ -45,7 +45,8 @@ const s = {
     padding: '1',
     outline: 'none',
     transformOrigin: 'var(--transform-origin)',
-    transition: 'opacity token(durations.fast) token(easings.out), transform token(durations.check) token(easings.spring)',
+    transition:
+      'opacity token(durations.fast) token(easings.out), transform token(durations.check) token(easings.spring)',
     '&[data-starting-style], &[data-ending-style]': { opacity: '0', transform: 'scale(.96)' },
   }),
   header: css({ display: 'flex', alignItems: 'center', gap: '3', paddingInline: '3', paddingBlock: '2' }),
@@ -81,7 +82,9 @@ export function UserMenu() {
   const logout = useAuthStore((st) => st.logout);
   const navigate = useNavigate();
 
-  if (!user) return null;
+  if (!user) {
+    return null;
+  }
 
   return (
     <Menu.Root>

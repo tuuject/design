@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { fn } from 'storybook/test';
 import { Button, CloseIcon, ExternalIcon, IconButton, InfoIcon, Link, SearchIcon, Tooltip } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
-import { row, label } from '../layout';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
+import { label, row } from '../layout';
 
 // Room above and below each trigger, so an open tooltip has space on both sides and doesn't flip.
 const roomy = css({ py: '12' });
@@ -16,7 +16,11 @@ const meta = {
   args: {
     content: '复制文章链接',
     side: 'top',
-    children: <Button color="secondary" variant="soft">分享</Button>,
+    children: (
+      <Button color="secondary" variant="soft">
+        分享
+      </Button>
+    ),
     onOpenChange: fn(),
   },
   argTypes: {
@@ -29,7 +33,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const withRoom: Story['decorators'] = [(Story) => <div className={roomy}><Story /></div>];
+const withRoom: Story['decorators'] = [
+  (Story) => (
+    <div className={roomy}>
+      <Story />
+    </div>
+  ),
+];
 
 /** Hover or tab to the button. */
 export const Playground: Story = { decorators: withRoom };
@@ -44,10 +54,14 @@ export const Sides: Story = {
   render: (args) => (
     <div className={wide}>
       <Tooltip {...args} side="top" content="上方（默认）" open>
-        <Button color="secondary" variant="outline">top</Button>
+        <Button color="secondary" variant="outline">
+          top
+        </Button>
       </Tooltip>
       <Tooltip {...args} side="bottom" content="下方" open>
-        <Button color="secondary" variant="outline">bottom</Button>
+        <Button color="secondary" variant="outline">
+          bottom
+        </Button>
       </Tooltip>
     </div>
   ),
@@ -91,8 +105,15 @@ export const Triggers: Story = {
       </div>
       <div className={row}>
         <span className={label}>long</span>
-        <Tooltip {...args} content="草稿会自动保存在本地，关闭页面后再打开也不会丢失，但换一台设备就看不到了。" side="bottom" open>
-          <Button color="secondary" variant="ghost" iconStart={<InfoIcon />}>草稿说明</Button>
+        <Tooltip
+          {...args}
+          content="草稿会自动保存在本地，关闭页面后再打开也不会丢失，但换一台设备就看不到了。"
+          side="bottom"
+          open
+        >
+          <Button color="secondary" variant="ghost" iconStart={<InfoIcon />}>
+            草稿说明
+          </Button>
         </Tooltip>
       </div>
     </div>
@@ -106,7 +127,9 @@ export const Flip: Story = {
     <div className={row}>
       <span className={label}>side=&quot;top&quot;</span>
       <Tooltip {...args} content="上方放不下，翻到下方" side="top" open>
-        <Button color="secondary" variant="outline">靠近顶部</Button>
+        <Button color="secondary" variant="outline">
+          靠近顶部
+        </Button>
       </Tooltip>
     </div>
   ),

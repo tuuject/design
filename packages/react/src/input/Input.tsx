@@ -1,9 +1,9 @@
-import * as React from 'react';
 import { Input as BaseInput } from '@base-ui/react/input';
+import type { InputOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { input } from '@koi/react/styled-system/recipes';
+import * as React from 'react';
 import { KoiFieldContext } from '../field/context';
-import type { InputOwnProps } from '@koi/core';
 
 export interface InputProps extends InputOwnProps, Omit<React.ComponentPropsWithRef<'input'>, keyof InputOwnProps> {}
 
@@ -11,7 +11,17 @@ export interface InputProps extends InputOwnProps, Omit<React.ComponentPropsWith
  * A single-line text field. Inside a Field it picks up the label, help, error and required state;
  * on its own, give it an aria-label.
  */
-export function Input({ size = 'md', invalid, iconStart, iconEnd, className, id, required, disabled, ...rest }: InputProps) {
+export function Input({
+  size = 'md',
+  invalid,
+  iconStart,
+  iconEnd,
+  className,
+  id,
+  required,
+  disabled,
+  ...rest
+}: InputProps) {
   const f = React.useContext(KoiFieldContext);
   const s = input({ size });
   return (

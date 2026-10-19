@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { fn } from 'storybook/test';
 import { Avatar, Badge, Button, Field, SelectGroup, SelectItem, SelectPanel, SelectSeparator } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
-import { stack, row, label } from '../layout';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
+import { label, row, stack } from '../layout';
 
 const width = css({ width: '[320px]', maxWidth: '100%' });
 const narrow = css({ width: '[200px]' });
@@ -18,13 +18,47 @@ const cities = [
 ];
 
 const regions = [
-  { label: '华东', items: [{ value: 'sh', label: '上海' }, { value: 'hz', label: '杭州' }, { value: 'nj', label: '南京' }, { value: 'sz-js', label: '苏州' }] },
-  { label: '华北', items: [{ value: 'bj', label: '北京' }, { value: 'tj', label: '天津' }] },
-  { label: '华南', items: [{ value: 'gz', label: '广州' }, { value: 'sz', label: '深圳' }, { value: 'xm', label: '厦门' }] },
-  { label: '西南', items: [{ value: 'cd', label: '成都' }, { value: 'cq', label: '重庆' }, { value: 'km', label: '昆明', disabled: true }] },
+  {
+    label: '华东',
+    items: [
+      { value: 'sh', label: '上海' },
+      { value: 'hz', label: '杭州' },
+      { value: 'nj', label: '南京' },
+      { value: 'sz-js', label: '苏州' },
+    ],
+  },
+  {
+    label: '华北',
+    items: [
+      { value: 'bj', label: '北京' },
+      { value: 'tj', label: '天津' },
+    ],
+  },
+  {
+    label: '华南',
+    items: [
+      { value: 'gz', label: '广州' },
+      { value: 'sz', label: '深圳' },
+      { value: 'xm', label: '厦门' },
+    ],
+  },
+  {
+    label: '西南',
+    items: [
+      { value: 'cd', label: '成都' },
+      { value: 'cq', label: '重庆' },
+      { value: 'km', label: '昆明', disabled: true },
+    ],
+  },
 ];
 
-interface Member { value: string; label: string; email: string; role?: string; disabled?: boolean }
+interface Member {
+  value: string;
+  label: string;
+  email: string;
+  role?: string;
+  disabled?: boolean;
+}
 const members: Member[] = [
   { value: 'tcdw', label: 'tcdw', email: 'tcdw@example.com', role: '管理员' },
   { value: 'mio', label: '秋山澪', email: 'mio@example.com' },
@@ -61,16 +95,39 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /** Click the trigger, or focus it and press ↓, Enter or Space. Turn on `searchable` for a search box. */
-export const Playground: Story = { decorators: [(Story) => <div className={room}><Story /></div>] };
+export const Playground: Story = {
+  decorators: [
+    (Story) => (
+      <div className={room}>
+        <Story />
+      </div>
+    ),
+  ],
+};
 
 export const States: Story = {
   render: (args) => (
     <div className={stack}>
-      <div className={row}><span className={label}>placeholder</span><SelectPanel {...args} /></div>
-      <div className={row}><span className={label}>filled</span><SelectPanel {...args} defaultValue="sh" /></div>
-      <div className={row}><span className={label}>invalid</span><SelectPanel {...args} invalid /></div>
-      <div className={row}><span className={label}>disabled</span><SelectPanel {...args} disabled /></div>
-      <div className={row}><span className={label}>disabled filled</span><SelectPanel {...args} defaultValue="sh" disabled /></div>
+      <div className={row}>
+        <span className={label}>placeholder</span>
+        <SelectPanel {...args} />
+      </div>
+      <div className={row}>
+        <span className={label}>filled</span>
+        <SelectPanel {...args} defaultValue="sh" />
+      </div>
+      <div className={row}>
+        <span className={label}>invalid</span>
+        <SelectPanel {...args} invalid />
+      </div>
+      <div className={row}>
+        <span className={label}>disabled</span>
+        <SelectPanel {...args} disabled />
+      </div>
+      <div className={row}>
+        <span className={label}>disabled filled</span>
+        <SelectPanel {...args} defaultValue="sh" disabled />
+      </div>
     </div>
   ),
 };
@@ -93,21 +150,39 @@ export const Sizes: Story = {
 export const Open: Story = {
   tags: ['shot-viewport'],
   args: { defaultOpen: true, defaultValue: 'bj' },
-  decorators: [(Story) => <div className={room}><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div className={room}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 /** Groups (`{label, items}`) get a heading each. */
 export const Grouped: Story = {
   tags: ['shot-viewport'],
   args: { items: regions, defaultOpen: true, defaultValue: 'hz' },
-  decorators: [(Story) => <div className={room}><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div className={room}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 /** `searchable` adds a search box; typing filters by label and drops groups with no match. */
 export const Searchable: Story = {
   tags: ['shot-viewport'],
   args: { items: regions, searchable: true, defaultOpen: true, defaultValue: 'gz' },
-  decorators: [(Story) => <div className={room}><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div className={room}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 /**
@@ -126,19 +201,38 @@ export const CustomPanel: Story = {
     defaultOpen: true,
     defaultValue: 'mio',
   },
-  decorators: [(Story) => <div className={room}><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div className={room}>
+        <Story />
+      </div>
+    ),
+  ],
   render: (args) => (
     <SelectPanel
       {...args}
       items={members}
-      renderValue={(m) => <span className={person}><Avatar name={m.label} size="sm" />{m.label}</span>}
+      renderValue={(m) => (
+        <span className={person}>
+          <Avatar name={m.label} size="sm" />
+          {m.label}
+        </span>
+      )}
     >
       {(items) => (
         <>
-          {items.filter((m) => m.role).map((m) => <MemberItem key={m.value} m={m} />)}
+          {items
+            .filter((m) => m.role)
+            .map((m) => (
+              <MemberItem key={m.value} m={m} />
+            ))}
           {items.some((m) => m.role) && items.some((m) => !m.role) ? <SelectSeparator /> : null}
           <SelectGroup label="成员">
-            {items.filter((m) => !m.role).map((m) => <MemberItem key={m.value} m={m} />)}
+            {items
+              .filter((m) => !m.role)
+              .map((m) => (
+                <MemberItem key={m.value} m={m} />
+              ))}
           </SelectGroup>
         </>
       )}

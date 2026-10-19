@@ -1,9 +1,9 @@
 import { css } from '@koi/react/styled-system/css';
+import { Tooltip } from '@koi/react/tooltip';
 import { sizes } from '@koi/tokens/dimensions';
 import { useNavigate, useRouterState } from '@tanstack/react-router';
 import { NAV_ITEMS } from '../../nav';
 import { useUiStore } from '../../stores/ui';
-import { Tooltip } from '@koi/react/tooltip';
 import { focusRing, SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from './shared';
 
 const s = {
@@ -56,8 +56,17 @@ const s = {
   brandText: css({ display: 'flex', flexDirection: 'column', gap: '0.125rem' }),
   brandTitle: css({ textStyle: 'heading-3', fontWeight: 'bold', color: 'text' }),
   brandSubtitle: css({ textStyle: 'small', color: 'text-muted' }),
-  nav: css({ display: 'flex', flexDirection: 'column', flex: '1', minH: '0' }),
-  list: css({ display: 'flex', flexDirection: 'column', gap: '1' }),
+  nav: css({
+    display: 'flex',
+    flexDirection: 'column',
+    flex: '1',
+    minH: '0',
+  }),
+  list: css({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1',
+  }),
   item: css({
     display: 'flex',
     alignItems: 'center',
@@ -94,7 +103,10 @@ function NavItemButton({ item, active, collapsed, onNavigate }: NavItemButtonPro
       className={s.item}
       data-active={active || undefined}
       aria-current={active ? 'page' : undefined}
-      onClick={() => { navigate({ to: item.to }); onNavigate(); }}
+      onClick={() => {
+        navigate({ to: item.to });
+        onNavigate();
+      }}
     >
       <item.icon size={sizes.icon} />
       <span data-nav-label>{item.title}</span>

@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { Dialog as BaseDialog } from '@base-ui/react/dialog';
 import { AlertDialog } from '@base-ui/react/alert-dialog';
-import { dialog } from '@koi/react/styled-system/recipes';
+import { Dialog as BaseDialog } from '@base-ui/react/dialog';
+import { type DialogOwnProps, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
-import { ShapeProvider } from '../shape';
+import { dialog } from '@koi/react/styled-system/recipes';
+import { sizes } from '@koi/tokens/dimensions';
+import * as React from 'react';
 import { IconButton } from '../button/Button';
 import { CloseIcon } from '../icons';
-import { strings, type DialogOwnProps } from '@koi/core';
-import { sizes } from '@koi/tokens/dimensions';
+import { ShapeProvider } from '../shape';
 
 export interface DialogProps extends DialogOwnProps {
   className?: string;
@@ -42,9 +42,14 @@ export function Dialog({
   const handleOpenChange = (next: boolean) => onOpenChange(next);
   // When a click outside doesn't close the dialog, a mousedown on the empty area around the popup would still
   // blur the focused control and drop focus on <body> (Base UI only pulls it back on the next Tab). Keep it put.
-  const keepFocus = alert || !dismissible
-    ? (event: React.MouseEvent<HTMLDivElement>) => { if (event.target === event.currentTarget) event.preventDefault(); }
-    : undefined;
+  const keepFocus =
+    alert || !dismissible
+      ? (event: React.MouseEvent<HTMLDivElement>) => {
+          if (event.target === event.currentTarget) {
+            event.preventDefault();
+          }
+        }
+      : undefined;
 
   const portal = (
     <BaseDialog.Portal>
@@ -52,17 +57,28 @@ export function Dialog({
       <BaseDialog.Viewport className={s.viewport} onMouseDown={keepFocus}>
         <BaseDialog.Popup className={cx(s.popup, className)} initialFocus={initialFocus}>
           {title != null && <BaseDialog.Title className={s.title}>{title}</BaseDialog.Title>}
-          {description != null && <BaseDialog.Description className={s.description}>{description}</BaseDialog.Description>}
+          {description != null && (
+            <BaseDialog.Description className={s.description}>{description}</BaseDialog.Description>
+          )}
           {children != null && <div className={s.body}>{children}</div>}
           {footer != null && (
             <ShapeProvider shape="rounded">
-              <div ref={footerRef} className={s.footer}>{footer}</div>
+              <div ref={footerRef} className={s.footer}>
+                {footer}
+              </div>
             </ShapeProvider>
           )}
           {!hideClose && (
             <BaseDialog.Close
               className={s.close}
-              render={<IconButton label={strings.close} icon={<CloseIcon size={sizes['icon-lg']} />} size="sm" shape="rounded" />}
+              render={
+                <IconButton
+                  label={strings.close}
+                  icon={<CloseIcon size={sizes['icon-lg']} />}
+                  size="sm"
+                  shape="rounded"
+                />
+              }
             />
           )}
         </BaseDialog.Popup>

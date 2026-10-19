@@ -1,7 +1,7 @@
-import { defineSlotRecipe } from '@pandacss/dev';
-import { state } from './headless';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev';
 import { toPx } from './dimensions';
+import { state } from './headless';
 
 // Port of .koi-progress in reference/legacy-web/components/bundle.css and docs/spec/components/Progress.md.
 // Base UI's Progress.Root is the role="progressbar" element and wraps the whole thing (label, value and track);

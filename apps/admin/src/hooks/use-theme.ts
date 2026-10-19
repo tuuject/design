@@ -5,8 +5,8 @@ import * as React from 'react';
  * or the OS setting, applied as <html data-theme>); this hook only mirrors it for icons and labels.
  */
 export function useTheme() {
-  const [theme, setTheme] = React.useState<'light' | 'dark'>(
-    () => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'),
+  const [theme, setTheme] = React.useState<'light' | 'dark'>(() =>
+    document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
   );
 
   React.useEffect(() => {

@@ -1,7 +1,7 @@
-import { createFont, createTamagui, createTokens, isWeb, type CreateTamaguiProps } from '@tamagui/core';
 import { layers, radii, sizes, space } from '@koi/tokens/dimensions';
 import { fontStacks, type } from '@koi/tokens/native';
-import { createColors, defaultPalette, palettes, type Palette, type RoleToken, type Theme } from '@koi/tokens/palette';
+import { createColors, defaultPalette, type Palette, palettes, type RoleToken, type Theme } from '@koi/tokens/palette';
+import { type CreateTamaguiProps, createFont, createTamagui, createTokens, isWeb } from '@tamagui/core';
 
 // Koi as a Tamagui config, built from @koi/tokens, so iOS, Android and Expo web read the same numbers and colors as
 // @koi/react. Nothing here is hand-tuned: change tokens.json, not this file.
@@ -17,7 +17,10 @@ const camel = (s: string) => s.replace(/-([a-z0-9])/g, (_, c: string) => c.toUpp
  */
 export function createKoiTheme(palette: Palette, appearance: Theme) {
   const colors = createColors(palette, appearance);
-  const theme = Object.fromEntries(Object.entries(colors).map(([k, v]) => [camel(k), v])) as Record<KoiThemeKey, string>;
+  const theme = Object.fromEntries(Object.entries(colors).map(([k, v]) => [camel(k), v])) as Record<
+    KoiThemeKey,
+    string
+  >;
   return {
     ...theme,
     background: theme.pageBg,
@@ -40,7 +43,9 @@ export function createKoiThemes(extra: Record<string, Palette> = {}) {
     dark: createKoiTheme(all[defaultPalette], 'dark'),
   };
   for (const [id, palette] of Object.entries(all)) {
-    if (id === defaultPalette) continue;
+    if (id === defaultPalette) {
+      continue;
+    }
     themes[`light_${id}`] = createKoiTheme(palette, 'light');
     themes[`dark_${id}`] = createKoiTheme(palette, 'dark');
   }
@@ -60,7 +65,9 @@ export const tokens = createTokens({
 
 type TextStyle = keyof typeof type;
 const byStyle = <K extends 'fontSize' | 'lineHeight' | 'fontWeight'>(key: K) =>
-  Object.fromEntries(Object.entries(type).map(([name, s]) => [name, s[key]])) as { [N in TextStyle]: (typeof type)[N][K] };
+  Object.fromEntries(Object.entries(type).map(([name, s]) => [name, s[key]])) as {
+    [N in TextStyle]: (typeof type)[N][K];
+  };
 
 /**
  * Koi's text styles as one Tamagui font: `fontSize="$body"` (and the same key for lineHeight and fontWeight) gives

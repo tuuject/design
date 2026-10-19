@@ -10,7 +10,9 @@ export function oklchToSrgb(L, C, H) {
   const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
   const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
   const s_ = L - 0.0894841775 * a - 1.291485548 * b;
-  const l = l_ ** 3, m = m_ ** 3, s = s_ ** 3;
+  const l = l_ ** 3,
+    m = m_ ** 3,
+    s = s_ ** 3;
   return [
     4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
     -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
@@ -39,18 +41,26 @@ export function parseColor(v) {
 /** Hex (#rrggbb) when opaque, rgba() otherwise. React Native understands both; it does not understand oklch(). */
 export function toNativeColor(v) {
   const c = parseColor(v);
-  if (!c) throw new Error(`Unparseable color: ${v}`);
+  if (!c) {
+    throw new Error(`Unparseable color: ${v}`);
+  }
   const b = c.rgb.map((x) => Math.round(x * 255));
-  if (c.a >= 1) return '#' + b.map((x) => x.toString(16).padStart(2, '0')).join('');
+  if (c.a >= 1) {
+    return `#${b.map((x) => x.toString(16).padStart(2, '0')).join('')}`;
+  }
   return `rgba(${b[0]}, ${b[1]}, ${b[2]}, ${+c.a.toFixed(3)})`;
 }
 
 /** The same color at `alpha` (times any alpha it already has). Keeps oklch() as oklch() so CSS-facing values stay exact. */
 export function withAlpha(v, alpha) {
   const m = v.trim().match(/^oklch\(\s*([^/)]+?)\s*(?:\/\s*([\d.]+))?\s*\)$/);
-  if (m) return `oklch(${m[1]} / ${+(alpha * (m[2] === undefined ? 1 : +m[2])).toFixed(4)})`;
+  if (m) {
+    return `oklch(${m[1]} / ${+(alpha * (m[2] === undefined ? 1 : +m[2])).toFixed(4)})`;
+  }
   const c = parseColor(v);
-  if (!c) throw new Error(`Unparseable color: ${v}`);
+  if (!c) {
+    throw new Error(`Unparseable color: ${v}`);
+  }
   const b = c.rgb.map((x) => Math.round(x * 255));
   return `rgba(${b[0]}, ${b[1]}, ${b[2]}, ${+(alpha * c.a).toFixed(4)})`;
 }
@@ -61,7 +71,8 @@ export function luminance(rgb) {
 }
 
 export function contrast(a, b) {
-  const A = luminance(a), B = luminance(b);
+  const A = luminance(a),
+    B = luminance(b);
   return (Math.max(A, B) + 0.05) / (Math.min(A, B) + 0.05);
 }
 

@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button, Card } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { row } from '../layout';
 
 const variants = ['outlined', 'filled', 'glass'] as const;
@@ -9,10 +9,14 @@ const cardWidth = css({ width: '[300px]' });
 // Stand-in for an image: a gradient in role colors, so the glass and media stories have color to sit on.
 const art = css({ bgGradient: 'to-br', gradientFrom: 'action', gradientTo: 'highlight' });
 
-const footer = <>
-  <Button color="secondary" variant="ghost">取消订阅</Button>
-  <Button>订阅</Button>
-</>;
+const footer = (
+  <>
+    <Button color="secondary" variant="ghost">
+      取消订阅
+    </Button>
+    <Button>订阅</Button>
+  </>
+);
 
 const meta = {
   title: 'Components/Card',

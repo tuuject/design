@@ -7,7 +7,5 @@
   "assets": {
     "directory": "./dist"
   },
-  "routes": [
-    { "pattern": "components.design.tuu.run", "custom_domain": true }
-  ]
+  "routes": [{ "pattern": "components.design.tuu.run", "custom_domain": true }]
 }

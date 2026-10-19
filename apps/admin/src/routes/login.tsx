@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { css } from '@koi/react/styled-system/css';
-import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
 import { Alert } from '@koi/react/alert';
 import { Button } from '@koi/react/button';
 import { Card } from '@koi/react/card';
 import { Field } from '@koi/react/field';
 import { Input } from '@koi/react/input';
-import { useAuthStore } from '../stores/auth';
-import { mockLogin } from '../mock/api';
+import { css } from '@koi/react/styled-system/css';
+import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
+import * as React from 'react';
 import { ThemeToggle } from '../components/app-shell/ThemeToggle';
+import { mockLogin } from '../mock/api';
+import { useAuthStore } from '../stores/auth';
 
 export const Route = createFileRoute('/login')({
   staticData: { title: '登录' },
@@ -17,7 +17,9 @@ export const Route = createFileRoute('/login')({
     redirect: typeof search.redirect === 'string' && search.redirect.startsWith('/') ? search.redirect : undefined,
   }),
   beforeLoad: () => {
-    if (useAuthStore.getState().user) throw redirect({ to: '/dashboard' });
+    if (useAuthStore.getState().user) {
+      throw redirect({ to: '/dashboard' });
+    }
   },
   component: LoginPage,
 });
@@ -72,7 +74,9 @@ function LoginPage() {
 
   return (
     <div className={s.page}>
-      <div className={s.themeCorner}><ThemeToggle /></div>
+      <div className={s.themeCorner}>
+        <ThemeToggle />
+      </div>
       <Card className={s.card}>
         <div className={s.brand}>
           <span className={s.logo}>K</span>
@@ -81,7 +85,11 @@ function LoginPage() {
             <p className={s.brandSubtitle}>Koi 组件库后台管理模板</p>
           </div>
         </div>
-        {error ? <Alert tone="error" className={s.alert}>{error}</Alert> : null}
+        {error ? (
+          <Alert tone="error" className={s.alert}>
+            {error}
+          </Alert>
+        ) : null}
         <form className={s.form} onSubmit={submit}>
           <Field label="用户名">
             <Input value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="username" />
@@ -94,7 +102,9 @@ function LoginPage() {
               autoComplete="current-password"
             />
           </Field>
-          <Button type="submit" size="lg" fullWidth loading={submitting}>登录</Button>
+          <Button type="submit" size="lg" fullWidth loading={submitting}>
+            登录
+          </Button>
         </form>
         <p className={s.hint}>演示账号：admin · 密码：123456</p>
       </Card>

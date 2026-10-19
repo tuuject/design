@@ -1,9 +1,11 @@
-import * as React from 'react';
+import type { SkeletonOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { skeleton } from '@koi/react/styled-system/recipes';
-import type { SkeletonOwnProps } from '@koi/core';
+import type * as React from 'react';
 
-export interface SkeletonProps extends SkeletonOwnProps, Omit<React.HTMLAttributes<HTMLElement>, keyof SkeletonOwnProps> {
+export interface SkeletonProps
+  extends SkeletonOwnProps,
+    Omit<React.HTMLAttributes<HTMLElement>, keyof SkeletonOwnProps> {
   /** Element to render. Default 'div'; use 'span' inside text. */
   as?: keyof React.JSX.IntrinsicElements;
 }

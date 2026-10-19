@@ -1,5 +1,5 @@
-import { defineRecipe } from '@pandacss/dev';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineRecipe } from '@pandacss/dev';
 import { toPx } from './dimensions';
 
 // Port of .koi-textarea in reference/legacy-web/components/bundle.css and docs/spec/components/Textarea.md.
@@ -31,7 +31,10 @@ export const textarea = defineRecipe({
     '&:hover:not(:focus, :disabled, [aria-invalid=true])': { borderColor: 'border-control-hover' },
     '&:focus': { borderColor: 'focus-ring', boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.focus-ring}` },
     '&[aria-invalid=true]': { borderColor: 'error-control' },
-    '&[aria-invalid=true]:focus': { borderColor: 'error-control', boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.error-control}` },
+    '&[aria-invalid=true]:focus': {
+      borderColor: 'error-control',
+      boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.error-control}`,
+    },
     '&:disabled': {
       bg: 'surface-muted',
       color: 'text-disabled',

@@ -1,9 +1,9 @@
 import '@koi/tokens/theme-init.js'; // sets <html data-theme> from the OS (in an app, inline it in <head> to avoid a flash)
 import '@koi/tokens/fonts.css'; // ChillRoundF subsets; only used with <html data-font="chill">
 import '../src/index.css';
-import type * as React from 'react';
-import type { Preview } from '@storybook/react-vite';
 import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks';
+import type { Preview } from '@storybook/react-vite';
+import type * as React from 'react';
 import { themes } from 'storybook/theming';
 
 /** Applies the toolbar's theme, font and palette through theme-init's own switches. */
@@ -16,7 +16,8 @@ function applyGlobals(globals: Record<string, unknown>) {
 /** Docs pages follow the toolbar theme too, or dark components land on a white page. */
 function KoiDocsContainer(props: React.PropsWithChildren<DocsContainerProps>) {
   // Not in DocsContainerProps' types, but the docs context carries the store with the current globals.
-  const globals = (props.context as unknown as { store: { userGlobals: { globals: Record<string, unknown> } } }).store.userGlobals.globals;
+  const globals = (props.context as unknown as { store: { userGlobals: { globals: Record<string, unknown> } } }).store
+    .userGlobals.globals;
   applyGlobals(globals);
   const dark = document.documentElement.dataset.theme === 'dark';
   return <DocsContainer {...props} theme={dark ? themes.dark : themes.light} />;

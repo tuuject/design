@@ -1,11 +1,10 @@
-import * as React from 'react';
 import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip';
-import { tooltip } from '@koi/react/styled-system/recipes';
 import type { TooltipOwnProps } from '@koi/core';
+import { tooltip } from '@koi/react/styled-system/recipes';
 import { components } from '@koi/tokens/dimensions';
+import * as React from 'react';
 
 export type { TooltipSide } from '@koi/core';
-
 
 export interface TooltipProps extends TooltipOwnProps<Event> {}
 
@@ -23,7 +22,15 @@ type ChildProps = {
  * Esc, the portal and positioning (8px from the trigger, flipping near the viewport edge).
  */
 export function Tooltip({
-  content, children, side = 'top', open, defaultOpen, onOpenChange, delay = 0, closeDelay = 0, disabled,
+  content,
+  children,
+  side = 'top',
+  open,
+  defaultOpen,
+  onOpenChange,
+  delay = 0,
+  closeDelay = 0,
+  disabled,
 }: TooltipProps) {
   const s = tooltip();
   const autoId = React.useId();
@@ -35,8 +42,11 @@ export function Tooltip({
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen ?? false);
   const shown = open ?? uncontrolledOpen;
   // Skip it when the tooltip only repeats the trigger's name (IconButton label="关闭" + content="关闭"), or it's read twice.
-  const repeatsName = typeof content === 'string' && (child.props['aria-label'] === content || child.props.label === content);
-  const describedBy = [child.props['aria-describedby'], shown && !repeatsName ? popupId : undefined].filter(Boolean).join(' ') || undefined;
+  const repeatsName =
+    typeof content === 'string' && (child.props['aria-label'] === content || child.props.label === content);
+  const describedBy =
+    [child.props['aria-describedby'], shown && !repeatsName ? popupId : undefined].filter(Boolean).join(' ') ||
+    undefined;
   // title: undefined drops the native tooltip (IconButton sets one from its label), so the two don't stack.
   const trigger = React.cloneElement(child, { 'aria-describedby': describedBy, title: undefined });
 

@@ -18,6 +18,14 @@
 
 已知盲区：`check-raw-sizes.mjs` 只认 `Npx` 和几种 JSX 数值属性，对象字面量里的裸数字（如 `{ sm: 16 }`）抓不到，review 时要留意。
 
+## `pnpm lint`（提交前必须通过）
+
+Biome 负责 lint 和格式，配置在根 `biome.json`。格式化风格与 `plasticwan` 一致：2 空格缩进、单引号、分号、尾逗号、行宽 120。`styled-system/`、`tokens/dist/`、`routeTree.gen.ts`、`reference/legacy-web/`、`shots/` 不参与检查。
+
+- `pnpm lint` 只读，失败时按提示改；不要为了让规则通过而改 `biome.json` 里来自 `plasticwan` 的规则。
+- `pnpm lint:fix` 会跑 `--unsafe` 修复，可能改语义（例如 `useExhaustiveDependencies` 会删依赖）；跑完看 `git diff`。
+- 故意的例外（静态 skeleton 的 index key、headless 里的 label 渲染）用行内 `biome-ignore` 加原因，不要整条规则降级。
+
 ## 视觉验证
 
 - `pnpm shots [组件…]`：截每个 story 的浅色和深色，存到 `apps/storybook/shots/<组件>-<Story>_<主题>.png`。会自己启动 Storybook（端口 6199），跑完自动关闭。末尾打印 `No console errors.` 才算干净。

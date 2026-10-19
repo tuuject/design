@@ -1,12 +1,22 @@
-import * as React from 'react';
+import type { CardOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { card } from '@koi/react/styled-system/recipes';
-import type { CardOwnProps } from '@koi/core';
+import type * as React from 'react';
 
 export interface CardProps extends CardOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof CardOwnProps> {}
 
 /** A rounded container that groups related content. Don't nest cards. */
-export function Card({ variant = 'outlined', padding = 'default', title, description, media, footer, className, children, ...rest }: CardProps) {
+export function Card({
+  variant = 'outlined',
+  padding = 'default',
+  title,
+  description,
+  media,
+  footer,
+  className,
+  children,
+  ...rest
+}: CardProps) {
   const s = card({ variant, padding });
   return (
     <div {...rest} className={cx(s.root, className)}>

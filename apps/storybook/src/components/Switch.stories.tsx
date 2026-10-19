@@ -1,9 +1,9 @@
+import { Badge, Card, Field, Switch } from '@koi/react';
+import { css } from '@koi/react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { fn } from 'storybook/test';
-import { Badge, Card, Field, Switch } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
-import { stack, row, label } from '../layout';
+import { label, row, stack } from '../layout';
 
 const width = css({ width: '[360px]', maxWidth: '100%' });
 const list = css({ display: 'flex', flexDirection: 'column', gap: '3' });
@@ -31,11 +31,26 @@ export const Playground: Story = {};
 export const States: Story = {
   render: (args) => (
     <div className={stack}>
-      <div className={row}><span className={label}>off</span><Switch {...args} label="自动播放" /></div>
-      <div className={row}><span className={label}>on</span><Switch {...args} label="自动播放" defaultChecked /></div>
-      <div className={row}><span className={label}>disabled</span><Switch {...args} label="自动播放" disabled /></div>
-      <div className={row}><span className={label}>disabled on</span><Switch {...args} label="自动播放" defaultChecked disabled /></div>
-      <div className={row}><span className={label}>no label</span><Switch {...args} label={undefined} aria-label="自动播放" defaultChecked /></div>
+      <div className={row}>
+        <span className={label}>off</span>
+        <Switch {...args} label="自动播放" />
+      </div>
+      <div className={row}>
+        <span className={label}>on</span>
+        <Switch {...args} label="自动播放" defaultChecked />
+      </div>
+      <div className={row}>
+        <span className={label}>disabled</span>
+        <Switch {...args} label="自动播放" disabled />
+      </div>
+      <div className={row}>
+        <span className={label}>disabled on</span>
+        <Switch {...args} label="自动播放" defaultChecked disabled />
+      </div>
+      <div className={row}>
+        <span className={label}>no label</span>
+        <Switch {...args} label={undefined} aria-label="自动播放" defaultChecked />
+      </div>
     </div>
   ),
 };

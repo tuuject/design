@@ -1,5 +1,5 @@
-import { defineRecipe } from '@pandacss/dev';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineRecipe } from '@pandacss/dev';
 
 const line = { borderTopWidth: `${c.stroke.hairline}px`, borderTopStyle: 'solid', borderTopColor: 'divider' } as const;
 
@@ -23,7 +23,14 @@ export const separator = defineRecipe({
         _before: { content: '""', flex: '1', ...line },
         _after: { content: '""', flex: '1', ...line },
       },
-      vertical: { display: 'inline-block', alignSelf: 'stretch', width: `${c.stroke.hairline}px`, minHeight: '1em', mx: '2', bg: 'divider' },
+      vertical: {
+        display: 'inline-block',
+        alignSelf: 'stretch',
+        width: `${c.stroke.hairline}px`,
+        minHeight: '1em',
+        mx: '2',
+        bg: 'divider',
+      },
     },
   },
   defaultVariants: { kind: 'line' },

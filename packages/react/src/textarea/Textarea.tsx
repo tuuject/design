@@ -1,11 +1,13 @@
-import * as React from 'react';
 import { Field as BaseField } from '@base-ui/react/field';
+import type { TextareaOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { textarea } from '@koi/react/styled-system/recipes';
+import * as React from 'react';
 import { KoiFieldContext } from '../field/context';
-import type { TextareaOwnProps } from '@koi/core';
 
-export interface TextareaProps extends TextareaOwnProps, Omit<React.ComponentPropsWithRef<'textarea'>, keyof TextareaOwnProps> {}
+export interface TextareaProps
+  extends TextareaOwnProps,
+    Omit<React.ComponentPropsWithRef<'textarea'>, keyof TextareaOwnProps> {}
 
 /**
  * A multi-line text field that matches Input. Resizes vertically, at least 80px tall.

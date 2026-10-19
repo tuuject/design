@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { css } from '@koi/react/styled-system/css';
-import { createFileRoute } from '@tanstack/react-router';
 import { Badge } from '@koi/react/badge';
 import { Button } from '@koi/react/button';
 import { Card } from '@koi/react/card';
 import { DataTable, type DataTableColumn } from '@koi/react/data-table';
 import { Dialog } from '@koi/react/dialog';
+import { SearchIcon } from '@koi/react/icons';
 import { Input } from '@koi/react/input';
 import { Pagination } from '@koi/react/pagination';
 import { Select } from '@koi/react/select';
-import { SearchIcon } from '@koi/react/icons';
+import { css } from '@koi/react/styled-system/css';
 import { useToast } from '@koi/react/toast';
+import { createFileRoute } from '@tanstack/react-router';
+import * as React from 'react';
 import { PageHeader } from '../components/PageHeader';
-import { deleteOrder, fetchOrders, ORDER_STATUS, type Order, type OrderPage, type OrderStatus } from '../mock/api';
 import { formatDateTime, formatMoney } from '../lib/format';
+import { deleteOrder, fetchOrders, ORDER_STATUS, type Order, type OrderPage, type OrderStatus } from '../mock/api';
 
 const PAGE_SIZE = 8;
 
@@ -24,7 +24,8 @@ export const Route = createFileRoute('/_authed/orders')({
     return {
       // The list's state lives in the URL, so filtered views can be shared and refreshed.
       q: typeof search.q === 'string' && search.q.length > 0 ? search.q : undefined,
-      status: typeof search.status === 'string' && search.status in ORDER_STATUS ? (search.status as OrderStatus) : undefined,
+      status:
+        typeof search.status === 'string' && search.status in ORDER_STATUS ? (search.status as OrderStatus) : undefined,
       page: Number.isInteger(rawPage) && rawPage > 0 ? rawPage : 1,
     };
   },
@@ -98,13 +99,16 @@ function OrdersPage() {
 
   // Debounce the keyword into the URL (?q=), always landing on the first page.
   React.useEffect(() => {
-    if (keyword === (q ?? '')) return;
+    if (keyword === (q ?? '')) {
+      return;
+    }
     const timer = setTimeout(() => {
       navigate({ search: (prev) => ({ ...prev, q: keyword || undefined, page: 1 }), replace: true });
     }, 300);
     return () => clearTimeout(timer);
   }, [keyword, q, navigate]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: bumping version refetches after a delete
   React.useEffect(() => {
     let cancelled = false;
     setLoading(true);
@@ -125,7 +129,9 @@ function OrdersPage() {
   };
 
   const confirmDelete = async () => {
-    if (!pendingDelete) return;
+    if (!pendingDelete) {
+      return;
+    }
     setDeleting(true);
     await deleteOrder(pendingDelete.id);
     setDeleteOpen(false);
@@ -138,7 +144,14 @@ function OrdersPage() {
     { key: 'customer', header: '客户', width: 120, cell: (o) => o.customer, skeleton: '林晚照' },
     // No width: the product name takes the rest.
     { key: 'product', header: '商品', cell: (o) => o.product, skeleton: '锦鲤抱枕' },
-    { key: 'amount', header: '金额', align: 'end', width: 120, cell: (o) => formatMoney(o.amount), skeleton: '¥199.00' },
+    {
+      key: 'amount',
+      header: '金额',
+      align: 'end',
+      width: 120,
+      cell: (o) => formatMoney(o.amount),
+      skeleton: '¥199.00',
+    },
     {
       key: 'status',
       header: '状态',
@@ -146,7 +159,13 @@ function OrdersPage() {
       cell: (o) => <Badge tone={ORDER_STATUS[o.status].badge}>{ORDER_STATUS[o.status].label}</Badge>,
       skeleton: <Badge>已完成</Badge>,
     },
-    { key: 'createdAt', header: '创建时间', width: 152, cell: (o) => formatDateTime(o.createdAt), skeleton: 'Oct 16, 14:30' },
+    {
+      key: 'createdAt',
+      header: '创建时间',
+      width: 152,
+      cell: (o) => formatDateTime(o.createdAt),
+      skeleton: 'Oct 16, 14:30',
+    },
     {
       key: 'actions',
       header: '操作',
@@ -154,14 +173,22 @@ function OrdersPage() {
       width: 144,
       cell: (o) => (
         <span className={s.rowActions}>
-          <Button size="sm" variant="ghost" color="secondary" onClick={() => openDetail(o)}>详情</Button>
-          <Button size="sm" variant="ghost" color="error" onClick={() => openDelete(o)}>删除</Button>
+          <Button size="sm" variant="ghost" color="secondary" onClick={() => openDetail(o)}>
+            详情
+          </Button>
+          <Button size="sm" variant="ghost" color="error" onClick={() => openDelete(o)}>
+            删除
+          </Button>
         </span>
       ),
       skeleton: (
         <>
-          <Button size="sm" variant="ghost">详情</Button>
-          <Button size="sm" variant="ghost">删除</Button>
+          <Button size="sm" variant="ghost">
+            详情
+          </Button>
+          <Button size="sm" variant="ghost">
+            删除
+          </Button>
         </>
       ),
     },
@@ -195,7 +222,11 @@ function OrdersPage() {
               value={status ?? ''}
               onChange={(e) =>
                 navigate({
-                  search: (prev) => ({ ...prev, status: (e.target.value || undefined) as OrderStatus | undefined, page: 1 }),
+                  search: (prev) => ({
+                    ...prev,
+                    status: (e.target.value || undefined) as OrderStatus | undefined,
+                    page: 1,
+                  }),
                   replace: true,
                 })
               }
@@ -204,7 +235,9 @@ function OrdersPage() {
                 ...Object.entries(ORDER_STATUS).map(([value, meta]) => ({ value, label: meta.label })),
               ]}
             />
-            <Button size="sm" variant="ghost" color="secondary" onClick={resetFilters}>重置</Button>
+            <Button size="sm" variant="ghost" color="secondary" onClick={resetFilters}>
+              重置
+            </Button>
           </div>
         </div>
         <DataTable
@@ -215,7 +248,15 @@ function OrdersPage() {
           loading={loading}
           layout="fixed"
           skeletonRows={PAGE_SIZE}
-          empty={<>没有找到匹配的订单，换个关键词或<Button variant="ghost" color="secondary" size="sm" onClick={resetFilters}>重置筛选</Button>试试。</>}
+          empty={
+            <>
+              没有找到匹配的订单，换个关键词或
+              <Button variant="ghost" color="secondary" size="sm" onClick={resetFilters}>
+                重置筛选
+              </Button>
+              试试。
+            </>
+          }
         />
         <div className={s.tableFooter}>
           <span className={s.total}>{data ? `第 ${page} / ${pageCount} 页` : ''}</span>
@@ -233,16 +274,26 @@ function OrdersPage() {
         onOpenChange={setDetailOpen}
         title={detail ? `订单 ${detail.id}` : undefined}
         size="sm"
-        footer={<Button variant="ghost" color="secondary" onClick={() => setDetailOpen(false)}>关闭</Button>}
+        footer={
+          <Button variant="ghost" color="secondary" onClick={() => setDetailOpen(false)}>
+            关闭
+          </Button>
+        }
       >
         {detail ? (
           <dl className={s.detail}>
-            <dt className={s.detailLabel}>客户</dt><dd className={s.detailValue}>{detail.customer}</dd>
-            <dt className={s.detailLabel}>商品</dt><dd className={s.detailValue}>{detail.product}</dd>
-            <dt className={s.detailLabel}>金额</dt><dd className={s.detailValue}>{formatMoney(detail.amount)}</dd>
+            <dt className={s.detailLabel}>客户</dt>
+            <dd className={s.detailValue}>{detail.customer}</dd>
+            <dt className={s.detailLabel}>商品</dt>
+            <dd className={s.detailValue}>{detail.product}</dd>
+            <dt className={s.detailLabel}>金额</dt>
+            <dd className={s.detailValue}>{formatMoney(detail.amount)}</dd>
             <dt className={s.detailLabel}>状态</dt>
-            <dd className={s.detailValue}><Badge tone={ORDER_STATUS[detail.status].badge}>{ORDER_STATUS[detail.status].label}</Badge></dd>
-            <dt className={s.detailLabel}>创建时间</dt><dd className={s.detailValue}>{formatDateTime(detail.createdAt)}</dd>
+            <dd className={s.detailValue}>
+              <Badge tone={ORDER_STATUS[detail.status].badge}>{ORDER_STATUS[detail.status].label}</Badge>
+            </dd>
+            <dt className={s.detailLabel}>创建时间</dt>
+            <dd className={s.detailValue}>{formatDateTime(detail.createdAt)}</dd>
           </dl>
         ) : null}
       </Dialog>
@@ -253,11 +304,19 @@ function OrdersPage() {
         open={deleteOpen}
         onOpenChange={setDeleteOpen}
         title="删除订单"
-        description={pendingDelete ? `确定删除订单 ${pendingDelete.id}（${pendingDelete.customer}）吗？此操作不可撤销。` : undefined}
+        description={
+          pendingDelete
+            ? `确定删除订单 ${pendingDelete.id}（${pendingDelete.customer}）吗？此操作不可撤销。`
+            : undefined
+        }
         footer={
           <>
-            <Button variant="ghost" color="secondary" onClick={() => setDeleteOpen(false)}>取消</Button>
-            <Button color="error" loading={deleting} onClick={confirmDelete}>删除</Button>
+            <Button variant="ghost" color="secondary" onClick={() => setDeleteOpen(false)}>
+              取消
+            </Button>
+            <Button color="error" loading={deleting} onClick={confirmDelete}>
+              删除
+            </Button>
           </>
         }
       />

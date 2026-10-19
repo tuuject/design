@@ -1,6 +1,6 @@
+import { Button, type ButtonColor, type ButtonVariant, CloseIcon, ExternalIcon, IconButton } from '@koi/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button, IconButton, CloseIcon, ExternalIcon, type ButtonColor, type ButtonVariant } from '@koi/react';
-import { stack, row, label } from '../layout';
+import { label, row, stack } from '../layout';
 
 const colors: ButtonColor[] = ['primary', 'accent', 'secondary', 'warning', 'error'];
 const variants: ButtonVariant[] = ['solid', 'soft', 'outline', 'ghost'];
@@ -30,7 +30,11 @@ export const Variants: Story = {
       {variants.map((v) => (
         <div key={v} className={row}>
           <span className={label}>{v}</span>
-          {colors.map((c) => <Button key={c} color={c} variant={v}>按钮</Button>)}
+          {colors.map((c) => (
+            <Button key={c} color={c} variant={v}>
+              按钮
+            </Button>
+          ))}
         </div>
       ))}
     </div>
@@ -68,9 +72,26 @@ export const AsLink: Story = {
   render: () => (
     <div className={row}>
       <Button href="#button">阅读全文</Button>
-      <Button href="https://github.com/" target="_blank" rel="noopener noreferrer" color="secondary" variant="outline" iconEnd={<ExternalIcon />}>GitHub</Button>
-      <Button href="#button" disabled>已禁用</Button>
-      <IconButton href="https://github.com/" target="_blank" rel="noopener noreferrer" label="在新窗口打开" icon={<ExternalIcon />} />
+      <Button
+        href="https://github.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        color="secondary"
+        variant="outline"
+        iconEnd={<ExternalIcon />}
+      >
+        GitHub
+      </Button>
+      <Button href="#button" disabled>
+        已禁用
+      </Button>
+      <IconButton
+        href="https://github.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        label="在新窗口打开"
+        icon={<ExternalIcon />}
+      />
     </div>
   ),
 };

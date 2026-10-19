@@ -1,5 +1,5 @@
-import * as React from 'react';
 import type { ButtonShape } from '@koi/core';
+import * as React from 'react';
 
 export type { ButtonShape };
 

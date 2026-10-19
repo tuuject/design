@@ -1,5 +1,5 @@
-import { defineSlotRecipe } from '@pandacss/dev';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev';
 import { toPx } from './dimensions';
 
 // Port of .koi-input* in reference/legacy-web/components/bundle.css and docs/spec/components/Input.md.
@@ -30,7 +30,9 @@ export const input = defineSlotRecipe({
       fontFamily: 'sans',
       transitionProperty: 'border-color, box-shadow',
       transitionDuration: 'fast',
-      '&:hover:not(:focus-within, :has(> input:disabled, > input[aria-invalid=true]))': { borderColor: 'border-control-hover' },
+      '&:hover:not(:focus-within, :has(> input:disabled, > input[aria-invalid=true]))': {
+        borderColor: 'border-control-hover',
+      },
       // The 1px edge plus a 1px shadow reads as a 2px edge without shifting the content (spec: drawn on the edge).
       '&:focus-within': { borderColor: 'focus-ring', boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.focus-ring}` },
       [INVALID]: { borderColor: 'error-control' },

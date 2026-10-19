@@ -1,5 +1,5 @@
-import { defineSlotRecipe } from '@pandacss/dev';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev';
 import { focusRing, toPx } from './dimensions';
 
 // Port of .koi-link* in reference/legacy-web/components/bundle.css and docs/spec/components/Link.md.

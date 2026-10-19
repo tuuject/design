@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { components, sizes } from '@koi/tokens/dimensions';
+import type * as React from 'react';
 
 // Admin-specific line icons, drawn in Koi's icon style: 24px grid, `components.icon.stroke` (2.25)
 // stroke, round caps and joins, currentColor. Koi's own set lives in @koi/react/icons; icons here are
@@ -8,8 +8,18 @@ type IconProps = { size?: number } & React.SVGProps<SVGSVGElement>;
 
 function Svg({ size = sizes.icon, children, ...rest }: IconProps & { children: React.ReactNode }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={components.icon.stroke}
-      strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...rest}>
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={components.icon.stroke}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...rest}
+    >
       {children}
     </svg>
   );
@@ -26,7 +36,10 @@ export const LayoutIcon = (p: IconProps) => (
 
 export const OrdersIcon = (p: IconProps) => (
   <Svg {...p}>
-    <path d="M6.5 3.5h11A1.5 1.5 0 0119 5v15l-3.2-2-3.3 2-3.3-2L6 20V5a1.5 1.5 0 01.5-1.5z" transform="translate(0 -1)" />
+    <path
+      d="M6.5 3.5h11A1.5 1.5 0 0119 5v15l-3.2-2-3.3 2-3.3-2L6 20V5a1.5 1.5 0 01.5-1.5z"
+      transform="translate(0 -1)"
+    />
     <path d="M9 8.5h6" transform="translate(0 -1)" />
     <path d="M9 12.5h6" transform="translate(0 -1)" />
   </Svg>
@@ -34,8 +47,12 @@ export const OrdersIcon = (p: IconProps) => (
 
 export const SlidersIcon = (p: IconProps) => (
   <Svg {...p}>
-    <path d="M4 7h9" /><circle cx="15.5" cy="7" r="2" /><path d="M19.5 7H20.5" />
-    <path d="M4 17h2.5" /><circle cx="8.5" cy="17" r="2" /><path d="M12.5 17H20" />
+    <path d="M4 7h9" />
+    <circle cx="15.5" cy="7" r="2" />
+    <path d="M19.5 7H20.5" />
+    <path d="M4 17h2.5" />
+    <circle cx="8.5" cy="17" r="2" />
+    <path d="M12.5 17H20" />
   </Svg>
 );
 

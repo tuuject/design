@@ -1,5 +1,5 @@
-import { defineSlotRecipe } from '@pandacss/dev';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev';
 import { focusRing, toPx } from './dimensions';
 
 // Port of .koi-pagination in reference/legacy-web/components/bundle.css and docs/spec/components/Pagination.md.
@@ -40,7 +40,13 @@ export const pagination = defineSlotRecipe({
       '&:hover:not([aria-current=page])': { bg: 'surface-muted' },
       '&[aria-current=page]': { bg: 'action', color: 'on-action', fontWeight: '700' },
     },
-    gap: { minWidth: toPx(c.pagination.gapWidth), textAlign: 'center', color: 'text-muted', textStyle: 'body', userSelect: 'none' },
+    gap: {
+      minWidth: toPx(c.pagination.gapWidth),
+      textAlign: 'center',
+      color: 'text-muted',
+      textStyle: 'body',
+      userSelect: 'none',
+    },
     count: { color: 'text', textStyle: 'body', fontVariantNumeric: 'tabular-nums' },
   },
   variants: {

@@ -1,18 +1,23 @@
-import * as React from 'react';
 import { Toast as BaseToast } from '@base-ui/react/toast';
+import {
+  strings,
+  TOAST_DURATION,
+  TOAST_LIMIT,
+  type ToastApi,
+  type ToastOwnProps,
+  type ToastProviderOwnProps,
+  type ToastTone,
+} from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { toast as toastRecipe } from '@koi/react/styled-system/recipes';
+import * as React from 'react';
 import { CloseIcon, ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../icons';
-import { strings, TOAST_DURATION, TOAST_LIMIT, type ToastApi, type ToastOptions, type ToastOwnProps, type ToastProviderOwnProps, type ToastTone } from '@koi/core';
 
 export type { ToastOptions, ToastTone } from '@koi/core';
 
-
 export interface ToastProps extends ToastOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof ToastOwnProps> {}
 
-
 export interface ToastProviderProps extends ToastProviderOwnProps {}
-
 
 type ToastData = { action?: React.ReactNode };
 
@@ -27,7 +32,9 @@ export function Toast({ tone = 'info', title, description, action, onClose, clas
   const Icon = toneIcon[tone] ?? InfoIcon;
   return (
     <div role={tone === 'error' ? 'alert' : 'status'} {...rest} className={cx(s.root, className)}>
-      <span className={s.icon}><Icon /></span>
+      <span className={s.icon}>
+        <Icon />
+      </span>
       <div className={s.content}>
         {title ? <p className={s.title}>{title}</p> : null}
         {description ? <p className={s.description}>{description}</p> : null}
@@ -69,25 +76,28 @@ export function ToastProvider({ children, position = 'bottom' }: ToastProviderPr
 function ToastApiProvider({ children }: { children?: React.ReactNode }) {
   const { add, close } = BaseToast.useToastManager<ToastData>();
   const seq = React.useRef(0);
-  const api = React.useMemo<ToastApi>(() => ({
-    toast({ tone = 'info', title, description, action, duration }) {
-      const id = ++seq.current;
-      add({
-        id: String(id),
-        type: tone,
-        title,
-        description,
-        timeout: duration,
-        // Errors are announced right away (legacy: role="alert"); the rest wait their turn.
-        priority: tone === 'error' ? 'high' : 'low',
-        data: { action },
-      });
-      return id;
-    },
-    dismiss(id) {
-      close(String(id));
-    },
-  }), [add, close]);
+  const api = React.useMemo<ToastApi>(
+    () => ({
+      toast({ tone = 'info', title, description, action, duration }) {
+        const id = ++seq.current;
+        add({
+          id: String(id),
+          type: tone,
+          title,
+          description,
+          timeout: duration,
+          // Errors are announced right away (legacy: role="alert"); the rest wait their turn.
+          priority: tone === 'error' ? 'high' : 'low',
+          data: { action },
+        });
+        return id;
+      },
+      dismiss(id) {
+        close(String(id));
+      },
+    }),
+    [add, close],
+  );
   return <ToastContext.Provider value={api}>{children}</ToastContext.Provider>;
 }
 
@@ -96,7 +106,11 @@ function ToastList({ position }: { position: 'bottom' | 'top' }) {
   // At most 4 at once, and the oldest goes for good (legacy). Base UI only marks the extras `limited` and brings
   // them back when a newer one closes, so close them.
   React.useEffect(() => {
-    for (const t of toasts) if (t.limited && t.transitionStatus !== 'ending') close(t.id);
+    for (const t of toasts) {
+      if (t.limited && t.transitionStatus !== 'ending') {
+        close(t.id);
+      }
+    }
   }, [toasts, close]);
 
   return toasts.map((t) => {
@@ -110,7 +124,9 @@ function ToastList({ position }: { position: 'bottom' | 'top' }) {
         swipeDirection={[position === 'top' ? 'up' : 'down', 'left', 'right']}
         className={s.root}
       >
-        <span className={s.icon}><Icon /></span>
+        <span className={s.icon}>
+          <Icon />
+        </span>
         <div className={s.content}>
           <BaseToast.Title className={s.title} render={<p />} />
           <BaseToast.Description className={s.description} />
@@ -127,6 +143,8 @@ function ToastList({ position }: { position: 'bottom' | 'top' }) {
 /** `toast(options)` shows one and returns its id; `dismiss(id)` closes it. Only inside ToastProvider. */
 export function useToast(): ToastApi {
   const api = React.useContext(ToastContext);
-  if (!api) throw new Error('useToast must be used inside <ToastProvider>');
+  if (!api) {
+    throw new Error('useToast must be used inside <ToastProvider>');
+  }
   return api;
 }

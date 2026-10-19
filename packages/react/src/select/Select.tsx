@@ -1,15 +1,16 @@
-import * as React from 'react';
 import { Field as BaseField } from '@base-ui/react/field';
+import type { SelectOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { select } from '@koi/react/styled-system/recipes';
+import * as React from 'react';
 import { KoiFieldContext } from '../field/context';
 import { ChevronDownIcon } from '../icons';
-import type { SelectOwnProps } from '@koi/core';
 
 export type { SelectOption } from '@koi/core';
 
-
-export interface SelectProps extends SelectOwnProps, Omit<React.ComponentPropsWithRef<'select'>, keyof SelectOwnProps> {}
+export interface SelectProps
+  extends SelectOwnProps,
+    Omit<React.ComponentPropsWithRef<'select'>, keyof SelectOwnProps> {}
 
 /**
  * A native dropdown styled like Input. It opens the platform picker (the system sheet on phones) and is fully
@@ -17,16 +18,35 @@ export interface SelectProps extends SelectOwnProps, Omit<React.ComponentPropsWi
  * Base UI has no native select part, so this is Field.Control rendering a <select>.
  */
 export function Select({
-  options, placeholder, size = 'md', invalid, className, id, required, disabled, children, ...rest
+  options,
+  placeholder,
+  size = 'md',
+  invalid,
+  className,
+  id,
+  required,
+  disabled,
+  children,
+  ...rest
 }: SelectProps) {
   const f = React.useContext(KoiFieldContext);
   const s = select({ size });
   // Uncontrolled with a placeholder: start on it, as legacy did.
-  const defaultValue = placeholder && rest.value === undefined && rest.defaultValue === undefined ? '' : rest.defaultValue;
+  const defaultValue =
+    placeholder && rest.value === undefined && rest.defaultValue === undefined ? '' : rest.defaultValue;
   const content = (
     <>
-      {placeholder ? <option value="" disabled>{placeholder}</option> : null}
-      {children ?? options?.map((o) => <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>)}
+      {placeholder ? (
+        <option value="" disabled>
+          {placeholder}
+        </option>
+      ) : null}
+      {children ??
+        options?.map((o) => (
+          <option key={o.value} value={o.value} disabled={o.disabled}>
+            {o.label}
+          </option>
+        ))}
     </>
   );
   return (
@@ -41,7 +61,9 @@ export function Select({
         aria-invalid={invalid && !disabled ? true : rest['aria-invalid']}
         className={s.el}
       />
-      <span className={s.chevron} aria-hidden="true"><ChevronDownIcon /></span>
+      <span className={s.chevron} aria-hidden="true">
+        <ChevronDownIcon />
+      </span>
     </span>
   );
 }

@@ -27,9 +27,17 @@ export function pageList(page: number, count: number, sib: number): (number | '�
   const lo = Math.max(2, page - sib);
   const hi = Math.min(count - 1, page + sib);
   out.push(1);
-  if (lo > 2) out.push('…a');
-  for (let i = lo; i <= hi; i++) out.push(i);
-  if (hi < count - 1) out.push('…b');
-  if (count > 1) out.push(count);
+  if (lo > 2) {
+    out.push('…a');
+  }
+  for (let i = lo; i <= hi; i++) {
+    out.push(i);
+  }
+  if (hi < count - 1) {
+    out.push('…b');
+  }
+  if (count > 1) {
+    out.push(count);
+  }
   return out;
 }

@@ -1,20 +1,28 @@
-import * as React from 'react';
+import { Button, Dialog, type DialogProps, Field, Input } from '@koi/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button, Dialog, Field, Input, type DialogProps } from '@koi/react';
+import * as React from 'react';
 
 function DeleteDialog({ initialOpen = false, ...args }: Partial<DialogProps> & { initialOpen?: boolean }) {
   const [open, setOpen] = React.useState(initialOpen);
   return (
     <>
-      <Button color="error" onClick={() => setOpen(true)}>删除文章</Button>
+      <Button color="error" onClick={() => setOpen(true)}>
+        删除文章
+      </Button>
       <Dialog
         size="sm"
         title="删除这篇文章？"
         description="删除后无法恢复，评论也会一并移除。"
-        footer={<>
-          <Button color="secondary" variant="ghost" onClick={() => setOpen(false)}>取消</Button>
-          <Button color="error" onClick={() => setOpen(false)}>删除</Button>
-        </>}
+        footer={
+          <>
+            <Button color="secondary" variant="ghost" onClick={() => setOpen(false)}>
+              取消
+            </Button>
+            <Button color="error" onClick={() => setOpen(false)}>
+              删除
+            </Button>
+          </>
+        }
         {...args}
         open={open}
         onOpenChange={setOpen}
@@ -28,16 +36,24 @@ function UnsubscribeDialog({ initialOpen = false, ...args }: Partial<DialogProps
   const [open, setOpen] = React.useState(initialOpen);
   return (
     <>
-      <Button color="secondary" variant="ghost" onClick={() => setOpen(true)}>取消订阅</Button>
+      <Button color="secondary" variant="ghost" onClick={() => setOpen(true)}>
+        取消订阅
+      </Button>
       <Dialog
         role="alertdialog"
         size="sm"
         title="确定取消订阅？"
         description="之后有新文章时，你不会再收到邮件通知。"
-        footer={<>
-          <Button color="secondary" variant="ghost" onClick={() => setOpen(false)}>再想想</Button>
-          <Button color="error" onClick={() => setOpen(false)}>取消订阅</Button>
-        </>}
+        footer={
+          <>
+            <Button color="secondary" variant="ghost" onClick={() => setOpen(false)}>
+              再想想
+            </Button>
+            <Button color="error" onClick={() => setOpen(false)}>
+              取消订阅
+            </Button>
+          </>
+        }
         {...args}
         open={open}
         onOpenChange={setOpen}
@@ -56,10 +72,14 @@ function EditProfileDialog({ initialOpen = false, ...args }: Partial<DialogProps
         dismissible={false}
         title="编辑资料"
         description="点击对话框外面不会关闭它，按 Esc 或点「取消」才会。"
-        footer={<>
-          <Button color="secondary" variant="ghost" onClick={() => setOpen(false)}>取消</Button>
-          <Button onClick={() => setOpen(false)}>保存</Button>
-        </>}
+        footer={
+          <>
+            <Button color="secondary" variant="ghost" onClick={() => setOpen(false)}>
+              取消
+            </Button>
+            <Button onClick={() => setOpen(false)}>保存</Button>
+          </>
+        }
         {...args}
         open={open}
         onOpenChange={setOpen}
@@ -84,7 +104,13 @@ const meta = {
     footer: { control: false },
     children: { control: false },
   },
-  args: { open: false, onOpenChange: () => {}, size: 'sm', title: '删除这篇文章？', description: '删除后无法恢复，评论也会一并移除。' },
+  args: {
+    open: false,
+    onOpenChange: () => {},
+    size: 'sm',
+    title: '删除这篇文章？',
+    description: '删除后无法恢复，评论也会一并移除。',
+  },
   render: (args) => <DeleteDialog {...args} />,
 } satisfies Meta<typeof Dialog>;
 
@@ -118,13 +144,23 @@ export const AlertDialogOpen: Story = {
 
 /** `dismissible={false}`: a click on the backdrop doesn't close it; Esc, the × and the footer buttons do. */
 export const NotDismissible: Story = {
-  args: { dismissible: false, size: 'md', title: '编辑资料', description: '点击对话框外面不会关闭它，按 Esc 或点「取消」才会。' },
+  args: {
+    dismissible: false,
+    size: 'md',
+    title: '编辑资料',
+    description: '点击对话框外面不会关闭它，按 Esc 或点「取消」才会。',
+  },
   render: (args) => <EditProfileDialog {...args} />,
 };
 
 /** Not dismissible, open on load (whole-viewport screenshot). */
 export const NotDismissibleOpen: Story = {
   tags: ['shot-viewport', '!autodocs'],
-  args: { dismissible: false, size: 'md', title: '编辑资料', description: '点击对话框外面不会关闭它，按 Esc 或点「取消」才会。' },
+  args: {
+    dismissible: false,
+    size: 'md',
+    title: '编辑资料',
+    description: '点击对话框外面不会关闭它，按 Esc 或点「取消」才会。',
+  },
   render: (args) => <EditProfileDialog {...args} initialOpen />,
 };

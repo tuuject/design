@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { Outlet, createRootRoute, useMatches } from '@tanstack/react-router';
 import { ToastProvider } from '@koi/react/toast';
+import { createRootRoute, Outlet, useMatches } from '@tanstack/react-router';
+import * as React from 'react';
 
 // Every route carries an optional page title; the shell reads it for the breadcrumb and document title.
 declare module '@tanstack/react-router' {

@@ -1,8 +1,8 @@
-import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { fn } from 'storybook/test';
-import { Button, Toast, ToastProvider, useToast, type ToastOptions, type ToastProviderProps } from '@koi/react';
+import { Button, Toast, type ToastOptions, ToastProvider, type ToastProviderProps, useToast } from '@koi/react';
 import { css, cx } from '@koi/react/styled-system/css';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import * as React from 'react';
+import { fn } from 'storybook/test';
 import { stack } from '../layout';
 
 const tones = ['info', 'success', 'warning', 'error'] as const;
@@ -27,9 +27,13 @@ function OnMount({ list }: { list: ToastOptions[] }) {
   const { toast } = useToast();
   const done = React.useRef(false);
   React.useEffect(() => {
-    if (done.current) return;
+    if (done.current) {
+      return;
+    }
     done.current = true;
-    for (const t of list) toast({ duration: 0, ...t });
+    for (const t of list) {
+      toast({ duration: 0, ...t });
+    }
   }, [toast, list]);
   return <Trigger options={{ ...samples[1], duration: 0 }} />;
 }
@@ -42,7 +46,10 @@ function Stacked({ list, position }: { list: ToastOptions[]; position?: ToastPro
   );
 }
 
-type PlaygroundArgs = React.ComponentProps<typeof Toast> & { duration?: number; position?: ToastProviderProps['position'] };
+type PlaygroundArgs = React.ComponentProps<typeof Toast> & {
+  duration?: number;
+  position?: ToastProviderProps['position'];
+};
 
 const meta: Meta<PlaygroundArgs> = {
   title: 'Components/Toast',
@@ -73,8 +80,18 @@ export const Playground: Story = {
 export const Tones: Story = {
   render: () => (
     <div className={cx(stack, padded)}>
-      {samples.map((t) => <Toast key={t.tone} {...t} />)}
-      <Toast title="已移到回收站" action={<Button size="sm" variant="ghost">撤销</Button>} onClose={fn()} />
+      {samples.map((t) => (
+        <Toast key={t.tone} {...t} />
+      ))}
+      <Toast
+        title="已移到回收站"
+        action={
+          <Button size="sm" variant="ghost">
+            撤销
+          </Button>
+        }
+        onClose={fn()}
+      />
       <Toast tone="success" description="链接已复制。" onClose={fn()} />
     </div>
   ),
@@ -90,5 +107,20 @@ export const Stack: Story = {
 export const StackTop: Story = {
   name: 'Stack at the top',
   tags: ['shot-viewport', '!autodocs'],
-  render: () => <Stacked position="top" list={[samples[0], { ...samples[3], action: <Button size="sm" color="error" variant="ghost">重试</Button> }]} />,
+  render: () => (
+    <Stacked
+      position="top"
+      list={[
+        samples[0],
+        {
+          ...samples[3],
+          action: (
+            <Button size="sm" color="error" variant="ghost">
+              重试
+            </Button>
+          ),
+        },
+      ]}
+    />
+  ),
 };

@@ -1,8 +1,8 @@
-import { defineSlotRecipe } from '@pandacss/dev';
-import { state } from './headless';
-import { choiceRow } from './checkbox';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev';
+import { choiceRow } from './checkbox';
 import { focusRing, toPx } from './dimensions';
+import { state } from './headless';
 
 // Port of .koi-switch* in reference/legacy-web/components/bundle.css and docs/spec/components/Switch.md.
 // DOM: <label root> <button control role=switch><span thumb/></button> <span label/> </label> <input hidden/>.
@@ -45,7 +45,9 @@ export const switchRecipe = defineSlotRecipe({
       bg: 'white',
       boxShadow: 'raised',
       transition: 'transform {durations.spring} {easings.spring}',
-      [`&${state.checked}` as const]: { transform: `translateX(${c.switch.trackWidth - c.switch.thumb - 2 * c.switch.thumbInset}px)` },
+      [`&${state.checked}` as const]: {
+        transform: `translateX(${c.switch.trackWidth - c.switch.thumb - 2 * c.switch.thumbInset}px)`,
+      },
     },
   },
 });

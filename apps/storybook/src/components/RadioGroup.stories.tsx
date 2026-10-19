@@ -1,9 +1,9 @@
+import { Button, Card, Field, RadioGroup } from '@koi/react';
+import { css } from '@koi/react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { fn } from 'storybook/test';
-import { Button, Card, Field, RadioGroup } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
-import { stack, row, label } from '../layout';
+import { label, row, stack } from '../layout';
 
 const width = css({ width: '[360px]', maxWidth: '100%' });
 const form = css({ display: 'flex', flexDirection: 'column', gap: '4' });
@@ -47,13 +47,27 @@ export const Playground: Story = {};
 export const States: Story = {
   render: (args) => (
     <div className={stack}>
-      <div className={row}><span className={label}>none chosen</span><RadioGroup {...args} orientation="horizontal" defaultValue={undefined} /></div>
-      <div className={row}><span className={label}>chosen</span><RadioGroup {...args} orientation="horizontal" defaultValue="md" /></div>
+      <div className={row}>
+        <span className={label}>none chosen</span>
+        <RadioGroup {...args} orientation="horizontal" defaultValue={undefined} />
+      </div>
+      <div className={row}>
+        <span className={label}>chosen</span>
+        <RadioGroup {...args} orientation="horizontal" defaultValue="md" />
+      </div>
       <div className={row}>
         <span className={label}>one disabled</span>
-        <RadioGroup {...args} orientation="horizontal" defaultValue="md" options={[...sizes.slice(0, 2), { value: 'lg', label: '大', disabled: true }]} />
+        <RadioGroup
+          {...args}
+          orientation="horizontal"
+          defaultValue="md"
+          options={[...sizes.slice(0, 2), { value: 'lg', label: '大', disabled: true }]}
+        />
       </div>
-      <div className={row}><span className={label}>disabled</span><RadioGroup {...args} orientation="horizontal" defaultValue="md" disabled /></div>
+      <div className={row}>
+        <span className={label}>disabled</span>
+        <RadioGroup {...args} orientation="horizontal" defaultValue="md" disabled />
+      </div>
     </div>
   ),
 };
@@ -88,7 +102,14 @@ function ControlledDemo(args: React.ComponentProps<typeof RadioGroup>) {
   const [value, setValue] = React.useState('md');
   return (
     <div className={stack}>
-      <RadioGroup {...args} value={value} onChange={(v, d) => { setValue(v); args.onChange?.(v, d); }} />
+      <RadioGroup
+        {...args}
+        value={value}
+        onChange={(v, d) => {
+          setValue(v);
+          args.onChange?.(v, d);
+        }}
+      />
       <span className={note}>当前：{sizes.find((s) => s.value === value)?.label}</span>
     </div>
   );
@@ -107,7 +128,9 @@ export const InAForm: Story = {
           <RadioGroup {...args} label={undefined} name="visibility" options={visibility} defaultValue="public" />
         </Field>
         <div className={actions}>
-          <Button color="secondary" variant="ghost" type="button">取消</Button>
+          <Button color="secondary" variant="ghost" type="button">
+            取消
+          </Button>
           <Button type="submit">发布</Button>
         </div>
       </form>

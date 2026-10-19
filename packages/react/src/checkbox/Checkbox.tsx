@@ -1,10 +1,10 @@
-import * as React from 'react';
 import { Checkbox as BaseCheckbox } from '@base-ui/react/checkbox';
+import type { CheckboxOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { checkbox } from '@koi/react/styled-system/recipes';
-import { CheckIcon } from '../icons';
+import * as React from 'react';
 import { KoiFieldContext } from '../field/context';
-import type { CheckboxOwnProps } from '@koi/core';
+import { CheckIcon } from '../icons';
 
 export interface CheckboxProps
   extends CheckboxOwnProps<Event>,
@@ -67,8 +67,14 @@ export function Checkbox({
       </BaseCheckbox.Root>
       {hasLabel ? (
         <span className={s.text}>
-          <span id={labelId} className={s.label}>{label}</span>
-          {descId ? <span id={descId} className={s.description}>{description}</span> : null}
+          <span id={labelId} className={s.label}>
+            {label}
+          </span>
+          {descId ? (
+            <span id={descId} className={s.description}>
+              {description}
+            </span>
+          ) : null}
         </span>
       ) : null}
     </Root>

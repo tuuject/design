@@ -1,6 +1,3 @@
-import * as React from 'react';
-import { css } from '@koi/react/styled-system/css';
-import { createFileRoute } from '@tanstack/react-router';
 import { Avatar } from '@koi/react/avatar';
 import { Badge } from '@koi/react/badge';
 import { Button } from '@koi/react/button';
@@ -9,9 +6,12 @@ import { Checkbox } from '@koi/react/checkbox';
 import { Field } from '@koi/react/field';
 import { Input } from '@koi/react/input';
 import { RadioGroup } from '@koi/react/radio-group';
+import { css } from '@koi/react/styled-system/css';
 import { Switch } from '@koi/react/switch';
 import { Textarea } from '@koi/react/textarea';
 import { useToast } from '@koi/react/toast';
+import { createFileRoute } from '@tanstack/react-router';
+import * as React from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { useAuthStore } from '../stores/auth';
 
@@ -47,7 +47,9 @@ function SettingsPage() {
   const [errors, setErrors] = React.useState<{ name?: string; email?: string }>({});
   const [saving, setSaving] = React.useState(false);
 
-  if (!user) return null;
+  if (!user) {
+    return null;
+  }
 
   const validate = (): { name?: string; email?: string } => {
     const next = {
@@ -61,7 +63,9 @@ function SettingsPage() {
   const save = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const nextErrors = validate();
-    if (nextErrors.name || nextErrors.email) return;
+    if (nextErrors.name || nextErrors.email) {
+      return;
+    }
     setSaving(true);
     const { promise, resolve } = Promise.withResolvers<void>();
     setTimeout(resolve, 600);
@@ -93,25 +97,11 @@ function SettingsPage() {
           </div>
         </div>
         <form className={s.form} onSubmit={save} noValidate>
-          <Field
-            label="昵称"
-            required
-            error={errors.name}
-            onBlur={validate}
-          >
+          <Field label="昵称" required error={errors.name} onBlur={validate}>
             <Input value={name} onChange={(e) => setName(e.target.value)} onBlur={validate} />
           </Field>
-          <Field
-            label="邮箱"
-            required
-            error={errors.email}
-          >
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onBlur={validate}
-            />
+          <Field label="邮箱" required error={errors.email}>
+            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} onBlur={validate} />
           </Field>
           <Field label="个人简介" optional help={`${bio.length} / ${BIO_MAX}`}>
             <Textarea value={bio} maxLength={BIO_MAX} onChange={(e) => setBio(e.target.value)} rows={4} />
@@ -136,8 +126,12 @@ function SettingsPage() {
           />
           <Switch label="接收系统通知" checked={systemNotify} onCheckedChange={(checked) => setSystemNotify(checked)} />
           <div className={s.actions}>
-            <Button type="submit" loading={saving}>保存更改</Button>
-            <Button type="button" variant="ghost" color="secondary" onClick={reset}>重置</Button>
+            <Button type="submit" loading={saving}>
+              保存更改
+            </Button>
+            <Button type="button" variant="ghost" color="secondary" onClick={reset}>
+              重置
+            </Button>
           </div>
         </form>
       </Card>

@@ -1,9 +1,9 @@
+import { Card, Skeleton, Spinner, Tabs } from '@koi/react';
+import { css } from '@koi/react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { fn } from 'storybook/test';
-import { Card, Skeleton, Spinner, Tabs } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
-import { stack, row, label } from '../layout';
+import { label, row, stack } from '../layout';
 
 const width = css({ width: '[420px]', maxWidth: '100%' });
 const note = css({ textStyle: 'small', color: 'text-muted' });
@@ -52,19 +52,44 @@ export const Segmented: Story = {
 export const States: Story = {
   render: (args) => (
     <div className={stack}>
-      <div className={row}><span className={label}>first</span><Tabs {...args} label="时间范围" items={ranges} defaultValue="day" /></div>
-      <div className={row}><span className={label}>last</span><Tabs {...args} label="时间范围" items={ranges} defaultValue="year" /></div>
+      <div className={row}>
+        <span className={label}>first</span>
+        <Tabs {...args} label="时间范围" items={ranges} defaultValue="day" />
+      </div>
+      <div className={row}>
+        <span className={label}>last</span>
+        <Tabs {...args} label="时间范围" items={ranges} defaultValue="year" />
+      </div>
       <div className={row}>
         <span className={label}>one disabled</span>
-        <Tabs {...args} label="时间范围" items={[...ranges.slice(0, 3), { value: 'year', label: '今年', disabled: true }]} defaultValue="week" />
+        <Tabs
+          {...args}
+          label="时间范围"
+          items={[...ranges.slice(0, 3), { value: 'year', label: '今年', disabled: true }]}
+          defaultValue="week"
+        />
       </div>
       <div className={row}>
         <span className={label}>first disabled</span>
-        <Tabs {...args} label="时间范围" items={[{ value: 'day', label: '今天', disabled: true }, ...ranges.slice(1)]} defaultValue={undefined} />
+        <Tabs
+          {...args}
+          label="时间范围"
+          items={[{ value: 'day', label: '今天', disabled: true }, ...ranges.slice(1)]}
+          defaultValue={undefined}
+        />
       </div>
       <div className={row}>
         <span className={label}>mixed labels</span>
-        <Tabs {...args} label="视图" items={[{ value: 'grid', label: 'Grid 网格' }, { value: 'list', label: 'List 列表' }, { value: 'map', label: 'Map' }]} defaultValue="list" />
+        <Tabs
+          {...args}
+          label="视图"
+          items={[
+            { value: 'grid', label: 'Grid 网格' },
+            { value: 'list', label: 'List 列表' },
+            { value: 'map', label: 'Map' },
+          ]}
+          defaultValue="list"
+        />
       </div>
     </div>
   ),
@@ -87,7 +112,10 @@ export const Example: Story = {
         label: '加载中',
         content: (
           <div className={stack}>
-            <span className={loading}><Spinner size="sm" />正在获取评论…</span>
+            <span className={loading}>
+              <Spinner size="sm" />
+              正在获取评论…
+            </span>
             <div className={lines} aria-hidden>
               <Skeleton className={css({ height: '[12px]', borderRadius: 'full' })} />
               <Skeleton className={css({ height: '[12px]', width: '70%', borderRadius: 'full' })} />
@@ -118,7 +146,13 @@ export const InACard: Story = {
   name: 'In a card',
   render: (args) => (
     <Card title="阅读统计" description="按时间范围查看访问量。" className={width}>
-      <Tabs {...args} fullWidth label="时间范围" items={ranges.map((r) => ({ ...r, content: <p className={p}>{r.label}的访问量会显示在这里。</p> }))} defaultValue="week" />
+      <Tabs
+        {...args}
+        fullWidth
+        label="时间范围"
+        items={ranges.map((r) => ({ ...r, content: <p className={p}>{r.label}的访问量会显示在这里。</p> }))}
+        defaultValue="week"
+      />
     </Card>
   ),
 };

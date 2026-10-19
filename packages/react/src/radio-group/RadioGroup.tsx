@@ -1,14 +1,13 @@
-import * as React from 'react';
-import { RadioGroup as BaseRadioGroup } from '@base-ui/react/radio-group';
-import { Radio } from '@base-ui/react/radio';
 import { Field as BaseField } from '@base-ui/react/field';
+import { Radio } from '@base-ui/react/radio';
+import { RadioGroup as BaseRadioGroup } from '@base-ui/react/radio-group';
+import type { RadioGroupOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { radioGroup } from '@koi/react/styled-system/recipes';
+import * as React from 'react';
 import { KoiFieldContext } from '../field/context';
-import type { RadioGroupOwnProps } from '@koi/core';
 
 export type { RadioOption } from '@koi/core';
-
 
 export interface RadioGroupProps
   extends RadioGroupOwnProps<Event>,
@@ -62,6 +61,7 @@ export function RadioGroup({
         const labelId = `${uid}-${i}-label`;
         const descId = o.description ? `${uid}-${i}-desc` : undefined;
         return (
+          // biome-ignore lint/a11y/noLabelWithoutControl: the radio input renders inside this label
           <Row key={o.value} className={s.item} {...(f ? { render: <label /> } : null)}>
             <Radio.Root
               value={o.value}
@@ -74,8 +74,14 @@ export function RadioGroup({
               <Radio.Indicator keepMounted className={s.indicator} />
             </Radio.Root>
             <span className={s.text}>
-              <span id={labelId} className={s.label}>{o.label}</span>
-              {descId ? <span id={descId} className={s.description}>{o.description}</span> : null}
+              <span id={labelId} className={s.label}>
+                {o.label}
+              </span>
+              {descId ? (
+                <span id={descId} className={s.description}>
+                  {o.description}
+                </span>
+              ) : null}
             </span>
           </Row>
         );

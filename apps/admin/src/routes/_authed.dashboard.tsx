@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { css } from '@koi/react/styled-system/css';
-import { createFileRoute } from '@tanstack/react-router';
 import { Badge } from '@koi/react/badge';
 import { Card } from '@koi/react/card';
 import { DataTable, type DataTableColumn } from '@koi/react/data-table';
 import { Skeleton } from '@koi/react/skeleton';
-import { PageHeader } from '../components/PageHeader';
+import { css } from '@koi/react/styled-system/css';
+import { sizes } from '@koi/tokens/dimensions';
+import { createFileRoute } from '@tanstack/react-router';
+import * as React from 'react';
 import { AppLink } from '../components/AppLink';
 import { ArrowRightIcon } from '../components/icons';
-import { fetchRecentOrders, fetchStats, ORDER_STATUS, type DashboardStats, type Order } from '../mock/api';
+import { PageHeader } from '../components/PageHeader';
 import { formatDateTime, formatMoney } from '../lib/format';
-import { sizes } from '@koi/tokens/dimensions';
+import { type DashboardStats, fetchRecentOrders, fetchStats, ORDER_STATUS, type Order } from '../mock/api';
 
 export const Route = createFileRoute('/_authed/dashboard')({
   staticData: { title: '仪表盘' },
@@ -30,12 +30,13 @@ const s = {
   moreIcon: css({ display: 'inline-block', verticalAlign: 'middle', marginInlineStart: '1' }),
 };
 
-const statCards: Array<{ key: keyof DashboardStats; label: string; hint: string; format: (value: number) => string }> = [
-  { key: 'todayOrders', label: '今日订单', hint: '自然日', format: (value) => String(value) },
-  { key: 'pendingOrders', label: '待付款订单', hint: '等待用户付款', format: (value) => String(value) },
-  { key: 'monthRevenue', label: '本月营收', hint: '不含已取消', format: formatMoney },
-  { key: 'members', label: '注册用户', hint: '全部用户', format: (value) => value.toLocaleString('zh-CN') },
-];
+const statCards: Array<{ key: keyof DashboardStats; label: string; hint: string; format: (value: number) => string }> =
+  [
+    { key: 'todayOrders', label: '今日订单', hint: '自然日', format: (value) => String(value) },
+    { key: 'pendingOrders', label: '待付款订单', hint: '等待用户付款', format: (value) => String(value) },
+    { key: 'monthRevenue', label: '本月营收', hint: '不含已取消', format: formatMoney },
+    { key: 'members', label: '注册用户', hint: '全部用户', format: (value) => value.toLocaleString('zh-CN') },
+  ];
 
 function DashboardPage() {
   const [stats, setStats] = React.useState<DashboardStats | null>(null);
@@ -59,7 +60,14 @@ function DashboardPage() {
     { key: 'customer', header: '客户', width: 120, cell: (o) => o.customer, skeleton: '林晚照' },
     // No width: the product name takes the rest.
     { key: 'product', header: '商品', cell: (o) => o.product, skeleton: '锦鲤抱枕' },
-    { key: 'amount', header: '金额', align: 'end', width: 120, cell: (o) => formatMoney(o.amount), skeleton: '¥199.00' },
+    {
+      key: 'amount',
+      header: '金额',
+      align: 'end',
+      width: 120,
+      cell: (o) => formatMoney(o.amount),
+      skeleton: '¥199.00',
+    },
     {
       key: 'status',
       header: '状态',
@@ -67,7 +75,13 @@ function DashboardPage() {
       cell: (o) => <Badge tone={ORDER_STATUS[o.status].badge}>{ORDER_STATUS[o.status].label}</Badge>,
       skeleton: <Badge>已完成</Badge>,
     },
-    { key: 'createdAt', header: '创建时间', width: 152, cell: (o) => formatDateTime(o.createdAt), skeleton: 'Oct 16, 14:30' },
+    {
+      key: 'createdAt',
+      header: '创建时间',
+      width: 152,
+      cell: (o) => formatDateTime(o.createdAt),
+      skeleton: 'Oct 16, 14:30',
+    },
   ];
 
   return (
@@ -81,17 +95,34 @@ function DashboardPage() {
               {stats ? (
                 <span className={s.statValue}>{card.format(stats[card.key])}</span>
               ) : (
-                <Skeleton><span className={s.statValue}>00,000.00</span></Skeleton>
+                <Skeleton>
+                  <span className={s.statValue}>00,000.00</span>
+                </Skeleton>
               )}
             </div>
             <p className={s.statHint}>{card.hint}</p>
           </Card>
         ))}
       </div>
-      <Card title="最近订单" className={s.recent} footer={
-        <AppLink to="/orders">查看全部<ArrowRightIcon size={sizes['icon-sm']} className={s.moreIcon} /></AppLink>
-      }>
-        <DataTable className={s.dataTable} layout="fixed" columns={recentColumns} rows={recent ?? []} getRowKey={(o) => o.id} loading={recent === null} skeletonRows={5} />
+      <Card
+        title="最近订单"
+        className={s.recent}
+        footer={
+          <AppLink to="/orders">
+            查看全部
+            <ArrowRightIcon size={sizes['icon-sm']} className={s.moreIcon} />
+          </AppLink>
+        }
+      >
+        <DataTable
+          className={s.dataTable}
+          layout="fixed"
+          columns={recentColumns}
+          rows={recent ?? []}
+          getRowKey={(o) => o.id}
+          loading={recent === null}
+          skeletonRows={5}
+        />
       </Card>
     </div>
   );

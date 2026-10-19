@@ -75,6 +75,8 @@ koi-ui/
 - `pnpm contrast`：检查每套 palette、两种主题下的对比度。
 - `pnpm codegen`：tokens + Panda codegen；改了 tokens、recipe 或 `panda.config.ts` 之后跑。
 - `pnpm check`：codegen + 对比度 + raw 颜色 / raw 尺寸 / headless / core 检查 + 全部 typecheck。**提交前必须通过。**
+- `pnpm lint`：Biome lint + 格式检查（只读，不写文件）。**提交前必须通过。**
+- `pnpm lint:fix`：Biome 自动修复 + 格式化。含 `--unsafe`，会改语义（例如删 hook 依赖），跑完必须 review diff。
 - `pnpm shots [组件…]`：截每个 story 的浅色和深色到 `apps/storybook/shots/`。`KOI_PALETTE=rose` / `KOI_FONT=chill` 截其它配色 / 字体。任何视觉改动后都要打开 PNG 看。
 - `pnpm dev`：tokens + codegen + Storybook（端口 6006）。长期进程。
 - `pnpm dev:admin`：tokens + codegen + Admin 模板 dev server（端口 3000）。长期进程。

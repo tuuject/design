@@ -1,8 +1,8 @@
-import * as React from 'react';
-import type { Decorator, Meta, StoryObj } from '@storybook/react-vite';
 import { Button, Progress, type ProgressSize } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
-import { stack, row, label } from '../layout';
+import type { Decorator, Meta, StoryObj } from '@storybook/react-vite';
+import * as React from 'react';
+import { label, row, stack } from '../layout';
 
 const sizes: ProgressSize[] = ['sm', 'md', 'lg'];
 const column = css({ display: 'flex', flexDirection: 'column', gap: '5' });
@@ -15,14 +15,22 @@ const column = css({ display: 'flex', flexDirection: 'column', gap: '5' });
 const freezeForShots: Decorator = (Story) => {
   const ref = React.useRef<HTMLDivElement>(null);
   React.useLayoutEffect(() => {
-    if (!navigator.webdriver || !ref.current) return;
+    if (!navigator.webdriver || !ref.current) {
+      return;
+    }
     for (const a of ref.current.getAnimations({ subtree: true })) {
-      if ((a as CSSAnimation).animationName !== 'koi-indet') continue;
+      if ((a as CSSAnimation).animationName !== 'koi-indet') {
+        continue;
+      }
       a.pause();
       a.currentTime = 600; // half of the 1.2s slide
     }
   });
-  return <div ref={ref}><Story /></div>;
+  return (
+    <div ref={ref}>
+      <Story />
+    </div>
+  );
 };
 
 const meta = {
@@ -33,7 +41,14 @@ const meta = {
     value: { control: { type: 'range', min: 0, max: 100, step: 1 } },
     size: { control: 'inline-radio', options: sizes },
   },
-  decorators: [freezeForShots, (Story) => <div className={css({ width: '[360px]' })}><Story /></div>],
+  decorators: [
+    freezeForShots,
+    (Story) => (
+      <div className={css({ width: '[360px]' })}>
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Progress>;
 
 export default meta;
@@ -85,9 +100,15 @@ export const Changing: Story = {
       <div className={column}>
         <Progress value={value} label="下载中" showValue />
         <div className={row}>
-          <Button size="sm" variant="soft" onClick={() => setValue((v) => Math.max(0, v - 20))}>-20</Button>
-          <Button size="sm" variant="soft" onClick={() => setValue((v) => Math.min(100, v + 20))}>+20</Button>
-          <Button size="sm" variant="outline" onClick={() => setValue(0)}>重置</Button>
+          <Button size="sm" variant="soft" onClick={() => setValue((v) => Math.max(0, v - 20))}>
+            -20
+          </Button>
+          <Button size="sm" variant="soft" onClick={() => setValue((v) => Math.min(100, v + 20))}>
+            +20
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => setValue(0)}>
+            重置
+          </Button>
         </div>
       </div>
     );

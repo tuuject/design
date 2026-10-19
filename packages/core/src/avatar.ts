@@ -18,11 +18,15 @@ export interface AvatarOwnProps {
  */
 export function initials(name: string | undefined) {
   const s = (name ?? '').trim();
-  if (!s) return '?';
+  if (!s) {
+    return '?';
+  }
   // Code points, not UTF-16 units, so a surrogate pair isn't cut in half.
   const first = (w: string | undefined) => (w ? Array.from(w)[0] : '');
   const isCjk = (ch: string) => /[㐀-鿿]/.test(ch);
-  if (isCjk(first(s))) return first(s);
+  if (isCjk(first(s))) {
+    return first(s);
+  }
   const words = s.split(/\s+/);
   const last = words.length > 1 ? first(words[words.length - 1]) : '';
   return (first(words[0]) + (isCjk(last) ? '' : last)).toUpperCase();

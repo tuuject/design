@@ -1,6 +1,6 @@
+import { Button } from '@koi/react/button';
 import { css } from '@koi/react/styled-system/css';
 import { createFileRoute } from '@tanstack/react-router';
-import { Button } from '@koi/react/button';
 
 export const Route = createFileRoute('/$')({
   staticData: { title: '页面不存在' },
@@ -8,7 +8,15 @@ export const Route = createFileRoute('/$')({
 });
 
 const s = {
-  page: css({ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4', textAlign: 'center' }),
+  page: css({
+    minHeight: '60vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '4',
+    textAlign: 'center',
+  }),
   code: css({ margin: '0', textStyle: 'display', fontWeight: 'bold', color: 'text-brand' }),
   text: css({ margin: '0', textStyle: 'body', color: 'text-muted' }),
 };

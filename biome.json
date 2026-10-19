@@ -1,0 +1,55 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "ignoreUnknown": true,
+    "includes": [
+      "**",
+      "!!**/node_modules",
+      "!!**/dist",
+      "!!**/*.tsbuildinfo",
+      "!!packages/react/styled-system",
+      "!!packages/tokens/fonts/fonts.css",
+      "!!apps/admin/src/routeTree.gen.ts",
+      "!!apps/storybook/shots",
+      "!!reference/legacy-web",
+      "!!.temp",
+      "!!**/.wrangler"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "style": {
+        "useBlockStatements": "error"
+      },
+      "suspicious": {
+        "noAssignInExpressions": "warn",
+        "noImplicitAnyLet": "warn"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["packages/react/**", "apps/storybook/**", "apps/admin/**"],
+      "linter": {
+        "domains": {
+          "react": "recommended"
+        }
+      }
+    }
+  ]
+}

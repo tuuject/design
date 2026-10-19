@@ -1,14 +1,16 @@
-import * as React from 'react';
 import { Switch as BaseSwitch } from '@base-ui/react/switch';
+import type { SwitchOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { switchRecipe } from '@koi/react/styled-system/recipes';
+import * as React from 'react';
 import { KoiFieldContext } from '../field/context';
-import type { SwitchOwnProps } from '@koi/core';
-
 
 export interface SwitchProps
   extends SwitchOwnProps<Event>,
-    Omit<React.ComponentPropsWithRef<'button'>, keyof SwitchOwnProps | 'required' | 'name' | 'value' | 'form' | 'type' | 'children' | 'onChange' | 'defaultValue'> {
+    Omit<
+      React.ComponentPropsWithRef<'button'>,
+      keyof SwitchOwnProps | 'required' | 'name' | 'value' | 'form' | 'type' | 'children' | 'onChange' | 'defaultValue'
+    > {
   required?: boolean;
   /** The hidden input's name, for form submission. */
   name?: string;
@@ -61,7 +63,9 @@ export function Switch({
         hasLabel ? (
           <label className={cx(s.root, className)} style={style}>
             <button {...props} type="button" />
-            <span id={labelId} className={s.label}>{label}</span>
+            <span id={labelId} className={s.label}>
+              {label}
+            </span>
           </label>
         ) : (
           <button {...props} type="button" />

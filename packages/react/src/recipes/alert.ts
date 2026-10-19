@@ -1,5 +1,5 @@
-import { defineSlotRecipe } from '@pandacss/dev';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev';
 import { focusRing, toPx } from './dimensions';
 
 // Port of .koi-alert* in reference/legacy-web/components/bundle.css and docs/spec/components/Alert.md.
@@ -20,7 +20,12 @@ export const alert = defineSlotRecipe({
       textStyle: 'body',
     },
     // 2px down so the 16px icon centers on the title's first 20px line.
-    icon: { flex: 'none', display: 'inline-flex', mt: toPx(c.alert.iconOffset), '& > svg': { width: 'icon', height: 'icon' } },
+    icon: {
+      flex: 'none',
+      display: 'inline-flex',
+      mt: toPx(c.alert.iconOffset),
+      '& > svg': { width: 'icon', height: 'icon' },
+    },
     // space-1 between title and body; the action sits space-3 below (gap + mt).
     content: { flex: '1', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '1' },
     title: { m: '0', fontWeight: '700' },

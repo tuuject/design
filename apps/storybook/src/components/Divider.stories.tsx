@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button, Divider } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
   title: 'Components/Divider',
@@ -28,7 +28,9 @@ export const WithLabel: Story = {
     <div className={css({ display: 'flex', flexDirection: 'column', alignItems: 'stretch', maxWidth: '[400px]' })}>
       <Button>使用邮箱登录</Button>
       <Divider {...args} />
-      <Button color="secondary" variant="outline">使用 GitHub 登录</Button>
+      <Button color="secondary" variant="outline">
+        使用 GitHub 登录
+      </Button>
     </div>
   ),
 };
@@ -36,7 +38,9 @@ export const WithLabel: Story = {
 export const Vertical: Story = {
   render: () => (
     <span className={css({ display: 'inline-flex', alignItems: 'center', color: 'text-muted', textStyle: 'small' })}>
-      2026 年 10 月 9 日<Divider orientation="vertical" />阅读约 5 分钟<Divider orientation="vertical" />3 条评论
+      2026 年 10 月 9 日<Divider orientation="vertical" />
+      阅读约 5 分钟
+      <Divider orientation="vertical" />3 条评论
     </span>
   ),
 };

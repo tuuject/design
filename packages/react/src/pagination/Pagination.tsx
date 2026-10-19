@@ -1,20 +1,31 @@
-import * as React from 'react';
+import { type PaginationOwnProps, pageList, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { pagination } from '@koi/react/styled-system/recipes';
+import type * as React from 'react';
 import { Button } from '../button/Button';
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons';
 import { useButtonShape } from '../shape';
-import { pageList, strings, type PaginationOwnProps } from '@koi/core';
 
 export type { PaginationVariant } from '@koi/core';
 
-export interface PaginationProps extends PaginationOwnProps, Omit<React.ComponentPropsWithRef<'nav'>, keyof PaginationOwnProps | 'children'> {}
+export interface PaginationProps
+  extends PaginationOwnProps,
+    Omit<React.ComponentPropsWithRef<'nav'>, keyof PaginationOwnProps | 'children'> {}
 
 const noop = () => {};
 
 /** Page navigation: a <nav> with prev/next Buttons and either page numbers or "n / m". */
 export function Pagination({
-  page: pageProp, pageCount, onChange, variant, prevLabel, nextLabel, siblings, label, className, ...rest
+  page: pageProp,
+  pageCount,
+  onChange,
+  variant,
+  prevLabel,
+  nextLabel,
+  siblings,
+  label,
+  className,
+  ...rest
 }: PaginationProps) {
   // `|| 1` as legacy, so 0 or NaN fall back to one page / the first page.
   const count = pageCount || 1;
@@ -56,7 +67,9 @@ export function Pagination({
         <ol className={s.pages}>
           {pageList(page, count, siblings ?? 1).map((p) =>
             typeof p === 'string' ? (
-              <li key={p} className={s.gap} aria-hidden="true">…</li>
+              <li key={p} className={s.gap} aria-hidden="true">
+                …
+              </li>
             ) : (
               <li key={p}>
                 <button

@@ -1,21 +1,21 @@
-import * as React from 'react';
-import { Select as BaseSelect } from '@base-ui/react/select';
 import { Combobox } from '@base-ui/react/combobox';
-import { cx } from '@koi/react/styled-system/css';
-import { selectPanel } from '@koi/react/styled-system/recipes';
-import { KoiFieldContext } from '../field/context';
-import { CheckIcon, ChevronDownIcon, SearchIcon } from '../icons';
-import { components } from '@koi/tokens/dimensions';
+import { Select as BaseSelect } from '@base-ui/react/select';
 import {
-  strings,
   type SelectEntry as Entry,
+  type SelectOptionOf as OptionOf,
   type SelectGroupOwnProps,
   type SelectItemOwnProps,
   type SelectOption,
   type SelectOptionGroup,
-  type SelectOptionOf as OptionOf,
   type SelectPanelOwnProps,
+  strings,
 } from '@koi/core';
+import { cx } from '@koi/react/styled-system/css';
+import { selectPanel } from '@koi/react/styled-system/recipes';
+import { components } from '@koi/tokens/dimensions';
+import * as React from 'react';
+import { KoiFieldContext } from '../field/context';
+import { CheckIcon, ChevronDownIcon, SearchIcon } from '../icons';
 
 export type { SelectOptionGroup } from '@koi/core';
 
@@ -32,12 +32,18 @@ const isGroup = (e: Entry): e is SelectOptionGroup => Array.isArray((e as Select
 // SelectItem and friends render Base UI Select or Combobox parts, whichever the panel they're in uses.
 const PARTS = {
   select: {
-    Item: BaseSelect.Item, ItemIndicator: BaseSelect.ItemIndicator, Group: BaseSelect.Group,
-    GroupLabel: BaseSelect.GroupLabel, Separator: BaseSelect.Separator,
+    Item: BaseSelect.Item,
+    ItemIndicator: BaseSelect.ItemIndicator,
+    Group: BaseSelect.Group,
+    GroupLabel: BaseSelect.GroupLabel,
+    Separator: BaseSelect.Separator,
   },
   combobox: {
-    Item: Combobox.Item, ItemIndicator: Combobox.ItemIndicator, Group: Combobox.Group,
-    GroupLabel: Combobox.GroupLabel, Separator: Combobox.Separator,
+    Item: Combobox.Item,
+    ItemIndicator: Combobox.ItemIndicator,
+    Group: Combobox.Group,
+    GroupLabel: Combobox.GroupLabel,
+    Separator: Combobox.Separator,
   },
 } as const;
 type Mode = keyof typeof PARTS;
@@ -45,16 +51,28 @@ const ModeContext = React.createContext<Mode | null>(null);
 
 function useParts(part: string) {
   const mode = React.useContext(ModeContext);
-  if (!mode) throw new Error(`${part} must be rendered inside a SelectPanel.`);
+  if (!mode) {
+    throw new Error(`${part} must be rendered inside a SelectPanel.`);
+  }
   // The two sets take the same props for everything used here; Select.Item's `label` is passed only to Select.
   return { mode, P: PARTS[mode] as unknown as typeof PARTS.select };
 }
 
 function defaultRender(entries: Entry[]) {
   const option = (o: SelectOption) => (
-    <SelectItem key={o.value} value={o.value} label={o.label} disabled={o.disabled}>{o.label}</SelectItem>
+    <SelectItem key={o.value} value={o.value} label={o.label} disabled={o.disabled}>
+      {o.label}
+    </SelectItem>
   );
-  return entries.map((e) => (isGroup(e) ? <SelectGroup key={e.label} label={e.label}>{e.items.map(option)}</SelectGroup> : option(e)));
+  return entries.map((e) =>
+    isGroup(e) ? (
+      <SelectGroup key={e.label} label={e.label}>
+        {e.items.map(option)}
+      </SelectGroup>
+    ) : (
+      option(e)
+    ),
+  );
 }
 
 /**
@@ -63,13 +81,35 @@ function defaultRender(entries: Entry[]) {
  * Both open below the trigger, flip near the viewport edge and are fully keyboard accessible.
  */
 export function SelectPanel<I extends Entry = Entry>({
-  items, value, defaultValue, onChange, placeholder = strings.selectPlaceholder, size = 'md', invalid, name, readOnly, required, disabled,
-  searchable, searchPlaceholder = strings.search, emptyText = strings.noMatches, renderValue, children, open, defaultOpen, onOpenChange,
-  id, className, ...rest
+  items,
+  value,
+  defaultValue,
+  onChange,
+  placeholder = strings.selectPlaceholder,
+  size = 'md',
+  invalid,
+  name,
+  readOnly,
+  required,
+  disabled,
+  searchable,
+  searchPlaceholder = strings.search,
+  emptyText = strings.noMatches,
+  renderValue,
+  children,
+  open,
+  defaultOpen,
+  onOpenChange,
+  id,
+  className,
+  ...rest
 }: SelectPanelProps<I>) {
   const f = React.useContext(KoiFieldContext);
   const s = selectPanel({ size });
-  const flat = React.useMemo(() => (items as readonly Entry[]).flatMap((e) => (isGroup(e) ? e.items : [e])) as OptionOf<I>[], [items]);
+  const flat = React.useMemo(
+    () => (items as readonly Entry[]).flatMap((e) => (isGroup(e) ? e.items : [e])) as OptionOf<I>[],
+    [items],
+  );
   const render: (items: I[]) => React.ReactNode = children ?? defaultRender;
 
   const showValue = (v: string | null) => {
@@ -77,7 +117,13 @@ export function SelectPanel<I extends Entry = Entry>({
     return item ? (renderValue ? renderValue(item) : item.label) : placeholder;
   };
   const root = {
-    value, defaultValue, open, defaultOpen, name, readOnly, disabled,
+    value,
+    defaultValue,
+    open,
+    defaultOpen,
+    name,
+    readOnly,
+    disabled,
     required: required ?? f?.required,
     id: id ?? f?.id,
     onValueChange: onChange,
@@ -89,15 +135,23 @@ export function SelectPanel<I extends Entry = Entry>({
       aria-invalid={invalid && !disabled ? true : rest['aria-invalid']}
       className={cx(s.trigger, className)}
     >
-      <span className={s.value}><P.Value>{showValue}</P.Value></span>
-      <P.Icon className={s.icon}><ChevronDownIcon /></P.Icon>
+      <span className={s.value}>
+        <P.Value>{showValue}</P.Value>
+      </span>
+      <P.Icon className={s.icon}>
+        <ChevronDownIcon />
+      </P.Icon>
     </P.Trigger>
   );
 
   // Base UI's Combobox filters on the labels; values stay the option's `value` strings.
   const collection = React.useMemo(
     // Typed as flat; createItems reads groups at runtime.
-    () => Combobox.createItems(items as readonly SelectOption[] as SelectOption[], { getValue: (o) => o.value, getLabel: (o) => o.label }),
+    () =>
+      Combobox.createItems(items as readonly SelectOption[] as SelectOption[], {
+        getValue: (o) => o.value,
+        getLabel: (o) => o.label,
+      }),
     [items],
   );
 
@@ -110,7 +164,11 @@ export function SelectPanel<I extends Entry = Entry>({
             <Combobox.Popup className={s.popup}>
               <div className={s.search}>
                 <SearchIcon />
-                <Combobox.Input placeholder={searchPlaceholder} aria-label={searchPlaceholder} className={s.searchInput} />
+                <Combobox.Input
+                  placeholder={searchPlaceholder}
+                  aria-label={searchPlaceholder}
+                  className={s.searchInput}
+                />
               </div>
               <Combobox.Empty className={s.empty}>{emptyText}</Combobox.Empty>
               <Combobox.List className={s.list}>
@@ -130,7 +188,12 @@ export function SelectPanel<I extends Entry = Entry>({
       {trigger(BaseSelect)}
       <BaseSelect.Portal>
         {/* Below the trigger like the searchable panel, not over it (Base UI's default for Select). */}
-        <BaseSelect.Positioner alignItemWithTrigger={false} align="start" sideOffset={components.popup.offset} className={s.positioner}>
+        <BaseSelect.Positioner
+          alignItemWithTrigger={false}
+          align="start"
+          sideOffset={components.popup.offset}
+          className={s.positioner}
+        >
           <BaseSelect.Popup className={s.popup}>
             <BaseSelect.List className={s.list}>
               <ModeContext.Provider value="select">{render([...items])}</ModeContext.Provider>
@@ -147,21 +210,33 @@ function Filtered<I extends Entry>({ render }: { render: (items: I[]) => React.R
   return <>{render(filtered.filter((e) => !isGroup(e) || e.items.length > 0))}</>;
 }
 
-export interface SelectItemProps extends SelectItemOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof SelectItemOwnProps> {}
+export interface SelectItemProps
+  extends SelectItemOwnProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, keyof SelectItemOwnProps> {}
 
 /** One choosable row in a SelectPanel. A check mark shows on the chosen one. */
 export function SelectItem({ value, label, disabled, className, children, ...rest }: SelectItemProps) {
   const { mode, P } = useParts('SelectItem');
   const s = selectPanel();
   return (
-    <P.Item {...rest} value={value} disabled={disabled} {...(mode === 'select' ? { label } : null)} className={cx(s.item, className)}>
+    <P.Item
+      {...rest}
+      value={value}
+      disabled={disabled}
+      {...(mode === 'select' ? { label } : null)}
+      className={cx(s.item, className)}
+    >
       <span className={s.itemText}>{children}</span>
-      <P.ItemIndicator className={s.itemIndicator}><CheckIcon /></P.ItemIndicator>
+      <P.ItemIndicator className={s.itemIndicator}>
+        <CheckIcon />
+      </P.ItemIndicator>
     </P.Item>
   );
 }
 
-export interface SelectGroupProps extends SelectGroupOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof SelectGroupOwnProps> {}
+export interface SelectGroupProps
+  extends SelectGroupOwnProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, keyof SelectGroupOwnProps> {}
 
 /** A titled group of SelectItems. */
 export function SelectGroup({ label, className, children, ...rest }: SelectGroupProps) {

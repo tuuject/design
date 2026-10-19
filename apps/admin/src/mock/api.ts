@@ -47,14 +47,35 @@ function makeRandom(seed: number) {
 }
 
 const CUSTOMERS = [
-  '林晚照', '沈鱼', '顾青崖', '白鹿', '陆知遥', '苏折枝', '江晚吟', '闻人语',
-  '温叙白', '姜眠', '宋知微', '裴见山', '谢栖迟', '阮眠棠', '霍无涯', '程既白',
+  '林晚照',
+  '沈鱼',
+  '顾青崖',
+  '白鹿',
+  '陆知遥',
+  '苏折枝',
+  '江晚吟',
+  '闻人语',
+  '温叙白',
+  '姜眠',
+  '宋知微',
+  '裴见山',
+  '谢栖迟',
+  '阮眠棠',
+  '霍无涯',
+  '程既白',
 ];
 
 const PRODUCTS: Array<[string, number]> = [
-  ['锦鲤抱枕', 89], ['云养锦鲤月卡', 25], ['Koi 主题授权', 199], ['樱花季贴纸包', 12.9],
-  ['透明玻璃杯', 49], ['折叠露营椅', 329], ['手账本 · 锦鲤别册', 68], ['毛绒挂件', 35],
-  ['帆布袋', 79], ['亚克力立牌', 45],
+  ['锦鲤抱枕', 89],
+  ['云养锦鲤月卡', 25],
+  ['Koi 主题授权', 199],
+  ['樱花季贴纸包', 12.9],
+  ['透明玻璃杯', 49],
+  ['折叠露营椅', 329],
+  ['手账本 · 锦鲤别册', 68],
+  ['毛绒挂件', 35],
+  ['帆布袋', 79],
+  ['亚克力立牌', 45],
 ];
 
 const STATUSES: OrderStatus[] = ['completed', 'completed', 'completed', 'pending', 'shipped', 'shipped', 'cancelled'];
@@ -70,7 +91,7 @@ const orders: Order[] = (() => {
       customer: CUSTOMERS[Math.floor(rand() * CUSTOMERS.length)],
       product,
       // A slightly different amount per order, keeping the cent digits lively.
-      amount: Math.round((base * (0.8 + rand() * 1.6) * 100)) / 100,
+      amount: Math.round(base * (0.8 + rand() * 1.6) * 100) / 100,
       status: STATUSES[Math.floor(rand() * STATUSES.length)],
       createdAt: now - Math.floor(rand() * 30 * 24 * 60 * 60 * 1000),
     });
@@ -99,7 +120,9 @@ export async function fetchOrders({ page, pageSize = 8, keyword, status }: Order
 export async function deleteOrder(id: string): Promise<void> {
   await delay(400);
   const index = orders.findIndex((o) => o.id === id);
-  if (index !== -1) orders.splice(index, 1);
+  if (index !== -1) {
+    orders.splice(index, 1);
+  }
 }
 
 export async function fetchRecentOrders(count = 5): Promise<Order[]> {
@@ -109,8 +132,11 @@ export async function fetchRecentOrders(count = 5): Promise<Order[]> {
 
 export async function fetchStats(): Promise<DashboardStats> {
   await delay(300);
-  const dayStart = new Date(); dayStart.setHours(0, 0, 0, 0);
-  const monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0, 0, 0, 0);
+  const dayStart = new Date();
+  dayStart.setHours(0, 0, 0, 0);
+  const monthStart = new Date();
+  monthStart.setDate(1);
+  monthStart.setHours(0, 0, 0, 0);
   return {
     todayOrders: orders.filter((o) => o.createdAt >= dayStart.getTime()).length,
     pendingOrders: orders.filter((o) => o.status === 'pending').length,

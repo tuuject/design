@@ -1,5 +1,5 @@
-import { defineSlotRecipe } from '@pandacss/dev';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev';
 import { focusRing, toPx } from './dimensions';
 
 // Port of .koi-tag* in reference/legacy-web/components/bundle.css and docs/spec/components/Tag.md.
@@ -76,7 +76,12 @@ export const tag = defineSlotRecipe({
     // Hover lives in the same variant as the fill it changes: variants sort after base, so a hover rule in base would lose.
     selected: {
       false: {
-        root: { bg: 'surface', borderColor: 'border', color: 'text', [`&:has(${TOGGLE}:hover)`]: { bg: 'surface-muted' } },
+        root: {
+          bg: 'surface',
+          borderColor: 'border',
+          color: 'text',
+          [`&:has(${TOGGLE}:hover)`]: { bg: 'surface-muted' },
+        },
       },
       true: {
         root: {

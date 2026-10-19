@@ -1,11 +1,11 @@
-import { css } from '@koi/react/styled-system/css';
 import { IconButton } from '@koi/react/button';
+import { css } from '@koi/react/styled-system/css';
+import { useUiStore } from '../../stores/ui';
 import { MenuIcon, PanelLeftIcon } from '../icons';
 import { Breadcrumbs } from './Breadcrumbs';
+import { TOPBAR_HEIGHT, TOPBAR_Z_INDEX } from './shared';
 import { ThemeToggle } from './ThemeToggle';
 import { UserMenu } from './UserMenu';
-import { useUiStore } from '../../stores/ui';
-import { TOPBAR_HEIGHT, TOPBAR_Z_INDEX } from './shared';
 
 const s = {
   root: css({

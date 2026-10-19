@@ -1,6 +1,6 @@
 import { IconButton } from '@koi/react/button';
-import { MoonIcon, SunIcon } from '../icons';
 import { useTheme } from '../../hooks/use-theme';
+import { MoonIcon, SunIcon } from '../icons';
 
 /** Light / dark toggle in the topbar; the state itself lives in theme-init.js (<html data-theme>). */
 export function ThemeToggle() {

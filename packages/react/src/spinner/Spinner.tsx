@@ -1,6 +1,6 @@
+import { type SpinnerOwnProps, type SpinnerSize, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { spinner } from '@koi/react/styled-system/recipes';
-import { strings, type SpinnerOwnProps, type SpinnerSize } from '@koi/core';
 import { components } from '@koi/tokens/dimensions';
 
 export type { SpinnerSize } from '@koi/core';

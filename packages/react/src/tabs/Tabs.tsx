@@ -1,11 +1,10 @@
-import * as React from 'react';
 import { Tabs as BaseTabs } from '@base-ui/react/tabs';
+import type { TabsOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { tabs } from '@koi/react/styled-system/recipes';
-import type { TabsOwnProps } from '@koi/core';
+import type * as React from 'react';
 
 export type { TabItem } from '@koi/core';
-
 
 export interface TabsProps
   extends TabsOwnProps<Event>,
@@ -16,7 +15,16 @@ export interface TabsProps
  * springs to the newly chosen tab. ←/→ move and choose (skipping disabled tabs, wrapping), Home/End jump.
  * Only the active item's `content` is mounted, in a focusable tabpanel.
  */
-export function Tabs({ items, value, defaultValue, onChange, label, fullWidth = false, className, ...rest }: TabsProps) {
+export function Tabs({
+  items,
+  value,
+  defaultValue,
+  onChange,
+  label,
+  fullWidth = false,
+  className,
+  ...rest
+}: TabsProps) {
   const s = tabs({ fullWidth });
   // Legacy picked the first item; pick the first enabled one so Base UI never has to fall back by itself.
   const initial = defaultValue ?? (items.find((i) => !i.disabled) ?? items[0])?.value;
@@ -28,7 +36,9 @@ export function Tabs({ items, value, defaultValue, onChange, label, fullWidth = 
       defaultValue={value === undefined ? initial : undefined}
       onValueChange={(v, details) => {
         // Only user choices; Base UI's own fallbacks ('initial', 'disabled', 'missing') weren't events in legacy.
-        if (details.reason === 'none') onChange?.(v as string, details);
+        if (details.reason === 'none') {
+          onChange?.(v as string, details);
+        }
       }}
       className={cx(s.root, className)}
     >

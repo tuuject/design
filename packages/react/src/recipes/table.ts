@@ -1,5 +1,5 @@
-import { defineSlotRecipe } from '@pandacss/dev';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev';
 import { focusRing, toPx } from './dimensions';
 
 // docs/spec/components/Table.md. Plain table elements, no headless library: every selector here is a native
@@ -7,7 +7,20 @@ import { focusRing, toPx } from './dimensions';
 // The parts are separate components, so `align` is resolved per cell: `table({ align })` and take one slot.
 export const table = defineSlotRecipe({
   className: 'koi-table',
-  slots: ['container', 'root', 'header', 'body', 'footer', 'row', 'headerCell', 'cell', 'sortButton', 'empty', 'caption', 'skeleton'],
+  slots: [
+    'container',
+    'root',
+    'header',
+    'body',
+    'footer',
+    'row',
+    'headerCell',
+    'cell',
+    'sortButton',
+    'empty',
+    'caption',
+    'skeleton',
+  ],
   base: {
     // Wide tables scroll inside their container, never the page.
     container: { width: '100%', overflowX: 'auto' },

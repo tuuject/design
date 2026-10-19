@@ -1,9 +1,9 @@
-import * as React from 'react';
+import { type LinkOwnProps, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { link } from '@koi/react/styled-system/recipes';
-import { ExternalIcon } from '../icons';
-import { strings, type LinkOwnProps } from '@koi/core';
 import { sizes } from '@koi/tokens/dimensions';
+import type * as React from 'react';
+import { ExternalIcon } from '../icons';
 
 export interface LinkProps extends LinkOwnProps, Omit<React.ComponentPropsWithRef<'a'>, keyof LinkOwnProps> {}
 

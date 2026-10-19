@@ -1,9 +1,9 @@
-import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { fn } from 'storybook/test';
-import { Pagination, ShapeProvider, type PaginationProps } from '@koi/react';
+import { Pagination, type PaginationProps, ShapeProvider } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
-import { stack, row, label } from '../layout';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import * as React from 'react';
+import { fn } from 'storybook/test';
+import { label, row, stack } from '../layout';
 
 const width = css({ width: '[680px]', maxWidth: '100%' });
 const grow = css({ flex: '1', minWidth: '0' });
@@ -34,7 +34,13 @@ const meta = {
     siblings: { control: { type: 'number', min: 0 } },
     variant: { control: 'inline-radio', options: ['numbered', 'simple'] },
   },
-  decorators: [(Story) => <div className={width}><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div className={width}>
+        <Story />
+      </div>
+    ),
+  ],
   render: (args) => <Controlled {...args} />,
 } satisfies Meta<typeof Pagination>;
 
@@ -50,7 +56,9 @@ export const Numbered: Story = {
       {[1, 2, 4, 5, 9, 10].map((p) => (
         <div key={p} className={row}>
           <span className={label}>{`第 ${p} 页`}</span>
-          <div className={grow}><Pagination page={p} pageCount={10} /></div>
+          <div className={grow}>
+            <Pagination page={p} pageCount={10} />
+          </div>
         </div>
       ))}
     </div>
@@ -69,7 +77,9 @@ export const SmallTotals: Story = {
       ].map(([p, n]) => (
         <div key={`${p}/${n}`} className={row}>
           <span className={label}>{`${p} / ${n}`}</span>
-          <div className={grow}><Pagination page={p} pageCount={n} /></div>
+          <div className={grow}>
+            <Pagination page={p} pageCount={n} />
+          </div>
         </div>
       ))}
     </div>
@@ -83,7 +93,9 @@ export const Siblings: Story = {
       {[0, 1, 2].map((s) => (
         <div key={s} className={row}>
           <span className={label}>{`siblings ${s}`}</span>
-          <div className={grow}><Pagination page={10} pageCount={20} siblings={s} /></div>
+          <div className={grow}>
+            <Pagination page={10} pageCount={20} siblings={s} />
+          </div>
         </div>
       ))}
     </div>

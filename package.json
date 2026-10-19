@@ -17,9 +17,12 @@
     "build": "pnpm codegen && pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "shots": "pnpm --filter storybook shots",
+    "lint": "biome lint . && biome format .",
+    "lint:fix": "biome lint --write --unsafe . && biome format --write .",
     "check": "pnpm codegen && pnpm contrast && node scripts/check-raw-colors.mjs && node scripts/check-raw-sizes.mjs && node scripts/check-headless.mjs && node scripts/check-core.mjs && pnpm typecheck"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.15",
     "@pandacss/dev": "^2.1.2",
     "@pandacss/preset-base": "^2.1.2",
     "typescript": "^7.0.2"

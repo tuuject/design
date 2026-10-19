@@ -1,7 +1,7 @@
-import { defineSlotRecipe } from '@pandacss/dev';
-import { state, vars } from './headless';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev';
 import { toPx } from './dimensions';
+import { state, vars } from './headless';
 
 // Port of .koi-select* in reference/legacy-web/components/bundle.css and docs/spec/components/Select.md.
 // Two recipes: `select` is the native <select> (legacy); `selectPanel` is the custom dropdown (Base UI Select or
@@ -31,7 +31,9 @@ export const select = defineSlotRecipe({
       fontFamily: 'sans',
       transitionProperty: 'border-color, box-shadow',
       transitionDuration: 'fast',
-      '&:hover:not(:focus-within, :has(> select:disabled, > select[aria-invalid=true]))': { borderColor: 'border-control-hover' },
+      '&:hover:not(:focus-within, :has(> select:disabled, > select[aria-invalid=true]))': {
+        borderColor: 'border-control-hover',
+      },
       '&:focus-within': { borderColor: 'focus-ring', boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.focus-ring}` },
       [INVALID]: { borderColor: 'error-control' },
       [`${INVALID}:focus-within`]: { boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.error-control}` },
@@ -66,7 +68,7 @@ export const select = defineSlotRecipe({
       pointerEvents: 'none',
       color: 'text-muted',
       '& > svg': { width: 'icon', height: 'icon' },
-      [`:has(> select:disabled) > &`]: { color: 'text-disabled' },
+      ':has(> select:disabled) > &': { color: 'text-disabled' },
     },
   },
   variants: {
@@ -88,9 +90,21 @@ const BAD = `:is([aria-invalid=true], ${state.invalid}):not(${state.disabled})` 
 export const selectPanel = defineSlotRecipe({
   className: 'koi-select-panel',
   slots: [
-    'trigger', 'value', 'icon',
-    'positioner', 'popup', 'search', 'searchInput', 'list', 'empty',
-    'item', 'itemText', 'itemIndicator', 'group', 'groupLabel', 'separator',
+    'trigger',
+    'value',
+    'icon',
+    'positioner',
+    'popup',
+    'search',
+    'searchInput',
+    'list',
+    'empty',
+    'item',
+    'itemText',
+    'itemIndicator',
+    'group',
+    'groupLabel',
+    'separator',
   ],
   base: {
     trigger: {
@@ -113,10 +127,18 @@ export const selectPanel = defineSlotRecipe({
       transitionProperty: 'border-color, box-shadow',
       transitionDuration: 'fast',
       [`&:hover:not(${OPEN}, ${state.disabled}, ${BAD})` as const]: { borderColor: 'border-control-hover' },
-      [`&${OPEN}:not(${BAD})` as const]: { borderColor: 'focus-ring', boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.focus-ring}` },
+      [`&${OPEN}:not(${BAD})` as const]: {
+        borderColor: 'focus-ring',
+        boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.focus-ring}`,
+      },
       [`&${BAD}` as const]: { borderColor: 'error-control' },
       [`&${BAD}${OPEN}` as const]: { boxShadow: `0 0 0 ${c.stroke.hairline}px {colors.error-control}` },
-      [`&${state.disabled}` as const]: { bg: 'surface-muted', color: 'text-disabled', borderColor: 'border', cursor: 'not-allowed' },
+      [`&${state.disabled}` as const]: {
+        bg: 'surface-muted',
+        color: 'text-disabled',
+        borderColor: 'border',
+        cursor: 'not-allowed',
+      },
     },
     value: {
       flex: '1',

@@ -1,8 +1,8 @@
-import { defineRecipe } from '@pandacss/dev';
 import { BUTTON_COLORS, BUTTON_VARIANTS, type ButtonColor, type ButtonVariant } from '@koi/core';
-import { state } from './headless';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineRecipe } from '@pandacss/dev';
 import { focusRing } from './dimensions';
+import { state } from './headless';
 
 // Port of .koi-btn / .koi-iconbtn in reference/legacy-web/components/bundle.css and docs/spec/components/Button.md.
 // color (what the action means) and variant (how loud it is) are independent; their 5 × 4 combinations are
@@ -13,11 +13,20 @@ const HOVER = `&:hover:not(:disabled, ${state.disabled})` as const;
 function look(c: ButtonColor, v: ButtonVariant) {
   switch (v) {
     case 'solid':
-      return { bg: `${c}-solid` as const, color: `on-${c}-solid` as const, [HOVER]: { bg: `${c}-solid-hover` as const } };
+      return {
+        bg: `${c}-solid` as const,
+        color: `on-${c}-solid` as const,
+        [HOVER]: { bg: `${c}-solid-hover` as const },
+      };
     case 'soft':
       return { bg: `${c}-soft` as const, color: `on-${c}-soft` as const, [HOVER]: { bg: `${c}-soft-hover` as const } };
     case 'outline':
-      return { bg: 'transparent', color: `${c}-fg` as const, borderColor: `${c}-edge` as const, [HOVER]: { bg: `${c}-soft` as const } };
+      return {
+        bg: 'transparent',
+        color: `${c}-fg` as const,
+        borderColor: `${c}-edge` as const,
+        [HOVER]: { bg: `${c}-soft` as const },
+      };
     case 'ghost':
       return { bg: 'transparent', color: `${c}-fg` as const, [HOVER]: { bg: `${c}-soft` as const } };
   }
@@ -30,13 +39,17 @@ const RIPPLE_REST = '0 0 0 6px color-mix(in oklch, var(--koi-ripple) 0%, transpa
 const RIPPLE_PRESSED = '0 0 0 0 color-mix(in oklch, var(--koi-ripple) 45%, transparent)';
 const ripple = (c: ButtonColor) => ({ '--koi-ripple': `token(colors.${c}-solid)` });
 const transition = (shadow: string) =>
-  ['background-color', 'color', 'border-color'].map((p) => `${p} token(durations.fast)`).concat(`box-shadow ${shadow}`).join(', ');
+  ['background-color', 'color', 'border-color']
+    .map((p) => `${p} token(durations.fast)`)
+    .concat(`box-shadow ${shadow}`)
+    .join(', ');
 
 const empty = <K extends string>(keys: readonly K[]) => Object.fromEntries(keys.map((k) => [k, {}])) as Record<K, {}>;
 
 export const button = defineRecipe({
   className: 'koi-btn',
-  description: 'Button and IconButton. No shadows on any variant: buttons stay flat (the press ripple fades to nothing).',
+  description:
+    'Button and IconButton. No shadows on any variant: buttons stay flat (the press ripple fades to nothing).',
   base: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -54,7 +67,10 @@ export const button = defineRecipe({
     textDecoration: 'none',
     boxShadow: RIPPLE_REST,
     transition: transition('token(durations.ripple) token(easings.out)'),
-    [`&:active:not(:disabled, ${state.disabled})` as const]: { boxShadow: RIPPLE_PRESSED, transition: transition('0s') },
+    [`&:active:not(:disabled, ${state.disabled})` as const]: {
+      boxShadow: RIPPLE_PRESSED,
+      transition: transition('0s'),
+    },
     _focusVisible: focusRing,
     _disabled: { opacity: '0.5', cursor: 'not-allowed' },
     // Loading buttons are also disabled; this outranks _disabled's opacity (legacy: .is-loading after :disabled).
@@ -63,7 +79,13 @@ export const button = defineRecipe({
     '& > svg': { width: 'icon', height: 'icon', flexShrink: '0' },
   },
   variants: {
-    color: { primary: ripple('primary'), accent: ripple('accent'), secondary: ripple('secondary'), warning: ripple('warning'), error: ripple('error') },
+    color: {
+      primary: ripple('primary'),
+      accent: ripple('accent'),
+      secondary: ripple('secondary'),
+      warning: ripple('warning'),
+      error: ripple('error'),
+    },
     variant: empty(BUTTON_VARIANTS),
     size: {
       sm: { height: 'control-sm', px: '3', textStyle: 'button-sm', '& > svg': { width: 'icon-sm', height: 'icon-sm' } },
@@ -81,7 +103,9 @@ export const button = defineRecipe({
     },
   },
   compoundVariants: [
-    ...BUTTON_COLORS.flatMap((color) => BUTTON_VARIANTS.map((variant) => ({ color, variant, css: look(color, variant) }))),
+    ...BUTTON_COLORS.flatMap((color) =>
+      BUTTON_VARIANTS.map((variant) => ({ color, variant, css: look(color, variant) })),
+    ),
     // The rounded shape is the dense one (table rows, toolbars): a pill needs its 12px sides to read as a pill, a
     // rounded sm button doesn't, and side by side the extra space reads as gaps. Text buttons only: Panda emits
     // compound variants in its own order, so this can't rely on iconOnly's px 0 coming later.

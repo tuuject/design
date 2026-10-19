@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button, Spinner } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
-import { stack, row, label } from '../layout';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { label, row, stack } from '../layout';
 
 const meta = {
   title: 'Components/Spinner',
@@ -25,16 +25,29 @@ export const Overview: Story = {
       </div>
       <div className={row}>
         <span className={label}>color</span>
-        <span className={css({ color: 'text-muted', display: 'inline-flex', alignItems: 'center', gap: '2' })}><Spinner size="sm" />加载中…</span>
-        <span className={css({ color: 'text-brand', display: 'inline-flex' })}><Spinner /></span>
+        <span className={css({ color: 'text-muted', display: 'inline-flex', alignItems: 'center', gap: '2' })}>
+          <Spinner size="sm" />
+          加载中…
+        </span>
+        <span className={css({ color: 'text-brand', display: 'inline-flex' })}>
+          <Spinner />
+        </span>
       </div>
       <div className={row}>
         <span className={label}>in Button</span>
-        <Button size="sm" loading>保存中</Button>
+        <Button size="sm" loading>
+          保存中
+        </Button>
         <Button loading>保存中</Button>
-        <Button size="lg" loading>保存中</Button>
-        <Button color="secondary" variant="soft" loading>保存中</Button>
-        <Button color="secondary" variant="outline" loading>保存中</Button>
+        <Button size="lg" loading>
+          保存中
+        </Button>
+        <Button color="secondary" variant="soft" loading>
+          保存中
+        </Button>
+        <Button color="secondary" variant="outline" loading>
+          保存中
+        </Button>
       </div>
     </div>
   ),

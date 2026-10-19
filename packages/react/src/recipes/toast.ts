@@ -1,7 +1,7 @@
-import { defineSlotRecipe, defineStyles } from '@pandacss/dev';
-import { state, vars } from './headless';
 import { components as c, space } from '@koi/tokens/dimensions';
+import { defineSlotRecipe, defineStyles } from '@pandacss/dev';
 import { focusRing, toPx } from './dimensions';
+import { state, vars } from './headless';
 
 // Port of .koi-toast* / .koi-toaster in reference/legacy-web/components/bundle.css and docs/spec/components/Toast.md.
 //
@@ -27,11 +27,18 @@ function stacked(edge: 'bottom' | 'top') {
     '--koi-toast-shift': shift,
     transform: `translateX(${swipeX}) translateY(${y})`,
     // Rises in from 12px toward the edge and 96%, on the spring curve (legacy koi-rise).
-    [`&${state.entering}` as const]: { opacity: '0', transform: `translateY(${edge === 'bottom' ? '' : '-'}${c.toast.enterOffset}px) scale(.96)` },
+    [`&${state.entering}` as const]: {
+      opacity: '0',
+      transform: `translateY(${edge === 'bottom' ? '' : '-'}${c.toast.enterOffset}px) scale(.96)`,
+    },
     [`&${state.exiting}` as const]: { opacity: '0', transform: `translateY(${y}) scale(.96)` },
     // Flung away: keep going the way the swipe went.
-    [`&${state.exiting}${state.swiped.left}` as const]: { transform: `translateX(calc(${swipeX} - 150%)) translateY(${y})` },
-    [`&${state.exiting}${state.swiped.right}` as const]: { transform: `translateX(calc(${swipeX} + 150%)) translateY(${y})` },
+    [`&${state.exiting}${state.swiped.left}` as const]: {
+      transform: `translateX(calc(${swipeX} - 150%)) translateY(${y})`,
+    },
+    [`&${state.exiting}${state.swiped.right}` as const]: {
+      transform: `translateX(calc(${swipeX} + 150%)) translateY(${y})`,
+    },
     [`&${state.exiting}${state.swiped.up}` as const]: { transform: `translateY(calc(${y} - 150%))` },
     [`&${state.exiting}${state.swiped.down}` as const]: { transform: `translateY(calc(${y} + 150%))` },
   });
@@ -69,13 +76,19 @@ export const toast = defineSlotRecipe({
       fontFamily: 'sans',
       textStyle: 'body',
       // Moves on the spring curve; fades without it (the curve's overshoot would make the opacity dip near the end).
-      transition: 'opacity token(durations.overlay) token(easings.out), transform token(durations.spring) token(easings.spring)',
+      transition:
+        'opacity token(durations.overlay) token(easings.out), transform token(durations.spring) token(easings.spring)',
       _focusVisible: focusRing,
       // Leaving: a quick fade, without the spring's overshoot.
       [`&${state.exiting}` as const]: { transitionDuration: 'overlay', transitionTimingFunction: 'out' },
     },
     // 18px icon, 3px down so it centers on the title's first 24px line.
-    icon: { flex: 'none', display: 'inline-flex', mt: toPx(c.toast.iconOffset), '& > svg': { width: 'icon-lg', height: 'icon-lg' } },
+    icon: {
+      flex: 'none',
+      display: 'inline-flex',
+      mt: toPx(c.toast.iconOffset),
+      '& > svg': { width: 'icon-lg', height: 'icon-lg' },
+    },
     content: { flex: '1', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '1' },
     // One step above the 14px base on purpose: a toast is only glanced at.
     title: { m: '0', textStyle: 'heading-3' },

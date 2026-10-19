@@ -1,13 +1,15 @@
-import * as React from 'react';
 import { Field as BaseField } from '@base-ui/react/field';
+import { type FieldOwnProps, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { field } from '@koi/react/styled-system/recipes';
+import { sizes } from '@koi/tokens/dimensions';
+import * as React from 'react';
 import { ErrorIcon } from '../icons';
 import { KoiFieldContext } from './context';
-import { strings, type FieldOwnProps } from '@koi/core';
-import { sizes } from '@koi/tokens/dimensions';
 
-export interface FieldProps extends FieldOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof FieldOwnProps | 'id'> {
+export interface FieldProps
+  extends FieldOwnProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, keyof FieldOwnProps | 'id'> {
   /** The control's id (the label points at it). Generated when omitted. */
   id?: string;
 }
@@ -26,7 +28,12 @@ export function Field({ label, help, error, required, optional, id, className, c
         {label != null ? (
           <BaseField.Label className={s.label}>
             {label}
-            {required ? <span className={s.required} aria-hidden="true"> *</span> : null}
+            {required ? (
+              <span className={s.required} aria-hidden="true">
+                {' '}
+                *
+              </span>
+            ) : null}
             {optional ? <span className={s.optional}>{strings.optional}</span> : null}
           </BaseField.Label>
         ) : null}

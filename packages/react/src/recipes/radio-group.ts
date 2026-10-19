@@ -1,8 +1,8 @@
-import { defineSlotRecipe } from '@pandacss/dev';
-import { state } from './headless';
-import { choiceControl, choiceRow } from './checkbox';
 import { components as c } from '@koi/tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev';
+import { choiceControl, choiceRow } from './checkbox';
 import { toPx } from './dimensions';
+import { state } from './headless';
 
 // Port of .koi-radio* / .koi-radios in reference/legacy-web/components/bundle.css and docs/spec/components/RadioGroup.md.
 // DOM: <div root role=radiogroup> <label item> <span control role=radio><span indicator/></span> <input hidden/> <span text>…</span> </label>… </div>.

@@ -46,23 +46,29 @@ function parse(v: string): Rgba {
     return { rgb: [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255) as Rgba['rgb'], a: 1 };
   }
   m = s.match(/^rgba?\(\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?\s*\)$/);
-  if (m) return { rgb: [+m[1] / 255, +m[2] / 255, +m[3] / 255], a: m[4] === undefined ? 1 : +m[4] };
+  if (m) {
+    return { rgb: [+m[1] / 255, +m[2] / 255, +m[3] / 255], a: m[4] === undefined ? 1 : +m[4] };
+  }
   throw new Error(`Koi palettes take #rrggbb or rgba() colors, got "${v}"`);
 }
 
 function format({ rgb, a }: Rgba): string {
   const b = rgb.map((x) => Math.round(x * 255));
-  if (a >= 1) return '#' + b.map((x) => x.toString(16).padStart(2, '0')).join('');
+  if (a >= 1) {
+    return `#${b.map((x) => x.toString(16).padStart(2, '0')).join('')}`;
+  }
   return `rgba(${b[0]}, ${b[1]}, ${b[2]}, ${+a.toFixed(4)})`;
 }
 
 const lin = (c: number) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
 const luminance = ([r, g, b]: Rgba['rgb']) => 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
 const ratio = (a: Rgba['rgb'], b: Rgba['rgb']) => {
-  const A = luminance(a), B = luminance(b);
+  const A = luminance(a),
+    B = luminance(b);
   return (Math.max(A, B) + 0.05) / (Math.min(A, B) + 0.05);
 };
-const over = (fg: Rgba, bg: Rgba['rgb']): Rgba['rgb'] => fg.rgb.map((x, i) => fg.a * x + (1 - fg.a) * bg[i]) as Rgba['rgb'];
+const over = (fg: Rgba, bg: Rgba['rgb']): Rgba['rgb'] =>
+  fg.rgb.map((x, i) => fg.a * x + (1 - fg.a) * bg[i]) as Rgba['rgb'];
 
 const NEED = { text: 4.5, ui: 3 } as const;
 
@@ -71,15 +77,27 @@ export function createPaletteKit<Role extends string>(data: PaletteKitData<Role>
 
   function resolve(name: string, theme: Theme, palette: Palette, seen: string[]): string {
     const swap = name.match(SWAP);
-    if (swap) return palette[swap[1] as keyof Palette][swap[2] as Shade];
-    if (name in data.fixed) return data.fixed[name];
+    if (swap) {
+      return palette[swap[1] as keyof Palette][swap[2] as Shade];
+    }
+    if (name in data.fixed) {
+      return data.fixed[name];
+    }
     const role = (data.roles as Record<string, Record<Theme, RoleValue>>)[name];
-    if (!role) throw new Error(`Unknown color token "${name}"`);
-    if (seen.includes(name)) throw new Error(`Reference cycle: ${[...seen, name].join(' -> ')}`);
+    if (!role) {
+      throw new Error(`Unknown color token "${name}"`);
+    }
+    if (seen.includes(name)) {
+      throw new Error(`Reference cycle: ${[...seen, name].join(' -> ')}`);
+    }
     const v = role[theme];
-    if (typeof v === 'string') return v;
+    if (typeof v === 'string') {
+      return v;
+    }
     const base = resolve(v.ref, theme, palette, [...seen, name]);
-    if (v.alpha === undefined) return base;
+    if (v.alpha === undefined) {
+      return base;
+    }
     const c = parse(base);
     return format({ rgb: c.rgb, a: c.a * v.alpha });
   }
@@ -87,7 +105,9 @@ export function createPaletteKit<Role extends string>(data: PaletteKitData<Role>
   /** Every role token's color for `palette` in `theme` (hex or rgba), ready for StyleSheet or a Tamagui theme. */
   function createColors(palette: Palette, theme: Theme): Record<Role, string> {
     const out = {} as Record<Role, string>;
-    for (const name of Object.keys(data.roles) as Role[]) out[name] = resolve(name, theme, palette, []);
+    for (const name of Object.keys(data.roles) as Role[]) {
+      out[name] = resolve(name, theme, palette, []);
+    }
     return out;
   }
 
@@ -101,14 +121,18 @@ export function createPaletteKit<Role extends string>(data: PaletteKitData<Role>
       return c.a >= 1 ? c.rgb : over(c, solid(ground, theme, 'page-bg'));
     };
     const failures: ContrastFailure[] = [];
-    for (const kind of ['text', 'ui'] as const)
-      for (const [fg, bg, ground = 'page-bg'] of data.pairs[kind])
+    for (const kind of ['text', 'ui'] as const) {
+      for (const [fg, bg, ground = 'page-bg'] of data.pairs[kind]) {
         for (const theme of ['light', 'dark'] as const) {
           const back = solid(bg, theme, ground);
           const c = parse(resolve(fg, theme, palette, []));
           const r = ratio(c.a >= 1 ? c.rgb : over(c, back), back);
-          if (r < NEED[kind]) failures.push({ theme, kind, fg, bg, ratio: +r.toFixed(2), need: NEED[kind] });
+          if (r < NEED[kind]) {
+            failures.push({ theme, kind, fg, bg, ratio: +r.toFixed(2), need: NEED[kind] });
+          }
         }
+      }
+    }
     return failures;
   }
 

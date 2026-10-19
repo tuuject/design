@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button, Card, Field, Input, Textarea } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { stack } from '../layout';
 
 const width = css({ width: '[360px]', maxWidth: '100%' });
@@ -83,7 +83,9 @@ export const InAForm: Story = {
           <Textarea rows={3} />
         </Field>
         <div className={actions}>
-          <Button color="secondary" variant="ghost" type="button">取消</Button>
+          <Button color="secondary" variant="ghost" type="button">
+            取消
+          </Button>
           <Button type="submit">订阅</Button>
         </div>
       </form>

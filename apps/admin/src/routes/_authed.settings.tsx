@@ -23,16 +23,6 @@ export const Route = createFileRoute('/_authed/settings')({
 const BIO_MAX = 120;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const s = {
-  card: css({ marginBlockStart: '6' }),
-  profile: css({ display: 'flex', alignItems: 'center', gap: '3', marginBlockEnd: '6' }),
-  // flex-start: a stretched Badge would fill the column with its label stuck to the left.
-  profileText: css({ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '1' }),
-  profileName: css({ textStyle: 'heading-3', fontWeight: 'bold', color: 'text' }),
-  form: css({ display: 'flex', flexDirection: 'column', gap: '4', maxW: '480px' }),
-  actions: css({ display: 'flex', gap: '2', marginBlockStart: '2' }),
-};
-
 interface SettingsValues {
   name: string;
   email: string;
@@ -82,15 +72,27 @@ function SettingsPage() {
   return (
     <div>
       <PageHeader title="个人设置" description="资料保存后立即生效（演示环境不会真的提交到服务器）" />
-      <Card title="基本资料" className={s.card}>
-        <div className={s.profile}>
+      <Card title="基本资料" className={css({ marginBlockStart: '6' })}>
+        <div className={css({ display: 'flex', alignItems: 'center', gap: '3', marginBlockEnd: '6' })}>
           <Avatar name={user.name} size="xl" />
-          <div className={s.profileText}>
-            <span className={s.profileName}>{user.name}</span>
+          <div
+            className={css({
+              // flex-start: a stretched Badge would fill the column with its label stuck to the left.
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: '1',
+            })}
+          >
+            <span className={css({ textStyle: 'heading-3', fontWeight: 'bold', color: 'text' })}>{user.name}</span>
             <Badge tone="primary">{user.role}</Badge>
           </div>
         </div>
-        <form className={s.form} onSubmit={save} noValidate>
+        <form
+          className={css({ display: 'flex', flexDirection: 'column', gap: '4', maxW: '480px' })}
+          onSubmit={save}
+          noValidate
+        >
           <Field label="昵称" required error={errors.name?.message}>
             <Input {...register('name', { validate: (value) => value.trim().length > 0 || '昵称不能为空' })} />
           </Field>
@@ -142,7 +144,7 @@ function SettingsPage() {
               <Switch label="接收系统通知" checked={field.value} onCheckedChange={field.onChange} />
             )}
           />
-          <div className={s.actions}>
+          <div className={css({ display: 'flex', gap: '2', marginBlockStart: '2' })}>
             <Button type="submit" loading={isSubmitting}>
               保存更改
             </Button>

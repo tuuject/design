@@ -35,38 +35,6 @@ export const Route = createFileRoute('/_authed/orders')({
 });
 
 const s = {
-  card: css({ marginBlockStart: '6' }),
-  // Columns stop squeezing below this; the table's container scrolls sideways instead.
-  dataTable: css({ minWidth: '640px' }),
-  head: css({
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: '3',
-    padding: '4',
-    borderBottomWidth: '1px',
-    borderBottomStyle: 'solid',
-    borderBottomColor: 'divider',
-  }),
-  cardTitle: css({ margin: '0', textStyle: 'heading-3', fontWeight: 'bold', color: 'text' }),
-  cardDesc: css({ margin: '0', marginBlockStart: '1', textStyle: 'small', color: 'text-muted' }),
-  toolbar: css({ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '2' }),
-  search: css({ width: '220px' }),
-  status: css({ width: '140px' }),
-  tableFooter: css({
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: '3',
-    padding: '4',
-  }),
-  total: css({ textStyle: 'small', color: 'text-muted' }),
-  // No gap between the rounded actions; -2 pulls the last one's 8px side back out, so its label lines up with
-  // the right-aligned header.
-  rowActions: css({ display: 'flex', justifyContent: 'flex-end', marginInlineEnd: '-2' }),
-  detail: css({ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2 6', margin: '0', textStyle: 'body' }),
   detailLabel: css({ color: 'text-muted', whiteSpace: 'nowrap' }),
   detailValue: css({ margin: '0' }),
 };
@@ -176,7 +144,15 @@ function OrdersPage() {
       align: 'end',
       width: 144,
       cell: (o) => (
-        <span className={s.rowActions}>
+        <span
+          className={css({
+            // No gap between the rounded actions; -2 pulls the last one's 8px side back out, so its label
+            // lines up with the right-aligned header.
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginInlineEnd: '-2',
+          })}
+        >
           <Button size="sm" variant="ghost" color="secondary" onClick={() => openDetail(o)}>
             详情
           </Button>
@@ -203,16 +179,32 @@ function OrdersPage() {
   return (
     <div>
       <PageHeader title="订单管理" description="搜索、筛选并处理商城订单" />
-      <Card padding="none" className={s.card}>
-        <div className={s.head}>
+      <Card padding="none" className={css({ marginBlockStart: '6' })}>
+        <div
+          className={css({
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '3',
+            padding: '4',
+            borderBottomWidth: '1px',
+            borderBottomStyle: 'solid',
+            borderBottomColor: 'divider',
+          })}
+        >
           <div>
-            <h2 className={s.cardTitle}>订单列表</h2>
-            <p className={s.cardDesc}>{data ? `共 ${data.total} 条订单` : '加载中……'}</p>
+            <h2 className={css({ margin: '0', textStyle: 'heading-3', fontWeight: 'bold', color: 'text' })}>
+              订单列表
+            </h2>
+            <p className={css({ margin: '0', marginBlockStart: '1', textStyle: 'small', color: 'text-muted' })}>
+              {data ? `共 ${data.total} 条订单` : '加载中……'}
+            </p>
           </div>
-          <div className={s.toolbar}>
+          <div className={css({ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '2' })}>
             <Input
               size="sm"
-              className={s.search}
+              className={css({ width: '220px' })}
               iconStart={<SearchIcon />}
               placeholder="搜索客户 / 订单号"
               aria-label="搜索订单"
@@ -221,7 +213,7 @@ function OrdersPage() {
             />
             <Select
               size="sm"
-              className={s.status}
+              className={css({ width: '140px' })}
               aria-label="按状态筛选"
               value={status ?? ''}
               onChange={(e) =>
@@ -245,7 +237,10 @@ function OrdersPage() {
           </div>
         </div>
         <DataTable
-          className={s.dataTable}
+          className={css({
+            // Columns stop squeezing below this; the table's container scrolls sideways instead.
+            minWidth: '640px',
+          })}
           columns={orderColumns}
           rows={data?.items ?? []}
           getRowKey={(o) => o.id}
@@ -262,8 +257,19 @@ function OrdersPage() {
             </>
           }
         />
-        <div className={s.tableFooter}>
-          <span className={s.total}>{data ? `第 ${page} / ${pageCount} 页` : ''}</span>
+        <div
+          className={css({
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '3',
+            padding: '4',
+          })}
+        >
+          <span className={css({ textStyle: 'small', color: 'text-muted' })}>
+            {data ? `第 ${page} / ${pageCount} 页` : ''}
+          </span>
           <Pagination
             page={page}
             pageCount={pageCount}
@@ -285,7 +291,15 @@ function OrdersPage() {
         }
       >
         {detail ? (
-          <dl className={s.detail}>
+          <dl
+            className={css({
+              display: 'grid',
+              gridTemplateColumns: 'auto 1fr',
+              gap: '2 6',
+              margin: '0',
+              textStyle: 'body',
+            })}
+          >
             <dt className={s.detailLabel}>客户</dt>
             <dd className={s.detailValue}>{detail.customer}</dd>
             <dt className={s.detailLabel}>商品</dt>

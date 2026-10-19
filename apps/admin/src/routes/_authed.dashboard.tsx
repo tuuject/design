@@ -18,16 +18,7 @@ export const Route = createFileRoute('/_authed/dashboard')({
 });
 
 const s = {
-  stats: css({ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '4' }),
-  statLabel: css({ margin: '0', textStyle: 'small', color: 'text-muted' }),
   statValue: css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'text' }),
-  statValueRow: css({ marginBlockStart: '1' }),
-  statHint: css({ margin: '0', marginBlockStart: '1', textStyle: 'small', color: 'text-muted' }),
-  recent: css({ marginBlockStart: '6' }),
-  // Columns stop squeezing below this; the table's container scrolls sideways instead.
-  dataTable: css({ minWidth: '640px' }),
-  // Panda's reset makes svg a block, which broke the arrow onto its own line inside the inline link.
-  moreIcon: css({ display: 'inline-block', verticalAlign: 'middle', marginInlineStart: '1' }),
 };
 
 const statCards: Array<{ key: keyof DashboardStats; label: string; hint: string; format: (value: number) => string }> =
@@ -74,11 +65,11 @@ function DashboardPage() {
   return (
     <div>
       <PageHeader title="仪表盘" description="Koi 商城的经营概览" />
-      <div className={s.stats}>
+      <div className={css({ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '4' })}>
         {statCards.map((card) => (
           <Card key={card.key}>
-            <p className={s.statLabel}>{card.label}</p>
-            <div className={s.statValueRow}>
+            <p className={css({ margin: '0', textStyle: 'small', color: 'text-muted' })}>{card.label}</p>
+            <div className={css({ marginBlockStart: '1' })}>
               {stats ? (
                 <span className={s.statValue}>{card.format(stats[card.key])}</span>
               ) : (
@@ -87,22 +78,35 @@ function DashboardPage() {
                 </Skeleton>
               )}
             </div>
-            <p className={s.statHint}>{card.hint}</p>
+            <p className={css({ margin: '0', marginBlockStart: '1', textStyle: 'small', color: 'text-muted' })}>
+              {card.hint}
+            </p>
           </Card>
         ))}
       </div>
       <Card
         title="最近订单"
-        className={s.recent}
+        className={css({ marginBlockStart: '6' })}
         footer={
           <AppLink to="/orders">
             查看全部
-            <ArrowRightIcon size={sizes['icon-sm']} className={s.moreIcon} />
+            <ArrowRightIcon
+              size={sizes['icon-sm']}
+              className={css({
+                // Panda's reset makes svg a block, which broke the arrow onto its own line inside the inline link.
+                display: 'inline-block',
+                verticalAlign: 'middle',
+                marginInlineStart: '1',
+              })}
+            />
           </AppLink>
         }
       >
         <DataTable
-          className={s.dataTable}
+          className={css({
+            // Columns stop squeezing below this; the table's container scrolls sideways instead.
+            minWidth: '640px',
+          })}
           layout="fixed"
           columns={recentColumns}
           rows={recent ?? []}

@@ -24,31 +24,6 @@ export const Route = createFileRoute('/login')({
   component: LoginPage,
 });
 
-const s = {
-  page: css({ minHeight: '100%', display: 'grid', placeItems: 'center', padding: '4' }),
-  themeCorner: css({ position: 'fixed', top: '4', right: '4' }),
-  card: css({ width: 'min(400px, 100%)', boxSizing: 'border-box' }),
-  brand: css({ display: 'flex', alignItems: 'center', gap: '3', marginBlockEnd: '6' }),
-  logo: css({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 'control-lg',
-    height: 'control-lg',
-    borderRadius: 'xl',
-    bg: 'secondary-solid',
-    color: 'on-secondary-solid',
-    textStyle: 'heading-3',
-    fontWeight: 'bold',
-    flexShrink: '0',
-  }),
-  brandTitle: css({ margin: '0', textStyle: 'heading-2', fontWeight: 'bold', color: 'text' }),
-  brandSubtitle: css({ margin: '0', textStyle: 'small', color: 'text-muted' }),
-  alert: css({ marginBlockEnd: '4' }),
-  form: css({ display: 'flex', flexDirection: 'column', gap: '4' }),
-  hint: css({ margin: '0', marginBlockStart: '4', textStyle: 'small', color: 'text-muted', textAlign: 'center' }),
-};
-
 interface LoginValues {
   username: string;
   password: string;
@@ -78,24 +53,42 @@ function LoginPage() {
   });
 
   return (
-    <div className={s.page}>
-      <div className={s.themeCorner}>
+    <div className={css({ minHeight: '100%', display: 'grid', placeItems: 'center', padding: '4' })}>
+      <div className={css({ position: 'fixed', top: '4', right: '4' })}>
         <ThemeToggle />
       </div>
-      <Card className={s.card}>
-        <div className={s.brand}>
-          <span className={s.logo}>K</span>
+      <Card className={css({ width: 'min(400px, 100%)', boxSizing: 'border-box' })}>
+        <div className={css({ display: 'flex', alignItems: 'center', gap: '3', marginBlockEnd: '6' })}>
+          <span
+            className={css({
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 'control-lg',
+              height: 'control-lg',
+              borderRadius: 'xl',
+              bg: 'secondary-solid',
+              color: 'on-secondary-solid',
+              textStyle: 'heading-3',
+              fontWeight: 'bold',
+              flexShrink: '0',
+            })}
+          >
+            K
+          </span>
           <div>
-            <h1 className={s.brandTitle}>Koi Admin</h1>
-            <p className={s.brandSubtitle}>Koi 组件库后台管理模板</p>
+            <h1 className={css({ margin: '0', textStyle: 'heading-2', fontWeight: 'bold', color: 'text' })}>
+              Koi Admin
+            </h1>
+            <p className={css({ margin: '0', textStyle: 'small', color: 'text-muted' })}>Koi 组件库后台管理模板</p>
           </div>
         </div>
         {errors.root?.message ? (
-          <Alert tone="error" className={s.alert}>
+          <Alert tone="error" className={css({ marginBlockEnd: '4' })}>
             {errors.root.message}
           </Alert>
         ) : null}
-        <form className={s.form} onSubmit={submit}>
+        <form className={css({ display: 'flex', flexDirection: 'column', gap: '4' })} onSubmit={submit}>
           <Field label="用户名">
             <Input {...register('username')} autoComplete="username" />
           </Field>
@@ -106,7 +99,17 @@ function LoginPage() {
             登录
           </Button>
         </form>
-        <p className={s.hint}>演示账号：admin · 密码：123456</p>
+        <p
+          className={css({
+            margin: '0',
+            marginBlockStart: '4',
+            textStyle: 'small',
+            color: 'text-muted',
+            textAlign: 'center',
+          })}
+        >
+          演示账号：admin · 密码：123456
+        </p>
       </Card>
     </div>
   );

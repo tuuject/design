@@ -7,38 +7,33 @@ import { TOPBAR_HEIGHT, TOPBAR_Z_INDEX } from './shared';
 import { ThemeToggle } from './ThemeToggle';
 import { UserMenu } from './UserMenu';
 
-const s = {
-  root: css({
-    position: 'sticky',
-    top: 0,
-    zIndex: TOPBAR_Z_INDEX,
-    display: 'flex',
-    alignItems: 'center',
-    gap: '2',
-    height: TOPBAR_HEIGHT,
-    paddingInline: '4',
-    bg: 'surface',
-    borderBottomWidth: '1px',
-    borderBottomStyle: 'solid',
-    borderBottomColor: 'divider',
-  }),
-  mobileOnly: css({ display: 'flex', md: { display: 'none' } }),
-  desktopOnly: css({ display: 'none', md: { display: 'flex' } }),
-  spacer: css({ flex: '1' }),
-};
-
 export function Topbar() {
   const sidebarCollapsed = useUiStore((st) => st.sidebarCollapsed);
   const toggleSidebar = useUiStore((st) => st.toggleSidebar);
   const setMobileNavOpen = useUiStore((st) => st.setMobileNavOpen);
 
   return (
-    <header className={s.root}>
+    <header
+      className={css({
+        position: 'sticky',
+        top: 0,
+        zIndex: TOPBAR_Z_INDEX,
+        display: 'flex',
+        alignItems: 'center',
+        gap: '2',
+        height: TOPBAR_HEIGHT,
+        paddingInline: '4',
+        bg: 'surface',
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'divider',
+      })}
+    >
       <IconButton
         icon={<MenuIcon />}
         label="打开导航"
         size="sm"
-        className={s.mobileOnly}
+        className={css({ display: 'flex', md: { display: 'none' } })}
         onClick={() => setMobileNavOpen(true)}
       />
       <IconButton
@@ -46,11 +41,11 @@ export function Topbar() {
         label={sidebarCollapsed ? '展开侧边栏' : '收起侧边栏'}
         size="sm"
         aria-expanded={!sidebarCollapsed}
-        className={s.desktopOnly}
+        className={css({ display: 'none', md: { display: 'flex' } })}
         onClick={toggleSidebar}
       />
       <Breadcrumbs />
-      <div className={s.spacer} />
+      <div className={css({ flex: '1' })} />
       <ThemeToggle />
       <UserMenu />
     </header>

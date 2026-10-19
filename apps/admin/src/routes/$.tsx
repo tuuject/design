@@ -7,25 +7,23 @@ export const Route = createFileRoute('/$')({
   component: NotFoundPage,
 });
 
-const s = {
-  page: css({
-    minHeight: '60vh',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '4',
-    textAlign: 'center',
-  }),
-  code: css({ margin: '0', textStyle: 'display', fontWeight: 'bold', color: 'text-brand' }),
-  text: css({ margin: '0', textStyle: 'body', color: 'text-muted' }),
-};
-
 function NotFoundPage() {
   return (
-    <div className={s.page}>
-      <p className={s.code}>404</p>
-      <p className={s.text}>这个页面不在这里，可能已被移动或删除。</p>
+    <div
+      className={css({
+        minHeight: '60vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '4',
+        textAlign: 'center',
+      })}
+    >
+      <p className={css({ margin: '0', textStyle: 'display', fontWeight: 'bold', color: 'text-brand' })}>404</p>
+      <p className={css({ margin: '0', textStyle: 'body', color: 'text-muted' })}>
+        这个页面不在这里，可能已被移动或删除。
+      </p>
       <Button
         onClick={() => {
           window.location.assign('/');

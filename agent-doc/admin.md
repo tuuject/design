@@ -6,6 +6,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 
 - **Rsbuild**：`apps/admin/rsbuild.config.ts`。TanStack Router 的文件路由插件走 `@tanstack/router-plugin/rspack`，挂在 `tools.rspack.plugins`（官方 Rsbuild 方式）。
 - **样式**：全仓库共用根 `panda.config.ts`，app 通过 `apps/admin/postcss.config.cjs`（Panda 的 PostCSS 插件，同 Storybook）注入 layers。app 里用 `css()` 的文件必须被根配置的 `include` 扫到——已加 `./apps/admin/src/**/*.{ts,tsx}`。
+- **只用一次的样式直接内联**：`className={css({ … })}` 写在 JSX 上，不抽进文件顶部的 `const s = { … }`；只有同一文件里用到两次以上的才放进 `s`（如 `UserMenu` 的 `item`、订单详情的 `detailLabel` / `detailValue`）。解释“为什么”的注释跟着属性写在 `css({})` 里面。
 - **主题**：`theme-init.js` 在 `rsbuild.config.ts` 里读包文件后以 `html.tags` 内联进 `<head>`（无主题闪烁）；切换走 `koiSetTheme`。`hooks/use-theme.ts` 用 `useSyncExternalStore` + `MutationObserver` 直接读 `<html data-theme>`，不另存 state，所以 `koiSetTheme`、跟随系统的切换都能看到。palette 没有做切换 UI，机制与 Storybook 一致。
 - **数据层用 TanStack Query**：`index.tsx` 里建 `QueryClient`。query key 约定：`['orders', 'list', query]`、`['orders', 'recent', n]`、`['stats']`；写操作成功后 `invalidateQueries` 前缀。订单页 `placeholderData: keepPreviousData`，`loading = isPending || isPlaceholderData`——换筛选 / 翻页出 skeleton，窗口聚焦、删除后的后台重拉不出。删除确认里 `await invalidateQueries` 后再关弹窗，弹窗关上时表格里那行已经没了。
 - **不直接写 `useEffect`**：组件里不用 `useEffect`，只有 `src/hooks/` 里的可复用 hook 可以（`useMountEffect`、`useDebouncer`）。替代写法：页面标题直接渲染 React 19 的 `<title>`（`__root.tsx`；`rsbuild.config.ts` 的 `html.title: ''` 去掉模板里的 `<title>`，不设会回落成 "Rsbuild App"）；任何换页关移动端抽屉在 `index.tsx` 模块顶层 `router.subscribe('onResolved')`，覆盖浏览器后退；搜索框防抖在 `onChange` 里调 `useDebouncer().run`。

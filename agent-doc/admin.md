@@ -6,7 +6,9 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 
 - **Rsbuild**：`apps/admin/rsbuild.config.ts`。TanStack Router 的文件路由插件走 `@tanstack/router-plugin/rspack`，挂在 `tools.rspack.plugins`（官方 Rsbuild 方式）。
 - **样式**：全仓库共用根 `panda.config.ts`，app 通过 `apps/admin/postcss.config.cjs`（Panda 的 PostCSS 插件，同 Storybook）注入 layers。app 里用 `css()` 的文件必须被根配置的 `include` 扫到——已加 `./apps/admin/src/**/*.{ts,tsx}`。
-- **主题**：`theme-init.js` 在 `rsbuild.config.ts` 里读包文件后以 `html.tags` 内联进 `<head>`（无主题闪烁）；切换走 `koiSetTheme`（`hooks/use-theme.ts` 只是给图标/文案做的镜像）。palette 没有做切换 UI，机制与 Storybook 一致。
+- **主题**：`theme-init.js` 在 `rsbuild.config.ts` 里读包文件后以 `html.tags` 内联进 `<head>`（无主题闪烁）；切换走 `koiSetTheme`。`hooks/use-theme.ts` 用 `useSyncExternalStore` + `MutationObserver` 直接读 `<html data-theme>`，不另存 state，所以 `koiSetTheme`、跟随系统的切换都能看到。palette 没有做切换 UI，机制与 Storybook 一致。
+- **数据层用 TanStack Query**：`index.tsx` 里建 `QueryClient`。query key 约定：`['orders', 'list', query]`、`['orders', 'recent', n]`、`['stats']`；写操作成功后 `invalidateQueries` 前缀。订单页 `placeholderData: keepPreviousData`，`loading = isPending || isPlaceholderData`——换筛选 / 翻页出 skeleton，窗口聚焦、删除后的后台重拉不出。删除确认里 `await invalidateQueries` 后再关弹窗，弹窗关上时表格里那行已经没了。
+- **不直接写 `useEffect`**：组件里不用 `useEffect`，只有 `src/hooks/` 里的可复用 hook 可以（`useMountEffect`、`useDebouncer`）。替代写法：页面标题直接渲染 React 19 的 `<title>`（`__root.tsx`；`rsbuild.config.ts` 的 `html.title: ''` 去掉模板里的 `<title>`，不设会回落成 "Rsbuild App"）；任何换页关移动端抽屉在 `index.tsx` 模块顶层 `router.subscribe('onResolved')`，覆盖浏览器后退；搜索框防抖在 `onChange` 里调 `useDebouncer().run`。
 - **表单统一用 react-hook-form**：`useForm` + `register`（Input / Textarea）+ `Controller`（Checkbox / Switch / RadioGroup，Base UI 的 `onCheckedChange` / `onChange` 直接接 `field.onChange`）。字段错误取 `errors.<name>?.message` 喂给 `Field`，表单级（如登录失败）用 `setError('root')`，提交态用 `formState.isSubmitting`；保存成功后 `reset(saved)` 让「重置」回到最新基线。见 `routes/login.tsx`、`routes/_authed.settings.tsx`。
 - **路由守卫**：`_authed.tsx` 的 `beforeLoad` 读 zustand store（`useAuthStore.getState()`，persist 同步恢复），未登录 `redirect` 到 `/login?redirect=<href>`；login 的 `validateSearch` 只放行 `/` 开头的回跳地址。
 - **URL 即状态**：订单页的 `q / status / page` 全在 search 里（`validateSearch`），筛选、分页、回跳后还原都靠它。
@@ -32,6 +34,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 - 布局常量（侧边栏 248/72、顶栏 56、app 层 z-index 60/40）是模板自己的 chrome 常量，低于 Koi 浮层（dialog 900+）；库的 focusRing 没有导出，`shared.ts` 里镜像了一份。
 - **自己 portal 的浮层要给 z-index**：模板里直接用 Base UI 的浮层（如 UserMenu 的 `Menu.Positioner`）portal 到 `<body>` 后没有层级，会被 sticky 顶栏（z-index 40）盖住上沿。照 SelectPanel 给 Positioner `zIndex: 'popup'`。
 - **Dialog 的开关和数据分开存**：别用 `open={detail !== null}`、关闭时 `setDetail(null)`——Base UI 退场时 Popup 还挂着播淡出，数据一清空，内容就先消失再淡出。用独立的 `open` state，关闭只翻它，数据留到下次打开时覆盖；有 loading 的确认框在打开时重置 loading，别在请求结束后先关 loading 再关弹窗（按钮会在淡出中闪回原文案）。见 `routes/_authed.orders.tsx`。
+- **URL 驱动的输入框要跟随外部变化**：订单页搜索框有本地 `keyword`（输入即时、URL 防抖），`?q=` 被外部改掉（点侧边栏「订单管理」、后退）时，在渲染中比较上一次见到的 `q`（`seenQ`）把 `keyword` 拉回来。之前没做这一步，点侧边栏会清掉 `q`，300ms 后防抖又把旧关键词写回 URL（2026-10-19 修）。删除按钮的 loading 仍用本地 `deleting`，别换成 `useMutation().isPending`（理由见上一条）。
 - **行内操作是 rounded**：`TableCell` 里的按钮默认 `shape="rounded"`（sm 档左右 8px），操作按钮之间不留间距，组合再 `marginInlineEnd: '-2'` 让最后一个字和表头右边对齐。pill 在行里显得太散（2026-10-16 改，之前一度为「一个 surface 一种形状」统一成 pill）；表格下方的 Pagination 仍是 pill，spec 允许按钮组之间形状不同。
 
 ## 验证

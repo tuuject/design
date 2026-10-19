@@ -1,6 +1,6 @@
 import type { DataTableOwnProps } from '@koi/core';
 import { table } from '@koi/react/styled-system/recipes';
-import type * as React from 'react';
+import type { ComponentPropsWithRef } from 'react';
 import { Skeleton } from '../skeleton/Skeleton';
 import { Table, TableBody, TableCaption, TableCell, TableEmpty, TableHeader, TableHeaderCell, TableRow } from './Table';
 
@@ -8,7 +8,7 @@ export type { DataTableColumn } from '@koi/core';
 
 export interface DataTableProps<T>
   extends DataTableOwnProps<T>,
-    Omit<React.ComponentPropsWithRef<'table'>, keyof DataTableOwnProps<T> | 'children'> {
+    Omit<ComponentPropsWithRef<'table'>, keyof DataTableOwnProps<T> | 'children'> {
   /** Class for the scrolling container around the table. */
   containerClassName?: string;
 }

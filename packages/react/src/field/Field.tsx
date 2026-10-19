@@ -3,13 +3,11 @@ import { type FieldOwnProps, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { field } from '@koi/react/styled-system/recipes';
 import { sizes } from '@koi/tokens/dimensions';
-import * as React from 'react';
+import { type HTMLAttributes, useMemo } from 'react';
 import { ErrorIcon } from '../icons';
 import { KoiFieldContext } from './context';
 
-export interface FieldProps
-  extends FieldOwnProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, keyof FieldOwnProps | 'id'> {
+export interface FieldProps extends FieldOwnProps, Omit<HTMLAttributes<HTMLDivElement>, keyof FieldOwnProps | 'id'> {
   /** The control's id (the label points at it). Generated when omitted. */
   id?: string;
 }
@@ -21,7 +19,7 @@ export interface FieldProps
 export function Field({ label, help, error, required, optional, id, className, children, ...rest }: FieldProps) {
   const s = field();
   const hasError = error != null && error !== false && error !== '';
-  const ctx = React.useMemo(() => ({ id, required }), [id, required]);
+  const ctx = useMemo(() => ({ id, required }), [id, required]);
   return (
     <KoiFieldContext.Provider value={ctx}>
       <BaseField.Root {...rest} invalid={hasError} className={cx(s.root, className)}>

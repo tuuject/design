@@ -1,7 +1,7 @@
 import { type PaginationOwnProps, pageList, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { pagination } from '@koi/react/styled-system/recipes';
-import type * as React from 'react';
+import type { ComponentPropsWithRef } from 'react';
 import { Button } from '../button/Button';
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons';
 import { useButtonShape } from '../shape';
@@ -10,7 +10,7 @@ export type { PaginationVariant } from '@koi/core';
 
 export interface PaginationProps
   extends PaginationOwnProps,
-    Omit<React.ComponentPropsWithRef<'nav'>, keyof PaginationOwnProps | 'children'> {}
+    Omit<ComponentPropsWithRef<'nav'>, keyof PaginationOwnProps | 'children'> {}
 
 const noop = () => {};
 

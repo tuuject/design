@@ -2,10 +2,10 @@ import { Input as BaseInput } from '@base-ui/react/input';
 import type { InputOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { input } from '@koi/react/styled-system/recipes';
-import * as React from 'react';
+import { type ComponentPropsWithRef, useContext } from 'react';
 import { KoiFieldContext } from '../field/context';
 
-export interface InputProps extends InputOwnProps, Omit<React.ComponentPropsWithRef<'input'>, keyof InputOwnProps> {}
+export interface InputProps extends InputOwnProps, Omit<ComponentPropsWithRef<'input'>, keyof InputOwnProps> {}
 
 /**
  * A single-line text field. Inside a Field it picks up the label, help, error and required state;
@@ -22,7 +22,7 @@ export function Input({
   disabled,
   ...rest
 }: InputProps) {
-  const f = React.useContext(KoiFieldContext);
+  const f = useContext(KoiFieldContext);
   const s = input({ size });
   return (
     <span className={cx(s.root, className)}>

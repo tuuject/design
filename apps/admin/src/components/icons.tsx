@@ -1,12 +1,12 @@
 import { components, sizes } from '@koi/tokens/dimensions';
-import type * as React from 'react';
+import type { ReactNode, SVGProps } from 'react';
 
 // Admin-specific line icons, drawn in Koi's icon style: 24px grid, `components.icon.stroke` (2.25)
 // stroke, round caps and joins, currentColor. Koi's own set lives in @koi/react/icons; icons here are
 // template business icons (nav destinations, shell controls), candidates for the library once specced.
-type IconProps = { size?: number } & React.SVGProps<SVGSVGElement>;
+type IconProps = { size?: number } & SVGProps<SVGSVGElement>;
 
-function Svg({ size = sizes.icon, children, ...rest }: IconProps & { children: React.ReactNode }) {
+function Svg({ size = sizes.icon, children, ...rest }: IconProps & { children: ReactNode }) {
   return (
     <svg
       width={size}

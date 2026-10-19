@@ -1,11 +1,11 @@
 import type { BadgeOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { badge } from '@koi/react/styled-system/recipes';
-import type * as React from 'react';
+import type { HTMLAttributes } from 'react';
 
 export type { BadgeTone } from '@koi/core';
 
-export interface BadgeProps extends BadgeOwnProps, Omit<React.HTMLAttributes<HTMLSpanElement>, keyof BadgeOwnProps> {}
+export interface BadgeProps extends BadgeOwnProps, Omit<HTMLAttributes<HTMLSpanElement>, keyof BadgeOwnProps> {}
 
 /** A small, non-interactive pill label for status or counts. For filters or removable chips, use Tag. */
 export function Badge({ tone = 'neutral', dot, className, children, ...rest }: BadgeProps) {

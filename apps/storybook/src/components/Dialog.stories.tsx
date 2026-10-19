@@ -1,9 +1,9 @@
 import { Button, Dialog, type DialogProps, Field, Input } from '@koi/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import * as React from 'react';
+import { useState } from 'react';
 
 function DeleteDialog({ initialOpen = false, ...args }: Partial<DialogProps> & { initialOpen?: boolean }) {
-  const [open, setOpen] = React.useState(initialOpen);
+  const [open, setOpen] = useState(initialOpen);
   return (
     <>
       <Button color="error" onClick={() => setOpen(true)}>
@@ -33,7 +33,7 @@ function DeleteDialog({ initialOpen = false, ...args }: Partial<DialogProps> & {
 
 /** The legacy example's confirmation, as an alert dialog. */
 function UnsubscribeDialog({ initialOpen = false, ...args }: Partial<DialogProps> & { initialOpen?: boolean }) {
-  const [open, setOpen] = React.useState(initialOpen);
+  const [open, setOpen] = useState(initialOpen);
   return (
     <>
       <Button color="secondary" variant="ghost" onClick={() => setOpen(true)}>
@@ -64,7 +64,7 @@ function UnsubscribeDialog({ initialOpen = false, ...args }: Partial<DialogProps
 
 /** A short form: a stray click outside shouldn't throw away what was typed. */
 function EditProfileDialog({ initialOpen = false, ...args }: Partial<DialogProps> & { initialOpen?: boolean }) {
-  const [open, setOpen] = React.useState(initialOpen);
+  const [open, setOpen] = useState(initialOpen);
   return (
     <>
       <Button onClick={() => setOpen(true)}>编辑资料</Button>

@@ -1,12 +1,12 @@
 import { type AlertOwnProps, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { alert } from '@koi/react/styled-system/recipes';
-import type * as React from 'react';
+import type { HTMLAttributes } from 'react';
 import { CloseIcon, ErrorIcon, InfoIcon, WarningIcon } from '../icons';
 
 export type { AlertTone } from '@koi/core';
 
-export interface AlertProps extends AlertOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof AlertOwnProps> {}
+export interface AlertProps extends AlertOwnProps, Omit<HTMLAttributes<HTMLDivElement>, keyof AlertOwnProps> {}
 
 const toneIcon = { info: InfoIcon, warning: WarningIcon, error: ErrorIcon };
 

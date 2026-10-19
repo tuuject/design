@@ -1,17 +1,17 @@
 import { strings, type TagOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { tag } from '@koi/react/styled-system/recipes';
-import * as React from 'react';
+import { type ComponentPropsWithRef, type MouseEvent, useId } from 'react';
 import { CloseIcon } from '../icons';
 
 export interface TagProps
-  extends TagOwnProps<React.MouseEvent<HTMLButtonElement>>,
-    Omit<React.ComponentPropsWithRef<'span'>, keyof TagOwnProps | 'children'> {}
+  extends TagOwnProps<MouseEvent<HTMLButtonElement>>,
+    Omit<ComponentPropsWithRef<'span'>, keyof TagOwnProps | 'children'> {}
 
 /** An outlined pill chip for keywords, filters and removable selections. For pure status, use Badge. */
 export function Tag({ children, icon, selected = false, onSelectedChange, onRemove, className, ...rest }: TagProps) {
   const s = tag({ selected });
-  const id = React.useId();
+  const id = useId();
   const labelId = `${id}-label`;
   const removeId = `${id}-remove`;
 

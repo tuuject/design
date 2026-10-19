@@ -3,7 +3,7 @@ import '@koi/tokens/fonts.css'; // ChillRoundF subsets; only used with <html dat
 import '../src/index.css';
 import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks';
 import type { Preview } from '@storybook/react-vite';
-import type * as React from 'react';
+import type { PropsWithChildren } from 'react';
 import { themes } from 'storybook/theming';
 
 /** Applies the toolbar's theme, font and palette through theme-init's own switches. */
@@ -14,7 +14,7 @@ function applyGlobals(globals: Record<string, unknown>) {
 }
 
 /** Docs pages follow the toolbar theme too, or dark components land on a white page. */
-function KoiDocsContainer(props: React.PropsWithChildren<DocsContainerProps>) {
+function KoiDocsContainer(props: PropsWithChildren<DocsContainerProps>) {
   // Not in DocsContainerProps' types, but the docs context carries the store with the current globals.
   const globals = (props.context as unknown as { store: { userGlobals: { globals: Record<string, unknown> } } }).store
     .userGlobals.globals;

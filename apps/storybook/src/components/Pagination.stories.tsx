@@ -1,7 +1,7 @@
 import { Pagination, type PaginationProps, ShapeProvider } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { fn } from 'storybook/test';
 import { label, row, stack } from '../layout';
 
@@ -10,8 +10,8 @@ const grow = css({ flex: '1', minWidth: '0' });
 
 /** Keeps its own page so the buttons work, and follows the `page` arg when it changes. */
 function Controlled({ page: initial, onChange, ...rest }: PaginationProps) {
-  const [page, setPage] = React.useState(initial);
-  React.useEffect(() => setPage(initial), [initial]);
+  const [page, setPage] = useState(initial);
+  useEffect(() => setPage(initial), [initial]);
   return (
     <Pagination
       {...rest}

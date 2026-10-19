@@ -12,7 +12,7 @@ import {
 } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { table } from '@koi/react/styled-system/recipes';
-import type * as React from 'react';
+import type { ComponentPropsWithRef, MouseEvent } from 'react';
 import { ChevronDownIcon, ChevronUpDownIcon, ChevronUpIcon } from '../icons';
 import { ShapeProvider } from '../shape';
 
@@ -22,7 +22,7 @@ export type { TableAlign, TableLayout, TableSortDirection } from '@koi/core';
 // library renders straight into them: TanStack Table's header groups map onto TableHeader > TableRow >
 // TableHeaderCell, its row model onto TableBody > TableRow > TableCell.
 
-export interface TableProps extends TableOwnProps, Omit<React.ComponentPropsWithRef<'table'>, keyof TableOwnProps> {
+export interface TableProps extends TableOwnProps, Omit<ComponentPropsWithRef<'table'>, keyof TableOwnProps> {
   /** Class for the scrolling container around the table. */
   containerClassName?: string;
 }
@@ -39,28 +39,26 @@ export function Table({ layout, containerClassName, className, ...rest }: TableP
 
 export interface TableHeaderProps
   extends TableHeaderOwnProps,
-    Omit<React.ComponentPropsWithRef<'thead'>, keyof TableHeaderOwnProps> {}
+    Omit<ComponentPropsWithRef<'thead'>, keyof TableHeaderOwnProps> {}
 export function TableHeader({ className, ...rest }: TableHeaderProps) {
   return <thead {...rest} className={cx(table().header, className)} />;
 }
 
 export interface TableBodyProps
   extends TableBodyOwnProps,
-    Omit<React.ComponentPropsWithRef<'tbody'>, keyof TableBodyOwnProps> {}
+    Omit<ComponentPropsWithRef<'tbody'>, keyof TableBodyOwnProps> {}
 export function TableBody({ className, ...rest }: TableBodyProps) {
   return <tbody {...rest} className={cx(table().body, className)} />;
 }
 
 export interface TableFooterProps
   extends TableFooterOwnProps,
-    Omit<React.ComponentPropsWithRef<'tfoot'>, keyof TableFooterOwnProps> {}
+    Omit<ComponentPropsWithRef<'tfoot'>, keyof TableFooterOwnProps> {}
 export function TableFooter({ className, ...rest }: TableFooterProps) {
   return <tfoot {...rest} className={cx(table().footer, className)} />;
 }
 
-export interface TableRowProps
-  extends TableRowOwnProps,
-    Omit<React.ComponentPropsWithRef<'tr'>, keyof TableRowOwnProps> {}
+export interface TableRowProps extends TableRowOwnProps, Omit<ComponentPropsWithRef<'tr'>, keyof TableRowOwnProps> {}
 
 /** A row. Body rows are at least 48px tall and highlight on hover. */
 export function TableRow({ selected, className, ...rest }: TableRowProps) {
@@ -69,8 +67,8 @@ export function TableRow({ selected, className, ...rest }: TableRowProps) {
 }
 
 export interface TableHeaderCellProps
-  extends TableHeaderCellOwnProps<React.MouseEvent<HTMLButtonElement>>,
-    Omit<React.ComponentPropsWithRef<'th'>, keyof TableHeaderCellOwnProps | 'align'> {}
+  extends TableHeaderCellOwnProps<MouseEvent<HTMLButtonElement>>,
+    Omit<ComponentPropsWithRef<'th'>, keyof TableHeaderCellOwnProps | 'align'> {}
 
 const ARIA_SORT = { asc: 'ascending', desc: 'descending' } as const;
 
@@ -100,7 +98,7 @@ export function TableHeaderCell({ align, sort = false, onSort, className, childr
 
 export interface TableCellProps
   extends TableCellOwnProps,
-    Omit<React.ComponentPropsWithRef<'td'>, keyof TableCellOwnProps | 'align'> {}
+    Omit<ComponentPropsWithRef<'td'>, keyof TableCellOwnProps | 'align'> {}
 
 /** A body or footer cell. Buttons inside default to shape="rounded", the dense shape, as in Dialog footers. */
 export function TableCell({ align, className, children, ...rest }: TableCellProps) {
@@ -113,7 +111,7 @@ export function TableCell({ align, className, children, ...rest }: TableCellProp
 
 export interface TableEmptyProps
   extends TableEmptyOwnProps,
-    Omit<React.ComponentPropsWithRef<'td'>, keyof TableEmptyOwnProps> {}
+    Omit<ComponentPropsWithRef<'td'>, keyof TableEmptyOwnProps> {}
 
 /** A full-width "no data" row for an empty TableBody. */
 export function TableEmpty({ colSpan, className, children, ...rest }: TableEmptyProps) {
@@ -128,7 +126,7 @@ export function TableEmpty({ colSpan, className, children, ...rest }: TableEmpty
 
 export interface TableCaptionProps
   extends TableCaptionOwnProps,
-    Omit<React.ComponentPropsWithRef<'caption'>, keyof TableCaptionOwnProps> {}
+    Omit<ComponentPropsWithRef<'caption'>, keyof TableCaptionOwnProps> {}
 
 /** The table's accessible name, for screen readers only. Put it first inside Table. */
 export function TableCaption({ className, ...rest }: TableCaptionProps) {

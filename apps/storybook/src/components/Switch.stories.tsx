@@ -1,7 +1,7 @@
 import { Badge, Card, Field, Switch } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import * as React from 'react';
+import { type ComponentProps, useState } from 'react';
 import { fn } from 'storybook/test';
 import { label, row, stack } from '../layout';
 
@@ -66,8 +66,8 @@ export const WithBadge: Story = {
   ),
 };
 
-function ControlledDemo(args: React.ComponentProps<typeof Switch>) {
-  const [checked, setChecked] = React.useState(false);
+function ControlledDemo(args: ComponentProps<typeof Switch>) {
+  const [checked, setChecked] = useState(false);
   return (
     <div className={stack}>
       <Switch {...args} label="深色代码块" checked={checked} onCheckedChange={setChecked} />

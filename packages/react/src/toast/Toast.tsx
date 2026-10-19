@@ -10,16 +10,16 @@ import {
 } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { toast as toastRecipe } from '@koi/react/styled-system/recipes';
-import * as React from 'react';
+import { type HTMLAttributes, type ReactNode, createContext, useContext, useEffect, useMemo, useRef } from 'react';
 import { CloseIcon, ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../icons';
 
 export type { ToastOptions, ToastTone } from '@koi/core';
 
-export interface ToastProps extends ToastOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof ToastOwnProps> {}
+export interface ToastProps extends ToastOwnProps, Omit<HTMLAttributes<HTMLDivElement>, keyof ToastOwnProps> {}
 
 export interface ToastProviderProps extends ToastProviderOwnProps {}
 
-type ToastData = { action?: React.ReactNode };
+type ToastData = { action?: ReactNode };
 
 const toneIcon = { info: InfoIcon, success: SuccessIcon, warning: WarningIcon, error: ErrorIcon };
 
@@ -49,7 +49,7 @@ export function Toast({ tone = 'info', title, description, action, onClose, clas
   );
 }
 
-const ToastContext = React.createContext<ToastApi | null>(null);
+const ToastContext = createContext<ToastApi | null>(null);
 
 /**
  * Wrap the app once; then call `useToast().toast({...})` anywhere inside. Base UI's toast manager does the timing
@@ -73,10 +73,10 @@ export function ToastProvider({ children, position = 'bottom' }: ToastProviderPr
 // Talks to Base UI's store through the hook rather than a createToastManager() instance: the instance only hears
 // calls once the provider has subscribed in its effect, which runs after the children's, so a toast() fired from a
 // child's mount effect would be lost.
-function ToastApiProvider({ children }: { children?: React.ReactNode }) {
+function ToastApiProvider({ children }: { children?: ReactNode }) {
   const { add, close } = BaseToast.useToastManager<ToastData>();
-  const seq = React.useRef(0);
-  const api = React.useMemo<ToastApi>(
+  const seq = useRef(0);
+  const api = useMemo<ToastApi>(
     () => ({
       toast({ tone = 'info', title, description, action, duration }) {
         const id = ++seq.current;
@@ -105,7 +105,7 @@ function ToastList({ position }: { position: 'bottom' | 'top' }) {
   const { toasts, close } = BaseToast.useToastManager<ToastData>();
   // At most 4 at once, and the oldest goes for good (legacy). Base UI only marks the extras `limited` and brings
   // them back when a newer one closes, so close them.
-  React.useEffect(() => {
+  useEffect(() => {
     for (const t of toasts) {
       if (t.limited && t.transitionStatus !== 'ending') {
         close(t.id);
@@ -142,7 +142,7 @@ function ToastList({ position }: { position: 'bottom' | 'top' }) {
 
 /** `toast(options)` shows one and returns its id; `dismiss(id)` closes it. Only inside ToastProvider. */
 export function useToast(): ToastApi {
-  const api = React.useContext(ToastContext);
+  const api = useContext(ToastContext);
   if (!api) {
     throw new Error('useToast must be used inside <ToastProvider>');
   }

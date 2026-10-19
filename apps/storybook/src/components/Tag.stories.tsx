@@ -1,7 +1,7 @@
 import { CheckIcon, SearchIcon, Tag, type TagProps } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { fn } from 'storybook/test';
 import { label, row, stack } from '../layout';
 
@@ -9,8 +9,8 @@ const tagRow = css({ display: 'flex', gap: '2', flexWrap: 'wrap', alignItems: 'c
 
 /** Keeps its own `selected` so the toggle works, and follows the arg when it changes. */
 function Controlled({ selected: initial = false, onSelectedChange, ...rest }: TagProps) {
-  const [selected, setSelected] = React.useState(initial);
-  React.useEffect(() => setSelected(initial), [initial]);
+  const [selected, setSelected] = useState(initial);
+  useEffect(() => setSelected(initial), [initial]);
   return (
     <Tag
       {...rest}
@@ -84,7 +84,7 @@ const topics = ['全部', '前端', '设计', '随笔', '游戏', '音乐'];
 /** Filter chips: each is a `<button aria-pressed>`. Click, Enter or Space toggles. */
 export const Filters: Story = {
   render: function Render() {
-    const [chosen, setChosen] = React.useState<string[]>(['前端', '设计']);
+    const [chosen, setChosen] = useState<string[]>(['前端', '设计']);
     return (
       <>
         {/* biome-ignore lint/a11y/useSemanticElements: a fieldset's default border and padding would break the chip row */}
@@ -110,7 +110,7 @@ const people = ['小鲤', 'tcdw', '设计组', 'Alice Chen'];
 /** Entered values, like recipients. Each × is named "移除 <label>". */
 export const Removable: Story = {
   render: function Render() {
-    const [list, setList] = React.useState(people);
+    const [list, setList] = useState(people);
     return (
       <div className={tagRow}>
         {list.map((p) => (

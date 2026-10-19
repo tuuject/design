@@ -2,13 +2,13 @@ import { Tabs as BaseTabs } from '@base-ui/react/tabs';
 import type { TabsOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { tabs } from '@koi/react/styled-system/recipes';
-import type * as React from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 export type { TabItem } from '@koi/core';
 
 export interface TabsProps
   extends TabsOwnProps<Event>,
-    Omit<React.ComponentPropsWithRef<'div'>, keyof TabsOwnProps | 'defaultValue' | 'children' | 'aria-label'> {}
+    Omit<ComponentPropsWithRef<'div'>, keyof TabsOwnProps | 'defaultValue' | 'children' | 'aria-label'> {}
 
 /**
  * A segmented pill track for 2–6 peer views. The active tab is a white pill (Base UI's Tabs.Indicator) that

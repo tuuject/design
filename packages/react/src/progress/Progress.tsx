@@ -2,13 +2,13 @@ import { Progress as BaseProgress } from '@base-ui/react/progress';
 import { type ProgressOwnProps, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { progress } from '@koi/react/styled-system/recipes';
-import type * as React from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 export type { ProgressSize } from '@koi/core';
 
 export interface ProgressProps
   extends ProgressOwnProps,
-    Omit<React.ComponentPropsWithRef<'div'>, keyof ProgressOwnProps | 'children'> {}
+    Omit<ComponentPropsWithRef<'div'>, keyof ProgressOwnProps | 'children'> {}
 
 /** A rounded progress bar. Base UI's root is the `role="progressbar"` element and carries the aria-value attributes. */
 export function Progress({ value, max, label, showValue, size = 'md', className, ...rest }: ProgressProps) {

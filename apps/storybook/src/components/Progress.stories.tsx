@@ -1,7 +1,7 @@
 import { Button, Progress, type ProgressSize } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
 import type { Decorator, Meta, StoryObj } from '@storybook/react-vite';
-import * as React from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { label, row, stack } from '../layout';
 
 const sizes: ProgressSize[] = ['sm', 'md', 'lg'];
@@ -13,8 +13,8 @@ const column = css({ display: 'flex', flexDirection: 'column', gap: '5' });
  * browser it keeps sliding.
  */
 const freezeForShots: Decorator = (Story) => {
-  const ref = React.useRef<HTMLDivElement>(null);
-  React.useLayoutEffect(() => {
+  const ref = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
     if (!navigator.webdriver || !ref.current) {
       return;
     }
@@ -95,7 +95,7 @@ export const Indeterminate: Story = {
 /** The bar eases to each new value on the spring curve. */
 export const Changing: Story = {
   render: function Render() {
-    const [value, setValue] = React.useState(30);
+    const [value, setValue] = useState(30);
     return (
       <div className={column}>
         <Progress value={value} label="下载中" showValue />

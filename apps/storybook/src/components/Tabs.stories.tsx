@@ -1,7 +1,7 @@
 import { Card, Skeleton, Spinner, Tabs } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import * as React from 'react';
+import { type ComponentProps, useState } from 'react';
 import { fn } from 'storybook/test';
 import { label, row, stack } from '../layout';
 
@@ -128,8 +128,8 @@ export const Example: Story = {
   },
 };
 
-function ControlledDemo(args: React.ComponentProps<typeof Tabs>) {
-  const [value, setValue] = React.useState('week');
+function ControlledDemo(args: ComponentProps<typeof Tabs>) {
+  const [value, setValue] = useState('week');
   return (
     <div className={stack}>
       <Tabs {...args} label="时间范围" items={ranges} value={value} onChange={(v) => setValue(v)} />

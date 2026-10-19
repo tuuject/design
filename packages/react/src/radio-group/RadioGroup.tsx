@@ -4,14 +4,14 @@ import { RadioGroup as BaseRadioGroup } from '@base-ui/react/radio-group';
 import type { RadioGroupOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { radioGroup } from '@koi/react/styled-system/recipes';
-import * as React from 'react';
+import { type ComponentPropsWithRef, useContext, useId } from 'react';
 import { KoiFieldContext } from '../field/context';
 
 export type { RadioOption } from '@koi/core';
 
 export interface RadioGroupProps
   extends RadioGroupOwnProps<Event>,
-    Omit<React.ComponentPropsWithRef<'div'>, keyof RadioGroupOwnProps | 'defaultValue' | 'children' | 'aria-label'> {
+    Omit<ComponentPropsWithRef<'div'>, keyof RadioGroupOwnProps | 'defaultValue' | 'children' | 'aria-label'> {
   /** Submitted with the form as `name=value`. */
   name?: string;
   /** A choice must be made before the form submits. Taken from the Field when omitted. */
@@ -37,9 +37,9 @@ export function RadioGroup({
   className,
   ...rest
 }: RadioGroupProps) {
-  const f = React.useContext(KoiFieldContext);
+  const f = useContext(KoiFieldContext);
   const s = radioGroup({ orientation });
-  const uid = React.useId();
+  const uid = useId();
   // Inside a Field each row needs its own Field.Item: otherwise every radio takes the Field's label as its name
   // and the Field's control id as its input id.
   const Row = f ? BaseField.Item : 'label';

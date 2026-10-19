@@ -28,7 +28,7 @@ import {
   tableFeatures,
   useTable,
 } from '@tanstack/react-table';
-import * as React from 'react';
+import { useState } from 'react';
 
 interface Order {
   id: string;
@@ -186,7 +186,7 @@ type SortKey = 'customer' | 'amount';
  */
 export const Parts: Story = {
   render: () => {
-    const [sort, setSort] = React.useState<{ key: SortKey; dir: 'asc' | 'desc' } | null>({
+    const [sort, setSort] = useState<{ key: SortKey; dir: 'asc' | 'desc' } | null>({
       key: 'amount',
       dir: 'desc',
     });

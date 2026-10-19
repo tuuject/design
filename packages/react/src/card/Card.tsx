@@ -1,9 +1,9 @@
 import type { CardOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { card } from '@koi/react/styled-system/recipes';
-import type * as React from 'react';
+import type { HTMLAttributes } from 'react';
 
-export interface CardProps extends CardOwnProps, Omit<React.HTMLAttributes<HTMLDivElement>, keyof CardOwnProps> {}
+export interface CardProps extends CardOwnProps, Omit<HTMLAttributes<HTMLDivElement>, keyof CardOwnProps> {}
 
 /** A rounded container that groups related content. Don't nest cards. */
 export function Card({

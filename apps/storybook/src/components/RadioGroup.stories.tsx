@@ -1,7 +1,7 @@
 import { Button, Card, Field, RadioGroup } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import * as React from 'react';
+import { type ComponentProps, useState } from 'react';
 import { fn } from 'storybook/test';
 import { label, row, stack } from '../layout';
 
@@ -98,8 +98,8 @@ export const InAField: Story = {
   ),
 };
 
-function ControlledDemo(args: React.ComponentProps<typeof RadioGroup>) {
-  const [value, setValue] = React.useState('md');
+function ControlledDemo(args: ComponentProps<typeof RadioGroup>) {
+  const [value, setValue] = useState('md');
   return (
     <div className={stack}>
       <RadioGroup

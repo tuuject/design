@@ -2,13 +2,13 @@ import { Avatar as BaseAvatar } from '@base-ui/react/avatar';
 import { type AvatarOwnProps, initials, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { avatar } from '@koi/react/styled-system/recipes';
-import type * as React from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 export type { AvatarShape, AvatarSize } from '@koi/core';
 
 export interface AvatarProps
   extends AvatarOwnProps,
-    Omit<React.ComponentPropsWithRef<'span'>, keyof AvatarOwnProps | 'children'> {}
+    Omit<ComponentPropsWithRef<'span'>, keyof AvatarOwnProps | 'children'> {}
 
 /** A round (or rounded-square) picture of a person or site. Base UI swaps in the image once it has loaded. */
 export function Avatar({ src, name, size = 'md', shape = 'circle', className, ...rest }: AvatarProps) {

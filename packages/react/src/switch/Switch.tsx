@@ -2,13 +2,13 @@ import { Switch as BaseSwitch } from '@base-ui/react/switch';
 import type { SwitchOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { switchRecipe } from '@koi/react/styled-system/recipes';
-import * as React from 'react';
+import { type ComponentPropsWithRef, type Ref, useContext, useId } from 'react';
 import { KoiFieldContext } from '../field/context';
 
 export interface SwitchProps
   extends SwitchOwnProps<Event>,
     Omit<
-      React.ComponentPropsWithRef<'button'>,
+      ComponentPropsWithRef<'button'>,
       keyof SwitchOwnProps | 'required' | 'name' | 'value' | 'form' | 'type' | 'children' | 'onChange' | 'defaultValue'
     > {
   required?: boolean;
@@ -21,7 +21,7 @@ export interface SwitchProps
   /** The id of the form the hidden input belongs to. */
   form?: string;
   /** Reaches the hidden `<input>`. */
-  inputRef?: React.Ref<HTMLInputElement>;
+  inputRef?: Ref<HTMLInputElement>;
 }
 
 /**
@@ -40,9 +40,9 @@ export function Switch({
   'aria-labelledby': labelledBy,
   ...rest
 }: SwitchProps) {
-  const f = React.useContext(KoiFieldContext);
+  const f = useContext(KoiFieldContext);
   const s = switchRecipe();
-  const uid = React.useId();
+  const uid = useId();
   const hasLabel = label != null;
   const labelId = hasLabel ? `${uid}-label` : undefined;
 

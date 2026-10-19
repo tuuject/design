@@ -13,7 +13,14 @@ import {
 import { cx } from '@koi/react/styled-system/css';
 import { selectPanel } from '@koi/react/styled-system/recipes';
 import { components } from '@koi/tokens/dimensions';
-import * as React from 'react';
+import {
+  type ComponentPropsWithRef,
+  type HTMLAttributes,
+  type ReactNode,
+  createContext,
+  useContext,
+  useMemo,
+} from 'react';
 import { KoiFieldContext } from '../field/context';
 import { CheckIcon, ChevronDownIcon, SearchIcon } from '../icons';
 
@@ -21,7 +28,7 @@ export type { SelectOptionGroup } from '@koi/core';
 
 export interface SelectPanelProps<I extends Entry = Entry>
   extends SelectPanelOwnProps<I, Event>,
-    Omit<React.ComponentPropsWithRef<'button'>, keyof SelectPanelOwnProps | 'required' | 'name' | 'type'> {
+    Omit<ComponentPropsWithRef<'button'>, keyof SelectPanelOwnProps | 'required' | 'name' | 'type'> {
   /** Submitted with the form. */
   name?: string;
   required?: boolean;
@@ -47,10 +54,10 @@ const PARTS = {
   },
 } as const;
 type Mode = keyof typeof PARTS;
-const ModeContext = React.createContext<Mode | null>(null);
+const ModeContext = createContext<Mode | null>(null);
 
 function useParts(part: string) {
-  const mode = React.useContext(ModeContext);
+  const mode = useContext(ModeContext);
   if (!mode) {
     throw new Error(`${part} must be rendered inside a SelectPanel.`);
   }
@@ -104,13 +111,13 @@ export function SelectPanel<I extends Entry = Entry>({
   className,
   ...rest
 }: SelectPanelProps<I>) {
-  const f = React.useContext(KoiFieldContext);
+  const f = useContext(KoiFieldContext);
   const s = selectPanel({ size });
-  const flat = React.useMemo(
+  const flat = useMemo(
     () => (items as readonly Entry[]).flatMap((e) => (isGroup(e) ? e.items : [e])) as OptionOf<I>[],
     [items],
   );
-  const render: (items: I[]) => React.ReactNode = children ?? defaultRender;
+  const render: (items: I[]) => ReactNode = children ?? defaultRender;
 
   const showValue = (v: string | null) => {
     const item = v == null ? undefined : flat.find((o) => o.value === v);
@@ -145,7 +152,7 @@ export function SelectPanel<I extends Entry = Entry>({
   );
 
   // Base UI's Combobox filters on the labels; values stay the option's `value` strings.
-  const collection = React.useMemo(
+  const collection = useMemo(
     // Typed as flat; createItems reads groups at runtime.
     () =>
       Combobox.createItems(items as readonly SelectOption[] as SelectOption[], {
@@ -205,14 +212,14 @@ export function SelectPanel<I extends Entry = Entry>({
   );
 }
 
-function Filtered<I extends Entry>({ render }: { render: (items: I[]) => React.ReactNode }) {
+function Filtered<I extends Entry>({ render }: { render: (items: I[]) => ReactNode }) {
   const filtered = Combobox.useFilteredItems<I>();
   return <>{render(filtered.filter((e) => !isGroup(e) || e.items.length > 0))}</>;
 }
 
 export interface SelectItemProps
   extends SelectItemOwnProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, keyof SelectItemOwnProps> {}
+    Omit<HTMLAttributes<HTMLDivElement>, keyof SelectItemOwnProps> {}
 
 /** One choosable row in a SelectPanel. A check mark shows on the chosen one. */
 export function SelectItem({ value, label, disabled, className, children, ...rest }: SelectItemProps) {
@@ -236,7 +243,7 @@ export function SelectItem({ value, label, disabled, className, children, ...res
 
 export interface SelectGroupProps
   extends SelectGroupOwnProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, keyof SelectGroupOwnProps> {}
+    Omit<HTMLAttributes<HTMLDivElement>, keyof SelectGroupOwnProps> {}
 
 /** A titled group of SelectItems. */
 export function SelectGroup({ label, className, children, ...rest }: SelectGroupProps) {
@@ -251,7 +258,7 @@ export function SelectGroup({ label, className, children, ...rest }: SelectGroup
 }
 
 /** A line between items or groups. */
-export function SelectSeparator({ className, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
+export function SelectSeparator({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
   const { P } = useParts('SelectSeparator');
   const s = selectPanel();
   return <P.Separator {...rest} className={cx(s.separator, className)} />;

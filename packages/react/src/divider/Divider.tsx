@@ -2,7 +2,7 @@ import { Separator } from '@base-ui/react/separator';
 import type { DividerOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { separator } from '@koi/react/styled-system/recipes';
-import * as React from 'react';
+import { useId } from 'react';
 
 export interface DividerProps extends DividerOwnProps {
   className?: string;
@@ -10,7 +10,7 @@ export interface DividerProps extends DividerOwnProps {
 
 /** A 1px hairline separator. Prefer spacing; add a divider only when space alone doesn't separate the groups. */
 export function Divider({ orientation = 'horizontal', label, className }: DividerProps) {
-  const labelId = React.useId();
+  const labelId = useId();
   if (orientation === 'vertical') {
     return (
       <Separator orientation="vertical" render={<span />} className={cx(separator({ kind: 'vertical' }), className)} />

@@ -10,7 +10,7 @@ import { Select } from '@koi/react/select';
 import { css } from '@koi/react/styled-system/css';
 import { useToast } from '@koi/react/toast';
 import { createFileRoute } from '@tanstack/react-router';
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { formatDateTime, formatMoney } from '../lib/format';
 import { deleteOrder, fetchOrders, ORDER_STATUS, type Order, type OrderPage, type OrderStatus } from '../mock/api';
@@ -74,17 +74,17 @@ function OrdersPage() {
   const navigate = Route.useNavigate();
   const toast = useToast();
 
-  const [keyword, setKeyword] = React.useState(q ?? '');
-  const [data, setData] = React.useState<OrderPage | null>(null);
-  const [loading, setLoading] = React.useState(true);
-  const [version, setVersion] = React.useState(0);
+  const [keyword, setKeyword] = useState(q ?? '');
+  const [data, setData] = useState<OrderPage | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [version, setVersion] = useState(0);
   // Open state is kept apart from the order a dialog shows: closing only flips `open`, so the old order
   // stays rendered while the dialog fades out instead of blanking first.
-  const [detail, setDetail] = React.useState<Order | null>(null);
-  const [detailOpen, setDetailOpen] = React.useState(false);
-  const [pendingDelete, setPendingDelete] = React.useState<Order | null>(null);
-  const [deleteOpen, setDeleteOpen] = React.useState(false);
-  const [deleting, setDeleting] = React.useState(false);
+  const [detail, setDetail] = useState<Order | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<Order | null>(null);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const openDetail = (order: Order) => {
     setDetail(order);
@@ -98,7 +98,7 @@ function OrdersPage() {
   };
 
   // Debounce the keyword into the URL (?q=), always landing on the first page.
-  React.useEffect(() => {
+  useEffect(() => {
     if (keyword === (q ?? '')) {
       return;
     }
@@ -109,7 +109,7 @@ function OrdersPage() {
   }, [keyword, q, navigate]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: bumping version refetches after a delete
-  React.useEffect(() => {
+  useEffect(() => {
     let cancelled = false;
     setLoading(true);
     fetchOrders({ page, keyword: q, status }).then((next) => {

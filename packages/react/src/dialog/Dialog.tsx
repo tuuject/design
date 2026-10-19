@@ -4,7 +4,7 @@ import { type DialogOwnProps, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { dialog } from '@koi/react/styled-system/recipes';
 import { sizes } from '@koi/tokens/dimensions';
-import * as React from 'react';
+import { type MouseEvent, useRef } from 'react';
 import { IconButton } from '../button/Button';
 import { CloseIcon } from '../icons';
 import { ShapeProvider } from '../shape';
@@ -32,7 +32,7 @@ export function Dialog({
   className,
 }: DialogProps) {
   const s = dialog({ size });
-  const footerRef = React.useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
   const alert = role === 'alertdialog';
   // WAI-ARIA alertdialog: focus the least destructive action. The footer's first button is cancel by convention;
   // without an enabled one, fall back to Base UI's default (first tabbable element).
@@ -44,7 +44,7 @@ export function Dialog({
   // blur the focused control and drop focus on <body> (Base UI only pulls it back on the next Tab). Keep it put.
   const keepFocus =
     alert || !dismissible
-      ? (event: React.MouseEvent<HTMLDivElement>) => {
+      ? (event: MouseEvent<HTMLDivElement>) => {
           if (event.target === event.currentTarget) {
             event.preventDefault();
           }

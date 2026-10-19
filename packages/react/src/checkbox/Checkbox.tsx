@@ -2,20 +2,20 @@ import { Checkbox as BaseCheckbox } from '@base-ui/react/checkbox';
 import type { CheckboxOwnProps } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { checkbox } from '@koi/react/styled-system/recipes';
-import * as React from 'react';
+import { type ChangeEventHandler, type ComponentPropsWithRef, useContext, useId } from 'react';
 import { KoiFieldContext } from '../field/context';
 import { CheckIcon } from '../icons';
 
 export interface CheckboxProps
   extends CheckboxOwnProps<Event>,
-    Omit<React.ComponentPropsWithRef<'input'>, keyof CheckboxOwnProps | 'type' | 'value' | 'onChange' | 'children'> {
+    Omit<ComponentPropsWithRef<'input'>, keyof CheckboxOwnProps | 'type' | 'value' | 'onChange' | 'children'> {
   /** Submitted with the form while ticked (the native "on" when omitted). */
   value?: string;
   /**
    * The legacy native handler: React's change event from the hidden input, caught as it bubbles to the row,
    * so `event.target.checked` is the new state (`currentTarget` is the row). Runs after `onCheckedChange`.
    */
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 
 /**
@@ -38,9 +38,9 @@ export function Checkbox({
   'aria-describedby': describedBy,
   ...rest
 }: CheckboxProps) {
-  const f = React.useContext(KoiFieldContext);
+  const f = useContext(KoiFieldContext);
   const s = checkbox();
-  const uid = React.useId();
+  const uid = useId();
   const hasLabel = label != null;
   const labelId = hasLabel ? `${uid}-label` : undefined;
   const descId = hasLabel && description ? `${uid}-desc` : undefined;
@@ -49,7 +49,7 @@ export function Checkbox({
   const Root = hasLabel ? 'label' : 'span';
 
   return (
-    <Root className={cx(s.root, className)} style={style} onChange={onChange as React.ChangeEventHandler<HTMLElement>}>
+    <Root className={cx(s.root, className)} style={style} onChange={onChange as ChangeEventHandler<HTMLElement>}>
       <BaseCheckbox.Root
         {...(rest as BaseCheckbox.Root.Props)}
         inputRef={ref}

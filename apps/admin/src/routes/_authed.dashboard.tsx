@@ -5,7 +5,7 @@ import { Skeleton } from '@koi/react/skeleton';
 import { css } from '@koi/react/styled-system/css';
 import { sizes } from '@koi/tokens/dimensions';
 import { createFileRoute } from '@tanstack/react-router';
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { AppLink } from '../components/AppLink';
 import { ArrowRightIcon } from '../components/icons';
 import { PageHeader } from '../components/PageHeader';
@@ -39,10 +39,10 @@ const statCards: Array<{ key: keyof DashboardStats; label: string; hint: string;
   ];
 
 function DashboardPage() {
-  const [stats, setStats] = React.useState<DashboardStats | null>(null);
-  const [recent, setRecent] = React.useState<Order[] | null>(null);
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [recent, setRecent] = useState<Order[] | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let cancelled = false;
     Promise.all([fetchStats(), fetchRecentOrders(5)]).then(([nextStats, nextRecent]) => {
       if (!cancelled) {

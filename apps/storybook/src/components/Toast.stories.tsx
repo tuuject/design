@@ -1,7 +1,7 @@
 import { Button, Toast, type ToastOptions, ToastProvider, type ToastProviderProps, useToast } from '@koi/react';
 import { css, cx } from '@koi/react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import * as React from 'react';
+import { type ComponentProps, useEffect, useRef } from 'react';
 import { fn } from 'storybook/test';
 import { stack } from '../layout';
 
@@ -25,8 +25,8 @@ function Trigger({ options }: { options: ToastOptions }) {
 /** Adds the toasts once on mount and keeps them (duration 0), so screenshots are stable. */
 function OnMount({ list }: { list: ToastOptions[] }) {
   const { toast } = useToast();
-  const done = React.useRef(false);
-  React.useEffect(() => {
+  const done = useRef(false);
+  useEffect(() => {
     if (done.current) {
       return;
     }
@@ -46,7 +46,7 @@ function Stacked({ list, position }: { list: ToastOptions[]; position?: ToastPro
   );
 }
 
-type PlaygroundArgs = React.ComponentProps<typeof Toast> & {
+type PlaygroundArgs = ComponentProps<typeof Toast> & {
   duration?: number;
   position?: ToastProviderProps['position'];
 };

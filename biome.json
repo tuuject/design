@@ -29,6 +29,9 @@
       "style": {
         "useBlockStatements": "error"
       },
+      "performance": {
+        "noNamespaceImport": "error"
+      },
       "suspicious": {
         "noAssignInExpressions": "warn",
         "noImplicitAnyLet": "warn"

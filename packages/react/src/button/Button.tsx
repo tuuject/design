@@ -1,14 +1,14 @@
 import { type ButtonOwnProps, type IconButtonOwnProps, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { button } from '@koi/react/styled-system/recipes';
-import type * as React from 'react';
+import type { ComponentPropsWithRef } from 'react';
 import { useButtonShape } from '../shape';
 import { Spinner } from '../spinner/Spinner';
 
 export type { ButtonColor, ButtonVariant } from '@koi/core';
 
-type NativeButtonProps = Omit<React.ComponentPropsWithRef<'button'>, 'color'>;
-type NativeAnchorProps = Omit<React.ComponentPropsWithRef<'a'>, 'color' | 'type'>;
+type NativeButtonProps = Omit<ComponentPropsWithRef<'button'>, 'color'>;
+type NativeAnchorProps = Omit<ComponentPropsWithRef<'a'>, 'color' | 'type'>;
 
 /**
  * Without `href`: a <button>, with every native button attribute.

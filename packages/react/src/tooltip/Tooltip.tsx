@@ -2,7 +2,7 @@ import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip';
 import type { TooltipOwnProps } from '@koi/core';
 import { tooltip } from '@koi/react/styled-system/recipes';
 import { components } from '@koi/tokens/dimensions';
-import * as React from 'react';
+import { type ReactElement, Children, cloneElement, useId, useState } from 'react';
 
 export type { TooltipSide } from '@koi/core';
 
@@ -33,13 +33,13 @@ export function Tooltip({
   disabled,
 }: TooltipProps) {
   const s = tooltip();
-  const autoId = React.useId();
+  const autoId = useId();
   const popupId = `${autoId}tooltip`;
-  const child = React.Children.only(children) as React.ReactElement<ChildProps>;
+  const child = Children.only(children) as ReactElement<ChildProps>;
   const triggerId = child.props.id ?? `${autoId}trigger`;
 
   // Base UI doesn't describe the trigger by the popup; the spec wants aria-describedby while it's shown.
-  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen ?? false);
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen ?? false);
   const shown = open ?? uncontrolledOpen;
   // Skip it when the tooltip only repeats the trigger's name (IconButton label="关闭" + content="关闭"), or it's read twice.
   const repeatsName =
@@ -48,7 +48,7 @@ export function Tooltip({
     [child.props['aria-describedby'], shown && !repeatsName ? popupId : undefined].filter(Boolean).join(' ') ||
     undefined;
   // title: undefined drops the native tooltip (IconButton sets one from its label), so the two don't stack.
-  const trigger = React.cloneElement(child, { 'aria-describedby': describedBy, title: undefined });
+  const trigger = cloneElement(child, { 'aria-describedby': describedBy, title: undefined });
 
   return (
     <BaseTooltip.Root

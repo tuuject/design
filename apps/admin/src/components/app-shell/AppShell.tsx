@@ -1,6 +1,6 @@
 import { css } from '@koi/react/styled-system/css';
 import { Outlet, useRouterState } from '@tanstack/react-router';
-import * as React from 'react';
+import { useEffect, useRef } from 'react';
 import { useUiStore } from '../../stores/ui';
 import { Sidebar } from './Sidebar';
 import { SHELL_Z_INDEX } from './shared';
@@ -35,9 +35,9 @@ export function AppShell() {
   const pathname = useRouterState({ select: (st) => st.location.pathname });
 
   // Any navigation closes the mobile drawer (skip the very first render).
-  const mounted = React.useRef(false);
+  const mounted = useRef(false);
   // biome-ignore lint/correctness/useExhaustiveDependencies: the effect must re-run on every navigation
-  React.useEffect(() => {
+  useEffect(() => {
     if (mounted.current) {
       setMobileNavOpen(false);
     }

@@ -9,6 +9,7 @@ A production-shaped admin application built on **Koi React components** — the 
 | Build | Rsbuild (`@rsbuild/core` + `@rsbuild/plugin-react`) |
 | Routing | TanStack Router, file-based, via `@tanstack/router-plugin` (`tools.rspack.plugins` in `rsbuild.config.ts`) |
 | State | Zustand (`stores/auth.ts` session, `stores/ui.ts` shell state) |
+| Forms | `react-hook-form` — `register` for native inputs, `Controller` for Base UI controls (`Checkbox`, `Switch`, `RadioGroup`) |
 | Styling | Panda CSS through the repo-wide root `panda.config.ts` (`postcss.config.cjs`, same as Storybook) |
 | UI | `@koi/react` + `@koi/tokens` only — no other component library |
 

@@ -7,6 +7,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 - **Rsbuild**：`apps/admin/rsbuild.config.ts`。TanStack Router 的文件路由插件走 `@tanstack/router-plugin/rspack`，挂在 `tools.rspack.plugins`（官方 Rsbuild 方式）。
 - **样式**：全仓库共用根 `panda.config.ts`，app 通过 `apps/admin/postcss.config.cjs`（Panda 的 PostCSS 插件，同 Storybook）注入 layers。app 里用 `css()` 的文件必须被根配置的 `include` 扫到——已加 `./apps/admin/src/**/*.{ts,tsx}`。
 - **主题**：`theme-init.js` 在 `rsbuild.config.ts` 里读包文件后以 `html.tags` 内联进 `<head>`（无主题闪烁）；切换走 `koiSetTheme`（`hooks/use-theme.ts` 只是给图标/文案做的镜像）。palette 没有做切换 UI，机制与 Storybook 一致。
+- **表单统一用 react-hook-form**：`useForm` + `register`（Input / Textarea）+ `Controller`（Checkbox / Switch / RadioGroup，Base UI 的 `onCheckedChange` / `onChange` 直接接 `field.onChange`）。字段错误取 `errors.<name>?.message` 喂给 `Field`，表单级（如登录失败）用 `setError('root')`，提交态用 `formState.isSubmitting`；保存成功后 `reset(saved)` 让「重置」回到最新基线。见 `routes/login.tsx`、`routes/_authed.settings.tsx`。
 - **路由守卫**：`_authed.tsx` 的 `beforeLoad` 读 zustand store（`useAuthStore.getState()`，persist 同步恢复），未登录 `redirect` 到 `/login?redirect=<href>`；login 的 `validateSearch` 只放行 `/` 开头的回跳地址。
 - **URL 即状态**：订单页的 `q / status / page` 全在 search 里（`validateSearch`），筛选、分页、回跳后还原都靠它。
 - **typecheck**：`node scripts/generate-routes.mjs && tsc`。`@tanstack/router-plugin@1.168` 没有 `tsr` CLI，脚本直接调插件对象的 `vite.configResolved` 钩子生成 `routeTree.gen.ts`（dev/build 时插件本来就会生成）。

@@ -5,7 +5,7 @@ import { Field } from '@koi/react/field';
 import { Input } from '@koi/react/input';
 import { css } from '@koi/react/styled-system/css';
 import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
-import * as React from 'react';
+import { useForm } from 'react-hook-form';
 import { ThemeToggle } from '../components/app-shell/ThemeToggle';
 import { mockLogin } from '../mock/api';
 import { useAuthStore } from '../stores/auth';
@@ -49,28 +49,33 @@ const s = {
   hint: css({ margin: '0', marginBlockStart: '4', textStyle: 'small', color: 'text-muted', textAlign: 'center' }),
 };
 
+interface LoginValues {
+  username: string;
+  password: string;
+}
+
 function LoginPage() {
   const search = Route.useSearch();
   const router = useRouter();
   const login = useAuthStore((st) => st.login);
-  const [username, setUsername] = React.useState('admin');
-  const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState<string | null>(null);
-  const [submitting, setSubmitting] = React.useState(false);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginValues>({ defaultValues: { username: 'admin', password: '' } });
 
-  const submit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setError(null);
-    setSubmitting(true);
+  const submit = handleSubmit(async ({ username, password }) => {
+    clearErrors('root');
     try {
       const user = await mockLogin(username, password);
       login(user);
       router.history.push(search.redirect ?? '/dashboard');
     } catch (err) {
-      setError(err instanceof Error ? err.message : '登录失败，请稍后再试。');
-      setSubmitting(false);
+      setError('root', { message: err instanceof Error ? err.message : '登录失败，请稍后再试。' });
     }
-  };
+  });
 
   return (
     <div className={s.page}>
@@ -85,24 +90,19 @@ function LoginPage() {
             <p className={s.brandSubtitle}>Koi 组件库后台管理模板</p>
           </div>
         </div>
-        {error ? (
+        {errors.root?.message ? (
           <Alert tone="error" className={s.alert}>
-            {error}
+            {errors.root.message}
           </Alert>
         ) : null}
         <form className={s.form} onSubmit={submit}>
           <Field label="用户名">
-            <Input value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="username" />
+            <Input {...register('username')} autoComplete="username" />
           </Field>
           <Field label="密码">
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-            />
+            <Input type="password" {...register('password')} autoComplete="current-password" />
           </Field>
-          <Button type="submit" size="lg" fullWidth loading={submitting}>
+          <Button type="submit" size="lg" fullWidth loading={isSubmitting}>
             登录
           </Button>
         </form>

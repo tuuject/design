@@ -44,7 +44,8 @@ const transition = (shadow: string) =>
     .concat(`box-shadow ${shadow}`)
     .join(', ');
 
-const empty = <K extends string>(keys: readonly K[]) => Object.fromEntries(keys.map((k) => [k, {}])) as Record<K, {}>;
+const empty = <K extends string>(keys: readonly K[]) =>
+  Object.fromEntries(keys.map((k) => [k, {}])) as Record<K, Record<never, never>>;
 
 export const button = defineRecipe({
   className: 'koi-btn',

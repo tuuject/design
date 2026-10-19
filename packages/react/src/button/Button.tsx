@@ -22,7 +22,7 @@ type AsButtonOrLink<Own> =
 export type ButtonProps = AsButtonOrLink<ButtonOwnProps>;
 
 /** Renders <a> or <button> for Button and IconButton. */
-function Pressable({ href, disabled, type = 'button', ...rest }: AsButtonOrLink<{}>) {
+function Pressable({ href, disabled, type = 'button', ...rest }: AsButtonOrLink<Record<never, never>>) {
   if (href !== undefined && !disabled) {
     return <a href={href} {...(rest as NativeAnchorProps)} />;
   }

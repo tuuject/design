@@ -23,15 +23,17 @@ export function oklchToSrgb(L, C, H) {
 /** Returns { rgb: [r,g,b] in 0..1, a } or null if the string isn't a color. */
 export function parseColor(v) {
   v = v.trim();
-  let m;
-  if ((m = v.match(/^#([0-9a-f]{6})$/i))) {
+  let m = v.match(/^#([0-9a-f]{6})$/i);
+  if (m) {
     const h = m[1];
     return { rgb: [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255), a: 1 };
   }
-  if ((m = v.match(/^rgba?\(\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?\s*\)$/))) {
+  m = v.match(/^rgba?\(\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?\s*\)$/);
+  if (m) {
     return { rgb: [m[1], m[2], m[3]].map((x) => +x / 255), a: m[4] === undefined ? 1 : +m[4] };
   }
-  if ((m = v.match(/^oklch\(\s*([\d.]+)(%?)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\s*\)$/))) {
+  m = v.match(/^oklch\(\s*([\d.]+)(%?)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\s*\)$/);
+  if (m) {
     const L = m[2] ? +m[1] / 100 : +m[1];
     return { rgb: oklchToSrgb(L, +m[3], +m[4]), a: m[5] === undefined ? 1 : +m[5] };
   }

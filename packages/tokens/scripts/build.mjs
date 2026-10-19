@@ -129,11 +129,13 @@ const mixAlpha = (ref, a) => `color-mix(in oklch, ${ref} ${+(a * 100).toFixed(2)
         base: t.value,
         ...Object.fromEntries(extraPalettes.map((p) => [`_palette${cap(p.id)}`, p[m[1]][m[2]]])),
       };
-      (semantic[m[1]] ??= {})[m[2]] = { value, description: t.usage };
+      semantic[m[1]] ??= {};
+      semantic[m[1]][m[2]] = { value, description: t.usage };
       continue;
     }
     if (m) {
-      (colors[m[1]] ??= {})[m[2]] = { value: t.value, description: t.usage };
+      colors[m[1]] ??= {};
+      colors[m[1]][m[2]] = { value: t.value, description: t.usage };
       continue;
     }
     if (!isThemed(t)) {
@@ -289,7 +291,7 @@ const nums = (key, prefix) =>
     'dimensions.ts',
     banner +
       '// Every size as a number in px (the icon stroke is in 24-grid units). Same on every platform: Panda recipes\n' +
-      "// write `[${n}px]`, React Native and Tamagui use the numbers. `components` holds each component's own sizes;\n" +
+      `// write \`[\${n}px]\`, React Native and Tamagui use the numbers. \`components\` holds each component's own sizes;\n` +
       '// `layers` is the stacking order (z-index) of things that float over the page.\n' +
       Object.entries(body)
         .map(([k, v]) => `export const ${k} = ${JSON.stringify(v, null, 2)} as const;`)

@@ -34,4 +34,4 @@ The fully rounded pill button: Koi's pagination button, generalized into five co
 - Do keep labels to one line.
 - Don't put two solid buttons side by side, and don't use color alone to signal danger: say it in the label too ("删除").
 - Pick one shape per group of buttons. Pills are Koi's default voice; use `rounded` where buttons sit among square-cornered things (toolbars, tables, dense forms, input groups). Table cells and Dialog footers make `rounded` the default for the buttons inside them.
-- `loading` keeps the button's width steady and announces itself with `aria-busy`.
+- `loading` keeps the button's width steady and announces itself with `aria-busy`. A loading button looks disabled (50% opacity) but keeps its spinner turning and shows a `progress` cursor.

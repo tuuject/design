@@ -74,8 +74,8 @@ export const button = defineRecipe({
     },
     _focusVisible: focusRing,
     _disabled: { opacity: '0.5', cursor: 'not-allowed' },
-    // Loading buttons are also disabled; this outranks _disabled's opacity (legacy: .is-loading after :disabled).
-    '&[aria-busy=true]:disabled': { opacity: '0.85', cursor: 'progress' },
+    // Loading buttons are also disabled and keep its dimmed look; only the cursor says "busy" instead of "blocked".
+    '&[aria-busy=true]:disabled': { cursor: 'progress' },
     // Direct children only: the loading Spinner's svg sets its own size.
     '& > svg': { width: 'icon', height: 'icon', flexShrink: '0' },
   },

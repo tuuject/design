@@ -4,8 +4,8 @@ import { DataTable, type DataTableColumn } from '@koi/react/data-table';
 import { Skeleton } from '@koi/react/skeleton';
 import { css } from '@koi/react/styled-system/css';
 import { sizes } from '@koi/tokens/dimensions';
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
 import { AppLink } from '../components/AppLink';
 import { ArrowRightIcon } from '../components/icons';
 import { PageHeader } from '../components/PageHeader';
@@ -39,21 +39,8 @@ const statCards: Array<{ key: keyof DashboardStats; label: string; hint: string;
   ];
 
 function DashboardPage() {
-  const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [recent, setRecent] = useState<Order[] | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    Promise.all([fetchStats(), fetchRecentOrders(5)]).then(([nextStats, nextRecent]) => {
-      if (!cancelled) {
-        setStats(nextStats);
-        setRecent(nextRecent);
-      }
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const { data: stats } = useQuery({ queryKey: ['stats'], queryFn: fetchStats });
+  const { data: recent } = useQuery({ queryKey: ['orders', 'recent', 5], queryFn: () => fetchRecentOrders(5) });
 
   const recentColumns: Array<DataTableColumn<Order>> = [
     { key: 'id', header: '订单号', width: 120, cell: (o) => o.id, skeleton: 'SO-24100' },
@@ -120,7 +107,7 @@ function DashboardPage() {
           columns={recentColumns}
           rows={recent ?? []}
           getRowKey={(o) => o.id}
-          loading={recent === null}
+          loading={!recent}
           skeletonRows={5}
         />
       </Card>

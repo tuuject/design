@@ -9,11 +9,13 @@ import { Pagination } from '@koi/react/pagination';
 import { Select } from '@koi/react/select';
 import { css } from '@koi/react/styled-system/css';
 import { useToast } from '@koi/react/toast';
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
+import { useDebouncer } from '../hooks/use-debouncer';
 import { formatDateTime, formatMoney } from '../lib/format';
-import { deleteOrder, fetchOrders, ORDER_STATUS, type Order, type OrderPage, type OrderStatus } from '../mock/api';
+import { deleteOrder, fetchOrders, ORDER_STATUS, type Order, type OrderStatus } from '../mock/api';
 
 const PAGE_SIZE = 8;
 
@@ -74,10 +76,27 @@ function OrdersPage() {
   const navigate = Route.useNavigate();
   const toast = useToast();
 
+  const queryClient = useQueryClient();
+  const query = { page, keyword: q, status };
+  const { data, isPending, isPlaceholderData } = useQuery({
+    queryKey: ['orders', 'list', query],
+    queryFn: () => fetchOrders(query),
+    // Keep the last page on screen while the next one loads, so the count and pager don't blank out.
+    placeholderData: keepPreviousData,
+  });
+  // Skeleton only while showing a different query's rows; background refetches (focus, after a delete) stay quiet.
+  const loading = isPending || isPlaceholderData;
+
   const [keyword, setKeyword] = useState(q ?? '');
-  const [data, setData] = useState<OrderPage | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [version, setVersion] = useState(0);
+  // When ?q= changes from outside (sidebar link, back button), the box follows it. Our own debounced push
+  // lands on the value already typed, so this is a no-op then.
+  const [seenQ, setSeenQ] = useState(q);
+  if (q !== seenQ) {
+    setSeenQ(q);
+    setKeyword(q ?? '');
+  }
+  const debounce = useDebouncer(300);
+
   // Open state is kept apart from the order a dialog shows: closing only flips `open`, so the old order
   // stays rendered while the dialog fades out instead of blanking first.
   const [detail, setDetail] = useState<Order | null>(null);
@@ -98,32 +117,13 @@ function OrdersPage() {
   };
 
   // Debounce the keyword into the URL (?q=), always landing on the first page.
-  useEffect(() => {
-    if (keyword === (q ?? '')) {
-      return;
-    }
-    const timer = setTimeout(() => {
-      navigate({ search: (prev) => ({ ...prev, q: keyword || undefined, page: 1 }), replace: true });
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [keyword, q, navigate]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: bumping version refetches after a delete
-  useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    fetchOrders({ page, keyword: q, status }).then((next) => {
-      if (!cancelled) {
-        setData(next);
-        setLoading(false);
-      }
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [q, status, page, version]);
+  const changeKeyword = (next: string) => {
+    setKeyword(next);
+    debounce.run(() => navigate({ search: (prev) => ({ ...prev, q: next || undefined, page: 1 }), replace: true }));
+  };
 
   const resetFilters = () => {
+    debounce.cancel();
     setKeyword('');
     navigate({ search: (prev) => ({ ...prev, q: undefined, status: undefined, page: 1 }), replace: true });
   };
@@ -134,8 +134,12 @@ function OrdersPage() {
     }
     setDeleting(true);
     await deleteOrder(pendingDelete.id);
+    // Wait for the refreshed list, so the dialog closes onto a table that no longer has the row.
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ['orders'] }),
+      queryClient.invalidateQueries({ queryKey: ['stats'] }),
+    ]);
     setDeleteOpen(false);
-    setVersion((v) => v + 1);
     toast.toast({ tone: 'success', title: '订单已删除' });
   };
 
@@ -213,7 +217,7 @@ function OrdersPage() {
               placeholder="搜索客户 / 订单号"
               aria-label="搜索订单"
               value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
+              onChange={(e) => changeKeyword(e.target.value)}
             />
             <Select
               size="sm"

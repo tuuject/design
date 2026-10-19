@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -6,6 +7,8 @@ import { useUiStore } from './stores/ui';
 // ChillRoundF subsets; only fetched when <html data-font="chill"> (theme-init handles the attribute).
 import '@koi/tokens/fonts.css';
 import './index.css';
+
+const queryClient = new QueryClient();
 
 const router = createRouter({
   routeTree,
@@ -31,6 +34,8 @@ if (!root) {
 }
 createRoot(root).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </StrictMode>,
 );

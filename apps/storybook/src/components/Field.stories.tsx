@@ -92,3 +92,32 @@ export const InAForm: Story = {
     </Card>
   ),
 };
+
+// A horizontal filter-bar row: `className` turns the root into a grid, `classNames` keeps the messages under the control.
+const horizontal = css({
+  display: 'grid',
+  gridTemplateColumns: '[64px minmax(0, 1fr)]',
+  columnGap: '2',
+  alignItems: 'center',
+});
+const underControl = css({ gridColumn: '2' });
+
+export const Horizontal: Story = {
+  render: (args) => (
+    <div className={`${stack} ${width}`}>
+      <Field {...args} label="订单号" help={undefined} className={horizontal}>
+        <Input placeholder="请输入订单号" />
+      </Field>
+      <Field
+        {...args}
+        label="客户"
+        error="没有找到这个客户。"
+        help="按名称模糊匹配。"
+        className={horizontal}
+        classNames={{ error: underControl, help: underControl }}
+      >
+        <Input defaultValue="小明" />
+      </Field>
+    </div>
+  ),
+};

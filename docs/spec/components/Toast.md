@@ -7,7 +7,7 @@ A short, floating confirmation on Koi's frosted glass, the same material as the 
 **The consumer supplies:**
 - Wrap the app once in `<ToastProvider>` (optional `position`: `bottom` by default, or `top`).
 - Then call `useToast().toast({tone, title, description, action, duration})` from any component. `tone` is `info`, `success`, `warning` or `error`. `duration` is in ms, and 0 keeps the toast until it's closed.
-- `Toast` itself can also be rendered directly.
+- `Toast` itself can also be rendered directly. There `className` lands on the root, and `classNames` (keyed `icon`, `content`, `title`, `description`, `action`, `close`) adds classes to the inner parts.
 
 **Styling:**
 - Material: `surface-glass-tint` with a `blur-float` backdrop, `radius-panel` (24px) corners like Cards and Dialogs, and `shadow-float`. It has no border: the shadow alone lifts it off the page.

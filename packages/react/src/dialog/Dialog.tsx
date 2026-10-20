@@ -2,15 +2,18 @@ import { AlertDialog } from '@base-ui/react/alert-dialog';
 import { Dialog as BaseDialog } from '@base-ui/react/dialog';
 import { type DialogOwnProps, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
-import { dialog } from '@koi/react/styled-system/recipes';
+import { type DialogSlot, dialog } from '@koi/react/styled-system/recipes';
 import { sizes } from '@koi/tokens/dimensions';
 import { type MouseEvent, useRef } from 'react';
 import { IconButton } from '../button/Button';
 import { CloseIcon } from '../icons';
 import { ShapeProvider } from '../shape';
+import type { SlotClassNames } from '../types';
 
 export interface DialogProps extends DialogOwnProps {
   className?: string;
+  // `className` already lands on the popup.
+  classNames?: SlotClassNames<Exclude<DialogSlot, 'popup'>>;
 }
 
 /**
@@ -30,6 +33,7 @@ export function Dialog({
   dismissible = true,
   hideClose,
   className,
+  classNames,
 }: DialogProps) {
   const s = dialog({ size });
   const footerRef = useRef<HTMLDivElement>(null);
@@ -53,24 +57,26 @@ export function Dialog({
 
   const portal = (
     <BaseDialog.Portal>
-      <BaseDialog.Backdrop className={s.backdrop} />
-      <BaseDialog.Viewport className={s.viewport} onMouseDown={keepFocus}>
+      <BaseDialog.Backdrop className={cx(s.backdrop, classNames?.backdrop)} />
+      <BaseDialog.Viewport className={cx(s.viewport, classNames?.viewport)} onMouseDown={keepFocus}>
         <BaseDialog.Popup className={cx(s.popup, className)} initialFocus={initialFocus}>
-          {title != null && <BaseDialog.Title className={s.title}>{title}</BaseDialog.Title>}
+          {title != null && <BaseDialog.Title className={cx(s.title, classNames?.title)}>{title}</BaseDialog.Title>}
           {description != null && (
-            <BaseDialog.Description className={s.description}>{description}</BaseDialog.Description>
+            <BaseDialog.Description className={cx(s.description, classNames?.description)}>
+              {description}
+            </BaseDialog.Description>
           )}
-          {children != null && <div className={s.body}>{children}</div>}
+          {children != null && <div className={cx(s.body, classNames?.body)}>{children}</div>}
           {footer != null && (
             <ShapeProvider shape="rounded">
-              <div ref={footerRef} className={s.footer}>
+              <div ref={footerRef} className={cx(s.footer, classNames?.footer)}>
                 {footer}
               </div>
             </ShapeProvider>
           )}
           {!hideClose && (
             <BaseDialog.Close
-              className={s.close}
+              className={cx(s.close, classNames?.close)}
               render={
                 <IconButton
                   label={strings.close}

@@ -4,7 +4,7 @@ An inline message box for information, warnings and errors related to the page o
 
 **When to use:** persistent messages that belong to the content, such as a failed save, a notice or a quota warning. For brief confirmations that disappear on their own, use Toast. For field-level problems, use the Field's `error`.
 
-**The consumer supplies:** `tone` (`info`/`warning`/`error`), `title`, a body as children, and optionally an `action` (usually a small Button), `onClose` (adds a close button) or `icon` (`null` hides it).
+**The consumer supplies:** `tone` (`info`/`warning`/`error`), `title`, a body as children, and optionally an `action` (usually a small Button), `onClose` (adds a close button) or `icon` (`null` hides it). `className` lands on the root, and `classNames` (keyed `icon`, `content`, `title`, `body`, `action`, `close`) adds classes to the inner parts.
 
 **Styling:**
 - Box: `radius-xl` corners, `space-3` padding, a 1px `<tone>-border` edge and a `<tone>-surface` fill. Text is `body` (14px) with a 16px icon.

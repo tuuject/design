@@ -1,22 +1,35 @@
 import { Field as BaseField } from '@base-ui/react/field';
 import { type FieldOwnProps, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
-import { field } from '@koi/react/styled-system/recipes';
+import { type FieldSlot, field } from '@koi/react/styled-system/recipes';
 import { sizes } from '@koi/tokens/dimensions';
 import { type HTMLAttributes, useMemo } from 'react';
 import { ErrorIcon } from '../icons';
+import type { SlotClassNames } from '../types';
 import { KoiFieldContext } from './context';
 
 export interface FieldProps extends FieldOwnProps, Omit<HTMLAttributes<HTMLDivElement>, keyof FieldOwnProps | 'id'> {
   /** The control's id (the label points at it). Generated when omitted. */
   id?: string;
+  classNames?: SlotClassNames<FieldSlot>;
 }
 
 /**
  * A form row: label, one control, error and help text, wired together by Base UI's Field.
  * Stack Fields with space-4 between them.
  */
-export function Field({ label, help, error, required, optional, id, className, children, ...rest }: FieldProps) {
+export function Field({
+  label,
+  help,
+  error,
+  required,
+  optional,
+  id,
+  className,
+  classNames,
+  children,
+  ...rest
+}: FieldProps) {
   const s = field();
   const hasError = error != null && error !== false && error !== '';
   const ctx = useMemo(() => ({ id, required }), [id, required]);
@@ -24,25 +37,25 @@ export function Field({ label, help, error, required, optional, id, className, c
     <KoiFieldContext.Provider value={ctx}>
       <BaseField.Root {...rest} invalid={hasError} className={cx(s.root, className)}>
         {label != null ? (
-          <BaseField.Label className={s.label}>
+          <BaseField.Label className={cx(s.label, classNames?.label)}>
             {label}
             {required ? (
-              <span className={s.required} aria-hidden="true">
+              <span className={cx(s.required, classNames?.required)} aria-hidden="true">
                 {' '}
                 *
               </span>
             ) : null}
-            {optional ? <span className={s.optional}>{strings.optional}</span> : null}
+            {optional ? <span className={cx(s.optional, classNames?.optional)}>{strings.optional}</span> : null}
           </BaseField.Label>
         ) : null}
         {children}
         {hasError ? (
-          <BaseField.Error match className={s.error} render={<p />}>
+          <BaseField.Error match className={cx(s.error, classNames?.error)} render={<p />}>
             <ErrorIcon size={sizes['icon-xs']} />
             <span>{error}</span>
           </BaseField.Error>
         ) : null}
-        {help ? <BaseField.Description className={s.help}>{help}</BaseField.Description> : null}
+        {help ? <BaseField.Description className={cx(s.help, classNames?.help)}>{help}</BaseField.Description> : null}
       </BaseField.Root>
     </KoiFieldContext.Provider>
   );

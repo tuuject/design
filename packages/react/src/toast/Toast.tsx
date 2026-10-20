@@ -9,13 +9,17 @@ import {
   type ToastTone,
 } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
-import { toast as toastRecipe } from '@koi/react/styled-system/recipes';
+import { type ToastSlot, toast as toastRecipe } from '@koi/react/styled-system/recipes';
 import { type HTMLAttributes, type ReactNode, createContext, useContext, useEffect, useMemo, useRef } from 'react';
 import { CloseIcon, ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../icons';
+import type { SlotClassNames } from '../types';
 
 export type { ToastOptions, ToastTone } from '@koi/core';
 
-export interface ToastProps extends ToastOwnProps, Omit<HTMLAttributes<HTMLDivElement>, keyof ToastOwnProps> {}
+export interface ToastProps extends ToastOwnProps, Omit<HTMLAttributes<HTMLDivElement>, keyof ToastOwnProps> {
+  // The viewport belongs to ToastProvider.
+  classNames?: SlotClassNames<Exclude<ToastSlot, 'viewport'>>;
+}
 
 export interface ToastProviderProps extends ToastProviderOwnProps {}
 
@@ -27,21 +31,36 @@ const toneIcon = { info: InfoIcon, success: SuccessIcon, warning: WarningIcon, e
  * A toast on its own, outside ToastProvider (the provider renders the same thing). Error is role="alert", the
  * other tones role="status".
  */
-export function Toast({ tone = 'info', title, description, action, onClose, className, ...rest }: ToastProps) {
+export function Toast({
+  tone = 'info',
+  title,
+  description,
+  action,
+  onClose,
+  className,
+  classNames,
+  ...rest
+}: ToastProps) {
   const s = toastRecipe({ tone, closable: !!onClose });
   const Icon = toneIcon[tone] ?? InfoIcon;
   return (
     <div role={tone === 'error' ? 'alert' : 'status'} {...rest} className={cx(s.root, className)}>
-      <span className={s.icon}>
+      <span className={cx(s.icon, classNames?.icon)}>
         <Icon />
       </span>
-      <div className={s.content}>
-        {title ? <p className={s.title}>{title}</p> : null}
-        {description ? <p className={s.description}>{description}</p> : null}
+      <div className={cx(s.content, classNames?.content)}>
+        {title ? <p className={cx(s.title, classNames?.title)}>{title}</p> : null}
+        {description ? <p className={cx(s.description, classNames?.description)}>{description}</p> : null}
       </div>
-      {action ? <div className={s.action}>{action}</div> : null}
+      {action ? <div className={cx(s.action, classNames?.action)}>{action}</div> : null}
       {onClose ? (
-        <button type="button" className={s.close} aria-label={strings.close} title={strings.close} onClick={onClose}>
+        <button
+          type="button"
+          className={cx(s.close, classNames?.close)}
+          aria-label={strings.close}
+          title={strings.close}
+          onClick={onClose}
+        >
           <CloseIcon />
         </button>
       ) : null}

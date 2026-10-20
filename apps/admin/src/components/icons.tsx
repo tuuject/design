@@ -112,3 +112,39 @@ export const ArrowRightIcon = (p: IconProps) => (
     <path d="M13.5 6.5L19 12l-5.5 5.5" />
   </Svg>
 );
+
+export const PlusIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 5v14M5 12h14" />
+  </Svg>
+);
+
+export const EditIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 20h4L19.5 8.5a2.1 2.1 0 00-3-3L5 17v3z" />
+    <path d="M14.5 6.5l3 3" />
+  </Svg>
+);
+
+export const RefreshIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M20 11a8 8 0 10-2.4 5.6" />
+    <path d="M20 5v6h-6" />
+  </Svg>
+);
+
+export const UploadIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 16V4" />
+    <path d="M7 9l5-5 5 5" />
+    <path d="M4 16v2.5A1.5 1.5 0 005.5 20h13a1.5 1.5 0 001.5-1.5V16" />
+  </Svg>
+);
+
+export const DownloadIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 4v12" />
+    <path d="M7 11l5 5 5-5" />
+    <path d="M4 16v2.5A1.5 1.5 0 005.5 20h13a1.5 1.5 0 001.5-1.5V16" />
+  </Svg>
+);

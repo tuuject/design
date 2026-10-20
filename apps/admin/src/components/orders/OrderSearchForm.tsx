@@ -63,27 +63,13 @@ export function OrderSearchForm({ value, onSearch, onReset }: OrderSearchFormPro
   const labelClass = css({ flex: 'none', width: '64px', textStyle: 'label', color: 'text' });
 
   return (
-    <Card padding="none">
-      <div
-        className={css({
-          padding: '4',
-          borderBottomWidth: '1px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'divider',
-        })}
-      >
-        <h2 className={css({ margin: '0', textStyle: 'heading-3', fontWeight: 'bold', color: 'text' })}>筛选条件</h2>
-        <p className={css({ margin: '0', marginBlockStart: '1', textStyle: 'small', color: 'text-muted' })}>
-          填好后点「搜索」或按回车。
-        </p>
-      </div>
+    <Card title="筛选条件">
       <form
         className={css({
           display: 'flex',
           flexWrap: 'wrap',
           alignItems: 'flex-start',
           gap: '4',
-          padding: '4',
         })}
         onSubmit={(event) => {
           event.preventDefault();

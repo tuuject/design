@@ -4,7 +4,7 @@ A rounded container (24px corners) that groups related content. Its `glass` vari
 
 **When to use:** list items with a title and actions, settings groups, summaries. Use `glass` only over imagery or color, as the blog does over its banner. Don't nest cards.
 
-**The consumer supplies:** `children`, and optionally `title`, `description`, `media` (full-bleed content on top, e.g. an `<img>`), `footer` (actions, aligned right), `variant` (`outlined` by default, `filled` or `glass`) and `padding="none"`. Native div props pass through.
+**The consumer supplies:** `children`, and optionally `title`, `description`, `media` (full-bleed content on top, e.g. an `<img>`), `footer` (actions, aligned right), `variant` (`outlined` by default, `filled` or `glass`) and `padding="none"`. Native div props pass through; `className` lands on the root, and `classNames` (keyed `media`, `head`, `title`, `description`, `body`, `footer`) adds classes to the inner parts.
 
 **Styling:**
 - Shape: `radius-panel` corners, `space-5` padding and `space-3` gaps.

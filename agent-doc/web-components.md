@@ -24,6 +24,7 @@ packages/react/src/
 | 规则 | 详见 |
 | --- | --- |
 | props 是 `<Name>OwnProps`（来自 `@koi/core`）加 DOM 属性；文案用 `strings` | [core.md](core.md) |
+| `className` 落在根元素上；consumer 要改内部元素时，用 `classNames?: SlotClassNames<<Name>Slot>`（`src/types.ts`，key 是 slot recipe 的 slot 名，不含 `root`）。目前只有 Card 有 | `card/Card.tsx` |
 | recipe 不写 `data-*` 选择器和 Base UI 的 CSS 变量，用 `state.*` / `vars.*` | [headless.md](headless.md) |
 | 颜色只用 role token（`bg: 'surface'`），不用色阶（`primary.500`），不写字面颜色 | [tokens.md](tokens.md) |
 | 尺寸不写字面量：共享的按 token 名（`'control-md'`、`'3'`、`'icon'`），组件自己的用 `toPx(c.<组件>.<部件>)` | [tokens.md](tokens.md#component-组) |

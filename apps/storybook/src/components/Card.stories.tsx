@@ -81,3 +81,13 @@ export const Minimal: Story = {
     </div>
   ),
 };
+
+export const SlotClassNames: Story = {
+  name: 'Slot classNames',
+  args: {
+    classNames: {
+      head: css({ pb: '3', borderBottomWidth: '1px', borderBottomStyle: 'solid', borderBottomColor: 'divider' }),
+      description: css({ color: 'text' }),
+    },
+  },
+};

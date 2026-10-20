@@ -7,8 +7,9 @@ import { spawn } from 'node:child_process';
 import { createWriteStream, mkdirSync } from 'node:fs';
 import { stripVTControlCharacters } from 'node:util';
 
-// Keep in sync with server.port in the app's bundler config.
-const PORTS = { admin: 3000 };
+// Keep in sync with the port each app's dev server is pinned to: server.port + strictPort in
+// apps/admin/rsbuild.config.ts, `-p 6006 --exact-port` in apps/storybook's dev script.
+const PORTS = { admin: 3000, storybook: 6006 };
 
 const [app, flag] = process.argv.slice(2);
 const port = PORTS[app];

@@ -5,7 +5,7 @@ A soft, rounded design system, grown out of tcdw's Koi blog theme. One set of to
 ```sh
 nvm use            # the Node version in .nvmrc
 pnpm install
-pnpm dev           # builds tokens, runs Panda codegen, starts Storybook (localhost:6006)
+pnpm dev           # builds tokens, runs Panda codegen, starts Storybook (localhost:6006; log in .temp/dev-storybook.log)
 pnpm shots         # screenshots of every story, light + dark
 pnpm check         # contrast, raw-color / raw-size / headless / core checks, typecheck
 ```

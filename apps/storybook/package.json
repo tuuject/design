@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "storybook dev -p 6006",
+    "dev": "storybook dev -p 6006 --exact-port",
     "build": "storybook build -o dist",
     "typecheck": "tsc -p tsconfig.json",
     "shots": "node scripts/shots.mjs",

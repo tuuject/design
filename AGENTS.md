@@ -78,7 +78,8 @@ koi-ui/
 - `pnpm lint`：Biome lint + 格式检查（只读，不写文件）。**提交前必须通过。**
 - `pnpm lint:fix`：Biome 自动修复 + 格式化。含 `--unsafe`，会改语义（例如删 hook 依赖），跑完必须 review diff。
 - `pnpm shots [组件…]`：截每个 story 的浅色和深色到 `apps/storybook/shots/`。`KOI_PALETTE=rose` / `KOI_FONT=chill` 截其它配色 / 字体。任何视觉改动后都要打开 PNG 看。
-- `pnpm dev`：tokens + codegen + Storybook（端口 6006）。长期进程。
+- `pnpm dev`：tokens + codegen + Storybook（端口 6006），输出同时写进 `.temp/dev-storybook.log`。长期进程。
+- `pnpm dev:status`：Storybook dev server 在跑时退出码 0，并打印地址和日志路径。
 - `pnpm dev:admin`：tokens + codegen + Admin 模板 dev server（端口 3000），输出同时写进 `.temp/dev-admin.log`。长期进程。
 - `pnpm dev:admin:status`：Admin dev server 在跑时退出码 0，并打印地址和日志路径。
 - `pnpm build:storybook` / `pnpm deploy:storybook`：静态 Storybook 构建 / 部署到 Cloudflare Workers。
@@ -91,12 +92,12 @@ koi-ui/
 2. 用 `timeout` 包裹。
 3. 调用工具时设置超时参数。
 
-**Admin dev server 先接管再启动**：用户常常自己开着 `pnpm dev:admin`。需要它时先跑 `pnpm dev:admin:status`：
+**dev server 先接管再启动**：用户常常自己开着 `pnpm dev`（Storybook）或 `pnpm dev:admin`。需要时先跑对应的 `pnpm dev:status` / `pnpm dev:admin:status`：
 
-- 在跑：直接用 `http://localhost:3000`，编译错误、HMR 状态看 `.temp/dev-admin.log`。改源码会热更新，不用重启。**这个进程是用户的，不准 kill 或重启**；改了 `rsbuild.config.ts`、`panda.config.ts`、tokens 这类要重启或重新 codegen 的东西时，停下来请用户重启。
+- 在跑：直接用 `http://localhost:6006` / `http://localhost:3000`，编译错误、HMR 状态看 `.temp/dev-storybook.log` / `.temp/dev-admin.log`。改源码会热更新，不用重启。**这个进程是用户的，不准 kill 或重启**；改了 `.storybook/`、`rsbuild.config.ts`、`panda.config.ts`、tokens 这类要重启或重新 codegen 的东西时，停下来请用户重启。
 - 不在跑：按上面的方式自己后台启动，用完 kill。
 
-端口被占时 `pnpm dev:admin` 会直接失败（`strictPort`），不会换端口再起第二个。
+两个命令都由 `scripts/dev-server.mjs` 启动（纯 Node，Windows 也能跑）。端口被占时直接失败（admin 的 `strictPort`、Storybook 的 `--exact-port`），不会换端口再起第二个。
 
 **判断标准**：正常情况下不会自行退出的命令，就属于长期进程。`pnpm shots` 会自己启动并关闭 Storybook，`pnpm check`、构建都会正常结束，不受此限制。
 

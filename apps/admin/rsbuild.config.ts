@@ -13,6 +13,9 @@ const themeInit = readFileSync(require.resolve('@koi/tokens/theme-init.js'), 'ut
 
 export default defineConfig({
   plugins: [pluginReact()],
+  // A busy port must fail instead of moving to 3001: agents look for the user's server on 3000
+  // (scripts/dev-server.mjs), and a silent second server would leave them checking the wrong one.
+  server: { port: 3000, strictPort: true },
   html: {
     // Empty skips the template <title> (unset falls back to "Rsbuild App"); routes/__root.tsx renders the real one.
     title: '',

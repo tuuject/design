@@ -17,7 +17,8 @@ A production-shaped admin application built on **Koi React components** — the 
 ## Run
 
 ```sh
-pnpm dev:admin        # codegen (tokens + panda) then rsbuild dev on :3000
+pnpm dev:admin        # codegen (tokens + panda) then rsbuild dev on :3000, also logged to .temp/dev-admin.log
+pnpm dev:admin:status # is it already running? (exit 0 + URL and log path)
 pnpm check            # static checks + typecheck (includes this app)
 pnpm --filter admin build
 ```

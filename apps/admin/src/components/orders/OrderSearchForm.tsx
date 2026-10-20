@@ -64,7 +64,7 @@ export function OrderSearchForm({ value, onSearch, onReset }: OrderSearchFormPro
   const rangeField = field();
 
   return (
-    <Card title="筛选条件" className={css({gap: '4'})}>
+    <Card title="筛选条件" className={css({ gap: '4' })}>
       <form
         className={css({
           display: 'flex',
@@ -148,7 +148,9 @@ export function OrderSearchForm({ value, onSearch, onReset }: OrderSearchFormPro
             </fieldset>
           </div>
         </div>
-        <div className={css({ display: 'flex', flex: 'none', gap: '2', marginInlineStart: 'auto', paddingTop: '26px' })}>
+        <div
+          className={css({ display: 'flex', flex: 'none', gap: '2', marginInlineStart: 'auto', paddingTop: '26px' })}
+        >
           <Button type="submit" iconStart={<SearchIcon />}>
             搜索
           </Button>

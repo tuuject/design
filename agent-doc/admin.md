@@ -16,6 +16,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 - **订单页搜索是手动的**：`OrderSearchForm` 只在点「搜索」或回车时把草稿写进 URL（2026-10-20 去掉实时搜索：后台列表每敲一个字就发查询没有价值，切筛选还会打断正在输入的内容）。表单保留本地草稿，用自己的 `pushedKey` 区分「自己写的 URL」和「外部导航」，后者才覆盖草稿。
 - **筛选栏按自身宽度排版**：字段区 `containerType: inline-size`，内部 grid 用 `@container` 在 480 / 720 / 1200px 切成 1 / 2 / 3 / 4 列；「创建时间」占两列，到 1200px 才恢复单列，否则日期框会被压到只剩图标。搜索 / 重置 `flex: none` 贴右，字段区 `flex: 1 1 480px`，放不下时按钮换行后仍靠右。看容器实际宽度而不是视口，侧边栏折叠不会打乱列数。
 - **订单 CRUD**：新增 / 修改用 `OrderFormDialog`（每次打开换 `key` 重挂 react-hook-form，避免用 effect reset），表格选择用 `@koi/react/table` 的 parts 自己拼（`DataTable` 明确不提供选择），删除支持单行与批量。CSV 导入导出在 `lib/order-csv.ts`：导出带 BOM，导入按 `订单号` upsert（有则更新、无则新增），坏行跳过并在 toast 里报告；最后一行删空时自动退回上一页。
+- **dev server 可被 agent 接管**：`pnpm dev:admin` 走 `scripts/dev-server.mjs`：已有 server 在 3000 时直接退出（不截断它的日志），否则先 codegen 再起 `rsbuild dev`，输出原样打到终端（`FORCE_COLOR` 保留颜色，stdin 仍是 TTY，快捷键可用），去掉 ANSI 后写进 `.temp/dev-admin.log`。用 Node 管道而不是 `| tee`，是为了 Windows 上也能跑。`rsbuild.config.ts` 设了 `strictPort`，端口被占不会悄悄换到 3001。接管规则见 AGENTS.md 的 Long-Running Process Rules。
 - **typecheck**：`node scripts/generate-routes.mjs && tsc`。`@tanstack/router-plugin@1.168` 没有 `tsr` CLI，脚本直接调插件对象的 `vite.configResolved` 钩子生成 `routeTree.gen.ts`（dev/build 时插件本来就会生成）。
 
 ## 组件缺口：模板内实现 vs 应该进库

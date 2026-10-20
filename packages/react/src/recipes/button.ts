@@ -115,5 +115,5 @@ export const button = defineRecipe({
     // variant. compound_variants is a later layer.
     { iconOnly: true, css: { px: '0', flex: 'none', aspectRatio: '1' } },
   ],
-  defaultVariants: { color: 'primary', variant: 'solid', size: 'md', shape: 'pill', iconOnly: false },
+  defaultVariants: { color: 'primary', variant: 'solid', size: 'md', shape: 'rounded', iconOnly: false },
 });

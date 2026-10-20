@@ -102,7 +102,7 @@ export const Siblings: Story = {
   ),
 };
 
-/** The blog's shape: two large solid pills around "n / m". */
+/** Two large solid buttons around "n / m". The blog wraps it in a pill ShapeProvider (see Pill). */
 export const Simple: Story = {
   render: () => (
     <div className={stack}>
@@ -113,11 +113,14 @@ export const Simple: Story = {
   ),
 };
 
-/** Inside a ShapeProvider (as in a Dialog footer) the buttons and page numbers turn rounded together. */
-export const Rounded: Story = {
+/** Inside a pill ShapeProvider (the blog's voice) the buttons and page numbers turn pills together. */
+export const Pill: Story = {
   render: () => (
-    <ShapeProvider shape="rounded">
-      <Pagination page={5} pageCount={10} />
+    <ShapeProvider shape="pill">
+      <div className={stack}>
+        <Pagination page={5} pageCount={10} />
+        <Pagination variant="simple" page={3} pageCount={8} />
+      </div>
     </ShapeProvider>
   ),
 };

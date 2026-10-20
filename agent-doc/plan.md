@@ -65,6 +65,10 @@ Bilisound 的接入计划和兼容性分析记录在 Bilisound 仓库的 `agent-
 
 仓库上了 GitHub 之后，Claude 里的 Koi design-system artifact 可以从这里同步，让 artifact 里的视觉规范保持最新。
 
+## 与 legacy 不兼容的默认值
+
+- **按钮默认 rounded**（2026-10-20）：Button、IconButton 的 `shape` 和 Pagination 页码默认从 `pill` 改成 `rounded`（`radius-lg` 8px）。legacy 默认 pill，要旧外观的页面（博客）在外层包 `<ShapeProvider shape="pill">`。Dialog footer、TableCell 仍自己提供 rounded。tab、tag、badge、Switch 不变，还是 pill。
+
 ## 未决事项
 
 - **字体**：ChillRoundF 还是系统字体栈（`tokens.json` 当前用后者）。两种现在都能用：`<html data-font="chill">`（或 `koiSetFont('chill')`）把 `sans` 换成 ChillRoundF，Storybook 工具栏可切换，`KOI_FONT=chill pnpm shots` 截 ChillRoundF 版。

@@ -56,5 +56,5 @@ export const pagination = defineSlotRecipe({
       rounded: { page: { borderRadius: 'lg' } },
     },
   },
-  defaultVariants: { shape: 'pill' },
+  defaultVariants: { shape: 'rounded' },
 });

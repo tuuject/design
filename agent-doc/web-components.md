@@ -11,7 +11,7 @@ packages/react/src/
 ├── recipes/headless.ts 唯一知道 Base UI 的样式文件（state.* / vars.*）
 ├── recipes/dimensions.ts  toPx()、focusRing
 ├── icons.tsx           Koi 图标（24 网格，currentColor）
-├── shape.tsx           ShapeProvider：容器给按钮默认形状（Dialog footer → rounded）
+├── shape.tsx           ShapeProvider：容器给按钮默认形状（默认 rounded；页面包 pill；Dialog footer → rounded）
 ├── global-css.ts       全局样式、reduced-motion 总开关
 ├── types.ts            web 的 ChangeDetails = ChangeDetails<Event>
 └── index.ts            根入口；package.json 另有每个组件的子路径导出

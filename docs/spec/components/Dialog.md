@@ -4,7 +4,7 @@ A modal panel on a blurred backdrop for decisions and short focused tasks.
 
 **When to use:** confirmations (use `role="alertdialog"`) and short forms that need the user's full attention. Don't use it for content that could live on the page, or for messages that need no answer (use Toast).
 
-**The consumer supplies:** `open` and `onClose`, plus `title`, optional `description`, `children` and `footer` (actions in order: cancel as a `secondary` `ghost` Button, then the confirming solid Button: `primary`, or `error` when it destroys something). Buttons in the footer are `shape="rounded"` (8px corners) by default, so they don't need the prop; pass `shape="pill"` only to override. Optionally `size` (`sm` 400px, `md` 520px, `lg` 720px), `dismissible={false}` and `inline`.
+**The consumer supplies:** `open` and `onClose`, plus `title`, optional `description`, `children` and `footer` (actions in order: cancel as a `secondary` `ghost` Button, then the confirming solid Button: `primary`, or `error` when it destroys something). Buttons in the footer are `shape="rounded"` (8px corners), even when a pill `ShapeProvider` wraps the page; pass `shape="pill"` only to override. Optionally `size` (`sm` 400px, `md` 520px, `lg` 720px), `dismissible={false}` and `inline`.
 
 **Behavior:**
 - It renders into `document.body`.

@@ -15,7 +15,7 @@ export interface ButtonOwnProps {
   variant?: ButtonVariant;
   /** control-sm 28 · control-md 36 · control-lg 44. Default md. */
   size?: ControlSize;
-  /** pill (radius-full) or rounded (radius-lg, 8px). Default pill, or whatever the surrounding ShapeProvider says. */
+  /** pill (radius-full) or rounded (radius-lg, 8px). Default rounded, or whatever the surrounding ShapeProvider says. */
   shape?: ButtonShape;
   iconStart?: ReactNode;
   iconEnd?: ReactNode;

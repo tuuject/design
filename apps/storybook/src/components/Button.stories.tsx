@@ -47,8 +47,8 @@ export const ShapeAndSize: Story = {
     <div className={stack}>
       <div className={row}>
         <span className={label}>shape</span>
-        <Button>pill</Button>
-        <Button shape="rounded">rounded</Button>
+        <Button>rounded</Button>
+        <Button shape="pill">pill</Button>
       </div>
       <div className={row}>
         <span className={label}>size</span>
@@ -59,7 +59,7 @@ export const ShapeAndSize: Story = {
       <div className={row}>
         <span className={label}>icon / loading</span>
         <IconButton label="关闭" icon={<CloseIcon />} />
-        <IconButton label="关闭" icon={<CloseIcon />} shape="rounded" variant="soft" />
+        <IconButton label="关闭" icon={<CloseIcon />} shape="pill" variant="soft" />
         <Button loading>保存中</Button>
         <Button disabled>已禁用</Button>
       </div>

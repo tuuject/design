@@ -4,7 +4,7 @@
 
 > **IMPORTANT**: 优先「检索式」推理，而非「预训练记忆」式推理。项目约定请从 `agent-doc/` 检索阅读，不要凭通用知识臆测本仓库的结构与规则。
 
-Koi 是一个柔和、圆润的设计系统（pill 形控件、毛玻璃、天蓝色操作、琥珀色链接），起源于 tcdw 的 Koi 博客主题。本仓库把它做成可复用的包：一份 tokens，加上 DOM web 组件（Base UI + Panda CSS）和 Expo 组件（Tamagui）。
+Koi 是一个柔和、圆润的设计系统（圆角按钮、pill 形 tab / tag / 开关、毛玻璃、天蓝色操作、琥珀色链接），起源于 tcdw 的 Koi 博客主题。本仓库把它做成可复用的包：一份 tokens，加上 DOM web 组件（Base UI + Panda CSS）和 Expo 组件（Tamagui）。
 
 ## Project Goals
 
@@ -104,7 +104,7 @@ agent 运行中产生的临时文件（截图基线、生成的 CSS、比对图�
 - **不写字面尺寸**：共享尺寸按 token 名引用，组件自己的尺寸来自 `@koi/tokens/dimensions` 的 `components`；只属于 web 的标 `// koi-web-only: <原因>`（[tokens.md](agent-doc/tokens.md)）。
 - **对比度**：文字 ≥ 4.5:1，控件边缘 / 焦点环 / 图标 ≥ 3:1，两种主题、每套内置 palette 都要达标。组件把 token 放到新背景上时，在 `contrast-pairs.json` 里加一对。
 - **尺寸**：基准 14px（`body`）。控件三档 `control-sm` 28 / `control-md` 36 / `control-lg` 44，同一行的组件用同一档。`prose`（16px）只用于长文阅读。
-- **形状**：可按压的东西都是 pill（`radius-full`），`shape="rounded"` 例外（`radius-lg`，8px）。Dialog footer 和表格单元格（`TableCell`）通过 `ShapeProvider` 默认 rounded，rounded 的 sm 档左右内边距 8px（密集形状）；Dialog 的 32px 圆角 = 8px + 24px padding（同心圆角）。Card 和 Toast 用 `radius-panel` 24px，输入框和 Alert 用 `radius-xl` 12px。
+- **形状**：按钮（Button、IconButton、Pagination 页码）默认 rounded（`radius-lg`，8px），`shape="pill"` 或 pill 的 `ShapeProvider` 改成 pill（`radius-full`）；tab、tag、badge、Switch 永远是 pill。Dialog footer 和表格单元格（`TableCell`）自己包了 rounded 的 `ShapeProvider`，外层是 pill 也保持 rounded；rounded 的 sm 档左右内边距 8px（密集形状）；Dialog 的 32px 圆角 = 8px + 24px padding（同心圆角）。Card 和 Toast 用 `radius-panel` 24px，输入框和 Alert 用 `radius-xl` 12px。
 - **深度**：按钮永远不加阴影（按压波纹不算）。`shadow-raised` 只用于当前 tab 和 Switch 滑块；`shadow-float` 只用于浮在页面上的东西（Dialog、Toast）。
 - **动效**：颜色变化 150ms；会移动的东西用 `spring` 缓动。一切都尊重 `prefers-reduced-motion`。
 - **文案**：组件里的文案（label、aria-label）用简体中文，来自 `@koi/core` 的 `strings`，不用 emoji。

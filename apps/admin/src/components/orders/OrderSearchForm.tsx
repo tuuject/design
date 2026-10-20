@@ -1,10 +1,12 @@
 import { Button } from '@koi/react/button';
 import { Card } from '@koi/react/card';
+import { Field } from '@koi/react/field';
 import { SearchIcon } from '@koi/react/icons';
 import { Input } from '@koi/react/input';
 import { Select } from '@koi/react/select';
-import { css } from '@koi/react/styled-system/css';
-import { useId, useRef, useState } from 'react';
+import { css, cx } from '@koi/react/styled-system/css';
+import { field } from '@koi/react/styled-system/recipes';
+import { useRef, useState } from 'react';
 import {
   EMPTY_ORDER_FILTERS,
   normalizeOrderFilters,
@@ -24,7 +26,6 @@ interface OrderSearchFormProps {
 
 /** RuoYi-style filter bar: the draft only reaches the URL on submit. */
 export function OrderSearchForm({ value, onSearch, onReset }: OrderSearchFormProps) {
-  const uid = useId();
   const [draft, setDraft] = useState(value);
   // Our own URL pushes land back on the draft; only a real outside change (back button, sidebar link) resets it.
   const pushedKey = useRef(orderFiltersKey(value));
@@ -59,17 +60,16 @@ export function OrderSearchForm({ value, onSearch, onReset }: OrderSearchFormPro
     onReset();
   };
 
-  // Filter labels are Field labels: the 14px `label` style, not `small`.
-  const labelClass = css({ flex: 'none', width: '64px', textStyle: 'label', color: 'text' });
+  // The date range is two controls under one label, so it borrows Field's styles instead of nesting a Field.
+  const rangeField = field();
 
   return (
-    <Card title="筛选条件">
+    <Card title="筛选条件" className={css({gap: '4'})}>
       <form
         className={css({
           display: 'flex',
           flexWrap: 'wrap',
-          alignItems: 'flex-start',
-          gap: '4',
+          gap: '6',
         })}
         onSubmit={(event) => {
           event.preventDefault();
@@ -94,34 +94,22 @@ export function OrderSearchForm({ value, onSearch, onReset }: OrderSearchFormPro
               '@container (min-width: 1200px)': { gridTemplateColumns: 'repeat(4, minmax(0, 1fr))' },
             })}
           >
-            <div className={css({ display: 'flex', alignItems: 'center', gap: '2', minWidth: '0' })}>
-              <label htmlFor={`${uid}-id`} className={labelClass}>
-                订单号
-              </label>
+            <Field label="订单号" className={css({ minWidth: '0' })}>
               <Input
-                id={`${uid}-id`}
                 placeholder="请输入订单号"
                 value={draft.id}
                 onChange={(event) => change({ id: event.target.value })}
               />
-            </div>
-            <div className={css({ display: 'flex', alignItems: 'center', gap: '2', minWidth: '0' })}>
-              <label htmlFor={`${uid}-customer`} className={labelClass}>
-                客户
-              </label>
+            </Field>
+            <Field label="客户" className={css({ minWidth: '0' })}>
               <Input
-                id={`${uid}-customer`}
                 placeholder="请输入客户名称"
                 value={draft.customer}
                 onChange={(event) => change({ customer: event.target.value })}
               />
-            </div>
-            <div className={css({ display: 'flex', alignItems: 'center', gap: '2', minWidth: '0' })}>
-              <label htmlFor={`${uid}-status`} className={labelClass}>
-                状态
-              </label>
+            </Field>
+            <Field label="状态" className={css({ minWidth: '0' })}>
               <Select
-                id={`${uid}-status`}
                 value={draft.status}
                 onChange={(event) => change({ status: event.target.value as OrderStatus | '' })}
                 options={[
@@ -129,19 +117,15 @@ export function OrderSearchForm({ value, onSearch, onReset }: OrderSearchFormPro
                   ...Object.entries(ORDER_STATUS).map(([status, meta]) => ({ value: status, label: meta.label })),
                 ]}
               />
-            </div>
+            </Field>
+            {/* A legend can't be a flex item, so the visible label is a span and the legend speaks for it. */}
             <fieldset className={css({ display: 'contents' })}>
               <legend className={css({ srOnly: true })}>创建时间</legend>
-              <div
-                className={css({
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '2',
-                  minWidth: '0',
-                })}
-              >
-                <span className={labelClass}>创建时间</span>
-                <div className={css({ display: 'flex', alignItems: 'center', gap: '1', flex: '1', minWidth: '0' })}>
+              <div className={cx(rangeField.root, css({ minWidth: '0' }))}>
+                <span aria-hidden="true" className={rangeField.label}>
+                  创建时间
+                </span>
+                <div className={css({ display: 'flex', alignItems: 'center', gap: '1', minWidth: '0' })}>
                   <Input
                     type="date"
                     aria-label="开始日期"
@@ -164,7 +148,7 @@ export function OrderSearchForm({ value, onSearch, onReset }: OrderSearchFormPro
             </fieldset>
           </div>
         </div>
-        <div className={css({ display: 'flex', flex: 'none', gap: '2', marginInlineStart: 'auto' })}>
+        <div className={css({ display: 'flex', flex: 'none', gap: '2', marginInlineStart: 'auto', paddingTop: '26px' })}>
           <Button type="submit" iconStart={<SearchIcon />}>
             搜索
           </Button>

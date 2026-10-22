@@ -2,7 +2,7 @@
 
 A plain, quiet data table: hairline rows, muted bold column headers, and rows that never get shorter than 48px. It comes in two layers: table parts you compose yourself (the shape a headless table library such as TanStack Table expects), and DataTable, a ready-made table built from those parts.
 
-**When to use:** records people scan and compare across columns, such as orders, users and logs, usually inside a Card with `padding="none"`. For a short list of settings or a single record, use plain layout or a description list instead.
+**When to use:** records people scan and compare across columns, such as orders, users and logs. A list page puts the table straight on the page, so a long list doesn't feel boxed in; a table that shares the page with other panels, such as a dashboard's recent orders, goes in a Card. For a short list of settings or a single record, use plain layout or a description list instead.
 
 **The consumer supplies:**
 - **Parts:** `Table` (the `<table>`, inside a horizontally scrolling container), `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHeaderCell` and `TableCell`, plus `TableEmpty` for a "no data" row. Each renders its native element and passes every native attribute through (`colSpan`, `style`, `onClick`, `ref`…), so a headless library can drive them directly.
@@ -29,6 +29,6 @@ A plain, quiet data table: hairline rows, muted bold column headers, and rows th
 - Sort button: inherits the header type; it turns `text` on hover and when sorted. Sortable columns show a 14px up/down chevron pair in `text-muted`; the sorted column shows a single chevron pointing up (ascending) or down (descending). Focus: the standard 2px `focus-ring` at a 2px offset.
 - Empty row: centered `text-muted`, 40px vertical padding.
 - Actions in a row: `sm` `ghost` Buttons, next to each other with no gap. Buttons inside a cell default to `shape="rounded"`, whose `sm` size has 8px sides, so a row of actions stays compact; this holds even when a pill Pagination sits under the table. End-align the actions column and pull the group 8px outward (`margin-inline-end: -8px`) so the last label lines up with the header.
-- The table has no background, border or radius of its own; the Card around it provides them.
+- The table has no background, border or radius of its own; it takes whatever it sits on, the page or a Card.
 
 - Don't put a `primary` Badge in a row that can be selected: its `action-subtle` fill is the selected row's fill, so the badge disappears into it.

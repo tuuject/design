@@ -1,6 +1,5 @@
 import { Badge } from '@koi/react/badge';
 import { Button, IconButton } from '@koi/react/button';
-import { Card } from '@koi/react/card';
 import { Dialog } from '@koi/react/dialog';
 import { Input } from '@koi/react/input';
 import { Pagination } from '@koi/react/pagination';
@@ -400,7 +399,7 @@ function OrdersPage() {
           />
         </div>
       </div>
-      <Card padding="none" className={css({ marginBlockStart: '5' })}>
+      <div className={css({ marginBlockStart: '5' })}>
         <OrderTable
           rows={rows}
           loading={loading}
@@ -471,7 +470,7 @@ function OrdersPage() {
             </form>
           </div>
         </div>
-      </Card>
+      </div>
 
       <OrderFormDialog key={formKey} open={formOpen} onOpenChange={setFormOpen} order={editing} onSubmit={saveOrder} />
 

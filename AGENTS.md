@@ -57,6 +57,7 @@ koi-ui/
 | 本仓库术语 | [agent-doc/glossary.md](agent-doc/glossary.md) |
 | 组件应该长什么样、怎么交互 | `docs/spec/README.md`、`docs/spec/components/<Name>.md`（改组件前必读） |
 | 移植一个组件的步骤 | `.agents/skills/port-component/SKILL.md` |
+| 用 Koi 设计 / 调整 / 审查页面与组件的视觉 | `.agents/skills/koi-design/SKILL.md` |
 | 各包对外的用法 | `packages/native/README.md` 等各包 README |
 
 | 用户提到…… | 去看…… |

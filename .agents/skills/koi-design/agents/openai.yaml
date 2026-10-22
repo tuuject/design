@@ -1,0 +1,4 @@
+interface:
+  display_name: "Koi Design"
+  short_description: "Koi 设计系统的视觉语言：role token、圆角与 pill、毛玻璃、弹性动效"
+  default_prompt: "使用 $koi-design 按 Koi 的设计语言设计或调整这个页面，并在交付前按清单自查。"

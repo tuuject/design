@@ -332,83 +332,75 @@ function OrdersPage() {
     <div>
       <PageHeader title="订单管理" description="筛选、创建、修改、删除并导入导出商城订单" />
       <OrderSearchForm value={filters} onSearch={applyFilters} onReset={resetFilters} />
-      <Card padding="none" className={css({ marginBlockStart: '4' })}>
-        <div
-          className={css({
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '3',
-            padding: '4',
-            borderBottomWidth: '1px',
-            borderBottomStyle: 'solid',
-            borderBottomColor: 'divider',
-          })}
-        >
-          <div className={css({ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '2' })}>
-            <Button size="sm" variant="outline" iconStart={<PlusIcon />} onClick={openCreate}>
-              新增
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              color="secondary"
-              iconStart={<EditIcon />}
-              disabled={loading || !editingSelection}
-              onClick={() => editingSelection && openEdit(editingSelection)}
-            >
-              修改
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              color="error"
-              iconStart={<TrashIcon />}
-              disabled={loading || selectedOrders.length === 0}
-              onClick={() => openDelete(selectedOrders)}
-            >
-              删除
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              color="secondary"
-              iconStart={<UploadIcon />}
-              loading={importing}
-              onClick={() => fileInput.current?.click()}
-            >
-              导入
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              color="secondary"
-              iconStart={<DownloadIcon />}
-              loading={exporting}
-              disabled={data?.total === 0}
-              onClick={exportCsv}
-            >
-              导出
-            </Button>
-            <input ref={fileInput} type="file" accept=".csv,text/csv" hidden onChange={importCsv} />
-          </div>
-          <div className={css({ display: 'flex', alignItems: 'center', gap: '3' })}>
-            {selectedOrders.length > 0 ? (
-              <span className={css({ textStyle: 'small', color: 'text-muted' })}>已选 {selectedOrders.length} 条</span>
-            ) : null}
-            <IconButton
-              label="刷新列表"
-              size="sm"
-              icon={<RefreshIcon />}
-              disabled={isFetching}
-              onClick={() => {
-                clearSelection();
-                void refetch();
-              }}
-            />
-          </div>
+      <div
+        className={css({
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '3',
+          marginBlockStart: '5',
+        })}
+      >
+        <div className={css({ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '2' })}>
+          <Button variant="outline" iconStart={<PlusIcon />} onClick={openCreate}>
+            新增
+          </Button>
+          <Button
+            variant="outline"
+            color="secondary"
+            iconStart={<EditIcon />}
+            disabled={loading || !editingSelection}
+            onClick={() => editingSelection && openEdit(editingSelection)}
+          >
+            修改
+          </Button>
+          <Button
+            variant="outline"
+            color="error"
+            iconStart={<TrashIcon />}
+            disabled={loading || selectedOrders.length === 0}
+            onClick={() => openDelete(selectedOrders)}
+          >
+            删除
+          </Button>
+          <Button
+            variant="outline"
+            color="secondary"
+            iconStart={<UploadIcon />}
+            loading={importing}
+            onClick={() => fileInput.current?.click()}
+          >
+            导入
+          </Button>
+          <Button
+            variant="outline"
+            color="secondary"
+            iconStart={<DownloadIcon />}
+            loading={exporting}
+            disabled={data?.total === 0}
+            onClick={exportCsv}
+          >
+            导出
+          </Button>
+          <input ref={fileInput} type="file" accept=".csv,text/csv" hidden onChange={importCsv} />
         </div>
+        <div className={css({ display: 'flex', alignItems: 'center', gap: '3' })}>
+          {selectedOrders.length > 0 ? (
+            <span className={css({ textStyle: 'small', color: 'text-muted' })}>已选 {selectedOrders.length} 条</span>
+          ) : null}
+          <IconButton
+            label="刷新列表"
+            icon={<RefreshIcon />}
+            disabled={isFetching}
+            onClick={() => {
+              clearSelection();
+              void refetch();
+            }}
+          />
+        </div>
+      </div>
+      <Card padding="none" className={css({ marginBlockStart: '5' })}>
         <OrderTable
           rows={rows}
           loading={loading}

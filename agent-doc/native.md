@@ -60,6 +60,7 @@ tsconfig 不带 DOM lib。`scripts/check-raw-sizes.mjs` 已经覆盖 `packages/n
 | `state.entering` / `state.exiting` + transition | `enterStyle` / `exitStyle`，配合 `AnimatePresence` 和应用传入的动画驱动 |
 | `vars.anchorWidth` 等测量值 | Popover / Sheet 自己处理定位 |
 | `textStyle: 'body'` | `fontSize="$body" lineHeight="$body" fontWeight="$body"` |
+| `Icon`（`IconData` 的 `body` 写进 `<svg>`） | 同一份 `IconData`，用 `react-native-svg` 的 `SvgXml` 拼成 `<svg viewBox=…>${body}</svg>` 渲染，`color` 给 currentColor |
 
 ### 组件 → 行为来源
 

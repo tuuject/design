@@ -13,7 +13,7 @@ import {
 import { cx } from '@koi/react/styled-system/css';
 import { table } from '@koi/react/styled-system/recipes';
 import type { ComponentPropsWithRef, MouseEvent } from 'react';
-import { ChevronDownIcon, ChevronUpDownIcon, ChevronUpIcon } from '../icons';
+import { SortDownIcon, SortIcon, SortUpIcon } from '../icons';
 import { ShapeProvider } from '../shape';
 
 export type { TableAlign, TableLayout, TableSortDirection } from '@koi/core';
@@ -76,7 +76,7 @@ const ARIA_SORT = { asc: 'ascending', desc: 'descending' } as const;
 export function TableHeaderCell({ align, sort = false, onSort, className, children, ...rest }: TableHeaderCellProps) {
   const s = table({ align });
   const sortable = onSort != null;
-  const SortIcon = sort === 'asc' ? ChevronUpIcon : sort === 'desc' ? ChevronDownIcon : ChevronUpDownIcon;
+  const Indicator = sort === 'asc' ? SortUpIcon : sort === 'desc' ? SortDownIcon : SortIcon;
   return (
     <th
       scope="col"
@@ -87,7 +87,7 @@ export function TableHeaderCell({ align, sort = false, onSort, className, childr
       {sortable ? (
         <button type="button" className={s.sortButton} onClick={onSort}>
           {children}
-          <SortIcon />
+          <Indicator />
         </button>
       ) : (
         children

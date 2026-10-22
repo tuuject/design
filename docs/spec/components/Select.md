@@ -1,6 +1,6 @@
 # Select
 
-A native dropdown styled like Input, with a rounded chevron.
+A native dropdown styled like Input, with a chevron.
 
 **When to use:** picking one option from a short list (up to about 15 items) when the options don't need to be visible at once. For 2–5 options that should stay visible, use a RadioGroup. For grouped or rich options, or a search box, use SelectPanel.
 

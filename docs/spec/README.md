@@ -50,7 +50,9 @@ Koi (こい, 恋) is a soft, rounded interface system grown out of tcdw's Koi bl
 
 ## Iconography
 
-- Icons are inline SVG line icons drawn in `currentColor`: a 24px grid, 2.25px stroke, round caps and joins, which matches ChillRoundF's rounded strokes. `Koi.Icons` has the set the components use (check, close, chevrons, info, warning, error, success, external).
+- Icons are Font Awesome Free Solid, drawn as inline SVG in `currentColor`. Koi has no icon set of its own: icons are data in Iconify's format (`{ body, width, height }`), so a missing icon can come from another Iconify set or be drawn by hand in the same format. Prefer Solid; when borrowing from another set, pick a filled one so a row of icons keeps one weight.
+- The components' own icons (close, check, chevrons, sort, search, external, and info / warning / error / success) are exported by name; anything else goes through `Icon`.
+- Font Awesome Free icons are CC BY 4.0: keep the attribution in the package that ships them.
 - Sizes: `icon` (16px) beside 14px text, in md/lg controls, alerts, toasts and menus; `icon-sm` (14px) in small controls and tags.
 - No emoji or icon fonts. An icon-only control needs an accessible name (IconButton's `label`).
 - Koi has no logo of its own. Set the product name in `display` type.

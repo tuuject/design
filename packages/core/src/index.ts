@@ -13,6 +13,7 @@ export * from './common';
 export * from './dialog';
 export * from './divider';
 export * from './field';
+export * from './icon';
 export * from './input';
 export * from './link';
 export * from './pagination';

@@ -1,150 +1,41 @@
-import { components, sizes } from '@koi/tokens/dimensions';
-import type { ReactNode, SVGProps } from 'react';
+import arrowRight from '@iconify-icons/fa7-solid/arrow-right';
+import arrowsRotate from '@iconify-icons/fa7-solid/arrows-rotate';
+import bars from '@iconify-icons/fa7-solid/bars';
+import download from '@iconify-icons/fa7-solid/download';
+import eye from '@iconify-icons/fa7-solid/eye';
+import gaugeHigh from '@iconify-icons/fa7-solid/gauge-high';
+import moon from '@iconify-icons/fa7-solid/moon';
+import pen from '@iconify-icons/fa7-solid/pen';
+import plus from '@iconify-icons/fa7-solid/plus';
+import receipt from '@iconify-icons/fa7-solid/receipt';
+import rightFromBracket from '@iconify-icons/fa7-solid/right-from-bracket';
+import sliders from '@iconify-icons/fa7-solid/sliders';
+import sun from '@iconify-icons/fa7-solid/sun';
+import tableColumns from '@iconify-icons/fa7-solid/table-columns';
+import trashCan from '@iconify-icons/fa7-solid/trash-can';
+import upload from '@iconify-icons/fa7-solid/upload';
+import { type BuiltinIconProps, Icon, type IconData } from '@koi/react/icons';
 
-// Admin-specific line icons, drawn in Koi's icon style: 24px grid, `components.icon.stroke` (2.25)
-// stroke, round caps and joins, currentColor. Koi's own set lives in @koi/react/icons; icons here are
-// template business icons (nav destinations, shell controls), candidates for the library once specced.
-type IconProps = { size?: number } & SVGProps<SVGSVGElement>;
-
-function Svg({ size = sizes.icon, children, ...rest }: IconProps & { children: ReactNode }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={components.icon.stroke}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      {...rest}
-    >
-      {children}
-    </svg>
-  );
+// The template's business icons (nav destinations, shell controls, row actions), from Font Awesome Free Solid
+// like Koi's own. Another Iconify set or a hand-written `{ body, width, height }` works the same way.
+function icon(data: IconData) {
+  return (props: BuiltinIconProps) => <Icon icon={data} {...props} />;
 }
 
-export const LayoutIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <rect x="4" y="4" width="7" height="7" rx="2" />
-    <rect x="13" y="4" width="7" height="7" rx="2" />
-    <rect x="4" y="13" width="7" height="7" rx="2" />
-    <rect x="13" y="13" width="7" height="7" rx="2" />
-  </Svg>
-);
-
-export const OrdersIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path
-      d="M6.5 3.5h11A1.5 1.5 0 0119 5v15l-3.2-2-3.3 2-3.3-2L6 20V5a1.5 1.5 0 01.5-1.5z"
-      transform="translate(0 -1)"
-    />
-    <path d="M9 8.5h6" transform="translate(0 -1)" />
-    <path d="M9 12.5h6" transform="translate(0 -1)" />
-  </Svg>
-);
-
-export const SlidersIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M4 7h9" />
-    <circle cx="15.5" cy="7" r="2" />
-    <path d="M19.5 7H20.5" />
-    <path d="M4 17h2.5" />
-    <circle cx="8.5" cy="17" r="2" />
-    <path d="M12.5 17H20" />
-  </Svg>
-);
-
-export const LogoutIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M13.5 4.5H7A1.5 1.5 0 005.5 6v12A1.5 1.5 0 007 19.5h6.5" />
-    <path d="M10 12h10" />
-    <path d="M16.5 8.5L20 12l-3.5 3.5" />
-  </Svg>
-);
-
-export const SunIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <circle cx="12" cy="12" r="4" />
-    <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4" />
-  </Svg>
-);
-
-export const MoonIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M20 13.5A8 8 0 1110.5 4 6.5 6.5 0 0020 13.5z" />
-  </Svg>
-);
-
-export const MenuIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M4 7h16M4 12h16M4 17h16" />
-  </Svg>
-);
-
-export const PanelLeftIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <rect x="3.5" y="4.5" width="17" height="15" rx="2" />
-    <path d="M9.5 4.5v15" />
-  </Svg>
-);
-
-export const TrashIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M5 7h14" />
-    <path d="M9 7V5.5A1.5 1.5 0 0110.5 4h3A1.5 1.5 0 0115 5.5V7" />
-    <path d="M7 7l1 12a1.5 1.5 0 001.5 1.4h5A1.5 1.5 0 0016 19l1-12" />
-    <path d="M10 11v5M14 11v5" />
-  </Svg>
-);
-
-export const EyeIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z" />
-    <circle cx="12" cy="12" r="2.5" />
-  </Svg>
-);
-
-export const ArrowRightIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M4 12h15" />
-    <path d="M13.5 6.5L19 12l-5.5 5.5" />
-  </Svg>
-);
-
-export const PlusIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M12 5v14M5 12h14" />
-  </Svg>
-);
-
-export const EditIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M4 20h4L19.5 8.5a2.1 2.1 0 00-3-3L5 17v3z" />
-    <path d="M14.5 6.5l3 3" />
-  </Svg>
-);
-
-export const RefreshIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M20 11a8 8 0 10-2.4 5.6" />
-    <path d="M20 5v6h-6" />
-  </Svg>
-);
-
-export const UploadIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M12 16V4" />
-    <path d="M7 9l5-5 5 5" />
-    <path d="M4 16v2.5A1.5 1.5 0 005.5 20h13a1.5 1.5 0 001.5-1.5V16" />
-  </Svg>
-);
-
-export const DownloadIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M12 4v12" />
-    <path d="M7 11l5 5 5-5" />
-    <path d="M4 16v2.5A1.5 1.5 0 005.5 20h13a1.5 1.5 0 001.5-1.5V16" />
-  </Svg>
-);
+export const LayoutIcon = icon(gaugeHigh);
+export const OrdersIcon = icon(receipt);
+export const SlidersIcon = icon(sliders);
+export const LogoutIcon = icon(rightFromBracket);
+export const SunIcon = icon(sun);
+export const MoonIcon = icon(moon);
+export const MenuIcon = icon(bars);
+// Free Solid has no sidebar icon; two columns reads closest.
+export const PanelLeftIcon = icon(tableColumns);
+export const TrashIcon = icon(trashCan);
+export const EyeIcon = icon(eye);
+export const ArrowRightIcon = icon(arrowRight);
+export const PlusIcon = icon(plus);
+export const EditIcon = icon(pen);
+export const RefreshIcon = icon(arrowsRotate);
+export const UploadIcon = icon(upload);
+export const DownloadIcon = icon(download);

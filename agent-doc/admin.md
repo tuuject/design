@@ -27,7 +27,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 | 用户下拉菜单 | 直接用 `@base-ui/react/menu`（Menu.Root/Trigger/Positioner/Popup），样式照 SelectPanel spec 的面板（36px 项、`radius-lg`、分隔线贴边、scale 96% 弹出）；等库里出了 Menu 再换 |
 | 表格 | 已进库：`@koi/react/data-table` 的 `DataTable`（2026-10-16，spec `docs/spec/components/Table.md`）。要排序 / 选择时改用 `@koi/react/table` 的 parts 自己拼，可直接接 TanStack Table |
 | 面包屑 | 模板内 `Breadcrumbs`，靠路由 `staticData.title` |
-| 业务图标 | `components/icons.tsx`，按 Koi 图标规范画（24 网格、2.25 描边、currentColor） |
+| 业务图标 | `components/icons.tsx`，从 `@iconify-icons/fa7-solid` 挑，用 `@koi/react/icons` 的 `Icon` 渲染。Free 里没有的（如侧边栏图标）可以换别的 Iconify 图标集或手写 `{ body, width, height }` |
 
 ## 决定与坑
 

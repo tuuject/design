@@ -266,7 +266,7 @@ const nums = (key, prefix) =>
       .map((t) => [prefix ? strip(t.name, prefix) : t.name, px(t.value)]),
   );
 {
-  // px, or unitless where the usage says so (the icon stroke is in 24-grid units).
+  // px, or unitless where the usage says so (the spinner stroke is in 24-grid units).
   const value = (t) => {
     if (!/^-?[\d.]+(px)?$/.test(t.value)) {
       throw new Error(`component.${t.name}: expected px or a number, got ${t.value}`);
@@ -290,7 +290,7 @@ const nums = (key, prefix) =>
   write(
     'dimensions.ts',
     banner +
-      '// Every size as a number in px (the icon stroke is in 24-grid units). Same on every platform: Panda recipes\n' +
+      '// Every size as a number in px (the spinner stroke is in 24-grid units). Same on every platform: Panda recipes\n' +
       `// write \`[\${n}px]\`, React Native and Tamagui use the numbers. \`components\` holds each component's own sizes;\n` +
       '// `layers` is the stacking order (z-index) of things that float over the page.\n' +
       Object.entries(body)

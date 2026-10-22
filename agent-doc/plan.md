@@ -67,6 +67,7 @@ Bilisound 的接入计划和兼容性分析记录在 Bilisound 仓库的 `agent-
 
 ## 与 legacy 不兼容的默认值
 
+- **图标改用 Font Awesome Free Solid**（2026-10-22）：Koi 不再自己画线性图标（24 网格、2.25 描边）。图标是 Iconify 格式的数据（`IconData`，`@koi/core`），`@koi/react/icons` 的 `Icon` 渲染；组件内置图标保留原来的导出名，只有表格排序的 `ChevronUpDownIcon` 换成 `SortIcon` / `SortUpIcon` / `SortDownIcon`。选 Iconify 格式是为了能混用其它图标集（Free 版图标有限）和手写 SVG。`components.icon.stroke` token 随之删除。
 - **按钮默认 rounded**（2026-10-20）：Button、IconButton 的 `shape` 和 Pagination 页码默认从 `pill` 改成 `rounded`（`radius-lg` 8px）。legacy 默认 pill，要旧外观的页面（博客）在外层包 `<ShapeProvider shape="pill">`。Dialog footer、TableCell 仍自己提供 rounded。tab、tag、badge、Switch 不变，还是 pill。
 
 ## 未决事项

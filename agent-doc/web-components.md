@@ -10,7 +10,7 @@ packages/react/src/
 ├── recipes/<name>.ts   Panda recipe / slot recipe，在 recipes/index.ts 注册
 ├── recipes/headless.ts 唯一知道 Base UI 的样式文件（state.* / vars.*）
 ├── recipes/dimensions.ts  toPx()、focusRing
-├── icons.tsx           Koi 图标（24 网格，currentColor）
+├── icons.tsx           Icon（渲染 Iconify 格式的图标数据）+ 组件用的内置图标（FA Free Solid）
 ├── shape.tsx           ShapeProvider：容器给按钮默认形状（默认 rounded；页面包 pill；Dialog footer → rounded）
 ├── global-css.ts       全局样式、reduced-motion 总开关
 ├── types.ts            web 的 ChangeDetails = ChangeDetails<Event>

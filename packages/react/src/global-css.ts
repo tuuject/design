@@ -17,6 +17,11 @@ export const globalCss = defineGlobalStyles({
     // Let the browser add CJK/Latin spacing; never type the spaces by hand.
     textAutospace: 'normal',
   },
+  // WebKit/Blink draw spin buttons inside number inputs that ignore Koi's input styling and crowd the text.
+  'input::-webkit-outer-spin-button, input::-webkit-inner-spin-button': {
+    appearance: 'none',
+    margin: 0,
+  },
   '@media (prefers-reduced-motion: reduce)': {
     // Spinner is left out: it slows down instead (recipes/spinner.ts). So is the indeterminate Progress bar: it
     // pulses in place instead of sliding (recipes/progress.ts).

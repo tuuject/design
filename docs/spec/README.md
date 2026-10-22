@@ -31,7 +31,7 @@ Koi (こい, 恋) is a soft, rounded interface system grown out of tcdw's Koi bl
 - **14px is the base.** `body` (14px / 20px) is the default for all UI text, and every component is sized around it.
 - Headings: `display` 30px (one per page), `heading-1` 24px, `heading-2` 20px (also dialog titles), `heading-3` 16px (also card titles and the NavMenu product name). All are bold.
 - Text: `small` (12px / 16px) for help, descriptions and tooltips; `caption` (12px bold) only for badges. `prose` (16px / 1.75) is the one exception to the 14px base, for long-form reading such as articles and docs.
-- Controls: `label` (14px bold) for field labels and alert titles, `button` (14px) and `button-sm` (12px) for buttons.
+- Controls: `label` (14px bold) for field labels, table headers and alert titles, `button` (14px) and `button-sm` (12px) for buttons (`sm` buttons in table cells keep `button`).
 
 ## Shape, space and depth
 

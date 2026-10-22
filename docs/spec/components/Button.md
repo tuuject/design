@@ -26,7 +26,7 @@ Koi's button: five colors, four variants, three sizes, and two shapes, `rounded`
 - Each color has eight tokens: `<color>-solid`, `<color>-solid-hover`, `on-<color>-solid`, `<color>-soft`, `<color>-soft-hover`, `on-<color>-soft`, `<color>-fg` (outline and ghost text) and `<color>-edge` (outline border).
 - Every text pairing reaches 4.5:1 and every outline edge 3:1, in both themes. Amber and yellow solids use dark text, because white doesn't read on them.
 - Shape: `radius-lg` (8px, Tailwind `rounded-lg`) by default. `shape="pill"` uses `radius-full`. Rounded is the dense shape: at `sm` its sides are 8px instead of 12px, so adjacent actions in a table row or toolbar don't read as spread apart; a pill keeps 12px sides so it reads as a pill.
-- Heights: `control-sm` 28px / `control-md` 36px / `control-lg` 44px. Labels are `button` (14px), or `button-sm` (12px) at `sm`; icons are 16px (14px at `sm`).
+- Heights: `control-sm` 28px / `control-md` 36px / `control-lg` 44px. Labels are `button` (14px), or `button-sm` (12px) at `sm` (except in table cells, which keep `button`); icons are 16px (14px at `sm`).
 - No variant has a shadow: buttons stay flat, and color alone sets their weight.
 - Press: on release, a soft ripple in the button's `<color>-solid` (a box-shadow, 45% → 0% over `ripple` 600ms, `out` easing) spreads 6px out from the edge and fades. It's a transition, so a quick click plays it in full; it ends with no shadow, and reduced motion skips it.
 - Focus: a 2px `focus-ring` outline at a 2px offset.

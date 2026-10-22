@@ -89,7 +89,15 @@ export const button = defineRecipe({
     },
     variant: empty(BUTTON_VARIANTS),
     size: {
-      sm: { height: 'control-sm', px: '3', textStyle: 'button-sm', '& > svg': { width: 'icon-sm', height: 'icon-sm' } },
+      sm: {
+        height: 'control-sm',
+        px: '3',
+        textStyle: 'button-sm',
+        '& > svg': { width: 'icon-sm', height: 'icon-sm' },
+        // A 12px label reads as an afterthought beside 14px cell text; the sm height keeps rows from growing.
+        // Here rather than in the table recipe: slot recipes sit in an earlier layer, so it would lose.
+        'td &': { textStyle: 'button' },
+      },
       md: { height: 'control-md', px: '4', textStyle: 'button' },
       lg: { height: 'control-lg', px: '5', textStyle: 'button' },
     },

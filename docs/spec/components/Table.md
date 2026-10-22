@@ -22,13 +22,13 @@ A plain, quiet data table: hairline rows, muted bold column headers, and rows th
 
 **Styling:**
 - Type: `body` (14px) in `text`, with tabular figures so numbers line up. Cells don't wrap.
-- Header cells: `small` (12px) bold `text-muted`, 8px vertical padding.
+- Header cells: `label` (14px bold) in `text-muted`, 8px vertical padding. The muted color and weight set them apart from the body; at 12px they read as fine print next to 14px rows.
 - Body rows: at least 48px tall (`table.row-height`), with 8px vertical and 16px side padding in each cell, so taller content still grows the row. Content is vertically centered.
 - Every cell has a 1px `divider` bottom edge.
 - Hover: the whole row fills `table-row-hover`, a step lighter than `surface-muted` (the ghost-button hover), so a hovered action button still shows in a hovered row. Selected rows fill `action-subtle` and keep `text`.
 - Sort button: inherits the header type; it turns `text` on hover and when sorted. Sortable columns show a 14px up/down chevron pair in `text-muted`; the sorted column shows a single chevron pointing up (ascending) or down (descending). Focus: the standard 2px `focus-ring` at a 2px offset.
 - Empty row: centered `text-muted`, 40px vertical padding.
-- Actions in a row: `sm` `ghost` Buttons, next to each other with no gap. Buttons inside a cell default to `shape="rounded"`, whose `sm` size has 8px sides, so a row of actions stays compact; this holds even when a pill Pagination sits under the table. End-align the actions column and pull the group 8px outward (`margin-inline-end: -8px`) so the last label lines up with the header.
+- Actions in a row: `sm` `ghost` Buttons, next to each other with no gap. Buttons inside a cell default to `shape="rounded"`, whose `sm` size has 8px sides, so a row of actions stays compact; this holds even when a pill Pagination sits under the table. Buttons in a cell or the empty row use the 14px `button` label even at `sm`, so they match the text around them; the 28px height and 8px sides don't change. End-align the actions column and pull the group 8px outward (`margin-inline-end: -8px`) so the last label lines up with the header.
 - The table has no background, border or radius of its own; it takes whatever it sits on, the page or a Card.
 
 - Don't put a `primary` Badge in a row that can be selected: its `action-subtle` fill is the selected row's fill, so the badge disappears into it.

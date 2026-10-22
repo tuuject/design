@@ -10,7 +10,7 @@ export type { ButtonShape };
  * 32px radius = 8px button radius + 24px padding (concentric corners), and row actions need the
  * dense shape. An explicit `shape` prop on a Button always wins.
  */
-const ShapeContext = createContext<ButtonShape | null>(null);
+export const ShapeContext = createContext<ButtonShape | null>(null);
 
 export function ShapeProvider({ shape, children }: { shape: ButtonShape; children: ReactNode }) {
   return <ShapeContext.Provider value={shape}>{children}</ShapeContext.Provider>;

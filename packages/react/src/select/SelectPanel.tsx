@@ -230,7 +230,8 @@ export function SelectItem({ value, label, disabled, className, children, ...res
       {...rest}
       value={value}
       disabled={disabled}
-      {...(mode === 'select' ? { label } : null)}
+      // A plain prop, not a conditional spread: Panda tries to evaluate useParts() for a spread and warns.
+      label={mode === 'select' ? label : undefined}
       className={cx(s.item, className)}
     >
       <span className={s.itemText}>{children}</span>

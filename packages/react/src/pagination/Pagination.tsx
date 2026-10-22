@@ -1,10 +1,10 @@
 import { type PaginationOwnProps, pageList, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { pagination } from '@koi/react/styled-system/recipes';
-import type { ComponentPropsWithRef } from 'react';
+import { type ComponentPropsWithRef, useContext } from 'react';
 import { Button } from '../button/Button';
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons';
-import { useButtonShape } from '../shape';
+import { ShapeContext } from '../shape';
 
 export type { PaginationVariant } from '@koi/core';
 
@@ -32,8 +32,9 @@ export function Pagination({
   const page = pageProp || 1;
   const go = onChange || noop;
   const simple = variant === 'simple';
-  const shape = useButtonShape();
-  const s = pagination({ shape });
+  // Reads the context directly: Panda tries to evaluate a zero-arg useButtonShape() call at build time
+  // and warns (pure_helper_unevaluated). An unset shape falls back to the recipe default, as in useButtonShape.
+  const s = pagination({ shape: useContext(ShapeContext) ?? undefined });
 
   const prev = (
     <Button

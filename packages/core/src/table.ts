@@ -32,6 +32,8 @@ export type TableCaptionOwnProps = TableSectionOwnProps;
 export interface TableCellOwnProps {
   /** start (default) · center · end. */
   align?: TableAlign;
+  /** `none` drops the 8px top and bottom padding, so a 36px control fits the 48px row. Default `default`. */
+  paddingBlock?: 'default' | 'none';
   children?: ReactNode;
 }
 

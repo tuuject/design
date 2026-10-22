@@ -1,5 +1,5 @@
 import { Badge } from '@koi/react/badge';
-import { Button } from '@koi/react/button';
+import { IconButton } from '@koi/react/button';
 import { Checkbox } from '@koi/react/checkbox';
 import { Skeleton } from '@koi/react/skeleton';
 import { css } from '@koi/react/styled-system/css';
@@ -15,6 +15,7 @@ import {
 } from '@koi/react/table';
 import type { ReactNode } from 'react';
 import { formatDateTimeFull, formatMoney } from '../../lib/format';
+import { EditIcon, EyeIcon, TrashIcon } from '../icons';
 import { ORDER_STATUS, type Order } from '../../mock/api';
 
 const s = {
@@ -82,7 +83,7 @@ export function OrderTable({
             状态
           </TableHeaderCell>
           <TableHeaderCell style={{ width: 184 }}>创建时间</TableHeaderCell>
-          <TableHeaderCell align="end" style={{ width: 176 }}>
+          <TableHeaderCell align="end" style={{ width: 132 }}>
             操作
           </TableHeaderCell>
         </TableRow>
@@ -152,25 +153,20 @@ export function OrderTable({
                 <Badge tone={ORDER_STATUS[order.status].badge}>{ORDER_STATUS[order.status].label}</Badge>
               </TableCell>
               <TableCell>{formatDateTimeFull(order.createdAt)}</TableCell>
-              <TableCell align="end">
+              {/* No vertical padding, so the 36px buttons fit the 48px row. */}
+              <TableCell align="end" paddingBlock="none">
                 <span
                   className={css({
-                    // No gap between the rounded actions; -2 pulls the last one's 8px side back out, so its label
+                    // No gap between the icon buttons; -2 pulls most of the last one's inset back out, so its icon
                     // lines up with the right-aligned header.
                     display: 'flex',
                     justifyContent: 'flex-end',
                     marginInlineEnd: '-2',
                   })}
                 >
-                  <Button size="sm" variant="ghost" color="secondary" onClick={() => onDetail(order)}>
-                    详情
-                  </Button>
-                  <Button size="sm" variant="ghost" color="secondary" onClick={() => onEdit(order)}>
-                    修改
-                  </Button>
-                  <Button size="sm" variant="ghost" color="error" onClick={() => onDelete(order)}>
-                    删除
-                  </Button>
+                  <IconButton label="详情" icon={<EyeIcon />} onClick={() => onDetail(order)} />
+                  <IconButton label="修改" icon={<EditIcon />} onClick={() => onEdit(order)} />
+                  <IconButton color="error" label="删除" icon={<TrashIcon />} onClick={() => onDelete(order)} />
                 </span>
               </TableCell>
             </TableRow>

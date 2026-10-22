@@ -113,6 +113,10 @@ export const table = defineSlotRecipe({
       center: { headerCell: { textAlign: 'center' }, cell: { textAlign: 'center' } },
       end: { headerCell: { textAlign: 'end' }, cell: { textAlign: 'end' } },
     },
+    paddingBlock: {
+      default: {},
+      none: { headerCell: { py: '0' }, cell: { py: '0' } },
+    },
   },
-  defaultVariants: { layout: 'auto', align: 'start' },
+  defaultVariants: { layout: 'auto', align: 'start', paddingBlock: 'default' },
 });

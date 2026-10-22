@@ -7,7 +7,7 @@ A plain, quiet data table: hairline rows, muted bold column headers, and rows th
 **The consumer supplies:**
 - **Parts:** `Table` (the `<table>`, inside a horizontally scrolling container), `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHeaderCell` and `TableCell`, plus `TableEmpty` for a "no data" row. Each renders its native element and passes every native attribute through (`colSpan`, `style`, `onClick`, `ref`…), so a headless library can drive them directly.
   - `Table`: optional `layout` (`auto` or `fixed`, see Behavior).
-  - `TableHeaderCell` and `TableCell`: optional `align` (`start`, `center` or `end`). Put numbers at `end`.
+  - `TableHeaderCell` and `TableCell`: optional `align` (`start`, `center` or `end`). Put numbers at `end`. Optional `paddingBlock` (`default` or `none`): `none` drops the cell's top and bottom padding, for controls as tall as `control-md`.
   - `TableHeaderCell`: optional `sort` (`'asc'`, `'desc'` or `false`) and `onSort(event)`. With `onSort`, the header becomes a sort button; these are the shapes TanStack Table's `column.getIsSorted()` and `column.getToggleSortingHandler()` return.
   - `TableRow`: optional `selected`.
   - `TableEmpty`: `colSpan` (the column count) and optional children (default "暂无数据").
@@ -28,7 +28,7 @@ A plain, quiet data table: hairline rows, muted bold column headers, and rows th
 - Hover: the whole row fills `table-row-hover`, a step lighter than `surface-muted` (the ghost-button hover), so a hovered action button still shows in a hovered row. Selected rows fill `action-subtle` and keep `text`.
 - Sort button: inherits the header type; it turns `text` on hover and when sorted. Sortable columns show a 14px up/down caret pair (`sort`) in `text-muted`; the sorted column shows only its upper caret (ascending) or lower caret (descending). Focus: the standard 2px `focus-ring` at a 2px offset.
 - Empty row: centered `text-muted`, 40px vertical padding.
-- Actions in a row: `sm` `ghost` Buttons, next to each other with no gap. Buttons inside a cell default to `shape="rounded"`, whose `sm` size has 8px sides, so a row of actions stays compact; this holds even when a pill Pagination sits under the table. Buttons in a cell or the empty row use the 14px `button` label even at `sm`, so they match the text around them; the 28px height and 8px sides don't change. End-align the actions column and pull the group 8px outward (`margin-inline-end: -8px`) so the last label lines up with the header.
+- Actions in a row: `sm` `ghost` Buttons, next to each other with no gap. Buttons inside a cell default to `shape="rounded"`, whose `sm` size has 8px sides, so a row of actions stays compact; this holds even when a pill Pagination sits under the table. Buttons in a cell or the empty row use the 14px `button` label even at `sm`, so they match the text around them; the 28px height and 8px sides don't change. End-align the actions column and pull the group 8px outward (`margin-inline-end: -8px`) so the last label lines up with the header. Icon-only actions are `md` IconButtons (36px, 16px icons) instead, in a cell with `paddingBlock="none"` so the row stays 48px; the bigger target makes up for the missing label.
 - The table has no background, border or radius of its own; it takes whatever it sits on, the page or a Card.
 
 - Don't put a `primary` Badge in a row that can be selected: its `action-subtle` fill is the selected row's fill, so the badge disappears into it.

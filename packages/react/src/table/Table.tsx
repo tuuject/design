@@ -73,8 +73,16 @@ export interface TableHeaderCellProps
 const ARIA_SORT = { asc: 'ascending', desc: 'descending' } as const;
 
 /** A column header (`<th scope="col">`). With `onSort` its label becomes a sort button. */
-export function TableHeaderCell({ align, sort = false, onSort, className, children, ...rest }: TableHeaderCellProps) {
-  const s = table({ align });
+export function TableHeaderCell({
+  align,
+  paddingBlock,
+  sort = false,
+  onSort,
+  className,
+  children,
+  ...rest
+}: TableHeaderCellProps) {
+  const s = table({ align, paddingBlock });
   const sortable = onSort != null;
   const Indicator = sort === 'asc' ? SortUpIcon : sort === 'desc' ? SortDownIcon : SortIcon;
   return (
@@ -101,9 +109,9 @@ export interface TableCellProps
     Omit<ComponentPropsWithRef<'td'>, keyof TableCellOwnProps | 'align'> {}
 
 /** A body or footer cell. Buttons inside default to shape="rounded", the dense shape, as in Dialog footers. */
-export function TableCell({ align, className, children, ...rest }: TableCellProps) {
+export function TableCell({ align, paddingBlock, className, children, ...rest }: TableCellProps) {
   return (
-    <td {...rest} className={cx(table({ align }).cell, className)}>
+    <td {...rest} className={cx(table({ align, paddingBlock }).cell, className)}>
       <ShapeProvider shape="rounded">{children}</ShapeProvider>
     </td>
   );

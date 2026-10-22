@@ -17,7 +17,8 @@
   | `caption` | 12 bold | Badges only |
   | `prose` | 16 / 1.75 | Long-form reading only (articles, docs) |
 
-- Two weights exist: 400 and 700. Asking for 600 renders 700.
+- Don't set `fontWeight` by hand; the text style carries it. ChillRoundF has only 400 and 700 (600 renders as 700).
+- **Don't drop to 12px to make something secondary when it sits beside 14px content**: table headers and row-action labels at 12px read as fine print. Set it apart with `text-muted` or weight instead (headers are `label` in `text-muted`). `small` is for text that stands on its own: help, descriptions, captions, tooltips.
 - `text-autospace: normal` is on the body. Don't type spaces between Chinese and Latin by hand.
 - Font smoothing stays `auto`. Never `antialiased`: it thins ChillRoundF on macOS.
 - Koi has no logo. A product name is set in `display` (or `heading-3` in a NavMenu brand slot).
@@ -53,6 +54,7 @@ Roundness is the identity. The vocabulary is fixed:
 ## Size and space
 
 - Controls come in three heights: `control-sm` 28, `control-md` 36 (default), `control-lg` 44. **Everything sharing a row uses the same size.**
+- `md` is the default everywhere a page has room. `sm` belongs to dense containers only: table cells, tags, compact toolbars inside a component. An **icon-only** control is never `sm`: without a label, 28px is too small a target.
 - Icons: `icon` 16 beside 14px text, `icon-sm` 14 in small controls and tags, `icon-xs` 12 beside 12px text, `icon-lg` 18 beside 16px titles.
 - Spacing is the 4px scale, `space-1`…`space-16`. Meanings:
   - `2` inside controls, icon-to-label

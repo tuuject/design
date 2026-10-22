@@ -27,10 +27,10 @@ description: Koi's visual design language for anything built on or inside the Ko
 These hold on every task. The references explain them and add the detail.
 
 - **Color:** role tokens only (`surface`, `text-muted`, `action`, `border-control`); scale steps only for illustration and chart series; never a literal or a per-theme override. Sky = action, amber = links and small highlights (an accent Button at most once per view), status always paired with an icon or word.
-- **Type:** `fontFamily: 'sans'`, 14px `body` base, named text styles only, weights 400 / 700.
+- **Type:** `fontFamily: 'sans'`, 14px `body` base, named text styles only (they carry the weight). Beside 14px content, mark secondary text with `text-muted` or weight, not by dropping to 12px.
 - **Shape:** buttons `rounded` 8px by default (`pill` via `shape` or `ShapeProvider`), one shape per button group; tabs, tags, badges, Switch always pills; fields 12, cards 24, dialogs 32, concentric corners.
 - **Depth:** no shadows on buttons or cards; `raised` only for the active tab and switch thumb, `float` only for things over the page; glass only over imagery or color. Never nest cards.
-- **Size:** control heights 28 / 36 / 44, one height per row; spacing on the 4px `space-*` scale; when in doubt, one step looser.
+- **Size:** control heights 28 / 36 / 44, one height per row; `md` by default, `sm` only inside dense containers (table cells, tags), never `sm` for icon-only controls; spacing on the 4px `space-*` scale; when in doubt, one step looser.
 - **Motion:** colors 150ms; moving things on `spring`, edge-anchored drawers on `out` 200ms; respect reduced motion.
 - **Icons:** Font Awesome Free Solid as Iconify data through `Icon`, `currentColor`, icon size tokens; no emoji.
 - **Copy:** Simplified Chinese, short and plain; buttons are verbs ("保存"), navigation nouns ("首页"); errors written as the fix ("邮箱格式不太对，请检查一下。"); dates like "Oct 7, 2026"; optional fields "（选填）"; no decorative English. Component copy comes from `strings` in `@koi/core`.
@@ -56,17 +56,18 @@ Before presenting a design or a diff:
 1. Any scale step or literal color outside illustration / charts? Any per-theme color override?
 2. Amber on anything clickable that isn't a link, or for status? More than one accent Button in the view?
 3. Every status color paired with an icon or a word?
-4. Any raw `fontSize`, or a weight other than 400 / 700?
+4. Any raw `fontSize` or hand-set `fontWeight`? Anything at 12px beside 14px content that should be `text-muted` instead?
 5. Any radius off the vocabulary? One shape per button group? Pills where Koi requires them? Nested corners concentric?
 6. Any shadow on a button or a card? Glass on a flat background? A card in a card, or around a bordered component?
-7. Controls in one row sharing one height? Icons sized by token?
-8. Spacing on the scale, page padding even on all sides? Tight → loosen a step. Lost → one frame per area.
-9. Color transitions 150ms; moving things on spring (`out` for edge-anchored); reduced motion respected?
-10. Icons filled and in `currentColor`, no emoji, icon-only controls named?
-11. Copy in Chinese, verbs on buttons, errors as fixes, no decorative English?
-12. Could a Koi component replace something hand-styled?
-13. New role-on-background pair added to `contrast-pairs.json`?
-14. Checked in **both themes** and under the `rose` palette?
+7. Controls in one row sharing one height? Page-level controls `md`, not `sm`? Icons sized by token?
+8. Tables: any cell cut off with an ellipsis on real data? Spare width pooling into one wide gap?
+9. Spacing on the scale, page padding even on all sides? Tight → loosen a step. Lost → one frame per area.
+10. Color transitions 150ms; moving things on spring (`out` for edge-anchored); reduced motion respected?
+11. Icons filled and in `currentColor`, no emoji, icon-only controls named?
+12. Copy in Chinese, verbs on buttons, errors as fixes, no decorative English?
+13. Could a Koi component replace something hand-styled?
+14. New role-on-background pair added to `contrast-pairs.json`?
+15. Checked in **both themes** and under the `rose` palette?
 
 ## Verification
 

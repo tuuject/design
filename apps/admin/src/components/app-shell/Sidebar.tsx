@@ -79,7 +79,8 @@ export function Sidebar() {
         borderRightStyle: 'solid',
         borderRightColor: 'divider',
         transform: 'translateX(-100%)',
-        transition: 'transform token(durations.spring) token(easings.spring)',
+        // Edge-anchored drawer: the spring's overshoot would pull it off the left edge and show a gap.
+        transition: 'transform token(durations.overlay) token(easings.out)',
         '&[data-open=true]': { transform: 'translateX(0)' },
         md: {
           position: 'sticky',

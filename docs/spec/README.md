@@ -44,6 +44,7 @@ Koi (こい, 恋) is a soft, rounded interface system grown out of tcdw's Koi bl
 
 - Color and border changes take 150ms.
 - Things that move use Koi's springy curve, `cubic-bezier(.47,1.64,.41,.8)`, taken from the blog's mobile menu: switch thumbs and progress bars over 400ms, check marks and radio dots over 250ms, dialogs scaling in from their center over 300ms, and toasts popping in.
+- Things anchored to a viewport edge (a drawer, a side sheet) slide in on the `out` curve (`cubic-bezier(0, 0, .2, 1)`) over 200ms instead. The spring's overshoot would pull them off the edge and show the gap behind them.
 - Overlays fade in over 150–200ms. The Dialog backdrop is the exception: it fades over 300ms, in step with the panel.
 - All motion stops under `prefers-reduced-motion`.
 

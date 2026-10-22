@@ -14,7 +14,7 @@
 | 同心圆角 | 外框圆角 = 内部元素圆角 + 间距。Dialog 32 = footer 按钮 8 + padding 24 |
 | glass / 毛玻璃 | `surface-glass` / `surface-glass-tint` 加 `blur-panel` / `blur-float`；深色模式的颜色跟随 palette |
 | press ripple | Button 按下时的 box-shadow 波纹，最后淡到消失；不算“阴影”，按钮规则仍是不用阴影 |
-| spring | Koi 的弹性缓动曲线（会稍微冲过头），用于会移动的东西 |
+| spring | Koi 的弹性缓动曲线（会稍微冲过头），用于会移动的东西；贴视口边缘滑入的抽屉改用 `out` |
 | legacy | `reference/legacy-web/` 里的旧实现（React 18 + 手写 CSS），冻结，只读参考 |
 
 ## 代码术语

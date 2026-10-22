@@ -1,7 +1,6 @@
 import {
   Badge,
   Button,
-  Card,
   Checkbox,
   DataTable,
   type DataTableColumn,
@@ -137,9 +136,7 @@ const meta = {
   decorators: [
     (Story) => (
       <div className={frame}>
-        <Card padding="none">
-          <Story />
-        </Card>
+        <Story />
       </div>
     ),
   ],

@@ -472,7 +472,13 @@ function OrdersPage() {
         </div>
       </div>
 
-      <OrderFormDialog key={formKey} open={formOpen} onOpenChange={setFormOpen} order={editing} onSubmit={saveOrder} />
+      <OrderFormDialog
+        open={formOpen}
+        onOpenChange={setFormOpen}
+        order={editing}
+        formKey={formKey}
+        onSubmit={saveOrder}
+      />
 
       <Dialog
         open={detailOpen}

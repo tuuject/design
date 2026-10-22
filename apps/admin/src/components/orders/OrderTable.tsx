@@ -57,7 +57,7 @@ export function OrderTable({
       layout="fixed"
       className={css({
         // Columns stop squeezing below this; the table's container scrolls sideways instead.
-        minWidth: '880px',
+        minWidth: '980px',
       })}
     >
       <TableCaption>订单列表</TableCaption>
@@ -72,7 +72,8 @@ export function OrderTable({
             />
           </TableHeaderCell>
           <TableHeaderCell style={{ width: 120 }}>订单号</TableHeaderCell>
-          <TableHeaderCell style={{ width: 112 }}>客户</TableHeaderCell>
+          {/* 客户 and 商品 have no width, so they split the spare room instead of it pooling into one wide gap. */}
+          <TableHeaderCell>客户</TableHeaderCell>
           <TableHeaderCell>商品</TableHeaderCell>
           <TableHeaderCell align="end" style={{ width: 112 }}>
             金额
@@ -80,7 +81,7 @@ export function OrderTable({
           <TableHeaderCell align="center" style={{ width: 96 }}>
             状态
           </TableHeaderCell>
-          <TableHeaderCell style={{ width: 160 }}>创建时间</TableHeaderCell>
+          <TableHeaderCell style={{ width: 184 }}>创建时间</TableHeaderCell>
           <TableHeaderCell align="end" style={{ width: 176 }}>
             操作
           </TableHeaderCell>

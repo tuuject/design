@@ -64,7 +64,9 @@ export function Sidebar() {
         display: 'flex',
         flexDirection: 'column',
         gap: '6',
-        // Mobile: an off-canvas drawer. Desktop (md 768+): the first grid column of the shell.
+        // Mobile: an off-canvas drawer. Desktop (md 768+): the shell's first flex column, pinned to
+        // the viewport. Sticky rather than fixed so it keeps its width in the row and the collapse
+        // animation still pushes the content over.
         position: 'fixed',
         top: 0,
         bottom: 0,
@@ -80,7 +82,9 @@ export function Sidebar() {
         transition: 'transform token(durations.spring) token(easings.spring)',
         '&[data-open=true]': { transform: 'translateX(0)' },
         md: {
-          position: 'static',
+          position: 'sticky',
+          alignSelf: 'flex-start',
+          height: '100dvh',
           transform: 'none',
           // Width collapse animates with a plain ease-out: the spring's overshoot makes the icons jitter.
           transition: 'width token(durations.fast) token(easings.out)',

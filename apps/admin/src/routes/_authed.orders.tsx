@@ -443,7 +443,7 @@ function OrdersPage() {
             />
           </div>
           <div className={css({ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '3' })}>
-            <Pagination page={search.page} pageCount={pageCount} siblings={1} onChange={goPage} />
+            <Pagination variant="compact" page={search.page} pageCount={pageCount} siblings={1} onChange={goPage} />
             <form
               className={css({ display: 'flex', alignItems: 'center', gap: '2' })}
               onSubmit={(event) => {

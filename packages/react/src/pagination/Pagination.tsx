@@ -2,7 +2,7 @@ import { type PaginationOwnProps, pageList, strings } from '@koi/core';
 import { cx } from '@koi/react/styled-system/css';
 import { pagination } from '@koi/react/styled-system/recipes';
 import { type ComponentPropsWithRef, useContext } from 'react';
-import { Button } from '../button/Button';
+import { Button, IconButton } from '../button/Button';
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons';
 import { ShapeContext } from '../shape';
 
@@ -32,11 +32,24 @@ export function Pagination({
   const page = pageProp || 1;
   const go = onChange || noop;
   const simple = variant === 'simple';
+  const compact = variant === 'compact';
   // Reads the context directly: Panda tries to evaluate a zero-arg useButtonShape() call at build time
   // and warns (pure_helper_unevaluated). An unset shape falls back to the recipe default, as in useButtonShape.
-  const s = pagination({ shape: useContext(ShapeContext) ?? undefined });
+  // compact is always circles: round prev/next beside rounded-square page numbers would mix shapes in one row.
+  const shape = useContext(ShapeContext) ?? undefined;
+  const s = pagination({ shape: compact ? 'pill' : shape, compact });
 
-  const prev = (
+  const prev = compact ? (
+    <IconButton
+      color="primary"
+      variant="soft"
+      shape="pill"
+      label={prevLabel || strings.prevPage}
+      disabled={page <= 1}
+      onClick={() => go(page - 1)}
+      icon={<ChevronLeftIcon />}
+    />
+  ) : (
     <Button
       variant={simple ? 'solid' : 'soft'}
       size={simple ? 'lg' : 'md'}
@@ -47,7 +60,17 @@ export function Pagination({
       {prevLabel || strings.prevPage}
     </Button>
   );
-  const next = (
+  const next = compact ? (
+    <IconButton
+      color="primary"
+      variant="soft"
+      shape="pill"
+      label={nextLabel || strings.nextPage}
+      disabled={page >= count}
+      onClick={() => go(page + 1)}
+      icon={<ChevronRightIcon />}
+    />
+  ) : (
     <Button
       variant={simple ? 'solid' : 'soft'}
       size={simple ? 'lg' : 'md'}

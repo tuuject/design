@@ -1,4 +1,4 @@
-export type PaginationVariant = 'numbered' | 'simple';
+export type PaginationVariant = 'numbered' | 'simple' | 'compact';
 
 export interface PaginationOwnProps {
   /** The current page, 1-based. */
@@ -6,7 +6,10 @@ export interface PaginationOwnProps {
   pageCount: number;
   /** Called with the page to go to. Choosing the current page calls it too (as legacy). */
   onChange?: (page: number) => void;
-  /** numbered (default): prev, page numbers, next. simple: the blog's two large pills around "n / m". */
+  /**
+   * numbered (default): prev, page numbers, next. simple: the blog's two large pills around "n / m".
+   * compact: page numbers between round icon-only prev/next, all in one tight row of circles.
+   */
   variant?: PaginationVariant;
   /** Default "上一页". */
   prevLabel?: string;

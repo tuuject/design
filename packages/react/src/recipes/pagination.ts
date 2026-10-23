@@ -55,6 +55,11 @@ export const pagination = defineSlotRecipe({
       pill: {},
       rounded: { page: { borderRadius: 'lg' } },
     },
+    /** compact keeps prev/next beside the page numbers instead of pushing them to the ends of the row. */
+    compact: {
+      true: { root: { justifyContent: 'flex-start', gap: '1' } },
+      false: {},
+    },
   },
-  defaultVariants: { shape: 'rounded' },
+  defaultVariants: { shape: 'rounded', compact: false },
 });

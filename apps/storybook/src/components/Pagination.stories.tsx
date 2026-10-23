@@ -32,7 +32,7 @@ const meta = {
     page: { control: { type: 'number', min: 1 } },
     pageCount: { control: { type: 'number', min: 1 } },
     siblings: { control: { type: 'number', min: 0 } },
-    variant: { control: 'inline-radio', options: ['numbered', 'simple'] },
+    variant: { control: 'inline-radio', options: ['numbered', 'simple', 'compact'] },
   },
   decorators: [
     (Story) => (
@@ -109,6 +109,21 @@ export const Simple: Story = {
       <Pagination variant="simple" page={1} pageCount={8} />
       <Pagination variant="simple" page={3} pageCount={8} />
       <Pagination variant="simple" page={8} pageCount={8} prevLabel="较新的文章" nextLabel="更早的文章" />
+    </div>
+  ),
+};
+
+/**
+ * Prev/next shrink to round icon-only buttons, the same 36px as the page numbers, and the row stays packed together.
+ * Always circles, whatever the ShapeProvider says. The labels become the buttons' accessible names.
+ */
+export const Compact: Story = {
+  render: () => (
+    <div className={stack}>
+      {[1, 5, 10].map((p) => (
+        <Pagination key={p} variant="compact" page={p} pageCount={10} />
+      ))}
+      <Pagination variant="compact" page={1} pageCount={1} />
     </div>
   ),
 };

@@ -12,6 +12,7 @@
     "./badge": "./src/badge/Badge.tsx",
     "./button": "./src/button/Button.tsx",
     "./card": "./src/card/Card.tsx",
+    "./chat-bubble": "./src/chat-bubble/ChatBubble.tsx",
     "./checkbox": "./src/checkbox/Checkbox.tsx",
     "./dialog": "./src/dialog/Dialog.tsx",
     "./divider": "./src/divider/Divider.tsx",

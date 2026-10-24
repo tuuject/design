@@ -10,6 +10,7 @@ export {
   type IconButtonProps,
 } from './button/Button';
 export { Card, type CardProps } from './card/Card';
+export { ChatBubble, type ChatBubbleProps } from './chat-bubble/ChatBubble';
 export { Checkbox, type CheckboxProps } from './checkbox/Checkbox';
 export { Dialog, type DialogProps } from './dialog/Dialog';
 export { Divider, type DividerProps } from './divider/Divider';

@@ -3,6 +3,7 @@ import { avatar } from './avatar';
 import { badge } from './badge';
 import { button } from './button';
 import { card } from './card';
+import { chatBubble } from './chat-bubble';
 import { checkbox } from './checkbox';
 import { dialog } from './dialog';
 import { separator } from './divider';
@@ -24,7 +25,7 @@ import { toast } from './toast';
 import { tooltip } from './tooltip';
 
 // Register every recipe here; panda.config.ts spreads these into theme.extend.
-export const recipes = { button, separator, skeleton, textarea };
+export const recipes = { button, chatBubble, separator, skeleton, textarea };
 export const slotRecipes = {
   alert,
   avatar,

@@ -117,7 +117,7 @@ agent 运行中产生的临时文件（截图基线、生成的 CSS、比对图�
 - **形状**：按钮（Button、IconButton、Pagination 页码）默认 rounded（`radius-lg`，8px），`shape="pill"` 或 pill 的 `ShapeProvider` 改成 pill（`radius-full`）；tab、tag、badge、Switch 永远是 pill。Dialog footer 和表格单元格（`TableCell`）自己包了 rounded 的 `ShapeProvider`，外层是 pill 也保持 rounded；rounded 的 sm 档左右内边距 8px（密集形状）；Dialog 的 32px 圆角 = 8px + 24px padding（同心圆角）。Card 和 Toast 用 `radius-panel` 24px，输入框和 Alert 用 `radius-xl` 12px。
 - **深度**：按钮永远不加阴影（按压波纹不算）。`shadow-raised` 只用于当前 tab 和 Switch 滑块；`shadow-float` 只用于浮在页面上的东西（Dialog、Toast）。
 - **动效**：颜色变化 150ms；会移动的东西用 `spring` 缓动，但贴着视口边缘滑入的（抽屉、侧边面板）用 `out` 200ms，否则回弹会露出边缘后面的空隙。一切都尊重 `prefers-reduced-motion`。
-- **文案**：组件里的文案（label、aria-label）用简体中文，来自 `@koi/core` 的 `strings`，不用 emoji。全仓库（含注释）不用间隔号（`U+00B7`、`U+30FB` 及形近字符）：并列的元信息拆成多个元素、用 gap 隔开，句子里用「，」「、」（`check-dots.mjs` 检查）。
+- **文案**：组件里的文案（label、aria-label）用简体中文，来自 `@koi/core` 的 `strings`，不用 emoji。全仓库（含注释）不拿间隔号（`U+00B7`、`U+30FB` 及形近字符）当分隔符：并列的元信息拆成多个元素、用 gap 隔开，句子里用「，」「、」。内容自带的（外国人名译名、作品名）照原样写，那一行标 `koi-allow-dot: <原因>`（`check-dots.mjs` 检查）。
 - **主题 / 配色 / 字体**：web 上分别是 `<html>` 的 `data-theme`、`data-palette`、`data-font`（`theme-init.js` 设置）；组件永远写 `fontFamily: 'sans'`。字体平滑保持 `auto`。
 - **props 兼容 legacy**：公开 props 与 `reference/legacy-web/components/index.d.ts` 保持兼容，除非 spec 另有规定；不兼容之处记进 [plan.md](agent-doc/plan.md)。
 

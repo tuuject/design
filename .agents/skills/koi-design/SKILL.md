@@ -33,7 +33,7 @@ These hold on every task. The references explain them and add the detail.
 - **Size:** control heights 28 / 36 / 44, one height per row; `md` by default, `sm` only inside dense containers (table cells, tags), never `sm` for icon-only controls; spacing on the 4px `space-*` scale; when in doubt, one step looser.
 - **Motion:** colors 150ms; moving things on `spring`, edge-anchored drawers on `out` 200ms; respect reduced motion.
 - **Icons:** Font Awesome Free Solid as Iconify data through `Icon`, `currentColor`, icon size tokens; no emoji.
-- **Copy:** Simplified Chinese, short and plain; buttons are verbs ("保存"), navigation nouns ("首页"); errors written as the fix ("邮箱格式不太对，请检查一下。"); dates like "Oct 7, 2026"; optional fields "（选填）"; no decorative English; no middle dots (`U+00B7`, `U+30FB`, look-alikes) as separators: separate inline meta with a layout gap, or with ，、 in a sentence. Component copy comes from `strings` in `@koi/core`.
+- **Copy:** Simplified Chinese, short and plain; buttons are verbs ("保存"), navigation nouns ("首页"); errors written as the fix ("邮箱格式不太对，请检查一下。"); dates like "Oct 7, 2026"; optional fields "（选填）"; no decorative English; no middle dots (`U+00B7`, `U+30FB`, look-alikes) as separators: separate inline meta with a layout gap, or with ，、 in a sentence (a name or title that contains one keeps it, marked `koi-allow-dot: <reason>`). Component copy comes from `strings` in `@koi/core`.
 
 ## References
 

@@ -11,7 +11,7 @@ Koi (こい, 恋) is a soft, rounded interface system grown out of tcdw's Koi bl
 - Write UI copy in Simplified Chinese, short and plain. Buttons are verbs ("保存", "发布文章", "删除"); navigation is nouns ("首页", "归档").
 - Mixed Chinese/English copy is normal. `text-autospace: normal` is on the body, so let the browser add the CJK/Latin spacing; don't type spaces by hand.
 - The tone is casual and warm, a little playful (Koi's own README signs off "好康！！！" and "谢谢w"), but never at the expense of clarity in errors. Write errors as the fix: "邮箱格式不太对，请检查一下。"
-- No middle dots (`U+00B7`, `U+30FB` and look-alikes such as `U+0387`, `U+2027`, `U+22C5`, `U+FF65`) anywhere, including code comments. To separate inline items like "author, date" or "name, time", put each in its own element and space them with a layout gap (`gap: '3'`); in a sentence, use Chinese punctuation (，、). `scripts/check-dots.mjs` enforces it.
+- Never use a middle dot (`U+00B7`, `U+30FB` and look-alikes such as `U+0387`, `U+2027`, `U+22C5`, `U+FF65`) as a separator, in copy or in code comments. To separate inline items like "author, date" or "name, time", put each in its own element and space them with a layout gap (`gap: '3'`); in a sentence, use Chinese punctuation (，、). Content keeps its own dots: a transliterated name or a title is written as it is. `scripts/check-dots.mjs` enforces it; mark a line that carries such content with `koi-allow-dot: <reason>`.
 - No emoji in the UI. Dates are short, like "Oct 7, 2026". Mark optional fields with "（选填）" rather than marking every required one, unless most fields are optional.
 
 ## Color

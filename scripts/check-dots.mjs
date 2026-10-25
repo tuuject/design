@@ -1,5 +1,7 @@
 // Fails if any source text uses a middle dot as a separator. Koi separates inline items
-// with layout gaps (or plain punctuation in prose), never with a dot glyph.
+// with layout gaps (or plain punctuation in prose), never with a dot glyph. Content that
+// genuinely carries one (a transliterated name, a title) is exempt line by line with
+// "koi-allow-dot: <reason>", so each exception is reviewed rather than a whole directory.
 // Scans every tracked or new text file outside reference/. Usage: node scripts/check-dots.mjs
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
@@ -25,6 +27,9 @@ for (const f of files) {
     continue;
   }
   text.split('\n').forEach((line, i) => {
+    if (/koi-allow-dot:\s*\S/.test(line)) {
+      return;
+    }
     const m = line.match(DOTS);
     if (m) {
       bad++;
@@ -33,5 +38,9 @@ for (const f of files) {
     }
   });
 }
-console.log(bad ? `\n${bad} line(s) with a middle dot.` : `No middle dots in ${files.length} files.`);
+console.log(
+  bad
+    ? `\n${bad} line(s) with a middle dot. Add "koi-allow-dot: <reason>" to a line only when the dot is part of the content, like a transliterated name.`
+    : `No middle dots in ${files.length} files.`,
+);
 process.exit(bad ? 1 : 0);

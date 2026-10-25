@@ -31,8 +31,8 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 
 ## 决定与坑
 
-- **客服会话 / AI 助手是 ChatBubble 的两个组合示例**（2026-10-24）：`/support`（`routes/_authed.support.tsx`）是两个真人的会话——客户走 `received`（左，带头像）、客服走 `sent`（右），包在 Card 里；`/agent`（`routes/_authed.agent.tsx`）是真人消息在右侧气泡、助手回复直接平铺 markdown（`components/Markdown.tsx`，`prose` 16px + 标题 / 列表 / 行内代码 / 代码块 / blockquote 样式），不加 Card。markdown 用 `react-markdown`（admin 独有依赖，内容是静态示例，无输入框）。
-- **Panda preflight 把所有列表的 marker 去掉了**：reset 层有 `ol, ul, menu { list-style: none; }`，所以 markdown 正文里要自己在组件 css 恢复 `listStyleType: 'disc' / 'decimal'`（见 `Markdown.tsx`）。不要动全局 reset——侧边栏等处的列表正依赖它。
+- **客服会话 / AI 助手是 ChatBubble 的两个组合示例**（2026-10-24）：`/support`（`routes/_authed.support.tsx`）是两个真人的会话——客户走 `received`（左，带头像）、客服走 `sent`（右），包在 Card 里；`/agent`（`routes/_authed.agent.tsx`）是真人消息在右侧气泡、助手回复直接平铺 markdown（`components/Markdown.tsx`，`react-markdown` 包在库的 `Prose size="sm"` 里，14px，与页面其余 UI 文字同一基准），不加 Card。markdown 用 `react-markdown`（admin 独有依赖，内容是静态示例，无输入框）。
+- **Panda preflight 把所有列表的 marker 去掉了**：reset 层有 `ol, ul, menu { list-style: none; }`。markdown 正文交给 `Prose`，它会把 marker 加回来；自己写列表时要在组件 css 恢复 `listStyleType`。不要动全局 reset——侧边栏等处的列表正依赖它。
 - **断点在 config，不在 tokens**：`panda.config.ts` 的 `theme.extend.breakpoints = { md: '768px' }`（与 Bilisound 的 md 768 约定一致）。preset-base 不带断点；等 tokens.json 收编后应挪过去（plan.md 未决事项）。
 - **这版 Panda 的断点条件没有下划线**：顶层写 `md: {...}`、响应式值写 `display: { base: 'none', md: 'inline' }`，不是 `_md`。嵌套选择器必须以 `&` 开头（`'& [data-nav-label]'`），`&[data-x]` 是同元素匹配，不是后代。
 - **spacing token 是裸数字**：`gap: '4'`、`padding: '6'`，**不是** `'space-4'`——写错会生成空规则（`.px_space-4 { }`），`strictTokens: false` 下静默通过。radius/shadow/size 才用名字（`'xl'`、`'float'`、`'control-md'`）。

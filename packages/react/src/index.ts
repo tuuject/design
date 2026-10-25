@@ -20,6 +20,7 @@ export { Input, type InputProps } from './input/Input';
 export { Link, type LinkProps } from './link/Link';
 export { Pagination, type PaginationProps, type PaginationVariant } from './pagination/Pagination';
 export { Progress, type ProgressProps, type ProgressSize } from './progress/Progress';
+export { Prose, type ProseProps, type ProseSize } from './prose/Prose';
 export { RadioGroup, type RadioGroupProps, type RadioOption } from './radio-group/RadioGroup';
 export { Select, type SelectOption, type SelectProps } from './select/Select';
 export {

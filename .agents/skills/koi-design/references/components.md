@@ -27,6 +27,7 @@ Use a component before styling a `div`. For how a chosen component looks and beh
 | Short unmeasured wait | Spinner | Progress |
 | Measurable work | Progress | Spinner |
 | Records to scan across columns | DataTable, or Table parts for sort / selection | a grid of cards |
+| Rendered markdown / rich HTML | Prose (`md` 16px for articles, `sm` 14px among UI text) | hand-styling `h1`/`ul`/`code` |
 | Grouping related content | Card (`outlined` / `filled`; `glass` only over imagery) | a hand-drawn bordered box |
 
 Not in Koi yet: dropdown Menu, Popover, date picker, free-text autocomplete, Slider, Sheet. The Admin template uses Base UI's Menu directly for its user menu, styled like SelectPanel's panel (`agent-doc/admin.md`). A new one needs a spec before it ships in the library.

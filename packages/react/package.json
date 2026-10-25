@@ -23,6 +23,7 @@
     "./link": "./src/link/Link.tsx",
     "./pagination": "./src/pagination/Pagination.tsx",
     "./progress": "./src/progress/Progress.tsx",
+    "./prose": "./src/prose/Prose.tsx",
     "./radio-group": "./src/radio-group/RadioGroup.tsx",
     "./recipes": "./src/recipes/index.ts",
     "./select": "./src/select/Select.tsx",

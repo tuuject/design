@@ -19,6 +19,7 @@ export * from './input';
 export * from './link';
 export * from './pagination';
 export * from './progress';
+export * from './prose';
 export * from './radio-group';
 export * from './select';
 export * from './skeleton';

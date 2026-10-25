@@ -36,7 +36,7 @@ Koi has no chart component. These rules extend the brand book's "scales only for
 
 ## Content pages (blog-like)
 
-- Reading column at most `content-max`; long-form text in `prose`.
+- Reading column at most `content-max`; long-form text in `prose`, rendered markdown in Prose.
 - Wrap the page in `<ShapeProvider shape="pill">` for the blog's voice.
 - Glass Cards go over imagery or color (a banner), never over the flat page.
 - `space-10` / `md: 12` between list items, `space-16` between sections.

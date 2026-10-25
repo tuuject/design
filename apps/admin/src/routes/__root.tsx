@@ -18,7 +18,7 @@ function RootLayout() {
   // React hoists <title> into <head>; the HTML template has none, so this is the only one.
   return (
     <ToastProvider>
-      <title>{title ? `${title} · Koi Admin` : 'Koi Admin'}</title>
+      <title>{title ? `${title} - Koi Admin` : 'Koi Admin'}</title>
       <Outlet />
     </ToastProvider>
   );

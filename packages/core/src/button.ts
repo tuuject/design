@@ -13,7 +13,7 @@ export interface ButtonOwnProps {
   color?: ButtonColor;
   /** How loud it is. Default solid. One solid button per group. */
   variant?: ButtonVariant;
-  /** control-sm 28 · control-md 36 · control-lg 44. Default md. */
+  /** control-sm 28 / control-md 36 / control-lg 44. Default md. */
   size?: ControlSize;
   /** pill (radius-full) or rounded (radius-lg, 8px). Default rounded, or whatever the surrounding ShapeProvider says. */
   shape?: ButtonShape;

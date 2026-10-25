@@ -105,10 +105,13 @@ function LoginPage() {
             marginBlockStart: '4',
             textStyle: 'small',
             color: 'text-muted',
-            textAlign: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '3',
           })}
         >
-          演示账号：admin · 密码：123456
+          <span>演示账号：admin</span>
+          <span>密码：123456</span>
         </p>
       </Card>
     </div>

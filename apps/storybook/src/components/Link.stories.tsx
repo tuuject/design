@@ -40,10 +40,11 @@ export const InText: Story = {
       </p>
       <Card title="在卡片上" className={css({ maxWidth: '[480px]' })}>
         <p className={para}>
-          放在 surface 上也一样：<Link href="#">编辑资料</Link> ·{' '}
+          放在 surface 上也一样：<Link href="#">编辑资料</Link>、
           <Link href="https://example.com" external>
             帮助中心
           </Link>
+          。
         </p>
       </Card>
     </div>

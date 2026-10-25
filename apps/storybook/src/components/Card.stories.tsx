@@ -64,7 +64,12 @@ export const WithMedia: Story = {
   args: {
     media: <div className={`${art} ${css({ height: '[140px]' })}`} role="img" aria-label="文章封面" />,
     title: 'Koi 设计系统',
-    description: 'Oct 7, 2026 · tcdw',
+    description: (
+      <span className={css({ display: 'inline-flex', gap: '3' })}>
+        <span>Oct 7, 2026</span>
+        <span>tcdw</span>
+      </span>
+    ),
     children: '圆润的胶囊控件、毛玻璃面板、天蓝色操作和琥珀色链接。',
     footer: <Button variant="soft">阅读全文</Button>,
   },

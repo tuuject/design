@@ -38,7 +38,10 @@ export const Thread: Story = {
       <div className={chatRow}>
         <Avatar name="小鲤" />
         <div className={css({ display: 'flex', flexDirection: 'column', gap: '1', alignItems: 'flex-start' })}>
-          <span className={metaLine}>小鲤 · 14:02</span>
+          <div className={metaLine}>
+            <span>小鲤</span>
+            <span>14:02</span>
+          </div>
           <ChatBubble>
             我把调色板那页的截图都看了一遍，深色模式的对比度已经达标了，就差 rose 配色再确认一轮，你那边什么时候方便？
           </ChatBubble>
@@ -53,4 +56,4 @@ export const Thread: Story = {
 };
 
 const chatRow = css({ display: 'flex', gap: '2', alignItems: 'flex-start' });
-const metaLine = css({ textStyle: 'small', color: 'text-muted' });
+const metaLine = css({ display: 'flex', gap: '3', textStyle: 'small', color: 'text-muted' });

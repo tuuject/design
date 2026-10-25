@@ -69,7 +69,7 @@ const s = {
   userRow: css({ display: 'flex', justifyContent: 'flex-end' }),
   turnCol: css({ display: 'flex', flexDirection: 'column', gap: '1', alignItems: 'flex-end', minWidth: '0' }),
   assistantTurn: css({ display: 'flex', flexDirection: 'column', gap: '1', minWidth: '0' }),
-  meta: css({ textStyle: 'small', color: 'text-muted' }),
+  meta: css({ display: 'flex', gap: '3', textStyle: 'small', color: 'text-muted' }),
 };
 
 function Turn({ turn }: { turn: AgentTurn }) {
@@ -85,9 +85,10 @@ function Turn({ turn }: { turn: AgentTurn }) {
   }
   return (
     <div className={s.assistantTurn}>
-      <span className={s.meta}>
-        {ASSISTANT_NAME} · {turn.at}
-      </span>
+      <div className={s.meta}>
+        <span>{ASSISTANT_NAME}</span>
+        <span>{turn.at}</span>
+      </div>
       <Markdown>{turn.text}</Markdown>
     </div>
   );

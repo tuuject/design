@@ -23,7 +23,7 @@ export interface SelectOwnProps {
   options?: SelectOption[];
   /** A disabled first option shown until the user picks. */
   placeholder?: string;
-  /** sm 28px · md 36px · lg 44px, the same heights as Input and Button. Default md. */
+  /** sm 28px / md 36px / lg 44px, the same heights as Input and Button. Default md. */
   size?: ControlSize;
   /** Red edge, announced as invalid. Set automatically inside a Field with an error. */
   invalid?: boolean;
@@ -38,7 +38,7 @@ export interface SelectPanelOwnProps<I extends SelectEntry = SelectEntry, E = un
   onChange?: (value: string | null, details: ChangeDetails<E>) => void;
   /** Shown in the trigger until something is chosen. Default "请选择". */
   placeholder?: ReactNode;
-  /** sm 28px · md 36px · lg 44px, the same heights as Input and Button. Default md. */
+  /** sm 28px / md 36px / lg 44px, the same heights as Input and Button. Default md. */
   size?: ControlSize;
   /** Red edge, announced as invalid. Set automatically inside a Field with an error. */
   invalid?: boolean;

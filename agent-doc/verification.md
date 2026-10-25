@@ -14,6 +14,7 @@
 | `check-raw-sizes.mjs` | 组件源码里的字面尺寸（`Npx`、`size={N}`、`sideOffset={N}`…） | 换成 token；web 专属的加 `// koi-web-only: <原因>` |
 | `check-headless.mjs` | recipe 里的 Base UI 选择器 / 变量；公开 props 里的 Base UI 类型 | [headless.md](headless.md) |
 | `check-core.mjs` | core 里的平台类型和导入；web 的 `<Name>Props` 是否建立在 `<Name>OwnProps` 上 | [core.md](core.md) |
+| `check-dots.mjs` | 全仓库（`reference/` 除外）文本文件里的间隔号（`U+00B7`、`U+30FB` 及形近字符） | 并列元信息拆成多个元素用 gap 隔开；句子里用「，」「、」；注释里用 ` / ` 或逗号 |
 | `pnpm typecheck` | 全部包的 tsc；tokens 包还会重跑构建和对比度检查 | |
 
 已知盲区：`check-raw-sizes.mjs` 只认 `Npx` 和几种 JSX 数值属性，对象字面量里的裸数字（如 `{ sm: 16 }`）抓不到，review 时要留意。

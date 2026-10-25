@@ -21,7 +21,7 @@
     "shots": "pnpm --filter storybook shots",
     "lint": "biome lint . && biome format .",
     "lint:fix": "biome lint --write --unsafe . && biome format --write .",
-    "check": "pnpm codegen && pnpm contrast && node scripts/check-raw-colors.mjs && node scripts/check-raw-sizes.mjs && node scripts/check-headless.mjs && node scripts/check-core.mjs && pnpm typecheck"
+    "check": "pnpm codegen && pnpm contrast && node scripts/check-raw-colors.mjs && node scripts/check-raw-sizes.mjs && node scripts/check-headless.mjs && node scripts/check-core.mjs && node scripts/check-dots.mjs && pnpm typecheck"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.15",

@@ -8,7 +8,7 @@ export interface DialogOwnProps {
   children?: ReactNode;
   /** Actions, in order: cancel (secondary ghost), then the confirming solid button. Buttons here default to shape="rounded". */
   footer?: ReactNode;
-  /** sm 400 · md 520 · lg 720. Default md. */
+  /** sm 400 / md 520 / lg 720. Default md. */
   size?: 'sm' | 'md' | 'lg';
   /**
    * 'alertdialog' for confirmations that need an answer: a tap outside never closes it, and focus starts on the

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 export type AlertTone = 'info' | 'warning' | 'error';
 
 export interface AlertOwnProps {
-  /** info (sky) · warning (yellow) · error (red). Default info. */
+  /** info (sky) / warning (yellow) / error (red). Default info. */
   tone?: AlertTone;
   title?: ReactNode;
   children?: ReactNode;

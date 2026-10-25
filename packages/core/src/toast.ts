@@ -8,7 +8,7 @@ export const TOAST_LIMIT = 4;
 export const TOAST_DURATION = 4000;
 
 export interface ToastOwnProps {
-  /** info and success (brand icon) · warning · error. Default info. */
+  /** info and success (brand icon) / warning / error. Default info. */
   tone?: ToastTone;
   title?: ReactNode;
   description?: ReactNode;

@@ -131,7 +131,10 @@ export const InContext: Story = {
   render: () => (
     <div className={css({ display: 'flex', flexDirection: 'column', gap: '2', width: '[420px]', maxWidth: '100%' })}>
       <h3 className={css({ m: '0', textStyle: 'heading-3', color: 'text' })}>用 Panda CSS 重写 Koi</h3>
-      <p className={css({ m: '0', textStyle: 'body', color: 'text-muted' })}>2026 年 10 月 · 约 8 分钟</p>
+      <p className={css({ m: '0', display: 'flex', gap: '3', textStyle: 'body', color: 'text-muted' })}>
+        <span>2026 年 10 月</span>
+        <span>约 8 分钟</span>
+      </p>
       <div className={tagRow}>
         <Tag>设计系统</Tag>
         <Tag>React</Tag>

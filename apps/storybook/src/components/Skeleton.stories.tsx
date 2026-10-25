@@ -67,8 +67,8 @@ export const InText: Story = {
         作者：
         <Skeleton as="span" className={css({ borderRadius: 'sm' })}>
           某某某
-        </Skeleton>{' '}
-        · 发布于{' '}
+        </Skeleton>
+        ，发布于{' '}
         <Skeleton as="span" className={css({ borderRadius: 'sm' })}>
           2026 年 10 月 9 日
         </Skeleton>

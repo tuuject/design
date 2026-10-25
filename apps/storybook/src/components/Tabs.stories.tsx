@@ -123,7 +123,16 @@ export const Example: Story = {
           </div>
         ),
       },
-      { value: 'done', label: '已加载', content: <p className={p}>tcdw · 2026 年 10 月 7 日</p> },
+      {
+        value: 'done',
+        label: '已加载',
+        content: (
+          <p className={css({ m: '0', display: 'flex', gap: '3' })}>
+            <span>tcdw</span>
+            <span>2026 年 10 月 7 日</span>
+          </p>
+        ),
+      },
     ],
   },
 };

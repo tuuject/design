@@ -33,7 +33,7 @@ These hold on every task. The references explain them and add the detail.
 - **Size:** control heights 28 / 36 / 44, one height per row; `md` by default, `sm` only inside dense containers (table cells, tags), never `sm` for icon-only controls; spacing on the 4px `space-*` scale; when in doubt, one step looser.
 - **Motion:** colors 150ms; moving things on `spring`, edge-anchored drawers on `out` 200ms; respect reduced motion.
 - **Icons:** Font Awesome Free Solid as Iconify data through `Icon`, `currentColor`, icon size tokens; no emoji.
-- **Copy:** Simplified Chinese, short and plain; buttons are verbs ("保存"), navigation nouns ("首页"); errors written as the fix ("邮箱格式不太对，请检查一下。"); dates like "Oct 7, 2026"; optional fields "（选填）"; no decorative English. Component copy comes from `strings` in `@koi/core`.
+- **Copy:** Simplified Chinese, short and plain; buttons are verbs ("保存"), navigation nouns ("首页"); errors written as the fix ("邮箱格式不太对，请检查一下。"); dates like "Oct 7, 2026"; optional fields "（选填）"; no decorative English; no middle dots (`U+00B7`, `U+30FB`, look-alikes) as separators: separate inline meta with a layout gap, or with ，、 in a sentence. Component copy comes from `strings` in `@koi/core`.
 
 ## References
 
@@ -64,7 +64,7 @@ Before presenting a design or a diff:
 9. Spacing on the scale, page padding even on all sides? Tight → loosen a step. Lost → one frame per area.
 10. Color transitions 150ms; moving things on spring (`out` for edge-anchored); reduced motion respected?
 11. Icons filled and in `currentColor`, no emoji, icon-only controls named?
-12. Copy in Chinese, verbs on buttons, errors as fixes, no decorative English?
+12. Copy in Chinese, verbs on buttons, errors as fixes, no decorative English, no middle-dot separators?
 13. Could a Koi component replace something hand-styled?
 14. New role-on-background pair added to `contrast-pairs.json`?
 15. Checked in **both themes** and under the `rose` palette?

@@ -15,7 +15,7 @@ export type TableLayout = 'auto' | 'fixed';
 
 /** The table itself. Its parts are plain table elements, so a headless table library can drive them directly. */
 export interface TableOwnProps {
-  /** auto (default) · fixed. Use fixed with column widths when the rows load or page in place. */
+  /** auto (default) / fixed. Use fixed with column widths when the rows load or page in place. */
   layout?: TableLayout;
   children?: ReactNode;
 }
@@ -30,7 +30,7 @@ export type TableFooterOwnProps = TableSectionOwnProps;
 export type TableCaptionOwnProps = TableSectionOwnProps;
 
 export interface TableCellOwnProps {
-  /** start (default) · center · end. */
+  /** start (default) / center / end. */
   align?: TableAlign;
   /** `none` drops the 8px top and bottom padding, so a 36px control fits the 48px row. Default `default`. */
   paddingBlock?: 'default' | 'none';
@@ -86,6 +86,6 @@ export interface DataTableOwnProps<T> {
   empty?: ReactNode;
   /** The table's accessible name, read by screen readers only. */
   caption?: ReactNode;
-  /** auto (default) · fixed. With `fixed` and column widths, columns hold still while rows load and page. */
+  /** auto (default) / fixed. With `fixed` and column widths, columns hold still while rows load and page. */
   layout?: TableLayout;
 }

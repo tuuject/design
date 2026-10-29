@@ -24,7 +24,7 @@ koi-ui/
 │   ├── react/       # @koi/react：web 组件，Base UI（行为）+ Panda CSS v2（recipes）
 │   └── native/      # @koi/native：Expo 组件，Tamagui；目前只有 config
 ├── apps/storybook/  # Storybook 10：组件文档 + 视觉测试台（pnpm shots）
-├── apps/admin/      # Koi Admin Template：Rsbuild + TanStack Router + Zustand 后台模板（pnpm dev:admin）
+├── apps/admin/      # Koi Admin Template：Vite + TanStack Router + Zustand 后台模板（pnpm dev:admin）
 ├── docs/spec/       # 设计规范：README.md 是品牌手册，components/<Name>.md 是逐组件 spec
 ├── agent-doc/       # 面向 agent 的主题文档、计划
 ├── scripts/         # pnpm check 里的静态检查
@@ -47,7 +47,7 @@ koi-ui/
 | 包分层、数据流、平台分工 | [agent-doc/architecture.md](agent-doc/architecture.md) |
 | 加 / 改 token、palette、组件尺寸、对比度 pair | [agent-doc/tokens.md](agent-doc/tokens.md) |
 |写或改 web 组件，Panda / Base UI 的坑|[agent-doc/web-components.md](agent-doc/web-components.md)|
-|Admin 模板（Rsbuild、TanStack Router、集成示例、组件缺口）|[agent-doc/admin.md](agent-doc/admin.md)、`apps/admin/README.md`|
+|Admin 模板（Vite、TanStack Router、集成示例、组件缺口）|[agent-doc/admin.md](agent-doc/admin.md)、`apps/admin/README.md`|
 | 写 native 组件，Tamagui config 与写法对应 | [agent-doc/native.md](agent-doc/native.md) |
 | prop / 文案 / 逻辑该放 core 还是平台包 | [agent-doc/core.md](agent-doc/core.md) |
 | recipe 里引用组件状态（不点名 Base UI） | [agent-doc/headless.md](agent-doc/headless.md) |
@@ -95,7 +95,7 @@ koi-ui/
 
 **dev server 先接管再启动**：用户常常自己开着 `pnpm dev`（Storybook）或 `pnpm dev:admin`。需要时先跑对应的 `pnpm dev:status` / `pnpm dev:admin:status`：
 
-- 在跑：直接用 `http://localhost:6006` / `http://localhost:3000`，编译错误、HMR 状态看 `.temp/dev-storybook.log` / `.temp/dev-admin.log`。改源码会热更新，不用重启。**这个进程是用户的，不准 kill 或重启**；改了 `.storybook/`、`rsbuild.config.ts`、`panda.config.ts`、tokens 这类要重启或重新 codegen 的东西时，停下来请用户重启。
+- 在跑：直接用 `http://localhost:6006` / `http://localhost:3000`，编译错误、HMR 状态看 `.temp/dev-storybook.log` / `.temp/dev-admin.log`。改源码会热更新，不用重启。**这个进程是用户的，不准 kill 或重启**；改了 `.storybook/`、`vite.config.ts`、`panda.config.ts`、tokens 这类要重启或重新 codegen 的东西时，停下来请用户重启。
 - 不在跑：按上面的方式自己后台启动，用完 kill。
 
 两个命令都由 `scripts/dev-server.mjs` 启动（纯 Node，Windows 也能跑）。端口被占时直接失败（admin 的 `strictPort`、Storybook 的 `--exact-port`），不会换端口再起第二个。

@@ -6,8 +6,8 @@ A production-shaped admin application built on **Koi React components** — the 
 
 | Concern | Choice |
 | --- | --- |
-| Build | Rsbuild (`@rsbuild/core` + `@rsbuild/plugin-react`) |
-| Routing | TanStack Router, file-based, via `@tanstack/router-plugin` (`tools.rspack.plugins` in `rsbuild.config.ts`) |
+| Build | Vite (`vite` + `@vitejs/plugin-react`) |
+| Routing | TanStack Router, file-based, via `@tanstack/router-plugin/vite` in `vite.config.ts` |
 | State | Zustand (`stores/auth.ts` session, `stores/ui.ts` shell state) |
 | Server data | TanStack Query (`useQuery` in the routes; `invalidateQueries` after writes) |
 | Forms | `react-hook-form` — `register` for native inputs, `Controller` for Base UI controls (`Checkbox`, `Switch`, `RadioGroup`) |
@@ -17,7 +17,7 @@ A production-shaped admin application built on **Koi React components** — the 
 ## Run
 
 ```sh
-pnpm dev:admin        # codegen (tokens + panda) then rsbuild dev on :3000, also logged to .temp/dev-admin.log
+pnpm dev:admin        # codegen (tokens + panda) then vite on :3000, also logged to .temp/dev-admin.log
 pnpm dev:admin:status # is it already running? (exit 0 + URL and log path)
 pnpm check            # static checks + typecheck (includes this app)
 pnpm --filter admin build
@@ -30,7 +30,7 @@ Demo account: `admin` / `123456`. All data is mock (`src/mock/api.ts`), generate
 - **App shell** (`src/components/app-shell/`): collapsible sidebar (persisted), sticky topbar, breadcrumb, user menu, light/dark toggle, responsive drawer below 768px.
 - **Routes** (`src/routes/`): `login`, `_authed` (guard + shell) → `dashboard`, `orders` (filters, paging, CRUD and CSV import/export; URL state via `validateSearch`), `settings` (validation + submit), `$.tsx` 404.
 - **Navigation config** (`src/nav.ts`): single source for the sidebar; titles come from each route's `staticData.title` (breadcrumb + `document.title`).
-- **Theming**: `theme-init.js` inlined into `<head>` by `rsbuild.config.ts` (`html.tags`) — no flash of the wrong theme. The toggle calls `koiSetTheme`, exactly like any Koi consumer.
+- **Theming**: `theme-init.js` inlined into `<head>` by `vite.config.ts` (`transformIndexHtml`) — no flash of the wrong theme. The toggle calls `koiSetTheme`, exactly like any Koi consumer.
 - **Business pieces built here, not in the library**: sidebar nav, breadcrumbs, user menu (Base UI `Menu` directly), admin icons. See `agent-doc/admin.md` for what should move into `@koi/react` once specced (Menu, NavMenu, Breadcrumb). Tables come from the library (`@koi/react/data-table`, plus the `@koi/react/table` parts where row selection is needed).
 
 ## Copying this template

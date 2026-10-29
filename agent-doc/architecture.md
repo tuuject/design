@@ -22,7 +22,7 @@ Koi 是一个设计系统，不是应用：没有服务进程，没有运行时�
         │
         ▼
   apps/storybook（文档 + 视觉测试台，pnpm shots）
-  apps/admin（Admin 模板：Rsbuild + TanStack Router + Zustand，pnpm dev:admin）
+  apps/admin（Admin 模板：Vite + TanStack Router + Zustand，pnpm dev:admin）
 ```
 
 - 依赖只能向下：`react` / `native` → `core`、`tokens`；`core` 不依赖任何包（只用 `react` 的类型）；`tokens` 不依赖任何包。
@@ -56,7 +56,7 @@ tokens.json ──build.mjs──► dist/*
 | `packages/react/src/<name>/` | web 组件，行为来自 Base UI。详见 [web-components.md](web-components.md) |
 | `packages/native/src/config.ts` | `createKoiConfig()`：tokens → Tamagui config。详见 [native.md](native.md) |
 | `apps/storybook/` | Storybook 10；`scripts/shots.mjs` 截图 |
-| `apps/admin/` | Admin 模板（Rsbuild + TanStack Router + Zustand）；接线和取舍见 [admin.md](admin.md) |
+| `apps/admin/` | Admin 模板（Vite + TanStack Router + Zustand）；接线和取舍见 [admin.md](admin.md) |
 | `scripts/check-*.mjs` | `pnpm check` 里的静态检查（raw 颜色、raw 尺寸、headless 泄漏、core 边界） |
 | `docs/spec/` | 设计规范：品牌手册 + 逐组件 spec |
 | `reference/legacy-web/` | 旧实现（React 18 + 手写 CSS），冻结，只读参考 |

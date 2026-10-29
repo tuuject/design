@@ -8,7 +8,7 @@ import { createWriteStream, mkdirSync } from 'node:fs';
 import { stripVTControlCharacters } from 'node:util';
 
 // Keep in sync with the port each app's dev server is pinned to: server.port + strictPort in
-// apps/admin/rsbuild.config.ts, `-p 6006 --exact-port` in apps/storybook's dev script.
+// apps/admin/vite.config.ts, `-p 6006 --exact-port` in apps/storybook's dev script.
 const PORTS = { admin: 3000, storybook: 6006 };
 
 const [app, flag] = process.argv.slice(2);
@@ -39,7 +39,7 @@ const out = createWriteStream(log);
 const child = spawn(`pnpm codegen && pnpm --filter ${app} dev`, {
   // pnpm is pnpm.cmd on Windows, which only a shell can run.
   shell: true,
-  // stdin stays a TTY so Rsbuild keeps its CLI shortcuts.
+  // stdin stays a TTY so Vite keeps its CLI shortcuts.
   stdio: ['inherit', 'pipe', 'pipe'],
   // Piped stdout is not a TTY, so colours would switch off; force them and strip them from the log.
   env: { ...process.env, FORCE_COLOR: '1' },

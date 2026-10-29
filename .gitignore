@@ -2,7 +2,6 @@ node_modules
 dist
 styled-system
 *.tsbuildinfo
-apps/admin/src/routeTree.gen.ts
 .DS_Store
 apps/storybook/shots/*.png
 !apps/storybook/shots/.gitkeep

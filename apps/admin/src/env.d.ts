@@ -1,6 +1,5 @@
-/// <reference types="@rsbuild/core/types-modules" />
+/// <reference types="vite/client" />
 declare module '@koi/tokens/theme-init.js';
-declare module '*.css';
 interface Window {
   koiSetTheme?: (theme: 'light' | 'dark' | null) => void;
   koiSetFont?: (font: 'chill' | null) => void;

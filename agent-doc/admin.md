@@ -4,20 +4,20 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 
 ## 技术栈与接线
 
-- **Rsbuild**：`apps/admin/rsbuild.config.ts`。TanStack Router 的文件路由插件走 `@tanstack/router-plugin/rspack`，挂在 `tools.rspack.plugins`（官方 Rsbuild 方式）。
+- **Vite**：`apps/admin/vite.config.ts`，入口是 `apps/admin/index.html`。TanStack Router 的文件路由插件走 `@tanstack/router-plugin/vite`，必须排在 `@vitejs/plugin-react` 前面。vite / plugin-react 与 Storybook 同版本。2026-10-30 从 Rsbuild 迁过来：Rsbuild 在热更新时经常崩。迁移后连续 40 次改组件和路由文件（含 `?tsr-split` 拆出的 chunk），HMR 全部生效，没有整页刷新，也没有报错。
 - **样式**：全仓库共用根 `panda.config.ts`，app 通过 `apps/admin/postcss.config.cjs`（Panda 的 PostCSS 插件，同 Storybook）注入 layers。app 里用 `css()` 的文件必须被根配置的 `include` 扫到——已加 `./apps/admin/src/**/*.{ts,tsx}`。
 - **只用一次的样式直接内联**：`className={css({ … })}` 写在 JSX 上，不抽进文件顶部的 `const s = { … }`；只有同一文件里用到两次以上的才放进 `s`（如 `UserMenu` 的 `item`、订单详情的 `detailLabel` / `detailValue`）。解释“为什么”的注释跟着属性写在 `css({})` 里面。
-- **主题**：`theme-init.js` 在 `rsbuild.config.ts` 里读包文件后以 `html.tags` 内联进 `<head>`（无主题闪烁）；切换走 `koiSetTheme`。`hooks/use-theme.ts` 用 `useSyncExternalStore` + `MutationObserver` 直接读 `<html data-theme>`，不另存 state，所以 `koiSetTheme`、跟随系统的切换都能看到。palette 没有做切换 UI，机制与 Storybook 一致。
+- **主题**：`theme-init.js` 在 `vite.config.ts` 里读包文件后，由一个内联插件的 `transformIndexHtml`（`head-prepend`）塞进 `<head>` 最前面（无主题闪烁）；切换走 `koiSetTheme`。`hooks/use-theme.ts` 用 `useSyncExternalStore` + `MutationObserver` 直接读 `<html data-theme>`，不另存 state，所以 `koiSetTheme`、跟随系统的切换都能看到。palette 没有做切换 UI，机制与 Storybook 一致。
 - **数据层用 TanStack Query**：`index.tsx` 里建 `QueryClient`。query key 约定：`['orders', 'list', query]`、`['orders', 'recent', n]`、`['stats']`；写操作成功后 `invalidateQueries` 前缀。订单页 `placeholderData: keepPreviousData`，`loading = isPending || isPlaceholderData`——换筛选 / 翻页出 skeleton，窗口聚焦、删除后的后台重拉不出。删除确认里 `await invalidateQueries` 后再关弹窗，弹窗关上时表格里那行已经没了。
-- **不直接写 `useEffect`**：组件里不用 `useEffect`，只有 `src/hooks/` 里的可复用 hook 可以（`useMountEffect`）。替代写法：页面标题直接渲染 React 19 的 `<title>`（`__root.tsx`；`rsbuild.config.ts` 的 `html.title: ''` 去掉模板里的 `<title>`，不设会回落成 "Rsbuild App"）；任何换页关移动端抽屉在 `index.tsx` 模块顶层 `router.subscribe('onResolved')`，覆盖浏览器后退。
+- **不直接写 `useEffect`**：组件里不用 `useEffect`，只有 `src/hooks/` 里的可复用 hook 可以（`useMountEffect`）。替代写法：页面标题直接渲染 React 19 的 `<title>`（`__root.tsx`；`index.html` 故意不写 `<title>`）；任何换页关移动端抽屉在 `index.tsx` 模块顶层 `router.subscribe('onResolved')`，覆盖浏览器后退。
 - **表单统一用 react-hook-form**：`useForm` + `register`（Input / Textarea）+ `Controller`（Checkbox / Switch / RadioGroup，Base UI 的 `onCheckedChange` / `onChange` 直接接 `field.onChange`）。字段错误取 `errors.<name>?.message` 喂给 `Field`，表单级（如登录失败）用 `setError('root')`，提交态用 `formState.isSubmitting`；保存成功后 `reset(saved)` 让「重置」回到最新基线。见 `routes/login.tsx`、`routes/_authed.settings.tsx`。
 - **路由守卫**：`_authed.tsx` 的 `beforeLoad` 读 zustand store（`useAuthStore.getState()`，persist 同步恢复），未登录 `redirect` 到 `/login?redirect=<href>`；login 的 `validateSearch` 只放行 `/` 开头的回跳地址。
 - **URL 即状态**：订单页的 `id / customer / status / from / to / page / pageSize` 全在 search 里（`validateSearch`），筛选、分页、回跳后还原都靠它。页大小只接受 10 / 20 / 50，日期只接受 `YYYY-MM-DD`。
 - **订单页搜索是手动的**：`OrderSearchForm` 只在点「搜索」或回车时把草稿写进 URL（2026-10-20 去掉实时搜索：后台列表每敲一个字就发查询没有价值，切筛选还会打断正在输入的内容）。表单保留本地草稿，用自己的 `pushedKey` 区分「自己写的 URL」和「外部导航」，后者才覆盖草稿。
 - **筛选栏按自身宽度排版**：字段区 `containerType: inline-size`，内部 grid 用 `@container` 在 480 / 720 / 1200px 切成 1 / 2 / 3 / 4 列；「创建时间」占两列，到 1200px 才恢复单列，否则日期框会被压到只剩图标。搜索 / 重置 `flex: none` 贴右，字段区 `flex: 1 1 480px`，放不下时按钮换行后仍靠右。看容器实际宽度而不是视口，侧边栏折叠不会打乱列数。
 - **订单 CRUD**：新增 / 修改用 `OrderFormDialog`（每次打开换 `key` 重挂里面的 react-hook-form 表单，避免用 effect reset；`Dialog` 本身不换 key，否则以打开状态挂载会跳过进场动画），表格选择用 `@koi/react/table` 的 parts 自己拼（`DataTable` 明确不提供选择），删除支持单行与批量。CSV 导入导出在 `lib/order-csv.ts`：导出带 BOM，导入按 `订单号` upsert（有则更新、无则新增），坏行跳过并在 toast 里报告；最后一行删空时自动退回上一页。
-- **dev server 可被 agent 接管**：`pnpm dev:admin` 走 `scripts/dev-server.mjs`：已有 server 在 3000 时直接退出（不截断它的日志），否则先 codegen 再起 `rsbuild dev`，输出原样打到终端（`FORCE_COLOR` 保留颜色，stdin 仍是 TTY，快捷键可用），去掉 ANSI 后写进 `.temp/dev-admin.log`。用 Node 管道而不是 `| tee`，是为了 Windows 上也能跑。`rsbuild.config.ts` 设了 `strictPort`，端口被占不会悄悄换到 3001。接管规则见 AGENTS.md 的 Long-Running Process Rules。
-- **typecheck**：`node scripts/generate-routes.mjs && tsc`。`@tanstack/router-plugin@1.168` 没有 `tsr` CLI，脚本直接调插件对象的 `vite.configResolved` 钩子生成 `routeTree.gen.ts`（dev/build 时插件本来就会生成）。
+- **dev server 可被 agent 接管**：`pnpm dev:admin` 走 `scripts/dev-server.mjs`：已有 server 在 3000 时直接退出（不截断它的日志），否则先 codegen 再起 `vite`，输出原样打到终端（`FORCE_COLOR` 保留颜色，stdin 仍是 TTY，快捷键可用），去掉 ANSI 后写进 `.temp/dev-admin.log`。用 Node 管道而不是 `| tee`，是为了 Windows 上也能跑。`vite.config.ts` 设了 `strictPort`，端口被占不会悄悄换到 3001。接管规则见 AGENTS.md 的 Long-Running Process Rules。
+- **`routeTree.gen.ts` 提交进 git**（按 TanStack Router 官方 FAQ）：它是运行时代码，不是构建产物。dev / build 时 Vite 插件会重新生成，改了路由文件就把它的 diff 一起提交，不要手改；Biome 仍然跳过它。typecheck 因此只是 `tsc`，不用先生成（2026-10-30 删掉了原来的 `scripts/generate-routes.mjs`）。加了路由却没跑过 dev，`createFileRoute('/xxx')` 在旧的 tree 里找不到路径，`tsc` 会报错，不会悄悄过期。
 
 ## 组件缺口：模板内实现 vs 应该进库
 

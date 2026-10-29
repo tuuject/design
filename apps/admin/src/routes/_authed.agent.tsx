@@ -65,18 +65,22 @@ const TURNS: AgentTurn[] = [
 ];
 
 const s = {
-  thread: css({ display: 'flex', flexDirection: 'column', gap: '5', maxWidth: '[720px]' }),
-  userRow: css({ display: 'flex', justifyContent: 'flex-end' }),
-  turnCol: css({ display: 'flex', flexDirection: 'column', gap: '1', alignItems: 'flex-end', minWidth: '0' }),
-  assistantTurn: css({ display: 'flex', flexDirection: 'column', gap: '1', minWidth: '0' }),
   meta: css({ display: 'flex', gap: '3', textStyle: 'small', color: 'text-muted' }),
 };
 
 function Turn({ turn }: { turn: AgentTurn }) {
   if (turn.from === 'user') {
     return (
-      <div className={s.userRow}>
-        <div className={s.turnCol}>
+      <div className={css({ display: 'flex', justifyContent: 'flex-end' })}>
+        <div
+          className={css({
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1',
+            alignItems: 'flex-end',
+            minWidth: '0',
+          })}
+        >
           <span className={s.meta}>{turn.at}</span>
           <ChatBubble side="sent">{turn.text}</ChatBubble>
         </div>
@@ -84,7 +88,7 @@ function Turn({ turn }: { turn: AgentTurn }) {
     );
   }
   return (
-    <div className={s.assistantTurn}>
+    <div className={css({ display: 'flex', flexDirection: 'column', gap: '1', minWidth: '0' })}>
       <div className={s.meta}>
         <span>{ASSISTANT_NAME}</span>
         <span>{turn.at}</span>
@@ -96,9 +100,9 @@ function Turn({ turn }: { turn: AgentTurn }) {
 
 function AgentPage() {
   return (
-    <div>
+    <div className={css({ maxWidth: '768px', marginInline: 'auto' })}>
       <PageHeader title="AI 助手" description="真人消息是右侧的气泡，助手的回复直接平铺成 markdown 正文。" />
-      <div className={s.thread}>
+      <div className={css({ display: 'flex', flexDirection: 'column', gap: '5' })}>
         {TURNS.map((turn) => (
           <Turn key={turn.at} turn={turn} />
         ))}

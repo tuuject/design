@@ -33,11 +33,6 @@ const MESSAGES: SupportMessage[] = [
   { from: 'customer', at: '14:12', text: '行，麻烦你们了。' },
 ];
 
-const s = {
-  thread: css({ display: 'flex', flexDirection: 'column', gap: '4' }),
-  meta: css({ display: 'flex', gap: '3', textStyle: 'small', color: 'text-muted' }),
-};
-
 function MessageRow({ message }: { message: SupportMessage }) {
   const received = message.from === 'customer';
   const name = received ? CUSTOMER_NAME : AGENT_NAME;
@@ -61,7 +56,7 @@ function MessageRow({ message }: { message: SupportMessage }) {
           alignItems: received ? 'flex-start' : 'flex-end',
         })}
       >
-        <div className={s.meta}>
+        <div className={css({ display: 'flex', gap: '3', textStyle: 'small', color: 'text-muted' })}>
           <span>{name}</span>
           <span>{message.at}</span>
         </div>
@@ -73,7 +68,7 @@ function MessageRow({ message }: { message: SupportMessage }) {
 
 function SupportPage() {
   return (
-    <div>
+    <div className={css({ maxWidth: '768px', marginInline: 'auto' })}>
       <PageHeader title="客服会话" description="客户与客服的一来一回：received 在左，sent 在右。" />
       <Card
         title={CUSTOMER_NAME}
@@ -83,9 +78,8 @@ function SupportPage() {
             <span>已发货</span>
           </span>
         }
-        className={css({ maxWidth: '[720px]' })}
       >
-        <div className={s.thread}>
+        <div className={css({ display: 'flex', flexDirection: 'column', gap: '4' })}>
           {MESSAGES.map((message) => (
             <MessageRow key={message.at} message={message} />
           ))}

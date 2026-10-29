@@ -70,7 +70,7 @@ function SettingsPage() {
   });
 
   return (
-    <div>
+    <div className={css({ maxWidth: '768px', marginInline: 'auto' })}>
       <PageHeader title="个人设置" description="资料保存后立即生效（演示环境不会真的提交到服务器）" />
       <Card title="基本资料" className={css({ marginBlockStart: '6' })}>
         <div className={css({ display: 'flex', alignItems: 'center', gap: '3', marginBlockEnd: '6' })}>

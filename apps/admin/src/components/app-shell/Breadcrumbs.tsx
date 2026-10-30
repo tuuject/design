@@ -13,16 +13,7 @@ export function Breadcrumbs() {
     <nav aria-label="面包屑" className={css({ display: 'flex', alignItems: 'center', minW: '0', overflow: 'hidden' })}>
       <ol className={css({ display: 'flex', alignItems: 'center', gap: '1', minW: '0' })}>
         <li>
-          <AppLink
-            to="/dashboard"
-            className={css({
-              color: 'text-muted',
-              whiteSpace: 'nowrap',
-              transitionProperty: 'color',
-              transitionDuration: 'fast',
-              _hover: { color: 'text' },
-            })}
-          >
+          <AppLink to="/dashboard" variant="plain" className={css({ whiteSpace: 'nowrap' })}>
             首页
           </AppLink>
         </li>

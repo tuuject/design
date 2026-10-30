@@ -5,14 +5,17 @@ import { sizes } from '@koi/tokens/dimensions';
 import type { ComponentPropsWithRef } from 'react';
 import { ExternalIcon } from '../icons';
 
+export type { LinkVariant } from '@koi/core';
+
 export interface LinkProps extends LinkOwnProps, Omit<ComponentPropsWithRef<'a'>, keyof LinkOwnProps> {}
 
 /**
  * An inline text link: amber text over a dashed underline that fills with a soft tint on hover.
- * For links inside running text; for standalone actions use Button (ghost for a quiet one).
+ * `variant="plain"` reads as secondary text and turns brand on hover, for navigation rows such as breadcrumbs.
+ * For standalone actions use Button (ghost for a quiet one).
  */
-export function Link({ external, className, children, ...rest }: LinkProps) {
-  const s = link();
+export function Link({ external, variant, className, children, ...rest }: LinkProps) {
+  const s = link({ variant });
   // Passed target/rel still win, as in legacy.
   const ext = external ? { target: '_blank', rel: 'noopener noreferrer' } : null;
   return (

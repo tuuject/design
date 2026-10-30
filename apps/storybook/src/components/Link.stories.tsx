@@ -1,14 +1,20 @@
-import { Card, Link } from '@koi/react';
+import { Card, ChevronRightIcon, Link, type LinkVariant } from '@koi/react';
 import { css } from '@koi/react/styled-system/css';
+import { sizes } from '@koi/tokens/dimensions';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { stack } from '../layout';
+import { label, row, stack } from '../layout';
+
+const variants: LinkVariant[] = ['underline', 'plain'];
 
 const para = css({ m: '0', maxWidth: '[480px]' });
 
 const meta = {
   title: 'Components/Link',
   component: Link,
-  args: { href: '#', children: '查看更新日志', external: false },
+  args: { href: '#', children: '查看更新日志', external: false, variant: 'underline' },
+  argTypes: {
+    variant: { control: 'inline-radio', options: variants },
+  },
 } satisfies Meta<typeof Link>;
 
 export default meta;
@@ -18,6 +24,42 @@ export const Playground: Story = {};
 
 export const External: Story = {
   args: { href: 'https://example.com', children: '项目主页', external: true },
+};
+
+/** `plain` reads as secondary text and turns brand on hover: no amber, no underline, no tint. For navigation rows. */
+export const Variants: Story = {
+  render: () => (
+    <div className={stack}>
+      {variants.map((v) => (
+        <div key={v} className={row}>
+          <span className={label}>{v}</span>
+          <Link href="#" variant={v}>
+            查看更新日志
+          </Link>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+/** A breadcrumb row: ancestors are `plain` links, the current page is `text` and bold, the separators `text-muted`. */
+export const InBreadcrumbs: Story = {
+  name: 'In breadcrumbs',
+  render: () => (
+    <nav aria-label="面包屑" className={css({ display: 'flex', alignItems: 'center', gap: '1' })}>
+      <Link href="#" variant="plain">
+        首页
+      </Link>
+      <ChevronRightIcon size={sizes['icon-sm']} className={css({ color: 'text-muted' })} />
+      <Link href="#" variant="plain">
+        订单
+      </Link>
+      <ChevronRightIcon size={sizes['icon-sm']} className={css({ color: 'text-muted' })} />
+      <span aria-current="page" className={css({ color: 'text', fontWeight: 'bold' })}>
+        订单详情
+      </span>
+    </nav>
+  ),
 };
 
 export const InText: Story = {

@@ -17,7 +17,7 @@ export { Divider, type DividerProps } from './divider/Divider';
 export { Field, type FieldProps } from './field/Field';
 export * from './icons';
 export { Input, type InputProps } from './input/Input';
-export { Link, type LinkProps } from './link/Link';
+export { Link, type LinkProps, type LinkVariant } from './link/Link';
 export { Pagination, type PaginationProps, type PaginationVariant } from './pagination/Pagination';
 export { Progress, type ProgressProps, type ProgressSize } from './progress/Progress';
 export { Prose, type ProseProps, type ProseSize } from './prose/Prose';

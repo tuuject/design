@@ -10,7 +10,15 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 - **主题**：`theme-init.js` 在 `vite.config.ts` 里读包文件后，由一个内联插件的 `transformIndexHtml`（`head-prepend`）塞进 `<head>` 最前面（无主题闪烁）；切换走 `koiSetTheme`。`hooks/use-theme.ts` 用 `useSyncExternalStore` + `MutationObserver` 直接读 `<html data-theme>`，不另存 state，所以 `koiSetTheme`、跟随系统的切换都能看到。palette 没有做切换 UI，机制与 Storybook 一致。
 - **数据层用 TanStack Query**：`index.tsx` 里建 `QueryClient`。query key 约定：`['orders', 'list', query]`、`['orders', 'recent', n]`、`['stats']`；写操作成功后 `invalidateQueries` 前缀。订单页 `placeholderData: keepPreviousData`，`loading = isPending || isPlaceholderData`——换筛选 / 翻页出 skeleton，窗口聚焦、删除后的后台重拉不出。删除确认里 `await invalidateQueries` 后再关弹窗，弹窗关上时表格里那行已经没了。
 - **不直接写 `useEffect`**：组件里不用 `useEffect`，只有 `src/hooks/` 里的可复用 hook 可以（`useMountEffect`）。替代写法：页面标题直接渲染 React 19 的 `<title>`（`__root.tsx`；`index.html` 故意不写 `<title>`）；任何换页关移动端抽屉在 `index.tsx` 模块顶层 `router.subscribe('onResolved')`，覆盖浏览器后退。
-- **表单统一用 react-hook-form**：`useForm` + `register`（Input / Textarea）+ `Controller`（Checkbox / Switch / RadioGroup，Base UI 的 `onCheckedChange` / `onChange` 直接接 `field.onChange`）。字段错误取 `errors.<name>?.message` 喂给 `Field`，表单级（如登录失败）用 `setError('root')`，提交态用 `formState.isSubmitting`；保存成功后 `reset(saved)` 让「重置」回到最新基线。见 `routes/login.tsx`、`routes/_authed.settings.tsx`。
+- **表单统一用 react-hook-form**：`useForm` + `register`（Input / Textarea）+ `Controller`（Checkbox / Switch / RadioGroup，Base UI 的 `onCheckedChange` / `onChange` 直接接 `field.onChange`）。字段错误取 `errors.<name>?.message` 喂给 `Field`，表单级（如登录失败）用 `setError('root')`，提交态用 `formState.isSubmitting`；保存成功后 `reset(saved)` 让「重置」回到最新基线。见 `routes/login.tsx`、`routes/_authed.settings.tsx`。分区较多的长表单用 `SectionedForm`（见下一条）。
+- **分区长表单 `components/sectioned-form/`**（2026-10-30）：`SectionedForm`（布局、提交流程）+ `FormSection`（分区，Card recipe 画、标题是 `<h2>`）+ `FormField`（包一层 Koi `Field`，按 `name` 从 react-hook-form 取错误）。页面照常 `useForm`，把 `form` 和 `onSubmit: (values) => Promise<saved>` 交给它；示例是 `routes/_authed.assistant-settings.tsx`（`/assistant-settings`，mock 持久化在 `mock/api.ts`）。
+  - **状态只有 react-hook-form 一份**：脏 = `formState.dirtyFields`（相对 `defaultValues`，即最近一次加载或保存的值；改回原值会自动掉出），错误 = `formState.errors`，提交态 = `isSubmitting` / `isSubmitSuccessful`，保存失败 = `setError('root.submit')`（下次提交时 RHF 自己清掉）。组件只把它们映射到自己登记过的分区和字段上；没有 `FormField` 声明的脏路径（如 `setValue` 写进去的）也计数，归到「其他」。
+  - **登记靠 ref 回调**：分区、字段、首尾哨兵都用 React 19 带 cleanup 的 ref 回调登记进 `FormOutline`（`outline.ts`，`useSyncExternalStore` 读），没有 effect。字段卸载后保留 label：条件字段被隐藏时值还在（RHF 默认 `shouldUnregister: false`），改过的仍算未保存，摘要里标「已隐藏」，点它跳到所在分区。
+  - **保存成功的基线**：`reset(服务器返回的值)`（服务器可能规范化，如 trim），再把请求期间又改过的路径（`changedPaths(提交时的值, 当前值)`）`setValue(…, { shouldDirty: true })` 放回去，所以提交中的编辑不丢、并保持为脏。失败时什么都不动。`inFlight` ref 挡住同一 tick 里的二次提交（回车 + 点击）。
+  - **页面必须 `shouldFocusError: false`**：校验失败由 `SectionedForm` 按页面顺序滚到第一个错误字段（Controller 字段 RHF 自己聚焦不到），RHF 默认的聚焦会在之后再跳一次。
+  - **scrollspy**：IntersectionObserver 的 root 是视口去掉顶部 sticky 区（`rootMargin` 的上边距读分区的 `scroll-margin-top`，CSS 是唯一来源，宽窄布局各一个值，ResizeObserver 触发重读）；当前分区 = 第一个还有部分在这条线以下的分区。末尾很短的分区永远到不了这条线，所以「表单末尾已在屏幕上、开头已滚出」时取最后一个。点导航 / 摘要跳转后锁定目标分区，直到用户自己滚（wheel、touch、滚动键，或 `scrollend` 之后的 scroll 事件），避免平滑滚动途中高亮扫过中间分区。
+  - **布局按容器宽度**：根元素 `containerType: inline-size`，`@container (min-width: 720px)` 起左侧 sticky 分区列表，以下是表单上方 sticky 的 `SelectPanel` 下拉（选完自动关闭）。底部操作条 `position: sticky`（不是 fixed）：滚动时浮在内容上，到表单末尾落回自己的位置，不会永久挡住最后的字段；字段的 `scroll-margin-bottom` 让跳转和 Tab 聚焦停在操作条上方。
+  - **脏 / 错标记形状不同**：未保存是 `text-brand` 小圆点，需修正是 `error-text` 的 ErrorIcon，各带一段 sr-only 文字。跳到字段时用 `highlight`（琥珀浅底）闪 1.6s；对应的对比度 pair 已加进 `contrast-pairs.json`。摘要只列字段名，从不显示值（密码字段同理）。
 - **路由守卫**：`_authed.tsx` 的 `beforeLoad` 读 zustand store（`useAuthStore.getState()`，persist 同步恢复），未登录 `redirect` 到 `/login?redirect=<href>`；login 的 `validateSearch` 只放行 `/` 开头的回跳地址。
 - **URL 即状态**：订单页的 `id / customer / status / from / to / page / pageSize` 全在 search 里（`validateSearch`），筛选、分页、回跳后还原都靠它。页大小只接受 10 / 20 / 50，日期只接受 `YYYY-MM-DD`。
 - **订单页搜索是手动的**：`OrderSearchForm` 只在点「搜索」或回车时把草稿写进 URL（2026-10-20 去掉实时搜索：后台列表每敲一个字就发查询没有价值，切筛选还会打断正在输入的内容）。表单保留本地草稿，用自己的 `pushedKey` 区分「自己写的 URL」和「外部导航」，后者才覆盖草稿。
@@ -27,6 +35,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 | 用户下拉菜单 | 直接用 `@base-ui/react/menu`（Menu.Root/Trigger/Positioner/Popup），样式照 SelectPanel spec 的面板（36px 项、`radius-lg`、分隔线贴边、scale 96% 弹出）；等库里出了 Menu 再换 |
 | 表格 | 已进库：`@koi/react/data-table` 的 `DataTable`（2026-10-16，spec `docs/spec/components/Table.md`）。要排序 / 选择时改用 `@koi/react/table` 的 parts 自己拼，可直接接 TanStack Table |
 | 面包屑 | 模板内 `Breadcrumbs`，靠路由 `staticData.title` |
+| 未保存更改摘要 | `sectioned-form/ChangeSummary.tsx` 直接用 Base UI `Menu`（方向键、类型查找、Esc），样式同用户菜单；库里有 Popover / Menu 后再换 |
 | 业务图标 | `components/icons.tsx`，从 `@iconify-icons/fa7-solid` 挑，用 `@koi/react/icons` 的 `Icon` 渲染。Free 里没有的（如侧边栏图标）可以换别的 Iconify 图标集或手写 `{ body, width, height }` |
 
 ## 决定与坑
@@ -40,10 +49,12 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 - **产物告警**：库侧两条既有 `pure_helper_unevaluated`（Pagination 的 `useButtonShape`、SelectPanel 的 `useParts`）来自抽取器无法求值 hook，样式实际由 `staticCss: { recipes: '*' }` 预生成，渲染无影响；属于库的已知行为，不是模板引入的。
 - 布局常量（侧边栏 248/72、顶栏 56、app 层 z-index 60/40）是模板自己的 chrome 常量，低于 Koi 浮层（dialog 900+）；库的 focusRing 没有导出，`shared.ts` 里镜像了一份。
 - **自己 portal 的浮层要给 z-index**：模板里直接用 Base UI 的浮层（如 UserMenu 的 `Menu.Positioner`）portal 到 `<body>` 后没有层级，会被 sticky 顶栏（z-index 40）盖住上沿。照 SelectPanel 给 Positioner `zIndex: 'popup'`。
+- **`reset()` 之后调用 `register` 的组件必须重渲染**：RHF 的 `reset` 会清空字段登记（无参时还会原生 `form.reset()` 把输入框清空），值要等调用 `register` 的组件下次渲染、ref 回调重新登记时才写回 DOM。页面若不读任何 `formState`，RHF 不会重渲染它：「放弃更改」后输入框全空、字段也没了校验。`SectionedForm` 渲染时读一次 `form.formState.isDirty`，让页面订阅上 isDirty。
+- **Base UI Menu 的坑**：默认 `modal` 会锁页面滚动，从菜单项开始的平滑滚动会被吃掉，摘要菜单用 `modal={false}`；`finalFocus` 回调拿到的关闭类型在触摸点选菜单项时不是 `touch`，要从菜单项 click 事件的 `pointerType` 自己判断（触摸时聚焦字段外层，不弹软键盘）。
 - **Dialog 的开关和数据分开存**：别用 `open={detail !== null}`、关闭时 `setDetail(null)`——Base UI 退场时 Popup 还挂着播淡出，数据一清空，内容就先消失再淡出。用独立的 `open` state，关闭只翻它，数据留到下次打开时覆盖；有 loading 的确认框在打开时重置 loading，别在请求结束后先关 loading 再关弹窗（按钮会在淡出中闪回原文案）。见 `routes/_authed.orders.tsx`。
 - **URL 驱动的输入框要跟随外部变化**：`OrderSearchForm` 的草稿只在「外部导航」时被 URL 覆盖（点侧边栏「订单管理」、后退），靠 `pushedKey` 记住自己刚写的筛选，避免自己提交的 URL 落地时把紧接着输入的字清掉。删除按钮的 loading 仍用本地 `deleting`，别换成 `useMutation().isPending`（理由见上一条）。
 - **行内操作是 rounded**：`TableCell` 里的按钮默认 `shape="rounded"`（sm 档左右 8px），操作按钮之间不留间距，组合再 `marginInlineEnd: '-2'` 让最后一个字和表头右边对齐。pill 在行里显得太散（2026-10-16 改，之前一度为「一个 surface 一种形状」统一成 pill）；表格下方的 Pagination 用 `variant="compact"`（圆形 icon-only 上一页 / 下一页，整行固定 pill），spec 允许按钮组之间形状不同。
 
 ## 验证
 
-`pnpm check` 全绿（含 admin typecheck）。浏览器冒烟（dev + 生产构建）：登录/守卫回跳、URL 筛选与分页、详情/删除弹窗 + toast、表单校验与保存同步、深浅主题、折叠侧边栏 + Tooltip、移动端抽屉、404。截图确认过浅色与深色。
+`pnpm check` 全绿（含 admin typecheck）。浏览器冒烟（dev + 生产构建）：登录/守卫回跳、URL 筛选与分页、详情/删除弹窗 + toast、表单校验与保存同步、深浅主题、折叠侧边栏 + Tooltip、移动端抽屉、404。截图确认过浅色与深色。分区长表单（2026-10-30）用 Playwright（系统 Chrome）在 1440 / 1280 / 1024 / 900 / 390 宽度下跑过：scrollspy 与几何计算逐步对拍一致、导航与摘要跳转到具体字段（键盘、鼠标、触摸）、计数与回退、隐藏字段、校验失败跳转、保存失败保留、提交中编辑保留、服务器规范化后的基线、放弃更改。

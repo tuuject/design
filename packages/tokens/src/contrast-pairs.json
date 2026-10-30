@@ -90,7 +90,11 @@
     ["on-error-soft", "error-soft-hover"],
     ["error-fg", "page-bg"],
     ["error-fg", "surface"],
-    ["error-fg", "error-soft"]
+    ["error-fg", "error-soft"],
+    ["secondary-fg", "surface-glass-tint"],
+    ["text", "highlight"],
+    ["text-muted", "highlight"],
+    ["error-text", "highlight"]
   ],
   "ui": [
     ["border-control", "surface"],
@@ -129,6 +133,12 @@
     ["accent-edge", "page-bg"],
     ["secondary-edge", "page-bg"],
     ["warning-edge", "page-bg"],
-    ["error-edge", "page-bg"]
+    ["error-edge", "page-bg"],
+    ["text-brand", "nav-item-hover"],
+    ["text-brand", "nav-item-active"],
+    ["error-text", "nav-item-hover"],
+    ["error-text", "nav-item-active"],
+    ["border-control", "highlight"],
+    ["focus-ring", "highlight"]
   ]
 }

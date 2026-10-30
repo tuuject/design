@@ -28,9 +28,10 @@ Demo account: `admin` / `123456`. All data is mock (`src/mock/api.ts`), generate
 ## What's inside
 
 - **App shell** (`src/components/app-shell/`): collapsible sidebar (persisted), sticky topbar, breadcrumb, user menu, light/dark toggle, responsive drawer below 768px.
-- **Routes** (`src/routes/`): `login`, `_authed` (guard + shell) → `dashboard`, `orders` (filters, paging, CRUD and CSV import/export; URL state via `validateSearch`), `settings` (validation + submit), `$.tsx` 404.
+- **Routes** (`src/routes/`): `login`, `_authed` (guard + shell) → `dashboard`, `orders` (filters, paging, CRUD and CSV import/export; URL state via `validateSearch`), `settings` (validation + submit), `assistant-settings` (a long sectioned form, below), `$.tsx` 404.
 - **Navigation config** (`src/nav.ts`): single source for the sidebar; titles come from each route's `staticData.title` (breadcrumb + `document.title`).
 - **Theming**: `theme-init.js` inlined into `<head>` by `vite.config.ts` (`transformIndexHtml`) — no flash of the wrong theme. The toggle calls `koiSetTheme`, exactly like any Koi consumer.
+- **Sectioned forms** (`src/components/sectioned-form/`): `SectionedForm` + `FormSection` + `FormField` for long react-hook-form forms: sticky section list with scrollspy (a dropdown in narrow containers), a sticky action bar that counts unsaved fields, lists them and jumps to each one, and a save flow that keeps edits on failure and rebases on the server's copy on success. Example: `routes/_authed.assistant-settings.tsx`.
 - **Business pieces built here, not in the library**: sidebar nav, breadcrumbs, user menu (Base UI `Menu` directly), admin icons. See `agent-doc/admin.md` for what should move into `@koi/react` once specced (Menu, NavMenu, Breadcrumb). Tables come from the library (`@koi/react/data-table`, plus the `@koi/react/table` parts where row selection is needed).
 
 ## Copying this template

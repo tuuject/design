@@ -285,3 +285,90 @@ export async function mockLogin(username: string, password: string): Promise<Adm
   }
   return { name: 'Koi 管理员', email: 'admin@koi.design', role: '管理员' };
 }
+
+/** The assistant settings page (`/assistant-settings`): one nested document, saved whole. */
+export interface AssistantSettings {
+  profile: {
+    name: string;
+    description: string;
+    language: string;
+    greeting: string;
+    enabled: boolean;
+  };
+  schedule: {
+    enabled: boolean;
+    frequency: string;
+    time: string;
+    timezone: string;
+    skipHolidays: boolean;
+  };
+  model: {
+    name: string;
+    temperature: number;
+    maxTokens: number;
+    systemPrompt: string;
+    apiKey: string;
+  };
+  access: {
+    visibility: string;
+    readOrders: boolean;
+    readCustomers: boolean;
+    externalLinks: boolean;
+    reviewReplies: boolean;
+  };
+  advanced: {
+    webhookUrl: string;
+    timeoutSeconds: number;
+    retries: string;
+    logging: boolean;
+    logRetentionDays: string;
+  };
+}
+
+let assistantSettings: AssistantSettings = {
+  profile: {
+    name: '小锦',
+    description: '回答订单、物流和售后问题的客服助手。',
+    language: 'zh-CN',
+    greeting: '你好，我是小锦，有什么可以帮你？',
+    enabled: true,
+  },
+  schedule: { enabled: true, frequency: 'weekly', time: '09:30', timezone: 'Asia/Shanghai', skipHolidays: true },
+  model: {
+    name: 'koi-large',
+    temperature: 0.7,
+    maxTokens: 1024,
+    systemPrompt: '你是 Koi 商城的客服助手。回答要简短、礼貌；涉及退款时先确认订单号。',
+    apiKey: 'sk-demo-7f3a9c21',
+  },
+  access: { visibility: 'all', readOrders: true, readCustomers: false, externalLinks: false, reviewReplies: true },
+  advanced: { webhookUrl: '', timeoutSeconds: 30, retries: '1', logging: true, logRetentionDays: '30' },
+};
+
+export async function fetchAssistantSettings(): Promise<AssistantSettings> {
+  await delay(400);
+  return structuredClone(assistantSettings);
+}
+
+/**
+ * Saves the whole document and returns what was stored, which is not always what was sent: text is trimmed here,
+ * as a real API would normalize it. `fail` makes the request fail, for the demo's failure path.
+ */
+export async function saveAssistantSettings(
+  input: AssistantSettings,
+  { fail = false } = {},
+): Promise<AssistantSettings> {
+  await delay(1200);
+  if (fail) {
+    throw new Error('服务器暂时不可用');
+  }
+  const next = structuredClone(input);
+  next.profile.name = next.profile.name.trim();
+  next.profile.description = next.profile.description.trim();
+  next.profile.greeting = next.profile.greeting.trim();
+  next.model.systemPrompt = next.model.systemPrompt.trim();
+  next.model.apiKey = next.model.apiKey.trim();
+  next.advanced.webhookUrl = next.advanced.webhookUrl.trim();
+  assistantSettings = next;
+  return structuredClone(next);
+}

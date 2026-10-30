@@ -14,6 +14,7 @@ import { Route as SplatRouteImport } from './routes/$'
 import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthedAgentRouteImport } from './routes/_authed.agent'
+import { Route as AuthedAssistantSettingsRouteImport } from './routes/_authed.assistant-settings'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed.dashboard'
 import { Route as AuthedOrdersRouteImport } from './routes/_authed.orders'
 import { Route as AuthedSettingsRouteImport } from './routes/_authed.settings'
@@ -43,6 +44,11 @@ const AuthedAgentRoute = AuthedAgentRouteImport.update({
   path: '/agent',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedAssistantSettingsRoute = AuthedAssistantSettingsRouteImport.update({
+  id: '/assistant-settings',
+  path: '/assistant-settings',
+  getParentRoute: () => AuthedRoute,
+} as any)
 const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/$': typeof SplatRoute
   '/login': typeof LoginRoute
   '/agent': typeof AuthedAgentRoute
+  '/assistant-settings': typeof AuthedAssistantSettingsRoute
   '/dashboard': typeof AuthedDashboardRoute
   '/orders': typeof AuthedOrdersRoute
   '/settings': typeof AuthedSettingsRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByTo {
   '/$': typeof SplatRoute
   '/login': typeof LoginRoute
   '/agent': typeof AuthedAgentRoute
+  '/assistant-settings': typeof AuthedAssistantSettingsRoute
   '/dashboard': typeof AuthedDashboardRoute
   '/orders': typeof AuthedOrdersRoute
   '/settings': typeof AuthedSettingsRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/_authed': typeof AuthedRouteWithChildren
   '/login': typeof LoginRoute
   '/_authed/agent': typeof AuthedAgentRoute
+  '/_authed/assistant-settings': typeof AuthedAssistantSettingsRoute
   '/_authed/dashboard': typeof AuthedDashboardRoute
   '/_authed/orders': typeof AuthedOrdersRoute
   '/_authed/settings': typeof AuthedSettingsRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
     | '/$'
     | '/login'
     | '/agent'
+    | '/assistant-settings'
     | '/dashboard'
     | '/orders'
     | '/settings'
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
     | '/$'
     | '/login'
     | '/agent'
+    | '/assistant-settings'
     | '/dashboard'
     | '/orders'
     | '/settings'
@@ -124,6 +135,7 @@ export interface FileRouteTypes {
     | '/_authed'
     | '/login'
     | '/_authed/agent'
+    | '/_authed/assistant-settings'
     | '/_authed/dashboard'
     | '/_authed/orders'
     | '/_authed/settings'
@@ -174,6 +186,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedAgentRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/assistant-settings': {
+      id: '/_authed/assistant-settings'
+      path: '/assistant-settings'
+      fullPath: '/assistant-settings'
+      preLoaderRoute: typeof AuthedAssistantSettingsRouteImport
+      parentRoute: typeof AuthedRoute
+    }
     '/_authed/dashboard': {
       id: '/_authed/dashboard'
       path: '/dashboard'
@@ -207,6 +226,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthedRouteChildren {
   AuthedAgentRoute: typeof AuthedAgentRoute
+  AuthedAssistantSettingsRoute: typeof AuthedAssistantSettingsRoute
   AuthedDashboardRoute: typeof AuthedDashboardRoute
   AuthedOrdersRoute: typeof AuthedOrdersRoute
   AuthedSettingsRoute: typeof AuthedSettingsRoute
@@ -215,6 +235,7 @@ interface AuthedRouteChildren {
 
 const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedAgentRoute: AuthedAgentRoute,
+  AuthedAssistantSettingsRoute: AuthedAssistantSettingsRoute,
   AuthedDashboardRoute: AuthedDashboardRoute,
   AuthedOrdersRoute: AuthedOrdersRoute,
   AuthedSettingsRoute: AuthedSettingsRoute,

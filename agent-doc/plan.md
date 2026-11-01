@@ -23,6 +23,7 @@ Phase 0–1 的逐组件记录（每个组件相对 legacy 的 API / 行为决�
 ## Phase 2：打包与文档
 
 - [x] **发布方式**（2026-11-01）：用 Panda v2 的 `panda lib` + 消费方 `designSystem`，scope `@tuuject`，MIT。构建、消费方配置、版本规则和验证记录见 [publishing.md](publishing.md)。`@tuuject/koi-native` 暂不发布。
+- [x] **外部仓库消费 + Admin 模板可复制**（2026-11-01）：npm 包消费（`designSystem`）和 `apps/admin` 复制清单写进 [consuming-koi.md](consuming-koi.md)。用 tarball 复制模板到临时仓库，Panda 2.1.2 + Vite 8 构建、登录 → dashboard 冒烟通过；同时修了 `FormField` 在 react-hook-form 7.91 下的类型问题。
 - [ ] **motion 进 tokens.json**：现在在 `packages/tokens/scripts/motion.mjs`（文件头有 TODO）。native 的动画驱动也需要这些值。
 - [x] **Storybook 取代 playground**（2026-10-10）：`apps/storybook`，Storybook 10。`Introduction.mdx` 是首页，每个组件有 autodocs 和 stories，工具栏切换主题 / 字体 / 配色，docs 页面跟随工具栏主题。`pnpm shots` 截每个 story。
 - [ ] **Storybook 上线**：Cloudflare Workers 静态资源，`apps/storybook/wrangler.jsonc`（Worker `koi-storybook`，自定义域名 `components.design.tuu.run`）。Workers Builds 连 GitHub：root `/`，build `pnpm build:storybook`，deploy `pnpm deploy:storybook`（不能用 `pnpm --filter storybook deploy`，那会跑 pnpm 自带的 `deploy`）；Node 版本取自 `.nvmrc`，pnpm 取自 `packageManager`。还差 Cloudflare 后台操作：建 Worker、连仓库、设置 build watch paths（`apps/storybook/**`、`packages/**`、根配置），免得将来的 `apps/site`（design.tuu.run）触发它重建。

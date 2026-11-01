@@ -58,3 +58,9 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 ## 验证
 
 `pnpm check` 全绿（含 admin typecheck）。浏览器冒烟（dev + 生产构建）：登录/守卫回跳、URL 筛选与分页、详情/删除弹窗 + toast、表单校验与保存同步、深浅主题、折叠侧边栏 + Tooltip、移动端抽屉、404。截图确认过浅色与深色。分区长表单（2026-10-30）用 Playwright（系统 Chrome）在 1440 / 1280 / 1024 / 900 / 390 宽度下跑过：scrollspy 与几何计算逐步对拍一致、导航与摘要跳转到具体字段（键盘、鼠标、触摸）、计数与回退、隐藏字段、校验失败跳转、保存失败保留、提交中编辑保留、服务器规范化后的基线、放弃更改。
+
+## 外部仓库使用（npm 消费）
+
+`apps/admin` 可以从别的仓库复制，改造成只依赖 `@tuuject/koi-*` npm 包的 app。复制时不要带走 koi-ui 的根 `panda.config.ts`、`tsconfig.base.json` 或 `packages/react/styled-system`：消费方要有自己的 Panda 配置（`designSystem: '@tuuject/koi-react'`）、自己的 PostCSS 配置和独立 tsconfig。完整清单、tarball 联调、Tailwind / Rsbuild 迁移边界和验收步骤见 [consuming-koi.md](consuming-koi.md)。
+
+模板的 demo 数据在 `src/mock/api.ts`，外部接入时换成真实 API；`src/shared.ts` 的 `focusRing` 是库内 helper 的临时镜像，等库导出后再替换。

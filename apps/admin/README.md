@@ -34,6 +34,32 @@ Demo account: `admin` / `123456`. All data is mock (`src/mock/api.ts`), generate
 - **Sectioned forms** (`src/components/sectioned-form/`): `SectionedForm` + `FormSection` + `FormField` for long react-hook-form forms: sticky section list with scrollspy (a dropdown in narrow containers), a sticky action bar that counts unsaved fields, lists them and jumps to each one, and a save flow that keeps edits on failure and rebases on the server's copy on success. Example: `routes/_authed.assistant-settings.tsx`.
 - **Business pieces built here, not in the library**: sidebar nav, breadcrumbs, user menu (Base UI `Menu` directly), admin icons. See `agent-doc/admin.md` for what should move into `@tuuject/koi-react` once specced (Menu, NavMenu, Breadcrumb). Tables come from the library (`@tuuject/koi-react/data-table`, plus the `@tuuject/koi-react/table` parts where row selection is needed).
 
-## Copying this template
+## Copying this template into another repo
 
-The app has no hidden coupling: workspace deps (`@tuuject/koi-react`, `@tuuject/koi-tokens`), one PostCSS config pointing at the root `panda.config.ts`, and one bundler config. Copy `apps/admin`, rename the package, adjust `nav.ts` and the routes, and add `your-app/src` to `include` in the root `panda.config.ts` if you style your own UI with `css()`.
+This is a Vite app, not a component you add to an existing bundler setup. Tailwind, shadcn and Rsbuild are not part of it. Copy `src/`, `index.html`, `vite.config.ts` and the layer line from `src/index.css`, then make four changes:
+
+1. **`panda.config.ts`** in the app root (not the repo root):
+   ```ts
+   import { defineConfig } from '@pandacss/dev';
+
+   export default defineConfig({
+     preflight: true,
+     designSystem: '@tuuject/koi-react',
+     include: ['./src/**/*.{ts,tsx}'],
+   });
+   ```
+   Do not add `presets`, `staticCss` or recipes; `designSystem` already provides the preset and build info.
+2. **`postcss.config.cjs`** points at that config with absolute paths:
+   ```js
+   const path = require('node:path');
+
+   module.exports = {
+     plugins: {
+       '@pandacss/dev/postcss': { configPath: path.join(__dirname, 'panda.config.ts'), cwd: __dirname },
+     },
+   };
+   ```
+3. **`tsconfig.json`** stands on its own: no `extends: "../../tsconfig.base.json"`, no `paths` into `packages/react/styled-system`. Package imports resolve through `@tuuject/koi-react`'s exports.
+4. **`package.json`** renames the package, replaces the workspace deps with published versions (`@tuuject/koi-react`, `@tuuject/koi-tokens`) and adds `@pandacss/dev` as a dev dependency. Then replace `src/mock/api.ts`, the demo account and the mock data with your own API.
+
+The full checklist, local tarball workflow before the packages are on npm, theme / i18n caveats and the Tailwind / Rsbuild migration boundary are in [`agent-doc/consuming-koi.md`](../../agent-doc/consuming-koi.md).

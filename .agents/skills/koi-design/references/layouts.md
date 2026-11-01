@@ -1,6 +1,6 @@
 # Layouts: pages, dashboards, responsive
 
-The Admin template (`apps/admin`) is the reference composition for app pages. Read its routes (`apps/admin/src/routes/`) and `agent-doc/admin.md` before inventing a layout.
+The Admin template (`apps/admin`) is the reference composition for app pages. Read its routes (`apps/admin/src/routes/`) and `agent-doc/admin.md` before inventing a layout. In a consumer project the template is a Vite app to copy, not a dependency: see `references/consumer.md`; the same sources are at <https://github.com/tuuject/design/tree/main/apps/admin>.
 
 ## Dashboards and admin pages
 
@@ -17,7 +17,7 @@ The Admin template (`apps/admin`) is the reference composition for app pages. Re
 
 ## List pages
 
-The orders page (`apps/admin/src/routes/_authed.orders.tsx`) is the reference. Top to bottom: PageHeader → filter Card → toolbar → table → pager, each a separate block on the page.
+The orders page (`apps/admin/src/routes/_authed.orders.tsx`, or the copied route in a consumer) is the reference. Top to bottom: PageHeader → filter Card → toolbar → table → pager, each a separate block on the page.
 
 - **The toolbar sits on the page**, between the filters and the table, not inside a card. Actions on the left; selection count and a refresh IconButton on the right. Keep an equal gap above and below it (`space-5`).
 - **Page-level actions are the default `md` size.** `sm` is for dense containers (table cells, tags), not for making a toolbar look tidy.

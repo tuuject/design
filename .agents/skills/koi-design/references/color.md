@@ -32,7 +32,7 @@ Pick the role by what the thing *is*, not by what color you want:
 
 Every fill has a paired `on-*` text color. Use the pair; don't put `text` on `action-subtle` or white on `accent-solid`.
 
-The full list, each with its `usage` line, is `color.tokens` in `packages/tokens/src/tokens.json`. When the table above doesn't cover a case, read the `usage` lines there instead of guessing.
+The full list, each with its `usage` line, is `color.tokens` in `packages/tokens/src/tokens.json` (inside koi-ui) or `node_modules/@tuuject/koi-tokens/src/tokens.json` (in a consumer). When the table above doesn't cover a case, read the `usage` lines there instead of guessing.
 
 ## What the hues mean
 
@@ -50,5 +50,5 @@ The full list, each with its `usage` line, is `color.tokens` in `packages/tokens
 ## Contrast
 
 - Text 4.5:1; control edges, focus rings and icons 3:1; both themes, every built-in palette.
-- Putting a role on a background it wasn't designed for (e.g. `text-muted` on `action-subtle`) needs a pair in `packages/tokens/src/contrast-pairs.json` (`text` group 4.5:1, `ui` group 3:1), then `pnpm contrast`.
+- Putting a role on a background it wasn't designed for (e.g. `text-muted` on `action-subtle`) needs a pair in `packages/tokens/src/contrast-pairs.json` (`text` group 4.5:1, `ui` group 3:1), then `pnpm contrast`. In a consumer project those files are read-only; choose an existing pair or bring the pair in through a koi-ui change.
 - Details: `agent-doc/tokens.md`.

@@ -68,6 +68,10 @@ export function Form() {
 
 Components use their own generated runtime; write app styles with your app's `styled-system` (it re-exports Koi's runtime and tokens).
 
+## Admin template
+
+The repository's `apps/admin` is a copyable Vite + TanStack Router admin application built only on these packages. Copy its `src/`, `index.html`, `vite.config.ts` and CSS layer, give it its own `panda.config.ts` with `designSystem: '@tuuject/koi-react'`, and replace the demo API. The step-by-step checklist, tarball workflow and migration boundaries are in [`agent-doc/consuming-koi.md`](https://github.com/tuuject/design/blob/main/agent-doc/consuming-koi.md).
+
 ## Links
 
 - Repository, design spec and Storybook instructions: <https://github.com/tuuject/design>

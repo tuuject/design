@@ -81,7 +81,7 @@ CSS 入口要有 layer 顺序，并接 Panda 的 PostCSS 插件：
 module.exports = { plugins: { '@pandacss/dev/postcss': {} } };
 ```
 
-主题用 `@tuuject/koi-tokens/theme-init.js`（在 CSS 之前导入或内联到 `<head>`）。组件从 `@tuuject/koi-react` 导入；应用自己的样式用应用生成的 `styled-system`，它已经重导出 Koi 的 runtime。
+主题用 `@tuuject/koi-tokens/theme-init.js`（在 CSS 之前导入或内联到 `<head>`）。组件从 `@tuuject/koi-react` 导入；应用自己的样式用应用生成的 `styled-system`，它已经重导出 Koi 的 runtime。复制 Admin 模板、tarball 本地联调和 Tailwind / Rsbuild 迁移见 [consuming-koi.md](consuming-koi.md)。
 
 ## 发布
 

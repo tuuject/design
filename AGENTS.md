@@ -59,6 +59,7 @@ koi-ui/
 | 移植一个组件的步骤 | `.agents/skills/port-component/SKILL.md` |
 | 用 Koi 设计 / 调整 / 审查页面与组件的视觉 | `.agents/skills/koi-design/SKILL.md` |
 | npm 发布、导出映射、消费方 Panda 配置 | [agent-doc/publishing.md](agent-doc/publishing.md) |
+| 在另一个仓库消费 Koi、复制 Admin 模板、从 Tailwind / Rsbuild 迁移 | [agent-doc/consuming-koi.md](agent-doc/consuming-koi.md) |
 | 各包对外的用法 | `packages/react/README.md`、`packages/tokens/README.md`、`packages/core/README.md` |
 
 | 用户提到…… | 去看…… |

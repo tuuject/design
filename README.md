@@ -34,6 +34,8 @@ export default defineConfig({
 
 Add `@layer reset, base, tokens, recipes, utilities;` to the app's CSS entry and Panda's PostCSS plugin; the full setup is in [`packages/react/README.md`](packages/react/README.md). `designSystem` loads Koi's published preset and build info, so consumers do not add `presets`, import recipes, or scan `node_modules`.
 
+To copy the Admin template (`apps/admin`, Vite + TanStack Router) into another repo, follow [agent-doc/consuming-koi.md](agent-doc/consuming-koi.md). It covers the four files to rewrite, local tarballs before the packages are on npm, and the Tailwind / Rsbuild / i18n boundaries.
+
 ## Releasing
 
 ```sh

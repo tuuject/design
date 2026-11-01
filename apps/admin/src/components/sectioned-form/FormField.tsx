@@ -22,7 +22,8 @@ export function FormField({ name, label, inlineLabel, className, ...rest }: Form
   const sectionId = useSectionId();
   // Scoped to this field, so typing elsewhere doesn't re-render it.
   const { errors } = useFormState({ name });
-  const error: unknown = get(errors, name)?.message;
+  // react-hook-form types `get()` through the form's field values; the path is dynamic here, so narrow it.
+  const error = (get(errors, name) as { message?: unknown } | undefined)?.message;
   const register = useCallback(
     (el: HTMLDivElement) => outline.registerField(name, label, sectionId, el),
     [outline, name, label, sectionId],

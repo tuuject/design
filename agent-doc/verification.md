@@ -27,6 +27,16 @@ Biome 负责 lint 和格式，配置在根 `biome.json`。格式化风格与 `pl
 - `pnpm lint:fix` 会跑 `--unsafe` 修复，可能改语义（例如 `useExhaustiveDependencies` 会删依赖）；跑完看 `git diff`。
 - 故意的例外（静态 skeleton 的 index key、headless 里的 label 渲染）用行内 `biome-ignore` 加原因，不要整条规则降级。
 
+## 外部消费方验证
+
+发布链路或 Admin 模板改动后，除 `pnpm check` 外还要证明 tarball 在仓库外能用：
+
+1. `pnpm pack:packages`，得到 `.temp/packs/tuuject-koi-{tokens,core,react}-<version>.tgz`。
+2. 在 `.temp/` 里建一个独立 workspace（自己的 `pnpm-workspace.yaml`，不要落进根 workspace），用 `file:` 安装 tarball；`koi-react` 依赖的 `koi-core` / `koi-tokens` 用 `overrides` 指到同一批 tarball，否则 pnpm 会去 registry 找未发布的包。
+3. 消费方配置 `designSystem: '@tuuject/koi-react'`、`@layer reset, base, tokens, recipes, utilities;`、Panda PostCSS；跑 `panda codegen`、`vite build`。
+4. Playwright 打开产物：浅色、`data-theme="dark"`、`data-palette="rose"`，至少检查一个 Button、Card、Input、Switch 和一条自定义 `css()`。
+5. Admin 模板另做一次整包复制验证：只改 `panda.config.ts`、`postcss.config.cjs`、`tsconfig.json`、`package.json`，构建后登录 → dashboard。做法和已验证结果见 [consuming-koi.md](consuming-koi.md#已验证2026-11-01)。
+
 ## 视觉验证
 
 - `pnpm shots [组件…]`：截每个 story 的浅色和深色，存到 `apps/storybook/shots/<组件>-<Story>_<主题>.png`。会自己启动 Storybook（端口 6199），跑完自动关闭。末尾打印 `No console errors.` 才算干净。

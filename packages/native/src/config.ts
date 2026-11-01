@@ -1,6 +1,13 @@
 import { layers, radii, sizes, space } from '@tuuject/koi-tokens/dimensions';
 import { fontStacks, type } from '@tuuject/koi-tokens/native';
-import { createColors, defaultPalette, type Palette, palettes, type RoleToken, type Theme } from '@tuuject/koi-tokens/palette';
+import {
+  createColors,
+  defaultPalette,
+  type Palette,
+  palettes,
+  type RoleToken,
+  type Theme,
+} from '@tuuject/koi-tokens/palette';
 import { type CreateTamaguiProps, createFont, createTamagui, createTokens, isWeb } from '@tamagui/core';
 
 // Koi as a Tamagui config, built from @tuuject/koi-tokens, so iOS, Android and Expo web read the same numbers and colors as

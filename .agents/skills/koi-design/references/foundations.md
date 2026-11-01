@@ -74,7 +74,7 @@ Roundness is the identity. The vocabulary is fixed:
 - Things anchored to a viewport edge (drawer, side sheet) slide on `out` over 200ms instead: the spring's overshoot would expose the gap behind them.
 - Overlays fade over 150–200ms; the Dialog backdrop fades 300ms with its panel.
 - Everything stops under `prefers-reduced-motion`. The web global switch covers components; your own animations must respect it too.
-- Durations and easings are named in Panda (`transitionDuration: 'fast'`, `transitionTimingFunction: 'spring'`); the values live in `packages/tokens/scripts/motion.mjs` for now. Don't write raw ms or bezier values.
+- Durations and easings are named in Panda (`transitionDuration: 'fast'`, `transitionTimingFunction: 'spring'`). Inside koi-ui the values live in `packages/tokens/scripts/motion.mjs`; a consumer only has the named values. Don't write raw ms or bezier values.
 
 ## Icons
 

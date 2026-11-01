@@ -39,11 +39,13 @@ To copy the Admin template (`apps/admin`, Vite + TanStack Router) into another r
 ## Releasing
 
 ```sh
-pnpm check            # static checks + typecheck
-pnpm build:packages   # tokens → core → react; runs `panda lib`
-pnpm pack:packages    # tarballs in .temp/packs, no publish (optional)
-pnpm publish:packages # builds, then publishes the public packages in dependency order
+pnpm version:bump patch # all @tuuject packages, commit + tag vX.Y.Z; --dry-run to preview
+pnpm check              # static checks + typecheck
+pnpm pack:packages      # tarballs in .temp/packs, no publish (optional)
+pnpm publish:packages   # checks versions, builds, publishes in dependency order
 ```
+
+`pnpm version:bump` accepts `major`, `minor`, `patch`, or an explicit `x.y.z`; `--push` also pushes the commit and tag. The four `@tuuject` packages always share one version (`pnpm version:check`, part of `pnpm check`).
 
 `@tuuject/koi-tokens`, `@tuuject/koi-core` and `@tuuject/koi-react` publish; `@tuuject/koi-native` stays private until the first native components land. Locally the workspace imports TypeScript sources; `publishConfig` points the published tarballs at `dist` (see [agent-doc/publishing.md](agent-doc/publishing.md)).
 

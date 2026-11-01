@@ -83,13 +83,37 @@ module.exports = { plugins: { '@pandacss/dev/postcss': {} } };
 
 主题用 `@tuuject/koi-tokens/theme-init.js`（在 CSS 之前导入或内联到 `<head>`）。组件从 `@tuuject/koi-react` 导入；应用自己的样式用应用生成的 `styled-system`，它已经重导出 Koi 的 runtime。复制 Admin 模板、tarball 本地联调和 Tailwind / Rsbuild 迁移见 [consuming-koi.md](consuming-koi.md)。
 
+## 版本
+
+四个 `@tuuject` 包锁步：`@tuuject/koi-tokens`、`@tuuject/koi-core`、`@tuuject/koi-react`、`@tuuject/koi-native` 永远是同一个版本。npm 包之间用 `workspace:*`，发布时 pnpm 抄成同一个版本号。
+
+```sh
+pnpm version:bump patch       # 或 minor / major / 1.2.3
+pnpm version:bump minor --dry-run
+pnpm version:bump minor --push
+```
+
+脚本（`scripts/version-bump.mjs`）做四件事：
+
+1. 检查工作区干净、四个包版本一致（除非 `--allow-dirty`，只用于本地测试）。
+2. 跑 `pnpm version -r <type> --filter '@tuuject/*'`，只改 `package.json`，不碰 lockfile。
+3. `git commit -m "Release vX.Y.Z"`。
+4. `git tag vX.Y.Z`；加 `--push` 时推送提交和 tag。
+
+`--no-commit` / `--no-tag` 只改文件。`pnpm version:check`（已在 `pnpm check` 和 `publish:packages` 里）会拦住版本漂移。
+
+只接受稳定版本（`x.y.z`）。预发布要先手动改版本，发布时加 `--tag next`；现在的 `publish:packages` 按 `latest` 发。
+
+pnpm 11 还内置了 changesets 格式的 intent：`pnpm change --bump minor --summary "…" <pkg>` 写进 `.changeset/`，`pnpm version -r` 消费它并生成 `.changeset/changelogs/`。需要逐包 changelog 时用它；Koi 现在按整组版本走，不生成逐包 changelog。
+
 ## 发布
 
 ```sh
+pnpm version:bump patch   # 先升版本；不升就发当前版本
 pnpm check
 pnpm build:packages
-pnpm pack:packages      # 可选：把 tarball 打到 .temp/packs 检查
-pnpm publish:packages   # build + pnpm -r publish（private 包自动跳过）
+pnpm pack:packages        # 可选：把 tarball 打到 .temp/packs 检查
+pnpm publish:packages     # 检查版本 + build + 依次 publish
 ```
 
 `pnpm publish` 会把 `workspace:*` 改写成版本号，并应用 `publishConfig`。首次发布需要 npm 账号能向 `@tuuject` scope 发布。
@@ -98,11 +122,12 @@ pnpm publish:packages   # build + pnpm -r publish（private 包自动跳过）
 
 - `pnpm check` 通过（对比度、raw color / size、headless、core、middle dot、全部 typecheck）。
 - `pnpm build:packages` 从空 dist 构建通过；`panda lib` 写出 63 个文件。
+- 版本脚本在克隆里验证：`pnpm version:bump patch` 把四个包从 0.1.0 升到 0.1.1，生成 `Release v0.1.1` 提交和 `v0.1.1` tag，工作区干净；`--dry-run` 不改文件。
 - tarball 检查：`exports` 指向 `dist`、类型齐全；`workspace:*` 已改写；`@tuuject/koi-react` 含 182 个 `styled-system` 文件与 `dist/panda`。
 - 消费方 fixture（`.temp/consumer`，未入库）：从 tarball 安装 → `designSystem` → Panda 2.1.2 codegen / cssgen → Vite build → Playwright 截图。浅色、`data-theme="dark"`、`data-palette="rose"` 都生效，按钮 36px / 8px 圆角、Card 24px、Switch pill，无 console error。
 
 ## 未做
 
 - npm 首次发布 / scope 创建（需要账号）。
-- 版本策略：三个包都从 `0.1.0` 开始；以后按 minor 一起升，依赖用 `workspace:*`。
+- 版本策略：四个 `@tuuject` 包从 `0.1.0` 开始锁步升（见上）；依赖用 `workspace:*`。
 - `@tuuject/koi-native` 发布（等首批组件）。

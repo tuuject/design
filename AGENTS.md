@@ -80,7 +80,9 @@ koi-ui/
 - `pnpm check`：codegen + 对比度 + raw 颜色 / raw 尺寸 / headless / core 检查 + 全部 typecheck。**提交前必须通过。**
 - `pnpm build:packages`：按拓扑序构建三个可发布包（tokens → core → react），并跑 `panda lib`。发布相关改动后用它验证。
 - `pnpm pack:packages`：构建后把 tarball 打到 `.temp/packs`，检查 `publishConfig` 和文件清单，不发布。
-- `pnpm publish:packages`：构建并发布 `@tuuject/koi-tokens`、`@tuuject/koi-core`、`@tuuject/koi-react`；`@tuuject/koi-native` 仍是 private。
+- `pnpm version:bump <major|minor|patch|x.y.z>`：四个 `@tuuject` 包一起升版本，提交并打 `vX.Y.Z` tag；`--dry-run` 只预览，`--push` 连提交和 tag 一起推。
+- `pnpm version:check`：检查四个包版本是否一致（已包含在 `pnpm check` 和 `publish:packages` 里）。
+- `pnpm publish:packages`：检查版本、构建并发布 `@tuuject/koi-tokens`、`@tuuject/koi-core`、`@tuuject/koi-react`；`@tuuject/koi-native` 仍是 private。
 - `pnpm lint`：Biome lint + 格式检查（只读，不写文件）。**提交前必须通过。**
 - `pnpm lint:fix`：Biome 自动修复 + 格式化。含 `--unsafe`，会改语义（例如删 hook 依赖），跑完必须 review diff。
 - `pnpm shots [组件…]`：截每个 story 的浅色和深色到 `apps/storybook/shots/`。`KOI_PALETTE=rose` / `KOI_FONT=chill` 截其它配色 / 字体。任何视觉改动后都要打开 PNG 看。

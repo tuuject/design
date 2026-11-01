@@ -16,7 +16,7 @@ pnpm add -D @pandacss/dev
 还没发布、或要联调本地改动时，在 koi-ui 里跑：
 
 ```sh
-pnpm pack:packages   # 输出 .temp/packs/tuuject-koi-{tokens,core,react}-0.1.0.tgz
+pnpm pack:packages   # 输出 .temp/packs/tuuject-koi-{tokens,core,react}-<version>.tgz
 ```
 
 消费方把 `@tuuject/koi-react` / `@tuuject/koi-tokens` 指向 tarball：
@@ -24,8 +24,8 @@ pnpm pack:packages   # 输出 .temp/packs/tuuject-koi-{tokens,core,react}-0.1.0.
 ```json
 {
   "dependencies": {
-    "@tuuject/koi-react": "file:../koi-ui/.temp/packs/tuuject-koi-react-0.1.0.tgz",
-    "@tuuject/koi-tokens": "file:../koi-ui/.temp/packs/tuuject-koi-tokens-0.1.0.tgz"
+    "@tuuject/koi-react": "file:../koi-ui/.temp/packs/tuuject-koi-react-<version>.tgz",
+    "@tuuject/koi-tokens": "file:../koi-ui/.temp/packs/tuuject-koi-tokens-<version>.tgz"
   }
 }
 ```
@@ -35,8 +35,8 @@ pnpm pack:packages   # 输出 .temp/packs/tuuject-koi-{tokens,core,react}-0.1.0.
 ```yaml
 # 消费方仓库根目录 pnpm-workspace.yaml
 overrides:
-  '@tuuject/koi-core': file:../koi-ui/.temp/packs/tuuject-koi-core-0.1.0.tgz
-  '@tuuject/koi-tokens': file:../koi-ui/.temp/packs/tuuject-koi-tokens-0.1.0.tgz
+  '@tuuject/koi-core': file:../koi-ui/.temp/packs/tuuject-koi-core-<version>.tgz
+  '@tuuject/koi-tokens': file:../koi-ui/.temp/packs/tuuject-koi-tokens-<version>.tgz
 ```
 
 ## Panda 配置

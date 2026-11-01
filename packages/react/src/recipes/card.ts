@@ -9,7 +9,7 @@ export const card = defineSlotRecipe({
     root: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '3',
+      gap: '5',
       p: '5',
       boxSizing: 'border-box',
       overflow: 'hidden',

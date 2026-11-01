@@ -1,9 +1,9 @@
-import type { ChatBubbleOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { chatBubble } from '@koi/react/styled-system/recipes';
+import type { ChatBubbleOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { chatBubble } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef } from 'react';
 
-export type { ChatBubbleSide } from '@koi/core';
+export type { ChatBubbleSide } from '@tuuject/koi-core';
 
 export interface ChatBubbleProps
   extends ChatBubbleOwnProps,

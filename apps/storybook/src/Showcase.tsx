@@ -1,5 +1,5 @@
-import { Badge, Button, Divider, Spinner } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Badge, Button, Divider, Spinner } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 
 /** A few live components for the Introduction page. Lives in TSX because Panda doesn't extract from MDX. */
 export function Showcase() {

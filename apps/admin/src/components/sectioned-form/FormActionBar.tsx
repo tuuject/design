@@ -1,8 +1,8 @@
-import { Button } from '@koi/react/button';
-import { Dialog } from '@koi/react/dialog';
-import { ErrorIcon, SuccessIcon } from '@koi/react/icons';
-import { css, cx } from '@koi/react/styled-system/css';
-import { sizes } from '@koi/tokens/dimensions';
+import { Button } from '@tuuject/koi-react/button';
+import { Dialog } from '@tuuject/koi-react/dialog';
+import { ErrorIcon, SuccessIcon } from '@tuuject/koi-react/icons';
+import { css, cx } from '@tuuject/koi-react/styled-system/css';
+import { sizes } from '@tuuject/koi-tokens/dimensions';
 import { useState } from 'react';
 import { ChangeSummary } from './ChangeSummary';
 import type { FieldMark } from './changes';

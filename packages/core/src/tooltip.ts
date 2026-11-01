@@ -1,5 +1,5 @@
 import type { ReactElement, ReactNode } from 'react';
-import type { ChangeDetails } from './change-details';
+import type { ChangeDetails } from './change-details.js';
 
 export type TooltipSide = 'top' | 'bottom';
 

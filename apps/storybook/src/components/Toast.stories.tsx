@@ -1,5 +1,5 @@
-import { Button, Toast, type ToastOptions, ToastProvider, type ToastProviderProps, useToast } from '@koi/react';
-import { css, cx } from '@koi/react/styled-system/css';
+import { Button, Toast, type ToastOptions, ToastProvider, type ToastProviderProps, useToast } from '@tuuject/koi-react';
+import { css, cx } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ComponentProps, useEffect, useRef } from 'react';
 import { fn } from 'storybook/test';

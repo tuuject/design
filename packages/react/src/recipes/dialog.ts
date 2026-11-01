@@ -1,6 +1,6 @@
-import { components as c, space } from '@koi/tokens/dimensions';
-import { defineSlotRecipe } from '@pandacss/dev';
-import { state } from './headless';
+import { components as c, space } from '@tuuject/koi-tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev/define';
+import { state } from './headless.js';
 
 // Port of .koi-dialog* in reference/legacy-web/components/bundle.css and docs/spec/components/Dialog.md.
 // Backdrop and Popup transition from `state.entering` when they open and to `state.exiting` when they close.

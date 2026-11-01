@@ -1,13 +1,13 @@
 import { Field as BaseField } from '@base-ui/react/field';
 import { Radio } from '@base-ui/react/radio';
 import { RadioGroup as BaseRadioGroup } from '@base-ui/react/radio-group';
-import type { RadioGroupOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { radioGroup } from '@koi/react/styled-system/recipes';
+import type { RadioGroupOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { radioGroup } from '@tuuject/koi-react/styled-system/recipes';
 import { type ComponentPropsWithRef, useContext, useId } from 'react';
-import { KoiFieldContext } from '../field/context';
+import { KoiFieldContext } from '../field/context.js';
 
-export type { RadioOption } from '@koi/core';
+export type { RadioOption } from '@tuuject/koi-core';
 
 export interface RadioGroupProps
   extends RadioGroupOwnProps<Event>,

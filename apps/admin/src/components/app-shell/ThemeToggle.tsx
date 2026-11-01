@@ -1,4 +1,4 @@
-import { IconButton } from '@koi/react/button';
+import { IconButton } from '@tuuject/koi-react/button';
 import { useTheme } from '../../hooks/use-theme';
 import { MoonIcon, SunIcon } from '../icons';
 

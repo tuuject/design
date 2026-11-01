@@ -1,6 +1,6 @@
-import type { SkeletonOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { skeleton } from '@koi/react/styled-system/recipes';
+import type { SkeletonOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { skeleton } from '@tuuject/koi-react/styled-system/recipes';
 import type { ElementType, HTMLAttributes, JSX } from 'react';
 
 export interface SkeletonProps extends SkeletonOwnProps, Omit<HTMLAttributes<HTMLElement>, keyof SkeletonOwnProps> {

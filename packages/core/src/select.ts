@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import type { ChangeDetails } from './change-details';
-import type { ControlSize } from './common';
+import type { ChangeDetails } from './change-details.js';
+import type { ControlSize } from './common.js';
 
 export interface SelectOption {
   value: string;

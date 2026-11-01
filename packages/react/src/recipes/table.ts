@@ -1,6 +1,6 @@
-import { components as c } from '@koi/tokens/dimensions';
-import { defineSlotRecipe } from '@pandacss/dev';
-import { focusRing, toPx } from './dimensions';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev/define';
+import { focusRing, toPx } from './dimensions.js';
 
 // docs/spec/components/Table.md. Plain table elements, no headless library: every selector here is a native
 // element, the element's own ARIA (`aria-sort`) or Koi's own attribute (`data-koi-selected`).

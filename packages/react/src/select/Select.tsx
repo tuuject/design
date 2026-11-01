@@ -1,12 +1,12 @@
 import { Field as BaseField } from '@base-ui/react/field';
-import type { SelectOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { select } from '@koi/react/styled-system/recipes';
+import type { SelectOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { select } from '@tuuject/koi-react/styled-system/recipes';
 import { type ComponentProps, type ComponentPropsWithRef, useContext } from 'react';
-import { KoiFieldContext } from '../field/context';
-import { ChevronDownIcon } from '../icons';
+import { KoiFieldContext } from '../field/context.js';
+import { ChevronDownIcon } from '../icons.js';
 
-export type { SelectOption } from '@koi/core';
+export type { SelectOption } from '@tuuject/koi-core';
 
 export interface SelectProps extends SelectOwnProps, Omit<ComponentPropsWithRef<'select'>, keyof SelectOwnProps> {}
 

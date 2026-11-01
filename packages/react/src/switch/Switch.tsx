@@ -1,9 +1,9 @@
 import { Switch as BaseSwitch } from '@base-ui/react/switch';
-import type { SwitchOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { switchRecipe } from '@koi/react/styled-system/recipes';
+import type { SwitchOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { switchRecipe } from '@tuuject/koi-react/styled-system/recipes';
 import { type ComponentPropsWithRef, type Ref, useContext, useId } from 'react';
-import { KoiFieldContext } from '../field/context';
+import { KoiFieldContext } from '../field/context.js';
 
 export interface SwitchProps
   extends SwitchOwnProps<Event>,

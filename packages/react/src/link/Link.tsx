@@ -1,11 +1,11 @@
-import { type LinkOwnProps, strings } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { link } from '@koi/react/styled-system/recipes';
-import { sizes } from '@koi/tokens/dimensions';
+import { type LinkOwnProps, strings } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { link } from '@tuuject/koi-react/styled-system/recipes';
+import { sizes } from '@tuuject/koi-tokens/dimensions';
 import type { ComponentPropsWithRef } from 'react';
-import { ExternalIcon } from '../icons';
+import { ExternalIcon } from '../icons.js';
 
-export type { LinkVariant } from '@koi/core';
+export type { LinkVariant } from '@tuuject/koi-core';
 
 export interface LinkProps extends LinkOwnProps, Omit<ComponentPropsWithRef<'a'>, keyof LinkOwnProps> {}
 

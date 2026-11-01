@@ -1,11 +1,11 @@
-import { type AlertOwnProps, strings } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { type AlertSlot, alert } from '@koi/react/styled-system/recipes';
+import { type AlertOwnProps, strings } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { type AlertSlot, alert } from '@tuuject/koi-react/styled-system/recipes';
 import type { HTMLAttributes } from 'react';
-import { CloseIcon, ErrorIcon, InfoIcon, WarningIcon } from '../icons';
-import type { SlotClassNames } from '../types';
+import { CloseIcon, ErrorIcon, InfoIcon, WarningIcon } from '../icons.js';
+import type { SlotClassNames } from '../types.js';
 
-export type { AlertTone } from '@koi/core';
+export type { AlertTone } from '@tuuject/koi-core';
 
 export interface AlertProps extends AlertOwnProps, Omit<HTMLAttributes<HTMLDivElement>, keyof AlertOwnProps> {
   classNames?: SlotClassNames<AlertSlot>;

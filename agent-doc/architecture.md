@@ -5,18 +5,18 @@ Koi 是一个设计系统，不是应用：没有服务进程，没有运行时�
 ## 包依赖
 
 ```text
-                 packages/tokens  (@koi/tokens)
+                 packages/tokens  (@tuuject/koi-tokens)
                  src/tokens.json ── 唯一事实来源
                         │ scripts/build.mjs
         ┌───────────────┼──────────────────────────┐
         ▼               ▼                          ▼
-  panda-preset.js   dimensions.ts / palette.ts   native.ts
+  panda-preset.js   dimensions.js / palette.js   native.js
   tokens.css        (纯数字、运行时 palette)       (hex 颜色、数字)
   theme-init.js          │                          │
         │                │                          │
         ▼                ▼                          ▼
   packages/react  ◄── packages/core ──►  packages/native
-  (@koi/react)        (@koi/core)        (@koi/native)
+  (@tuuject/koi-react)        (@tuuject/koi-core)        (@tuuject/koi-native)
   Base UI + Panda     props 契约、文案、    Tamagui
   DOM web 应用         纯函数，无 DOM       iOS / Android / Expo web
         │
@@ -27,7 +27,8 @@ Koi 是一个设计系统，不是应用：没有服务进程，没有运行时�
 
 - 依赖只能向下：`react` / `native` → `core`、`tokens`；`core` 不依赖任何包（只用 `react` 的类型）；`tokens` 不依赖任何包。
 - `react` 和 `native` 互不依赖，也不共享渲染代码。它们共享的是 tokens（数值和颜色）和 core（props、文案、逻辑）。
-- 根目录的 `panda.config.ts` 统一扫描 `packages/react/src` 和 `apps/storybook/src`，生成 `packages/react/styled-system/`（gitignore）。
+- 根目录的 `panda.config.ts`（开发）统一扫描 `packages/react/src`、`apps/storybook/src`、`apps/admin/src`，生成 `packages/react/styled-system/`（gitignore）。
+- `packages/react/panda.config.ts`（发布）只扫描库自己的 `src`，供 `panda lib` 生成 `dist/panda/`。两份配置共享 `packages/react/panda.base.ts`。
 
 ## 主数据流：一个值从 token 到屏幕
 
@@ -37,7 +38,7 @@ tokens.json ──build.mjs──► dist/*
   ├─ web:  panda-preset.js ──panda codegen──► styled-system/ ──► recipe(className) ──► CSS 变量
   │        theme-init.js 在 <html> 上设 data-theme / data-font / data-palette
   │
-  └─ native: dimensions.ts + palette.ts(createColors) ──► createKoiConfig() ──► Tamagui tokens / themes / font
+  └─ native: dimensions.js + palette.js(createColors) ──► createKoiConfig() ──► Tamagui tokens / themes / font
 ```
 
 同一个值（比如 Switch 轨道宽 36）在 web 端经 `toPx(c.switch.trackWidth)` 变成 CSS，在 native 端经 `components.switch.trackWidth` 变成数字。两端都不写字面量（`scripts/check-raw-sizes.mjs` 检查）。
@@ -65,11 +66,12 @@ tokens.json ──build.mjs──► dist/*
 
 | 消费方 | 用哪个包 | 主题 / 配色怎么切换 |
 | --- | --- | --- |
-| DOM web 应用（Vite、Next…） | `@koi/react` + `@koi/tokens/panda` | `<html data-theme / data-palette>`，`theme-init.js` 的 `koiSetTheme` / `koiSetPalette` |
-| Expo 应用（iOS、Android、Expo web） | `@koi/native` | Tamagui 的 `<Theme name="dark">`、`light_rose` 子主题 |
-| 不用 Panda 的网页 | `@koi/tokens/tokens.css` | 同 DOM web |
+| DOM web 应用（Vite、Next…） | `@tuuject/koi-react`（`designSystem`）+ 自己的 Panda | `<html data-theme / data-palette>`，`theme-init.js` 的 `koiSetTheme` / `koiSetPalette` |
+| Expo 应用（iOS、Android、Expo web） | `@tuuject/koi-native` | Tamagui 的 `<Theme name="dark">`、`light_rose` 子主题 |
+| 不用 Panda 的网页 | `@tuuject/koi-tokens/tokens.css` | 同 DOM web |
+| 发布 / 打包 | `panda lib` + `publishConfig` | 见 [publishing.md](publishing.md) |
 
-Expo web 由 Tamagui 渲染，不用 `@koi/react`。所以 web 上会有两种渲染，像素一致性靠截图比对保证（[verification.md](verification.md)）。
+Expo web 由 Tamagui 渲染，不用 `@tuuject/koi-react`。所以 web 上会有两种渲染，像素一致性靠截图比对保证（[verification.md](verification.md)）。
 
 ## 外部依赖
 
@@ -82,3 +84,7 @@ Expo web 由 Tamagui 渲染，不用 `@koi/react`。所以 web 上会有两种�
 | `wrangler` | 把静态 Storybook 部署到 Cloudflare Workers |
 
 版本以各 `package.json` 和 `pnpm-lock.yaml` 为准。
+
+## npm 发布
+
+三个包（`tokens`、`core`、`react`）发布到 `@tuuject` scope；`native` 还是 private。`pnpm build:packages` 按拓扑序构建，`@tuuject/koi-react` 额外跑 `panda lib`，产出 `dist/panda/{lib.json,buildinfo.json,preset.mjs}`。消费方在 `panda.config.ts` 写 `designSystem: '@tuuject/koi-react'`，Panda 就会加载 preset 和 buildinfo，不需要扫描 `node_modules`。细节和验证记录见 [publishing.md](publishing.md)。

@@ -1,5 +1,5 @@
-import { Prose } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Prose } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 // A local image so the shots don't depend on the network.

@@ -1,8 +1,8 @@
-// Keeps @koi/core platform-neutral and the platforms built on it (agent-doc/core.md):
+// Keeps @tuuject/koi-core platform-neutral and the platforms built on it (agent-doc/core.md):
 // 1. packages/core imports nothing but types from 'react' and its own files.
 // 2. packages/core names no platform type. Its tsconfig has no DOM lib, but @types/react declares empty
 //    stand-ins for Event, HTMLElement and the like, so those would still compile without this check.
-// 3. Every exported `<Name>Props` in @koi/react is built on `<Name>OwnProps` from @koi/core.
+// 3. Every exported `<Name>Props` in @tuuject/koi-react is built on `<Name>OwnProps` from @tuuject/koi-core.
 // Usage: node scripts/check-core.mjs
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
@@ -67,7 +67,7 @@ for (const f of webFiles) {
       }
     }
     if (!text.includes(`${m[1]}OwnProps`)) {
-      report(f, i, `${m[1]}Props  →  build it on ${m[1]}OwnProps from @koi/core`);
+      report(f, i, `${m[1]}Props  →  build it on ${m[1]}OwnProps from @tuuject/koi-core`);
     }
   });
 }

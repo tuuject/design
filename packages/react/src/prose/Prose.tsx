@@ -1,9 +1,9 @@
-import type { ProseOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { prose } from '@koi/react/styled-system/recipes';
+import type { ProseOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { prose } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef } from 'react';
 
-export type { ProseSize } from '@koi/core';
+export type { ProseSize } from '@tuuject/koi-core';
 
 export interface ProseProps extends ProseOwnProps, Omit<ComponentPropsWithRef<'div'>, keyof ProseOwnProps> {}
 

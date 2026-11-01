@@ -7,14 +7,14 @@ import {
   type ToastOwnProps,
   type ToastProviderOwnProps,
   type ToastTone,
-} from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { type ToastSlot, toast as toastRecipe } from '@koi/react/styled-system/recipes';
+} from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { type ToastSlot, toast as toastRecipe } from '@tuuject/koi-react/styled-system/recipes';
 import { type HTMLAttributes, type ReactNode, createContext, useContext, useEffect, useMemo, useRef } from 'react';
-import { CloseIcon, ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../icons';
-import type { SlotClassNames } from '../types';
+import { CloseIcon, ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../icons.js';
+import type { SlotClassNames } from '../types.js';
 
-export type { ToastOptions, ToastTone } from '@koi/core';
+export type { ToastOptions, ToastTone } from '@tuuject/koi-core';
 
 export interface ToastProps extends ToastOwnProps, Omit<HTMLAttributes<HTMLDivElement>, keyof ToastOwnProps> {
   // The viewport belongs to ToastProvider.

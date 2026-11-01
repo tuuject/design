@@ -1,6 +1,6 @@
-import { Card, ChevronRightIcon, Link, type LinkVariant } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
-import { sizes } from '@koi/tokens/dimensions';
+import { Card, ChevronRightIcon, Link, type LinkVariant } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
+import { sizes } from '@tuuject/koi-tokens/dimensions';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { label, row, stack } from '../layout';
 

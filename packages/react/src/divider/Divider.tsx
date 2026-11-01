@@ -1,7 +1,7 @@
 import { Separator } from '@base-ui/react/separator';
-import type { DividerOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { separator } from '@koi/react/styled-system/recipes';
+import type { DividerOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { separator } from '@tuuject/koi-react/styled-system/recipes';
 import { useId } from 'react';
 
 export interface DividerProps extends DividerOwnProps {

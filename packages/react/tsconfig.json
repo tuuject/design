@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     // The package imports its own generated code by package name; this makes that resolve inside the package too.
-    "paths": { "@koi/react/styled-system/*": ["./styled-system/*"] }
+    "paths": { "@tuuject/koi-react/styled-system/*": ["./styled-system/*"] }
   },
   "include": ["src", "styled-system"]
 }

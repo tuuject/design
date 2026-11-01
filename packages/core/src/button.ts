@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { ControlSize } from './common';
+import type { ControlSize } from './common.js';
 
 export const BUTTON_COLORS = ['primary', 'accent', 'secondary', 'warning', 'error'] as const;
 export const BUTTON_VARIANTS = ['solid', 'soft', 'outline', 'ghost'] as const;

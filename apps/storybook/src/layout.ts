@@ -1,4 +1,4 @@
-import { css } from '@koi/react/styled-system/css';
+import { css } from '@tuuject/koi-react/styled-system/css';
 
 // Shared layout for the matrix stories: one labelled row per variant or state.
 export const stack = css({ display: 'flex', flexDirection: 'column', gap: '4' });

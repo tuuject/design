@@ -1,6 +1,6 @@
-import { components as c } from '@koi/tokens/dimensions';
-import { defineRecipe } from '@pandacss/dev';
-import { linkStyle } from './link';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
+import { defineRecipe } from '@pandacss/dev/define';
+import { linkStyle } from './link.js';
 
 // docs/spec/components/Prose.md. The blog's article styling (MarkdownBody.astro: Tailwind Typography's `prose`
 // with `prose-slate` and Koi's overrides) as one recipe. Every size and gap inside is em, so the whole block scales

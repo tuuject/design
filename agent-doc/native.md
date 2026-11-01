@@ -1,6 +1,6 @@
-# Native 组件（`@koi/native`）
+# Native 组件（`@tuuject/koi-native`）
 
-Expo 应用用的 Koi：iOS、Android 和 Expo web，基于 **Tamagui**（版本线见 `packages/native/package.json`）。DOM web 应用用 `@koi/react`；两者共享 `@koi/tokens`（数值、颜色）和 `@koi/core`（props、文案、逻辑），**不共享渲染代码**。
+Expo 应用用的 Koi：iOS、Android 和 Expo web，基于 **Tamagui**（版本线见 `packages/native/package.json`）。DOM web 应用用 `@tuuject/koi-react`；两者共享 `@tuuject/koi-tokens`（数值、颜色）和 `@tuuject/koi-core`（props、文案、逻辑），**不共享渲染代码**。
 
 当前状态：Tamagui config 已完成；组件和展示用的 Expo 应用还没开始（[plan.md](plan.md#phase-3react-native)）。第一个消费方是 Bilisound 的 `apps/mobile-next`（接入暂缓，见 Bilisound 仓库的 `agent-doc/v3-plan/koi-design-system.md`）。
 
@@ -30,7 +30,7 @@ tsconfig 不带 DOM lib。`scripts/check-raw-sizes.mjs` 已经覆盖 `packages/n
 | 主题别名 | `background`（page-bg）、`color`（text）、`borderColor`（border）、`placeholderColor`（text-muted）、`outlineColor`（focus-ring） | 给 Tamagui 自带的 primitive 用 |
 | 主题名 | `light`、`dark`（默认 palette），`light_rose`、`dark_rose`，以及 `palettes` 选项里每一套 `light_<id>` / `dark_<id>` | |
 | 字体 | 一套 font，key 是 Koi 文字样式名：`fontSize="$body"`，`lineHeight` / `fontWeight` 用同一个 key | `type` |
-| 组件尺寸 | 不在 config 里：直接 `import { components } from '@koi/tokens/dimensions'` | `components` |
+| 组件尺寸 | 不在 config 里：直接 `import { components } from '@tuuject/koi-tokens/dimensions'` | `components` |
 
 - 字体：web（Expo web）用 Koi 的系统字体栈，iOS / Android 用系统字体。`fontFamily` 可以指定已加载的字体（ChillRoundF 在 native 上需要完整字体文件，见 plan 的「未决事项」）。
 - 动画驱动不由 Koi 选择，应用通过 `animations` 传入。
@@ -40,10 +40,10 @@ tsconfig 不带 DOM lib。`scripts/check-raw-sizes.mjs` 已经覆盖 `packages/n
 ## 写一个 native 组件
 
 1. **读**：`docs/spec/components/<Name>.md`（外观和行为）、[web-port-record.md](web-port-record.md) 里该组件那一行（已定的 API / 行为决定）、web 实现（`packages/react/src/recipes/<name>.ts` 是最精确的数值和状态清单）。
-2. **props**：`<Name>Props` = `<Name>OwnProps<GestureResponderEvent>`（来自 `@koi/core`）+ Tamagui / RN 的 props。表单接线等 web 专属 props 不搬。导出的 props 里不能出现 Tamagui 的类型（[headless.md](headless.md) 规则 5）。规则见 [core.md](core.md)。
+2. **props**：`<Name>Props` = `<Name>OwnProps<GestureResponderEvent>`（来自 `@tuuject/koi-core`）+ Tamagui / RN 的 props。表单接线等 web 专属 props 不搬。导出的 props 里不能出现 Tamagui 的类型（[headless.md](headless.md) 规则 5）。规则见 [core.md](core.md)。
 3. **值**：颜色用主题 key（`$surface`、`$textMuted`）；共享尺寸用 token（`$control-md`、`$3`）；组件尺寸用 `components.<组件>.<部件>`；文案用 `strings`；逻辑用 core 的纯函数。**不写字面量。**
 4. **行为**：优先用 Tamagui 的 headless 包（下表），自己只负责样式。
-5. **验证**：Storybook 截图和 `@koi/react` 对比，加上真机检查（[verification.md](verification.md)）。
+5. **验证**：Storybook 截图和 `@tuuject/koi-react` 对比，加上真机检查（[verification.md](verification.md)）。
 
 ### web recipe → Tamagui
 
@@ -102,4 +102,4 @@ tsconfig 不带 DOM lib。`scripts/check-raw-sizes.mjs` 已经覆盖 `packages/n
 
 - Koi 不放某个应用专属的组件。Bilisound 的 PageShell、DualScrollView、ActionMenu、播放器 UI 留在 Bilisound 里，用 Koi 的 tokens 和主题重做。
 - Koi 不 import 任何应用代码。
-- `@koi/native` 不依赖 `@koi/react`。web 实现只作为参考来读，不 import。
+- `@tuuject/koi-native` 不依赖 `@tuuject/koi-react`。web 实现只作为参考来读，不 import。

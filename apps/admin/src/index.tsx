@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { routeTree } from './routeTree.gen';
 import { useUiStore } from './stores/ui';
 // ChillRoundF subsets; only fetched when <html data-font="chill"> (theme-init handles the attribute).
-import '@koi/tokens/fonts.css';
+import '@tuuject/koi-tokens/fonts.css';
 import './index.css';
 
 const queryClient = new QueryClient();

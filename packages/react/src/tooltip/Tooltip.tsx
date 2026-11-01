@@ -1,10 +1,10 @@
 import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip';
-import type { TooltipOwnProps } from '@koi/core';
-import { tooltip } from '@koi/react/styled-system/recipes';
-import { components } from '@koi/tokens/dimensions';
+import type { TooltipOwnProps } from '@tuuject/koi-core';
+import { tooltip } from '@tuuject/koi-react/styled-system/recipes';
+import { components } from '@tuuject/koi-tokens/dimensions';
 import { type ReactElement, Children, cloneElement, useId, useState } from 'react';
 
-export type { TooltipSide } from '@koi/core';
+export type { TooltipSide } from '@tuuject/koi-core';
 
 export interface TooltipProps extends TooltipOwnProps<Event> {}
 

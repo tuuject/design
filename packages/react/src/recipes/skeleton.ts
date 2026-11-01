@@ -1,4 +1,4 @@
-import { defineRecipe } from '@pandacss/dev';
+import { defineRecipe } from '@pandacss/dev/define';
 
 // Port of .koi-skeleton in reference/legacy-web/components/bundle.css and docs/spec/components/Skeleton.md.
 // Only the fill and the shimmer: width, height, radius and layout come from the consumer.

@@ -1,5 +1,5 @@
-import { Button, Divider } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Button, Divider } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {

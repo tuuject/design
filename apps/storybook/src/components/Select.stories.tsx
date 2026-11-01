@@ -1,5 +1,5 @@
-import { Button, Field, Input, Select } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Button, Field, Input, Select } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import { label, row, stack } from '../layout';

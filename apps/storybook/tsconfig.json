@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "paths": { "@koi/react/styled-system/*": ["../../packages/react/styled-system/*"] }
+    "paths": { "@tuuject/koi-react/styled-system/*": ["../../packages/react/styled-system/*"] }
   },
   "include": ["src", ".storybook"]
 }

@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "noEmit": false,
+    "declaration": true,
+    "noEmitOnError": true,
+    "rootDir": "../../.temp/tokens-build",
+    "outDir": "dist"
+  },
+  "include": ["../../.temp/tokens-build/**/*.ts"]
+}

@@ -23,16 +23,16 @@
 | --- | --- |
 | recipe / slot recipe | Panda 的组件样式定义；slot recipe 一次给多个部件出 class（`root`、`control`…） |
 | headless adapter | `packages/react/src/recipes/headless.ts`，唯一知道 Base UI 的样式文件，提供 `state.*` / `vars.*`（[headless.md](headless.md)） |
-| `<Name>OwnProps` | `@koi/core` 里与平台无关的组件 props；平台包的 `<Name>Props` 建立在它上面（[core.md](core.md)） |
+| `<Name>OwnProps` | `@tuuject/koi-core` 里与平台无关的组件 props；平台包的 `<Name>Props` 建立在它上面（[core.md](core.md)） |
 | `ChangeDetails<E>` | Koi 的 change callback 第二参数：`reason`、`event`、`cancel()`；`E` 是平台事件类型 |
-| `strings` | `@koi/core` 里组件自带的全部中文文案 |
-| component 组 / `components` | `tokens.json` 里每个组件自己的尺寸；生成到 `@koi/tokens/dimensions` 的 `components`（[tokens.md](tokens.md)） |
+| `strings` | `@tuuject/koi-core` 里组件自带的全部中文文案 |
+| component 组 / `components` | `tokens.json` 里每个组件自己的尺寸；生成到 `@tuuject/koi-tokens/dimensions` 的 `components`（[tokens.md](tokens.md)） |
 | `toPx()` | recipe 里把尺寸数字写成 Panda 任意值：`toPx(16)` → `'[16px]'` |
 | `koi-web-only` | 行尾注释标记：只属于 web 的字面尺寸，允许留在源码里 |
 | `koi-allow-headless` / `koi-allow-core` | 对应检查的例外标记，必须写理由 |
 | `ShapeProvider` | 容器给内部按钮指定默认形状（整页包 pill → 博客风格；Dialog footer、TableCell → rounded） |
 | shots | `pnpm shots` 产出的 story 截图，用于视觉检查和像素比对（[verification.md](verification.md)） |
-| `createKoiConfig()` | `@koi/native` 从 tokens 生成 Tamagui config 的函数（[native.md](native.md)） |
+| `createKoiConfig()` | `@tuuject/koi-native` 从 tokens 生成 Tamagui config 的函数（[native.md](native.md)） |
 
 ## 消费方
 

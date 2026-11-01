@@ -1,7 +1,7 @@
-import { components as c } from '@koi/tokens/dimensions';
-import { defineSlotRecipe } from '@pandacss/dev';
-import { focusRing, toPx } from './dimensions';
-import { state } from './headless';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev/define';
+import { focusRing, toPx } from './dimensions.js';
+import { state } from './headless.js';
 
 // Port of .koi-check* in reference/legacy-web/components/bundle.css and docs/spec/components/Checkbox.md.
 // DOM: <label root> <span control role=checkbox><span indicator><svg/></span></span> <input hidden/> <span text>…</span> </label>.

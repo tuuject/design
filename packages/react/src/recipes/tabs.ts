@@ -1,6 +1,6 @@
-import { defineSlotRecipe } from '@pandacss/dev';
-import { focusRing } from './dimensions';
-import { state, vars } from './headless';
+import { defineSlotRecipe } from '@pandacss/dev/define';
+import { focusRing } from './dimensions.js';
+import { state, vars } from './headless.js';
 
 // Port of .koi-tabs* in reference/legacy-web/components/bundle.css and docs/spec/components/Tabs.md.
 // DOM: <div root> <div list role=tablist> <button tab role=tab/>… <span indicator/> </div> <div panel role=tabpanel/> </div>.

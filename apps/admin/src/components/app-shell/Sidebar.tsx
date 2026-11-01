@@ -1,6 +1,6 @@
-import { css } from '@koi/react/styled-system/css';
-import { Tooltip } from '@koi/react/tooltip';
-import { sizes } from '@koi/tokens/dimensions';
+import { css } from '@tuuject/koi-react/styled-system/css';
+import { Tooltip } from '@tuuject/koi-react/tooltip';
+import { sizes } from '@tuuject/koi-tokens/dimensions';
 import { useNavigate, useRouterState } from '@tanstack/react-router';
 import { NAV_ITEMS } from '../../nav';
 import { useUiStore } from '../../stores/ui';

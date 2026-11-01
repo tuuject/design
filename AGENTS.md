@@ -8,9 +8,9 @@ Koi 是一个柔和、圆润的设计系统（圆角按钮、pill 形 tab / tag 
 
 ## Project Goals
 
-- 一个设计系统服务多个应用、多个平台：DOM 网站用 `@koi/react`，Expo 应用（iOS、Android、Expo web）用 `@koi/native`。第一个 native 消费方是 Bilisound。
+- 一个设计系统服务多个应用、多个平台：DOM 网站用 `@tuuject/koi-react`，Expo 应用（iOS、Android、Expo web）用 `@tuuject/koi-native`。第一个 native 消费方是 Bilisound。
 - 所有数值和颜色只有一个来源：`packages/tokens/src/tokens.json`。各平台读同一份数据，不各自写死。
-- 组件的 props、文案、纯逻辑放在平台无关的 `@koi/core`，两个平台实现的是同一套 API。
+- 组件的 props、文案、纯逻辑放在平台无关的 `@tuuject/koi-core`，两个平台实现的是同一套 API。
 - headless 库可替换：样式不点名 Base UI，公开 props 不暴露库的类型。
 - 不做：某个应用专属的组件（留在应用里）；在 DOM web 上用 Tamagui；修改 `reference/legacy-web/`。
 
@@ -19,10 +19,10 @@ Koi 是一个柔和、圆润的设计系统（圆角按钮、pill 形 tab / tag 
 ```text
 koi-ui/
 ├── packages/
-│   ├── tokens/      # @koi/tokens：tokens.json → CSS 变量、Panda preset、theme-init、数值、palette 运行时
-│   ├── core/        # @koi/core：<Name>OwnProps、文案 strings、纯函数；纯 TS，无 DOM
-│   ├── react/       # @koi/react：web 组件，Base UI（行为）+ Panda CSS v2（recipes）
-│   └── native/      # @koi/native：Expo 组件，Tamagui；目前只有 config
+│   ├── tokens/      # @tuuject/koi-tokens：tokens.json → CSS 变量、Panda preset、theme-init、数值、palette 运行时
+│   ├── core/        # @tuuject/koi-core：<Name>OwnProps、文案 strings、纯函数；纯 TS，无 DOM
+│   ├── react/       # @tuuject/koi-react：web 组件，Base UI（行为）+ Panda CSS v2（recipes）
+│   └── native/      # @tuuject/koi-native：Expo 组件，Tamagui；目前只有 config
 ├── apps/storybook/  # Storybook 10：组件文档 + 视觉测试台（pnpm shots）
 ├── apps/admin/      # Koi Admin Template：Vite + TanStack Router + Zustand 后台模板（pnpm dev:admin）
 ├── docs/spec/       # 设计规范：README.md 是品牌手册，components/<Name>.md 是逐组件 spec
@@ -36,7 +36,7 @@ koi-ui/
 
 ## Architecture Overview
 
-**数据流**：`tokens.json → build.mjs → dist/*（Panda preset / dimensions / palette / native）→ @koi/react（recipes → CSS）| @koi/native（createKoiConfig → Tamagui）`
+**数据流**：`tokens.json → build.mjs → dist/*（Panda preset / dimensions / palette / native）→ @tuuject/koi-react（recipes → CSS）| @tuuject/koi-native（createKoiConfig → Tamagui）`
 
 架构细节参见 **[agent-doc/architecture.md](agent-doc/architecture.md)**。
 
@@ -58,7 +58,8 @@ koi-ui/
 | 组件应该长什么样、怎么交互 | `docs/spec/README.md`、`docs/spec/components/<Name>.md`（改组件前必读） |
 | 移植一个组件的步骤 | `.agents/skills/port-component/SKILL.md` |
 | 用 Koi 设计 / 调整 / 审查页面与组件的视觉 | `.agents/skills/koi-design/SKILL.md` |
-| 各包对外的用法 | `packages/native/README.md` 等各包 README |
+| npm 发布、导出映射、消费方 Panda 配置 | [agent-doc/publishing.md](agent-doc/publishing.md) |
+| 各包对外的用法 | `packages/react/README.md`、`packages/tokens/README.md`、`packages/core/README.md` |
 
 | 用户提到…… | 去看…… |
 | --- | --- |
@@ -76,6 +77,9 @@ koi-ui/
 - `pnpm contrast`：检查每套 palette、两种主题下的对比度。
 - `pnpm codegen`：tokens + Panda codegen；改了 tokens、recipe 或 `panda.config.ts` 之后跑。
 - `pnpm check`：codegen + 对比度 + raw 颜色 / raw 尺寸 / headless / core 检查 + 全部 typecheck。**提交前必须通过。**
+- `pnpm build:packages`：按拓扑序构建三个可发布包（tokens → core → react），并跑 `panda lib`。发布相关改动后用它验证。
+- `pnpm pack:packages`：构建后把 tarball 打到 `.temp/packs`，检查 `publishConfig` 和文件清单，不发布。
+- `pnpm publish:packages`：构建并发布 `@tuuject/koi-tokens`、`@tuuject/koi-core`、`@tuuject/koi-react`；`@tuuject/koi-native` 仍是 private。
 - `pnpm lint`：Biome lint + 格式检查（只读，不写文件）。**提交前必须通过。**
 - `pnpm lint:fix`：Biome 自动修复 + 格式化。含 `--unsafe`，会改语义（例如删 hook 依赖），跑完必须 review diff。
 - `pnpm shots [组件…]`：截每个 story 的浅色和深色到 `apps/storybook/shots/`。`KOI_PALETTE=rose` / `KOI_FONT=chill` 截其它配色 / 字体。任何视觉改动后都要打开 PNG 看。
@@ -111,13 +115,13 @@ agent 运行中产生的临时文件（截图基线、生成的 CSS、比对图�
 视觉规则的完整说明在 `docs/spec/README.md`。以下几条是硬性规定：
 
 - **只用 role token**：`bg: 'surface'`、`color: 'text-muted'`，不用色阶（`primary.500`），不写字面颜色。
-- **不写字面尺寸**：共享尺寸按 token 名引用，组件自己的尺寸来自 `@koi/tokens/dimensions` 的 `components`；只属于 web 的标 `// koi-web-only: <原因>`（[tokens.md](agent-doc/tokens.md)）。
+- **不写字面尺寸**：共享尺寸按 token 名引用，组件自己的尺寸来自 `@tuuject/koi-tokens/dimensions` 的 `components`；只属于 web 的标 `// koi-web-only: <原因>`（[tokens.md](agent-doc/tokens.md)）。
 - **对比度**：文字 ≥ 4.5:1，控件边缘 / 焦点环 / 图标 ≥ 3:1，两种主题、每套内置 palette 都要达标。组件把 token 放到新背景上时，在 `contrast-pairs.json` 里加一对。
 - **尺寸**：基准 14px（`body`）。控件三档 `control-sm` 28 / `control-md` 36 / `control-lg` 44，同一行的组件用同一档。`prose`（16px）只用于长文阅读。
 - **形状**：按钮（Button、IconButton、Pagination 页码）默认 rounded（`radius-lg`，8px），`shape="pill"` 或 pill 的 `ShapeProvider` 改成 pill（`radius-full`）；tab、tag、badge、Switch 永远是 pill。Dialog footer 和表格单元格（`TableCell`）自己包了 rounded 的 `ShapeProvider`，外层是 pill 也保持 rounded；rounded 的 sm 档左右内边距 8px（密集形状）；Dialog 的 32px 圆角 = 8px + 24px padding（同心圆角）。Card 和 Toast 用 `radius-panel` 24px，输入框和 Alert 用 `radius-xl` 12px。
 - **深度**：按钮永远不加阴影（按压波纹不算）。`shadow-raised` 只用于当前 tab 和 Switch 滑块；`shadow-float` 只用于浮在页面上的东西（Dialog、Toast）。
 - **动效**：颜色变化 150ms；会移动的东西用 `spring` 缓动，但贴着视口边缘滑入的（抽屉、侧边面板）用 `out` 200ms，否则回弹会露出边缘后面的空隙。一切都尊重 `prefers-reduced-motion`。
-- **文案**：组件里的文案（label、aria-label）用简体中文，来自 `@koi/core` 的 `strings`，不用 emoji。全仓库（含注释）不拿间隔号（`U+00B7`、`U+30FB` 及形近字符）当分隔符：并列的元信息拆成多个元素、用 gap 隔开，句子里用「，」「、」。内容自带的（外国人名译名、作品名）照原样写，那一行标 `koi-allow-dot: <原因>`（`check-dots.mjs` 检查）。
+- **文案**：组件里的文案（label、aria-label）用简体中文，来自 `@tuuject/koi-core` 的 `strings`，不用 emoji。全仓库（含注释）不拿间隔号（`U+00B7`、`U+30FB` 及形近字符）当分隔符：并列的元信息拆成多个元素、用 gap 隔开，句子里用「，」「、」。内容自带的（外国人名译名、作品名）照原样写，那一行标 `koi-allow-dot: <原因>`（`check-dots.mjs` 检查）。
 - **主题 / 配色 / 字体**：web 上分别是 `<html>` 的 `data-theme`、`data-palette`、`data-font`（`theme-init.js` 设置）；组件永远写 `fontFamily: 'sans'`。字体平滑保持 `auto`。
 - **props 兼容 legacy**：公开 props 与 `reference/legacy-web/components/index.d.ts` 保持兼容，除非 spec 另有规定；不兼容之处记进 [plan.md](agent-doc/plan.md)。
 
@@ -126,12 +130,12 @@ agent 运行中产生的临时文件（截图基线、生成的 CSS、比对图�
 - 代码注释、commit message、`docs/spec/` 用英文；`agent-doc/` 用中文正文 + 英文术语；组件里的 UI 文案用简体中文。
 - 注释解释“为什么”，不复述代码。
 - 组件目录 kebab-case、组件文件 PascalCase（`radio-group/RadioGroup.tsx`）；recipe 文件 kebab-case，在 `recipes/index.ts` 注册。recipe 的 key 避开 preset-base 的 pattern 名和 JS 保留字（[web-components.md](agent-doc/web-components.md)）。
-- 生成的代码通过包名导入（`@koi/react/styled-system/...`），不用相对路径。
+- 生成的代码通过包名导入（`@tuuject/koi-react/styled-system/...`），不用相对路径。
 - **生成的文件永远不手改**：`packages/tokens/dist/`、`packages/react/styled-system/`。改源头再重建。
 
 ## Testing Guidelines
 
-没有单元测试，也没有 CI 测试。正确性靠 `pnpm check`（静态检查 + typecheck）、`pnpm shots` 截图人工检查，以及重构时的像素 / CSS 比对。具体做法和结果怎么汇报见 [agent-doc/verification.md](agent-doc/verification.md)。新增静态规则时，写成 `scripts/check-*.mjs` 并接进 `pnpm check`。
+没有单元测试，也没有 CI 测试。正确性靠 `pnpm check`（静态检查 + typecheck）、`pnpm shots` 截图人工检查，以及重构时的像素 / CSS 比对。改动发布链路（exports、`panda lib`、`publishConfig`）时，还要跑 `pnpm pack:packages` 并用 tarball 做一次消费方安装验证；做法见 [agent-doc/publishing.md](agent-doc/publishing.md)。具体做法和结果怎么汇报见 [agent-doc/verification.md](agent-doc/verification.md)。新增静态规则时，写成 `scripts/check-*.mjs` 并接进 `pnpm check`。
 
 ## Commit & Pull Request Guidelines
 

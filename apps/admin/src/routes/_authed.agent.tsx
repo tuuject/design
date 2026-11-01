@@ -1,5 +1,5 @@
-import { ChatBubble } from '@koi/react/chat-bubble';
-import { css } from '@koi/react/styled-system/css';
+import { ChatBubble } from '@tuuject/koi-react/chat-bubble';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import { createFileRoute } from '@tanstack/react-router';
 import { Markdown } from '../components/Markdown';
 import { PageHeader } from '../components/PageHeader';

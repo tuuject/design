@@ -1,5 +1,5 @@
-import { components as c } from '@koi/tokens/dimensions';
-import { defineRecipe } from '@pandacss/dev';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
+import { defineRecipe } from '@pandacss/dev/define';
 
 const line = { borderTopWidth: `${c.stroke.hairline}px`, borderTopStyle: 'solid', borderTopColor: 'divider' } as const;
 

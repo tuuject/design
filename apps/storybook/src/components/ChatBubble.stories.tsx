@@ -1,5 +1,5 @@
-import { Avatar, ChatBubble } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Avatar, ChatBubble } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { label, stack } from '../layout';
 

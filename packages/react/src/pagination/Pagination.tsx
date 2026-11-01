@@ -1,12 +1,12 @@
-import { type PaginationOwnProps, pageList, strings } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { pagination } from '@koi/react/styled-system/recipes';
+import { type PaginationOwnProps, pageList, strings } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { pagination } from '@tuuject/koi-react/styled-system/recipes';
 import { type ComponentPropsWithRef, useContext } from 'react';
-import { Button, IconButton } from '../button/Button';
-import { ChevronLeftIcon, ChevronRightIcon } from '../icons';
-import { ShapeContext } from '../shape';
+import { Button, IconButton } from '../button/Button.js';
+import { ChevronLeftIcon, ChevronRightIcon } from '../icons.js';
+import { ShapeContext } from '../shape.js';
 
-export type { PaginationVariant } from '@koi/core';
+export type { PaginationVariant } from '@tuuject/koi-core';
 
 export interface PaginationProps
   extends PaginationOwnProps,

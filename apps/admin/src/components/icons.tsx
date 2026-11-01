@@ -17,7 +17,7 @@ import sun from '@iconify-icons/fa7-solid/sun';
 import tableColumns from '@iconify-icons/fa7-solid/table-columns';
 import trashCan from '@iconify-icons/fa7-solid/trash-can';
 import upload from '@iconify-icons/fa7-solid/upload';
-import { type BuiltinIconProps, Icon, type IconData } from '@koi/react/icons';
+import { type BuiltinIconProps, Icon, type IconData } from '@tuuject/koi-react/icons';
 
 // The template's business icons (nav destinations, shell controls, row actions), from Font Awesome Free Solid
 // like Koi's own. Another Iconify set or a hand-written `{ body, width, height }` works the same way.

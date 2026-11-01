@@ -1,6 +1,6 @@
-import { components as c } from '@koi/tokens/dimensions';
-import { defineSlotRecipe } from '@pandacss/dev';
-import { focusRing, toPx } from './dimensions';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev/define';
+import { focusRing, toPx } from './dimensions.js';
 
 // Port of .koi-tag* in reference/legacy-web/components/bundle.css and docs/spec/components/Tag.md.
 // The root is always a <span>. A selectable tag puts a <button aria-pressed> (`toggle`) inside it whose ::before

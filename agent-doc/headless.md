@@ -29,8 +29,8 @@ Koi 自己画组件；headless 库提供行为和无障碍：web 端是 Base UI�
 
 4. **换库只改 `headless.ts`，不改 recipes。** 放宽选择器（`checked: ':is([data-checked], [data-kb-checked])'`），给变量串 fallback（`'var(--anchor-width, var(--kb-popper-anchor-width))'`）。如果新库根本给不出某个状态（Kobalte 没有 "entering" 标记），就由那个组件的 adapter 自己算出来、设一个 Koi 自有的属性（`data-koi-entering`），`headless.ts` 去选它。
 
-5. **公开 props 是 Koi 的，不是库的。** 导出的 `…Props` 里，prop 类型、callback 参数、ref 目标都不能是库的类型（`BaseSwitch.Root.ChangeEventDetails`、`BaseTabs.Root.Props`；native 端同理不能是 Tamagui 的类型）。用 Koi 自己的：change callback 收 `ChangeDetails`（`reason`、`event`、`cancel()`；`@koi/core` 里是 `ChangeDetails<E>`，web 端是 `ChangeDetails<Event>`；Base UI 的对象本身就满足它，直接透传），props 用普通类型写出来，不写 `Pick<BaseSwitch.Root.Props, …>`。prop **名字**和 Base UI 一样（`inputRef`、`uncheckedValue`）没关系；组件函数体内部 cast 成库类型也没关系，那不是公开的。
+5. **公开 props 是 Koi 的，不是库的。** 导出的 `…Props` 里，prop 类型、callback 参数、ref 目标都不能是库的类型（`BaseSwitch.Root.ChangeEventDetails`、`BaseTabs.Root.Props`；native 端同理不能是 Tamagui 的类型）。用 Koi 自己的：change callback 收 `ChangeDetails`（`reason`、`event`、`cancel()`；`@tuuject/koi-core` 里是 `ChangeDetails<E>`，web 端是 `ChangeDetails<Event>`；Base UI 的对象本身就满足它，直接透传），props 用普通类型写出来，不写 `Pick<BaseSwitch.Root.Props, …>`。prop **名字**和 Base UI 一样（`inputRef`、`uncheckedValue`）没关系；组件函数体内部 cast 成库类型也没关系，那不是公开的。
 
 `pnpm check` 用 `scripts/check-headless.mjs` 强制规则 1 和 5（规则 5 的判定：文件顶层的 `type` / `interface` 里不出现从 `@base-ui/react` 导入的名字）。确实需要例外的行加 `// koi-allow-headless` 和理由。规则 2–4 靠 review。
 
-目前这个检查只扫 `packages/react/src`。`@koi/native` 有组件之后，规则 5 对 Tamagui 同样适用，届时把检查扩展过去。
+目前这个检查只扫 `packages/react/src`。`@tuuject/koi-native` 有组件之后，规则 5 对 Tamagui 同样适用，届时把检查扩展过去。

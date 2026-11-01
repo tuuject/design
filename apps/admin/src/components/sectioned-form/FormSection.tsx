@@ -1,5 +1,5 @@
-import { css, cx } from '@koi/react/styled-system/css';
-import { card } from '@koi/react/styled-system/recipes';
+import { css, cx } from '@tuuject/koi-react/styled-system/css';
+import { card } from '@tuuject/koi-react/styled-system/recipes';
 import { type ReactNode, useCallback, useId } from 'react';
 import { focusRing } from '../app-shell/shared';
 import { SectionContext, useOutline } from './context';

@@ -1,5 +1,5 @@
 {
-  "name": "@koi/react",
+  "name": "@tuuject/koi-react",
   "version": "0.1.0",
   "type": "module",
   "description": "Koi components for React web: Base UI for behavior, Panda CSS v2 for styling.",
@@ -17,7 +17,6 @@
     "./dialog": "./src/dialog/Dialog.tsx",
     "./divider": "./src/divider/Divider.tsx",
     "./field": "./src/field/Field.tsx",
-    "./global-css": "./src/global-css.ts",
     "./icons": "./src/icons.tsx",
     "./input": "./src/input/Input.tsx",
     "./link": "./src/link/Link.tsx",
@@ -25,7 +24,6 @@
     "./progress": "./src/progress/Progress.tsx",
     "./prose": "./src/prose/Prose.tsx",
     "./radio-group": "./src/radio-group/RadioGroup.tsx",
-    "./recipes": "./src/recipes/index.ts",
     "./select": "./src/select/Select.tsx",
     "./select-panel": "./src/select/SelectPanel.tsx",
     "./shape": "./src/shape.tsx",
@@ -39,20 +37,251 @@
     "./textarea": "./src/textarea/Textarea.tsx",
     "./toast": "./src/toast/Toast.tsx",
     "./tooltip": "./src/tooltip/Tooltip.tsx",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./panda/*": "./dist/panda/*",
+    "./css": {
+      "types": "./styled-system/css/index.d.ts",
+      "default": "./styled-system/css/index.js"
+    },
+    "./css/*": {
+      "types": "./styled-system/css/*.d.ts",
+      "default": "./styled-system/css/*.js"
+    },
+    "./recipes": {
+      "types": "./styled-system/recipes/index.d.ts",
+      "default": "./styled-system/recipes/index.js"
+    },
+    "./recipes/*": {
+      "types": "./styled-system/recipes/*.d.ts",
+      "default": "./styled-system/recipes/*.js"
+    },
+    "./patterns": {
+      "types": "./styled-system/patterns/index.d.ts",
+      "default": "./styled-system/patterns/index.js"
+    },
+    "./patterns/*": {
+      "types": "./styled-system/patterns/*.d.ts",
+      "default": "./styled-system/patterns/*.js"
+    },
+    "./jsx": {
+      "types": "./styled-system/jsx/index.d.ts",
+      "default": "./styled-system/jsx/index.js"
+    },
+    "./jsx/*": {
+      "types": "./styled-system/jsx/*.d.ts",
+      "default": "./styled-system/jsx/*.js"
+    },
+    "./tokens": {
+      "types": "./styled-system/tokens/index.d.ts",
+      "default": "./styled-system/tokens/index.js"
+    },
+    "./helpers": {
+      "types": "./styled-system/helpers.d.ts",
+      "default": "./styled-system/helpers.js"
+    },
+    "./types": {
+      "types": "./styled-system/types/index.d.ts"
+    }
   },
+  "files": [
+    "dist",
+    "styled-system"
+  ],
   "scripts": {
+    "build": "panda codegen --clean && tsc -p tsconfig.build.json && pnpm run lib",
+    "lib": "panda lib --files './**/*.js' && node ../../scripts/sync-publish-exports.mjs .",
     "typecheck": "tsc -p tsconfig.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./styled-system/*": "./styled-system/*/index.js",
+      "./alert": {
+        "types": "./dist/alert/Alert.d.ts",
+        "default": "./dist/alert/Alert.js"
+      },
+      "./avatar": {
+        "types": "./dist/avatar/Avatar.d.ts",
+        "default": "./dist/avatar/Avatar.js"
+      },
+      "./badge": {
+        "types": "./dist/badge/Badge.d.ts",
+        "default": "./dist/badge/Badge.js"
+      },
+      "./button": {
+        "types": "./dist/button/Button.d.ts",
+        "default": "./dist/button/Button.js"
+      },
+      "./card": {
+        "types": "./dist/card/Card.d.ts",
+        "default": "./dist/card/Card.js"
+      },
+      "./chat-bubble": {
+        "types": "./dist/chat-bubble/ChatBubble.d.ts",
+        "default": "./dist/chat-bubble/ChatBubble.js"
+      },
+      "./checkbox": {
+        "types": "./dist/checkbox/Checkbox.d.ts",
+        "default": "./dist/checkbox/Checkbox.js"
+      },
+      "./dialog": {
+        "types": "./dist/dialog/Dialog.d.ts",
+        "default": "./dist/dialog/Dialog.js"
+      },
+      "./divider": {
+        "types": "./dist/divider/Divider.d.ts",
+        "default": "./dist/divider/Divider.js"
+      },
+      "./field": {
+        "types": "./dist/field/Field.d.ts",
+        "default": "./dist/field/Field.js"
+      },
+      "./icons": {
+        "types": "./dist/icons.d.ts",
+        "default": "./dist/icons.js"
+      },
+      "./input": {
+        "types": "./dist/input/Input.d.ts",
+        "default": "./dist/input/Input.js"
+      },
+      "./link": {
+        "types": "./dist/link/Link.d.ts",
+        "default": "./dist/link/Link.js"
+      },
+      "./pagination": {
+        "types": "./dist/pagination/Pagination.d.ts",
+        "default": "./dist/pagination/Pagination.js"
+      },
+      "./progress": {
+        "types": "./dist/progress/Progress.d.ts",
+        "default": "./dist/progress/Progress.js"
+      },
+      "./prose": {
+        "types": "./dist/prose/Prose.d.ts",
+        "default": "./dist/prose/Prose.js"
+      },
+      "./radio-group": {
+        "types": "./dist/radio-group/RadioGroup.d.ts",
+        "default": "./dist/radio-group/RadioGroup.js"
+      },
+      "./select": {
+        "types": "./dist/select/Select.d.ts",
+        "default": "./dist/select/Select.js"
+      },
+      "./select-panel": {
+        "types": "./dist/select/SelectPanel.d.ts",
+        "default": "./dist/select/SelectPanel.js"
+      },
+      "./shape": {
+        "types": "./dist/shape.d.ts",
+        "default": "./dist/shape.js"
+      },
+      "./skeleton": {
+        "types": "./dist/skeleton/Skeleton.d.ts",
+        "default": "./dist/skeleton/Skeleton.js"
+      },
+      "./spinner": {
+        "types": "./dist/spinner/Spinner.d.ts",
+        "default": "./dist/spinner/Spinner.js"
+      },
+      "./switch": {
+        "types": "./dist/switch/Switch.d.ts",
+        "default": "./dist/switch/Switch.js"
+      },
+      "./table": {
+        "types": "./dist/table/Table.d.ts",
+        "default": "./dist/table/Table.js"
+      },
+      "./data-table": {
+        "types": "./dist/table/DataTable.d.ts",
+        "default": "./dist/table/DataTable.js"
+      },
+      "./tabs": {
+        "types": "./dist/tabs/Tabs.d.ts",
+        "default": "./dist/tabs/Tabs.js"
+      },
+      "./tag": {
+        "types": "./dist/tag/Tag.d.ts",
+        "default": "./dist/tag/Tag.js"
+      },
+      "./textarea": {
+        "types": "./dist/textarea/Textarea.d.ts",
+        "default": "./dist/textarea/Textarea.js"
+      },
+      "./toast": {
+        "types": "./dist/toast/Toast.d.ts",
+        "default": "./dist/toast/Toast.js"
+      },
+      "./tooltip": {
+        "types": "./dist/tooltip/Tooltip.d.ts",
+        "default": "./dist/tooltip/Tooltip.js"
+      },
+      "./package.json": "./package.json",
+      "./panda/*": "./dist/panda/*",
+      "./css": {
+        "types": "./styled-system/css/index.d.ts",
+        "default": "./styled-system/css/index.js"
+      },
+      "./css/*": {
+        "types": "./styled-system/css/*.d.ts",
+        "default": "./styled-system/css/*.js"
+      },
+      "./recipes": {
+        "types": "./styled-system/recipes/index.d.ts",
+        "default": "./styled-system/recipes/index.js"
+      },
+      "./recipes/*": {
+        "types": "./styled-system/recipes/*.d.ts",
+        "default": "./styled-system/recipes/*.js"
+      },
+      "./patterns": {
+        "types": "./styled-system/patterns/index.d.ts",
+        "default": "./styled-system/patterns/index.js"
+      },
+      "./patterns/*": {
+        "types": "./styled-system/patterns/*.d.ts",
+        "default": "./styled-system/patterns/*.js"
+      },
+      "./jsx": {
+        "types": "./styled-system/jsx/index.d.ts",
+        "default": "./styled-system/jsx/index.js"
+      },
+      "./jsx/*": {
+        "types": "./styled-system/jsx/*.d.ts",
+        "default": "./styled-system/jsx/*.js"
+      },
+      "./tokens": {
+        "types": "./styled-system/tokens/index.d.ts",
+        "default": "./styled-system/tokens/index.js"
+      },
+      "./helpers": {
+        "types": "./styled-system/helpers.d.ts",
+        "default": "./styled-system/helpers.js"
+      },
+      "./types": {
+        "types": "./styled-system/types/index.d.ts"
+      }
+    }
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
     "@iconify-icons/fa7-solid": "^2.0.0",
-    "@koi/core": "workspace:*",
-    "@koi/tokens": "workspace:*"
+    "@tuuject/koi-core": "workspace:*",
+    "@tuuject/koi-tokens": "workspace:*"
   },
   "peerDependencies": {
+    "@pandacss/dev": "~2.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@pandacss/dev": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/react": "^19.3.0",
@@ -60,5 +289,12 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "typescript": "^7.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuuject/design.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://github.com/tuuject/design#readme",
+  "license": "MIT"
 }

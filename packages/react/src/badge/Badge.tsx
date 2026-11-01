@@ -1,9 +1,9 @@
-import type { BadgeOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { badge } from '@koi/react/styled-system/recipes';
+import type { BadgeOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { badge } from '@tuuject/koi-react/styled-system/recipes';
 import type { HTMLAttributes } from 'react';
 
-export type { BadgeTone } from '@koi/core';
+export type { BadgeTone } from '@tuuject/koi-core';
 
 export interface BadgeProps extends BadgeOwnProps, Omit<HTMLAttributes<HTMLSpanElement>, keyof BadgeOwnProps> {}
 

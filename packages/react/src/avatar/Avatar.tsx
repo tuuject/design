@@ -1,10 +1,10 @@
 import { Avatar as BaseAvatar } from '@base-ui/react/avatar';
-import { type AvatarOwnProps, initials, strings } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { avatar } from '@koi/react/styled-system/recipes';
+import { type AvatarOwnProps, initials, strings } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { avatar } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef } from 'react';
 
-export type { AvatarShape, AvatarSize } from '@koi/core';
+export type { AvatarShape, AvatarSize } from '@tuuject/koi-core';
 
 export interface AvatarProps
   extends AvatarOwnProps,

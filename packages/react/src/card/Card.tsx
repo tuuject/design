@@ -1,8 +1,8 @@
-import type { CardOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { type CardSlot, card } from '@koi/react/styled-system/recipes';
+import type { CardOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { type CardSlot, card } from '@tuuject/koi-react/styled-system/recipes';
 import type { HTMLAttributes } from 'react';
-import type { SlotClassNames } from '../types';
+import type { SlotClassNames } from '../types.js';
 
 export interface CardProps extends CardOwnProps, Omit<HTMLAttributes<HTMLDivElement>, keyof CardOwnProps> {
   classNames?: SlotClassNames<CardSlot>;

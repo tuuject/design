@@ -7,8 +7,8 @@
   },
   "packageManager": "pnpm@11.16.0",
   "scripts": {
-    "tokens": "pnpm --filter @koi/tokens build",
-    "contrast": "pnpm --filter @koi/tokens contrast",
+    "tokens": "pnpm --filter @tuuject/koi-tokens build",
+    "contrast": "pnpm --filter @tuuject/koi-tokens contrast",
     "codegen": "pnpm tokens && panda codegen --clean",
     "dev": "node scripts/dev-server.mjs storybook",
     "dev:status": "node scripts/dev-server.mjs storybook --status",
@@ -17,11 +17,14 @@
     "build:storybook": "pnpm codegen && pnpm --filter storybook build",
     "deploy:storybook": "pnpm --filter storybook run deploy",
     "build": "pnpm codegen && pnpm -r build",
+    "build:packages": "pnpm --filter @tuuject/koi-react... build",
+    "publish:packages": "pnpm build:packages && pnpm --filter @tuuject/koi-tokens publish && pnpm --filter @tuuject/koi-core publish && pnpm --filter @tuuject/koi-react publish",
     "typecheck": "pnpm -r typecheck",
     "shots": "pnpm --filter storybook shots",
     "lint": "biome lint . && biome format .",
     "lint:fix": "biome lint --write --unsafe . && biome format --write .",
-    "check": "pnpm codegen && pnpm contrast && node scripts/check-raw-colors.mjs && node scripts/check-raw-sizes.mjs && node scripts/check-headless.mjs && node scripts/check-core.mjs && node scripts/check-dots.mjs && pnpm typecheck"
+    "check": "pnpm codegen && pnpm contrast && node scripts/check-raw-colors.mjs && node scripts/check-raw-sizes.mjs && node scripts/check-headless.mjs && node scripts/check-core.mjs && node scripts/check-dots.mjs && pnpm typecheck",
+    "pack:packages": "pnpm build:packages && node scripts/pack-packages.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.15",

@@ -9,7 +9,7 @@ import { defineConfig } from 'vite';
 const require = createRequire(import.meta.url);
 // Inline theme-init into <head> before any CSS so the first paint already has the right theme
 // (same advice as the file's own header comment; see apps/storybook/.storybook/preview.tsx).
-const themeInit = readFileSync(require.resolve('@koi/tokens/theme-init.js'), 'utf8');
+const themeInit = readFileSync(require.resolve('@tuuject/koi-tokens/theme-init.js'), 'utf8');
 
 export default defineConfig({
   plugins: [

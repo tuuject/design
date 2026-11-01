@@ -2,7 +2,7 @@
   "name": "admin",
   "private": true,
   "type": "module",
-  "description": "Koi admin template: a real admin-app starting point built on @koi/react, Vite, TanStack Router and Zustand.",
+  "description": "Koi admin template: a real admin-app starting point built on @tuuject/koi-react, Vite, TanStack Router and Zustand.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,8 +12,8 @@
   "dependencies": {
     "@base-ui/react": "^1.8.0",
     "@iconify-icons/fa7-solid": "^2.0.0",
-    "@koi/react": "workspace:*",
-    "@koi/tokens": "workspace:*",
+    "@tuuject/koi-react": "workspace:*",
+    "@tuuject/koi-tokens": "workspace:*",
     "@tanstack/react-query": "5.104.2",
     "@tanstack/react-router": "^1.170.44",
     "react": "^19.3.0",

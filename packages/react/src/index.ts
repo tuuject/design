@@ -1,6 +1,6 @@
-export { Alert, type AlertProps, type AlertTone } from './alert/Alert';
-export { Avatar, type AvatarProps, type AvatarShape, type AvatarSize } from './avatar/Avatar';
-export { Badge, type BadgeProps, type BadgeTone } from './badge/Badge';
+export { Alert, type AlertProps, type AlertTone } from './alert/Alert.js';
+export { Avatar, type AvatarProps, type AvatarShape, type AvatarSize } from './avatar/Avatar.js';
+export { Badge, type BadgeProps, type BadgeTone } from './badge/Badge.js';
 export {
   Button,
   type ButtonColor,
@@ -8,21 +8,21 @@ export {
   type ButtonVariant,
   IconButton,
   type IconButtonProps,
-} from './button/Button';
-export { Card, type CardProps } from './card/Card';
-export { ChatBubble, type ChatBubbleProps } from './chat-bubble/ChatBubble';
-export { Checkbox, type CheckboxProps } from './checkbox/Checkbox';
-export { Dialog, type DialogProps } from './dialog/Dialog';
-export { Divider, type DividerProps } from './divider/Divider';
-export { Field, type FieldProps } from './field/Field';
-export * from './icons';
-export { Input, type InputProps } from './input/Input';
-export { Link, type LinkProps, type LinkVariant } from './link/Link';
-export { Pagination, type PaginationProps, type PaginationVariant } from './pagination/Pagination';
-export { Progress, type ProgressProps, type ProgressSize } from './progress/Progress';
-export { Prose, type ProseProps, type ProseSize } from './prose/Prose';
-export { RadioGroup, type RadioGroupProps, type RadioOption } from './radio-group/RadioGroup';
-export { Select, type SelectOption, type SelectProps } from './select/Select';
+} from './button/Button.js';
+export { Card, type CardProps } from './card/Card.js';
+export { ChatBubble, type ChatBubbleProps } from './chat-bubble/ChatBubble.js';
+export { Checkbox, type CheckboxProps } from './checkbox/Checkbox.js';
+export { Dialog, type DialogProps } from './dialog/Dialog.js';
+export { Divider, type DividerProps } from './divider/Divider.js';
+export { Field, type FieldProps } from './field/Field.js';
+export * from './icons.js';
+export { Input, type InputProps } from './input/Input.js';
+export { Link, type LinkProps, type LinkVariant } from './link/Link.js';
+export { Pagination, type PaginationProps, type PaginationVariant } from './pagination/Pagination.js';
+export { Progress, type ProgressProps, type ProgressSize } from './progress/Progress.js';
+export { Prose, type ProseProps, type ProseSize } from './prose/Prose.js';
+export { RadioGroup, type RadioGroupProps, type RadioOption } from './radio-group/RadioGroup.js';
+export { Select, type SelectOption, type SelectProps } from './select/Select.js';
 export {
   SelectGroup,
   type SelectGroupProps,
@@ -32,12 +32,12 @@ export {
   SelectPanel,
   type SelectPanelProps,
   SelectSeparator,
-} from './select/SelectPanel';
-export { type ButtonShape, ShapeProvider, useButtonShape } from './shape';
-export { Skeleton, type SkeletonProps } from './skeleton/Skeleton';
-export { Spinner, type SpinnerProps, type SpinnerSize } from './spinner/Spinner';
-export { Switch, type SwitchProps } from './switch/Switch';
-export { DataTable, type DataTableColumn, type DataTableProps } from './table/DataTable';
+} from './select/SelectPanel.js';
+export { type ButtonShape, ShapeProvider, useButtonShape } from './shape.js';
+export { Skeleton, type SkeletonProps } from './skeleton/Skeleton.js';
+export { Spinner, type SpinnerProps, type SpinnerSize } from './spinner/Spinner.js';
+export { Switch, type SwitchProps } from './switch/Switch.js';
+export { DataTable, type DataTableColumn, type DataTableProps } from './table/DataTable.js';
 export {
   Table,
   type TableAlign,
@@ -60,10 +60,10 @@ export {
   TableRow,
   type TableRowProps,
   type TableSortDirection,
-} from './table/Table';
-export { type TabItem, Tabs, type TabsProps } from './tabs/Tabs';
-export { Tag, type TagProps } from './tag/Tag';
-export { Textarea, type TextareaProps } from './textarea/Textarea';
+} from './table/Table.js';
+export { type TabItem, Tabs, type TabsProps } from './tabs/Tabs.js';
+export { Tag, type TagProps } from './tag/Tag.js';
+export { Textarea, type TextareaProps } from './textarea/Textarea.js';
 export {
   Toast,
   type ToastOptions,
@@ -72,6 +72,6 @@ export {
   type ToastProviderProps,
   type ToastTone,
   useToast,
-} from './toast/Toast';
-export { Tooltip, type TooltipProps, type TooltipSide } from './tooltip/Tooltip';
-export type { ChangeDetails } from './types';
+} from './toast/Toast.js';
+export { Tooltip, type TooltipProps, type TooltipSide } from './tooltip/Tooltip.js';
+export type { ChangeDetails } from './types.js';

@@ -10,8 +10,8 @@
     "deploy": "wrangler deploy"
   },
   "dependencies": {
-    "@koi/react": "workspace:*",
-    "@koi/tokens": "workspace:*",
+    "@tuuject/koi-react": "workspace:*",
+    "@tuuject/koi-tokens": "workspace:*",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

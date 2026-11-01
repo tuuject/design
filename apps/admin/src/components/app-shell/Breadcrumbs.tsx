@@ -1,6 +1,6 @@
-import { ChevronRightIcon } from '@koi/react/icons';
-import { css } from '@koi/react/styled-system/css';
-import { sizes } from '@koi/tokens/dimensions';
+import { ChevronRightIcon } from '@tuuject/koi-react/icons';
+import { css } from '@tuuject/koi-react/styled-system/css';
+import { sizes } from '@tuuject/koi-tokens/dimensions';
 import { useMatches } from '@tanstack/react-router';
 import { AppLink } from '../AppLink';
 

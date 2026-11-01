@@ -1,6 +1,6 @@
 # Web 组件移植记录（Phase 0–1，英文原文）
 
-> 本页是 `@koi/react` 从 `reference/legacy-web/` 移植时的逐组件记录，**原文归档、不再改写**，写于 2026-10-08 至 2026-10-10。当前计划与状态见 [plan.md](plan.md)。
+> 本页是 `@tuuject/koi-react` 从 `reference/legacy-web/` 移植时的逐组件记录，**原文归档、不再改写**，写于 2026-10-08 至 2026-10-10。当前计划与状态见 [plan.md](plan.md)。
 >
 > **什么时候读**：移植或修改某个组件时（web 或 native），按组件名查对应行。每行记录了该组件基于哪个 Base UI part、相对 legacy 的 API 与行为变化（"Change from legacy"、"Decided"）、新增的 contrast pair 与 icon。这些决定对 native 版同样成立，除非 native 的平台差异另有说明（见 [native.md](native.md)）。
 >

@@ -1,4 +1,4 @@
-import type { ButtonShape } from '@koi/core';
+import type { ButtonShape } from '@tuuject/koi-core';
 import { type ReactNode, createContext, useContext } from 'react';
 
 export type { ButtonShape };

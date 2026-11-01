@@ -1,4 +1,4 @@
-# Web 组件（`@koi/react`）
+# Web 组件（`@tuuject/koi-react`）
 
 DOM web 应用用的组件。行为和无障碍来自 **Base UI**（`@base-ui/react`），样式来自 **Panda CSS v2** 的 recipe。改组件前先读 `docs/spec/components/<Name>.md`。
 
@@ -17,13 +17,13 @@ packages/react/src/
 └── index.ts            根入口；package.json 另有每个组件的子路径导出
 ```
 
-生成的代码通过包名导入：`@koi/react/styled-system/css`、`…/recipes`（别名在 `packages/react/tsconfig.json`、`apps/storybook/tsconfig.json` 和 `.storybook/main.ts` 的 `viteFinal` 里）。**不要**用相对路径导入 `styled-system`，否则 Panda 的 `importMap` 看不到。
+生成的代码通过包名导入：`@tuuject/koi-react/styled-system/css`、`…/recipes`（别名在 `packages/react/tsconfig.json`、`apps/storybook/tsconfig.json` 和 `.storybook/main.ts` 的 `viteFinal` 里）。**不要**用相对路径导入 `styled-system`，否则 Panda 的 `importMap` 看不到。
 
 ## 写一个组件要守的规则
 
 | 规则 | 详见 |
 | --- | --- |
-| props 是 `<Name>OwnProps`（来自 `@koi/core`）加 DOM 属性；文案用 `strings` | [core.md](core.md) |
+| props 是 `<Name>OwnProps`（来自 `@tuuject/koi-core`）加 DOM 属性；文案用 `strings` | [core.md](core.md) |
 | `className` 落在根元素上；consumer 要改内部元素时，用 `classNames?: SlotClassNames<<Name>Slot>`（`src/types.ts`，key 是 slot recipe 的 slot 名，不含 `root`；`className` 落在别的 slot 上时也排除它，如 Dialog 的 `popup`）。目前有：Card、Alert、Toast（单独渲染时）、Dialog、Field。原子组件（Badge、Tag…）和组合式组件（Table）不加 | `card/Card.tsx`、`dialog/Dialog.tsx` |
 | recipe 不写 `data-*` 选择器和 Base UI 的 CSS 变量，用 `state.*` / `vars.*` | [headless.md](headless.md) |
 | 颜色只用 role token（`bg: 'surface'`），不用色阶（`primary.500`），不写字面颜色 | [tokens.md](tokens.md) |

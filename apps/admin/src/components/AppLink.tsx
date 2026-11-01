@@ -1,4 +1,4 @@
-import { Link, type LinkProps } from '@koi/react/link';
+import { Link, type LinkProps } from '@tuuject/koi-react/link';
 import { useNavigate } from '@tanstack/react-router';
 
 /** Koi Link wired to the router: the same look, client-side navigation. `to` is a literal route path. */

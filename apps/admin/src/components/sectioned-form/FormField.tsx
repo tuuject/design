@@ -1,5 +1,5 @@
-import { Field, type FieldProps } from '@koi/react/field';
-import { css, cx } from '@koi/react/styled-system/css';
+import { Field, type FieldProps } from '@tuuject/koi-react/field';
+import { css, cx } from '@tuuject/koi-react/styled-system/css';
 import { useCallback } from 'react';
 import { get, useFormState } from 'react-hook-form';
 import { useOutline, useSectionId } from './context';

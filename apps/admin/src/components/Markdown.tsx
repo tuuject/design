@@ -1,4 +1,4 @@
-import { Prose } from '@koi/react/prose';
+import { Prose } from '@tuuject/koi-react/prose';
 import ReactMarkdown from 'react-markdown';
 
 /** Renders a reply's markdown flat on the page: no bubble, just Koi's long-form type (Prose at the 14px UI base). */

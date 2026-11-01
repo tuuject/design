@@ -1,6 +1,6 @@
 # Admin Template（apps/admin）
 
-Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供一个开箱即用、可以作为真实后台起点，同时是 `@koi/react` 的综合集成示例。它是一个 app，不是组件库的一部分。（2026-10-16）
+Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供一个开箱即用、可以作为真实后台起点，同时是 `@tuuject/koi-react` 的综合集成示例。它是一个 app，不是组件库的一部分。（2026-10-16）
 
 ## 技术栈与接线
 
@@ -23,7 +23,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 - **URL 即状态**：订单页的 `id / customer / status / from / to / page / pageSize` 全在 search 里（`validateSearch`），筛选、分页、回跳后还原都靠它。页大小只接受 10 / 20 / 50，日期只接受 `YYYY-MM-DD`。
 - **订单页搜索是手动的**：`OrderSearchForm` 只在点「搜索」或回车时把草稿写进 URL（2026-10-20 去掉实时搜索：后台列表每敲一个字就发查询没有价值，切筛选还会打断正在输入的内容）。表单保留本地草稿，用自己的 `pushedKey` 区分「自己写的 URL」和「外部导航」，后者才覆盖草稿。
 - **筛选栏按自身宽度排版**：字段区 `containerType: inline-size`，内部 grid 用 `@container` 在 480 / 720 / 1200px 切成 1 / 2 / 3 / 4 列；「创建时间」占两列，到 1200px 才恢复单列，否则日期框会被压到只剩图标。搜索 / 重置 `flex: none` 贴右，字段区 `flex: 1 1 480px`，放不下时按钮换行后仍靠右。看容器实际宽度而不是视口，侧边栏折叠不会打乱列数。
-- **订单 CRUD**：新增 / 修改用 `OrderFormDialog`（每次打开换 `key` 重挂里面的 react-hook-form 表单，避免用 effect reset；`Dialog` 本身不换 key，否则以打开状态挂载会跳过进场动画），表格选择用 `@koi/react/table` 的 parts 自己拼（`DataTable` 明确不提供选择），删除支持单行与批量。CSV 导入导出在 `lib/order-csv.ts`：导出带 BOM，导入按 `订单号` upsert（有则更新、无则新增），坏行跳过并在 toast 里报告；最后一行删空时自动退回上一页。
+- **订单 CRUD**：新增 / 修改用 `OrderFormDialog`（每次打开换 `key` 重挂里面的 react-hook-form 表单，避免用 effect reset；`Dialog` 本身不换 key，否则以打开状态挂载会跳过进场动画），表格选择用 `@tuuject/koi-react/table` 的 parts 自己拼（`DataTable` 明确不提供选择），删除支持单行与批量。CSV 导入导出在 `lib/order-csv.ts`：导出带 BOM，导入按 `订单号` upsert（有则更新、无则新增），坏行跳过并在 toast 里报告；最后一行删空时自动退回上一页。
 - **dev server 可被 agent 接管**：`pnpm dev:admin` 走 `scripts/dev-server.mjs`：已有 server 在 3000 时直接退出（不截断它的日志），否则先 codegen 再起 `vite`，输出原样打到终端（`FORCE_COLOR` 保留颜色，stdin 仍是 TTY，快捷键可用），去掉 ANSI 后写进 `.temp/dev-admin.log`。用 Node 管道而不是 `| tee`，是为了 Windows 上也能跑。`vite.config.ts` 设了 `strictPort`，端口被占不会悄悄换到 3001。接管规则见 AGENTS.md 的 Long-Running Process Rules。
 - **`routeTree.gen.ts` 提交进 git**（按 TanStack Router 官方 FAQ）：它是运行时代码，不是构建产物。dev / build 时 Vite 插件会重新生成，改了路由文件就把它的 diff 一起提交，不要手改；Biome 仍然跳过它。typecheck 因此只是 `tsc`，不用先生成（2026-10-30 删掉了原来的 `scripts/generate-routes.mjs`）。加了路由却没跑过 dev，`createFileRoute('/xxx')` 在旧的 tree 里找不到路径，`tsc` 会报错，不会悄悄过期。
 
@@ -33,10 +33,10 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 | --- | --- |
 | 侧边栏导航 | 模板内 `Sidebar`，样式按 NavMenu spec 的竖版规则（`nav-item-*` token、36px、radius-xl、当前项加粗），但只是三分实现；**NavMenu 仍是库里未移植的组件**，移植后应替换 |
 | 用户下拉菜单 | 直接用 `@base-ui/react/menu`（Menu.Root/Trigger/Positioner/Popup），样式照 SelectPanel spec 的面板（36px 项、`radius-lg`、分隔线贴边、scale 96% 弹出）；等库里出了 Menu 再换 |
-| 表格 | 已进库：`@koi/react/data-table` 的 `DataTable`（2026-10-16，spec `docs/spec/components/Table.md`）。要排序 / 选择时改用 `@koi/react/table` 的 parts 自己拼，可直接接 TanStack Table |
+| 表格 | 已进库：`@tuuject/koi-react/data-table` 的 `DataTable`（2026-10-16，spec `docs/spec/components/Table.md`）。要排序 / 选择时改用 `@tuuject/koi-react/table` 的 parts 自己拼，可直接接 TanStack Table |
 | 面包屑 | 模板内 `Breadcrumbs`，靠路由 `staticData.title`；祖先链接用 `Link variant="plain"`（`text-muted`，hover 变 `text-brand`，无下划线） |
 | 未保存更改摘要 | `sectioned-form/ChangeSummary.tsx` 直接用 Base UI `Menu`（方向键、类型查找、Esc），样式同用户菜单；库里有 Popover / Menu 后再换 |
-| 业务图标 | `components/icons.tsx`，从 `@iconify-icons/fa7-solid` 挑，用 `@koi/react/icons` 的 `Icon` 渲染。Free 里没有的（如侧边栏图标）可以换别的 Iconify 图标集或手写 `{ body, width, height }` |
+| 业务图标 | `components/icons.tsx`，从 `@iconify-icons/fa7-solid` 挑，用 `@tuuject/koi-react/icons` 的 `Icon` 渲染。Free 里没有的（如侧边栏图标）可以换别的 Iconify 图标集或手写 `{ body, width, height }` |
 
 ## 决定与坑
 

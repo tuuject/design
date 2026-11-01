@@ -1,11 +1,11 @@
-import { Button } from '@koi/react/button';
-import { Card } from '@koi/react/card';
-import { Field } from '@koi/react/field';
-import { SearchIcon } from '@koi/react/icons';
-import { Input } from '@koi/react/input';
-import { Select } from '@koi/react/select';
-import { css, cx } from '@koi/react/styled-system/css';
-import { field } from '@koi/react/styled-system/recipes';
+import { Button } from '@tuuject/koi-react/button';
+import { Card } from '@tuuject/koi-react/card';
+import { Field } from '@tuuject/koi-react/field';
+import { SearchIcon } from '@tuuject/koi-react/icons';
+import { Input } from '@tuuject/koi-react/input';
+import { Select } from '@tuuject/koi-react/select';
+import { css, cx } from '@tuuject/koi-react/styled-system/css';
+import { field } from '@tuuject/koi-react/styled-system/recipes';
 import { useRef, useState } from 'react';
 import {
   EMPTY_ORDER_FILTERS,

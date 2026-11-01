@@ -1,5 +1,5 @@
-import { Skeleton } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Skeleton } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { label, row } from '../layout';
 

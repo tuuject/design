@@ -1,10 +1,10 @@
 import { Checkbox as BaseCheckbox } from '@base-ui/react/checkbox';
-import type { CheckboxOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { checkbox } from '@koi/react/styled-system/recipes';
+import type { CheckboxOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { checkbox } from '@tuuject/koi-react/styled-system/recipes';
 import { type ChangeEventHandler, type ComponentPropsWithRef, useContext, useId } from 'react';
-import { KoiFieldContext } from '../field/context';
-import { CheckIcon } from '../icons';
+import { KoiFieldContext } from '../field/context.js';
+import { CheckIcon } from '../icons.js';
 
 export interface CheckboxProps
   extends CheckboxOwnProps<Event>,

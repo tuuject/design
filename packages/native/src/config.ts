@@ -1,10 +1,10 @@
-import { layers, radii, sizes, space } from '@koi/tokens/dimensions';
-import { fontStacks, type } from '@koi/tokens/native';
-import { createColors, defaultPalette, type Palette, palettes, type RoleToken, type Theme } from '@koi/tokens/palette';
+import { layers, radii, sizes, space } from '@tuuject/koi-tokens/dimensions';
+import { fontStacks, type } from '@tuuject/koi-tokens/native';
+import { createColors, defaultPalette, type Palette, palettes, type RoleToken, type Theme } from '@tuuject/koi-tokens/palette';
 import { type CreateTamaguiProps, createFont, createTamagui, createTokens, isWeb } from '@tamagui/core';
 
-// Koi as a Tamagui config, built from @koi/tokens, so iOS, Android and Expo web read the same numbers and colors as
-// @koi/react. Nothing here is hand-tuned: change tokens.json, not this file.
+// Koi as a Tamagui config, built from @tuuject/koi-tokens, so iOS, Android and Expo web read the same numbers and colors as
+// @tuuject/koi-react. Nothing here is hand-tuned: change tokens.json, not this file.
 
 /** `text-muted` → `textMuted`: Tamagui's theme keys are camelCase; Koi's role names are kebab-case everywhere else. */
 type Camel<S extends string> = S extends `${infer H}-${infer T}` ? `${H}${Capitalize<Camel<T>>}` : S;
@@ -34,7 +34,7 @@ export function createKoiTheme(palette: Palette, appearance: Theme) {
 /**
  * `light` and `dark` in the default palette, and `light_<id>` / `dark_<id>` for every other built-in palette and
  * each one in `extra` (`<Theme name="rose">` switches to it). Run a user-made palette through `checkPalette()`
- * from @koi/tokens/palette before passing it here.
+ * from @tuuject/koi-tokens/palette before passing it here.
  */
 export function createKoiThemes(extra: Record<string, Palette> = {}) {
   const all: Record<string, Palette> = { ...palettes, ...extra };

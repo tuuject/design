@@ -1,8 +1,8 @@
-import { BUTTON_COLORS, BUTTON_VARIANTS, type ButtonColor, type ButtonVariant } from '@koi/core';
-import { components as c } from '@koi/tokens/dimensions';
-import { defineRecipe } from '@pandacss/dev';
-import { focusRing } from './dimensions';
-import { state } from './headless';
+import { BUTTON_COLORS, BUTTON_VARIANTS, type ButtonColor, type ButtonVariant } from '@tuuject/koi-core';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
+import { defineRecipe } from '@pandacss/dev/define';
+import { focusRing } from './dimensions.js';
+import { state } from './headless.js';
 
 // Port of .koi-btn / .koi-iconbtn in reference/legacy-web/components/bundle.css and docs/spec/components/Button.md.
 // color (what the action means) and variant (how loud it is) are independent; their 5 × 4 combinations are

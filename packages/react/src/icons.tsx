@@ -13,11 +13,11 @@ import sortDown from '@iconify-icons/fa7-solid/sort-down';
 import sortUp from '@iconify-icons/fa7-solid/sort-up';
 import triangleExclamation from '@iconify-icons/fa7-solid/triangle-exclamation';
 import xmark from '@iconify-icons/fa7-solid/xmark';
-import type { IconData, IconOwnProps } from '@koi/core';
-import { sizes } from '@koi/tokens/dimensions';
+import type { IconData, IconOwnProps } from '@tuuject/koi-core';
+import { sizes } from '@tuuject/koi-tokens/dimensions';
 import type { ComponentPropsWithRef } from 'react';
 
-export type { IconData, IconOwnProps } from '@koi/core';
+export type { IconData, IconOwnProps } from '@tuuject/koi-core';
 
 export interface IconProps
   extends IconOwnProps,

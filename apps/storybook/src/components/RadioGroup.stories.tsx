@@ -1,5 +1,5 @@
-import { Button, Card, Field, RadioGroup } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Button, Card, Field, RadioGroup } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ComponentProps, useState } from 'react';
 import { fn } from 'storybook/test';

@@ -1,9 +1,9 @@
-import { Badge } from '@koi/react/badge';
-import { Card } from '@koi/react/card';
-import { DataTable, type DataTableColumn } from '@koi/react/data-table';
-import { Skeleton } from '@koi/react/skeleton';
-import { css } from '@koi/react/styled-system/css';
-import { sizes } from '@koi/tokens/dimensions';
+import { Badge } from '@tuuject/koi-react/badge';
+import { Card } from '@tuuject/koi-react/card';
+import { DataTable, type DataTableColumn } from '@tuuject/koi-react/data-table';
+import { Skeleton } from '@tuuject/koi-react/skeleton';
+import { css } from '@tuuject/koi-react/styled-system/css';
+import { sizes } from '@tuuject/koi-tokens/dimensions';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { AppLink } from '../components/AppLink';

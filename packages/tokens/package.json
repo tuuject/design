@@ -1,5 +1,5 @@
 {
-  "name": "@koi/tokens",
+  "name": "@tuuject/koi-tokens",
   "version": "0.1.0",
   "type": "module",
   "description": "Koi design tokens: one source (src/tokens.json), outputs for CSS, Panda CSS and React Native.",
@@ -12,9 +12,19 @@
       "types": "./dist/panda-preset.d.ts",
       "default": "./dist/panda-preset.js"
     },
-    "./native": "./dist/native.ts",
-    "./dimensions": "./dist/dimensions.ts",
-    "./palette": "./dist/palette.ts"
+    "./native": {
+      "types": "./dist/native.d.ts",
+      "default": "./dist/native.js"
+    },
+    "./dimensions": {
+      "types": "./dist/dimensions.d.ts",
+      "default": "./dist/dimensions.js"
+    },
+    "./palette": {
+      "types": "./dist/palette.d.ts",
+      "default": "./dist/palette.js"
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "src",
@@ -22,11 +32,21 @@
     "fonts"
   ],
   "scripts": {
-    "build": "node scripts/build.mjs",
+    "build": "node scripts/build.mjs && tsc -p tsconfig.build.json",
     "contrast": "node scripts/contrast.mjs",
-    "typecheck": "node scripts/build.mjs && node scripts/contrast.mjs && tsc -p tsconfig.json"
+    "typecheck": "pnpm build && tsc -p tsconfig.json"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "typescript": "^7.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuuject/design.git",
+    "directory": "packages/tokens"
+  },
+  "homepage": "https://github.com/tuuject/design#readme",
+  "license": "MIT"
 }

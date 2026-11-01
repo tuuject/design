@@ -1,4 +1,4 @@
-import { Button, type ButtonColor, type ButtonVariant, CloseIcon, ExternalIcon, IconButton } from '@koi/react';
+import { Button, type ButtonColor, type ButtonVariant, CloseIcon, ExternalIcon, IconButton } from '@tuuject/koi-react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { label, row, stack } from '../layout';
 

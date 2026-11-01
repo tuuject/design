@@ -1,4 +1,4 @@
-import { ToastProvider } from '@koi/react/toast';
+import { ToastProvider } from '@tuuject/koi-react/toast';
 import { createRootRoute, Outlet, useMatches } from '@tanstack/react-router';
 
 // Every route carries an optional page title; the shell reads it for the breadcrumb and document title.

@@ -1,7 +1,7 @@
-import { components as c } from '@koi/tokens/dimensions';
-import { defineSlotRecipe } from '@pandacss/dev';
-import { toPx } from './dimensions';
-import { state, vars } from './headless';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev/define';
+import { toPx } from './dimensions.js';
+import { state, vars } from './headless.js';
 
 // Port of .koi-select* in reference/legacy-web/components/bundle.css and docs/spec/components/Select.md.
 // Two recipes: `select` is the native <select> (legacy); `selectPanel` is the custom dropdown (Base UI Select or

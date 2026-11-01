@@ -1,7 +1,7 @@
-import { components as c, space } from '@koi/tokens/dimensions';
-import { defineSlotRecipe, defineStyles } from '@pandacss/dev';
-import { focusRing, toPx } from './dimensions';
-import { state, vars } from './headless';
+import { components as c, space } from '@tuuject/koi-tokens/dimensions';
+import { defineSlotRecipe, defineStyles } from '@pandacss/dev/define';
+import { focusRing, toPx } from './dimensions.js';
+import { state, vars } from './headless.js';
 
 // Port of .koi-toast* / .koi-toaster in reference/legacy-web/components/bundle.css and docs/spec/components/Toast.md.
 //

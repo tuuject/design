@@ -19,13 +19,15 @@
 
 | 文件 | 包入口 | 谁用 |
 | --- | --- | --- |
-| `dist/panda-preset.js` | `@koi/tokens/panda` | 根目录 `panda.config.ts` |
-| `dist/tokens.css` | `@koi/tokens/tokens.css` | 不用 Panda 的网页（变量名同 legacy：`--surface`、`--radius-panel`） |
-| `dist/theme-init.js` | `@koi/tokens/theme-init.js` | 内联进 `<head>`；`koiSetTheme` / `koiSetFont` / `koiSetPalette` |
-| `dist/dimensions.ts` | `@koi/tokens/dimensions` | recipes（`toPx`）、web 组件 TSX、`@koi/native`。全是数字（px），图标笔画是 24 网格单位 |
-| `dist/native.ts` | `@koi/tokens/native` | native：每个主题的 hex / rgba 颜色、`type`、`blur`、`fontStacks`；尺寸从 dimensions 转出 |
-| `dist/palette.ts` | `@koi/tokens/palette` | 任何平台：`palettes`、`createColors(palette, theme)`、`checkPalette(palette)` |
-| `fonts/fonts.css` | `@koi/tokens/fonts.css` | ChillRoundF 的 121 个 woff2 子集 |
+| `dist/panda-preset.js` | `@tuuject/koi-tokens/panda` | 根目录 `panda.config.ts` |
+| `dist/tokens.css` | `@tuuject/koi-tokens/tokens.css` | 不用 Panda 的网页（变量名同 legacy：`--surface`、`--radius-panel`） |
+| `dist/theme-init.js` | `@tuuject/koi-tokens/theme-init.js` | 内联进 `<head>`；`koiSetTheme` / `koiSetFont` / `koiSetPalette` |
+| `dist/dimensions.js` | `@tuuject/koi-tokens/dimensions` | recipes（`toPx`）、web 组件 TSX、`@tuuject/koi-native`。全是数字（px），图标笔画是 24 网格单位；`.d.ts` 随包发布 |
+| `dist/native.js` | `@tuuject/koi-tokens/native` | native：每个主题的 hex / rgba 颜色、`type`、`blur`、`fontStacks`；尺寸从 dimensions 转出 |
+| `dist/palette.js` | `@tuuject/koi-tokens/palette` | 任何平台：`palettes`、`createColors(palette, theme)`、`checkPalette(palette)` |
+| `fonts/fonts.css` | `@tuuject/koi-tokens/fonts.css` | ChillRoundF 的 121 个 woff2 子集 |
+
+`dimensions` / `native` / `palette` 先由 `scripts/build.mjs` 写成 `.temp/tokens-build/*.ts`，再由 `tsc -p tsconfig.build.json` 输出 `dist/*.js` + `.d.ts`。发布出去的是 JavaScript，消费方的 bundler 不需要编译 `node_modules` 里的 TS。
 
 ## 加一个 token
 
@@ -38,7 +40,7 @@
 
 - **web**：在 `<html>` 上设 `data-palette="rose"`，或调用 `koiSetPalette('rose')`。自定义 palette 用 `koiSetPalette({ primary, accent })`，会写成 `<html>` 上的内联 CSS 变量。选择会存进 localStorage `koi-palette`；storage 不可用时只在内存里生效。
 - **Panda**：`primary.*` 和 `accent.*` 是 semantic token，带 `_palette<Id>` 条件（如 `_paletteRose`）。
-- **任何平台**：`createColors(palette, theme)` 返回每个 role 的颜色（hex / rgba）；`@koi/native` 用它生成 Tamagui 主题。
+- **任何平台**：`createColors(palette, theme)` 返回每个 role 的颜色（hex / rgba）；`@tuuject/koi-native` 用它生成 Tamagui 主题。
 - **对比度**：`pnpm contrast` 检查每套内置 palette 在两种主题下的全部 pair。用户自定义的 palette 必须先过 `checkPalette()`（返回不达标的 pair，空数组表示安全）。目前还没有自动修正，只能由应用拒绝不达标的 palette（见 [plan.md](plan.md)）。
 - **accent 选亮色**：`accent-solid` 是 400 档配 950 档文字，按琥珀这种亮色设计。暗色 accent（比如紫罗兰）对比度能过，但视觉上会变味。
 

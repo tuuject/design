@@ -1,9 +1,9 @@
-import { Alert } from '@koi/react/alert';
-import { Button } from '@koi/react/button';
-import { Card } from '@koi/react/card';
-import { Field } from '@koi/react/field';
-import { Input } from '@koi/react/input';
-import { css } from '@koi/react/styled-system/css';
+import { Alert } from '@tuuject/koi-react/alert';
+import { Button } from '@tuuject/koi-react/button';
+import { Card } from '@tuuject/koi-react/card';
+import { Field } from '@tuuject/koi-react/field';
+import { Input } from '@tuuject/koi-react/input';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
 import { ThemeToggle } from '../components/app-shell/ThemeToggle';

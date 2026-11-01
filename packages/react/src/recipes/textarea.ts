@@ -1,6 +1,6 @@
-import { components as c } from '@koi/tokens/dimensions';
-import { defineRecipe } from '@pandacss/dev';
-import { toPx } from './dimensions';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
+import { defineRecipe } from '@pandacss/dev/define';
+import { toPx } from './dimensions.js';
 
 // Port of .koi-textarea in reference/legacy-web/components/bundle.css and docs/spec/components/Textarea.md.
 // Same edge, corners, focus and invalid states as Input (recipes/input.ts), on the element itself.

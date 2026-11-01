@@ -1,4 +1,4 @@
-import { css } from '@koi/react/styled-system/css';
+import { css } from '@tuuject/koi-react/styled-system/css';
 
 export function PageHeader({ title, description }: { title: string; description?: string }) {
   return (

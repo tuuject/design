@@ -1,5 +1,5 @@
-import { IconButton } from '@koi/react/button';
-import { css } from '@koi/react/styled-system/css';
+import { IconButton } from '@tuuject/koi-react/button';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import { useUiStore } from '../../stores/ui';
 import { MenuIcon, PanelLeftIcon } from '../icons';
 import { Breadcrumbs } from './Breadcrumbs';

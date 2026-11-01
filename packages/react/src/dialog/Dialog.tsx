@@ -1,14 +1,14 @@
 import { AlertDialog } from '@base-ui/react/alert-dialog';
 import { Dialog as BaseDialog } from '@base-ui/react/dialog';
-import { type DialogOwnProps, strings } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { type DialogSlot, dialog } from '@koi/react/styled-system/recipes';
-import { sizes } from '@koi/tokens/dimensions';
+import { type DialogOwnProps, strings } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { type DialogSlot, dialog } from '@tuuject/koi-react/styled-system/recipes';
+import { sizes } from '@tuuject/koi-tokens/dimensions';
 import { type MouseEvent, useRef } from 'react';
-import { IconButton } from '../button/Button';
-import { CloseIcon } from '../icons';
-import { ShapeProvider } from '../shape';
-import type { SlotClassNames } from '../types';
+import { IconButton } from '../button/Button.js';
+import { CloseIcon } from '../icons.js';
+import { ShapeProvider } from '../shape.js';
+import type { SlotClassNames } from '../types.js';
 
 export interface DialogProps extends DialogOwnProps {
   className?: string;

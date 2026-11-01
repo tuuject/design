@@ -1,10 +1,19 @@
-import type { DataTableOwnProps } from '@koi/core';
-import { table } from '@koi/react/styled-system/recipes';
+import type { DataTableOwnProps } from '@tuuject/koi-core';
+import { table } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef } from 'react';
-import { Skeleton } from '../skeleton/Skeleton';
-import { Table, TableBody, TableCaption, TableCell, TableEmpty, TableHeader, TableHeaderCell, TableRow } from './Table';
+import { Skeleton } from '../skeleton/Skeleton.js';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableEmpty,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+} from './Table.js';
 
-export type { DataTableColumn } from '@koi/core';
+export type { DataTableColumn } from '@tuuject/koi-core';
 
 export interface DataTableProps<T>
   extends DataTableOwnProps<T>,

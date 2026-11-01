@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "lib": ["ES2024", "DOM", "DOM.Iterable"],
-    "paths": { "@koi/react/styled-system/*": ["../../packages/react/styled-system/*"] }
+    "paths": { "@tuuject/koi-react/styled-system/*": ["../../packages/react/styled-system/*"] }
   },
   "include": ["src", "vite.config.ts"]
 }

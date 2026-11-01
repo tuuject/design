@@ -1,5 +1,5 @@
-import { Badge, type BadgeTone } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Badge, type BadgeTone } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { label, row, stack } from '../layout';
 

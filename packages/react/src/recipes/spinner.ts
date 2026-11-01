@@ -1,4 +1,4 @@
-import { defineSlotRecipe } from '@pandacss/dev';
+import { defineSlotRecipe } from '@pandacss/dev/define';
 
 // Port of .koi-spinner in reference/legacy-web/components/bundle.css and docs/spec/components/Spinner.md.
 // Draws in currentColor; size is set on the <svg> (`components.spinner` in tokens.json), as in legacy.

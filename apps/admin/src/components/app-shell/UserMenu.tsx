@@ -1,8 +1,8 @@
 import { Menu } from '@base-ui/react/menu';
-import { Avatar } from '@koi/react/avatar';
-import { ChevronDownIcon } from '@koi/react/icons';
-import { css } from '@koi/react/styled-system/css';
-import { components, sizes } from '@koi/tokens/dimensions';
+import { Avatar } from '@tuuject/koi-react/avatar';
+import { ChevronDownIcon } from '@tuuject/koi-react/icons';
+import { css } from '@tuuject/koi-react/styled-system/css';
+import { components, sizes } from '@tuuject/koi-tokens/dimensions';
 import { useNavigate } from '@tanstack/react-router';
 import { useAuthStore } from '../../stores/auth';
 import { LogoutIcon, SlidersIcon } from '../icons';

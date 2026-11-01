@@ -1,5 +1,5 @@
-import { Button, Progress, type ProgressSize } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Button, Progress, type ProgressSize } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Decorator, Meta, StoryObj } from '@storybook/react-vite';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { label, row, stack } from '../layout';

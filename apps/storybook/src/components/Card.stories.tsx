@@ -1,5 +1,5 @@
-import { Button, Card } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Button, Card } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { row } from '../layout';
 

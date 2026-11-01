@@ -1,9 +1,9 @@
-import { type SpinnerOwnProps, type SpinnerSize, strings } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { spinner } from '@koi/react/styled-system/recipes';
-import { components } from '@koi/tokens/dimensions';
+import { type SpinnerOwnProps, type SpinnerSize, strings } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { spinner } from '@tuuject/koi-react/styled-system/recipes';
+import { components } from '@tuuject/koi-tokens/dimensions';
 
-export type { SpinnerSize } from '@koi/core';
+export type { SpinnerSize } from '@tuuject/koi-core';
 
 export interface SpinnerProps extends SpinnerOwnProps {
   className?: string;

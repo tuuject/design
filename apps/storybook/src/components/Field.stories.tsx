@@ -1,5 +1,5 @@
-import { Button, Card, Field, Input, Textarea } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Button, Card, Field, Input, Textarea } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { stack } from '../layout';
 

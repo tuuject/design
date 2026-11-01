@@ -1,6 +1,6 @@
-import { components as c } from '@koi/tokens/dimensions';
-import { defineSlotRecipe } from '@pandacss/dev';
-import { focusRing, toPx } from './dimensions';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev/define';
+import { focusRing, toPx } from './dimensions.js';
 
 // Port of .koi-alert* in reference/legacy-web/components/bundle.css and docs/spec/components/Alert.md.
 export const alert = defineSlotRecipe({

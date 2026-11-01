@@ -1,10 +1,10 @@
 import { Tabs as BaseTabs } from '@base-ui/react/tabs';
-import type { TabsOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { tabs } from '@koi/react/styled-system/recipes';
+import type { TabsOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { tabs } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef } from 'react';
 
-export type { TabItem } from '@koi/core';
+export type { TabItem } from '@tuuject/koi-core';
 
 export interface TabsProps
   extends TabsOwnProps<Event>,

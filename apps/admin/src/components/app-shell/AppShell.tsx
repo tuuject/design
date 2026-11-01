@@ -1,4 +1,4 @@
-import { css } from '@koi/react/styled-system/css';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import { Outlet } from '@tanstack/react-router';
 import { useUiStore } from '../../stores/ui';
 import { Sidebar } from './Sidebar';

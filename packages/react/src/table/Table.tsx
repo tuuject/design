@@ -9,14 +9,14 @@ import {
   type TableHeaderOwnProps,
   type TableOwnProps,
   type TableRowOwnProps,
-} from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { table } from '@koi/react/styled-system/recipes';
+} from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { table } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef, MouseEvent } from 'react';
-import { SortDownIcon, SortIcon, SortUpIcon } from '../icons';
-import { ShapeProvider } from '../shape';
+import { SortDownIcon, SortIcon, SortUpIcon } from '../icons.js';
+import { ShapeProvider } from '../shape.js';
 
-export type { TableAlign, TableLayout, TableSortDirection } from '@koi/core';
+export type { TableAlign, TableLayout, TableSortDirection } from '@tuuject/koi-core';
 
 // Plain table elements with every native attribute passed through (colSpan, style, ref…), so a headless table
 // library renders straight into them: TanStack Table's header groups map onto TableHeader > TableRow >

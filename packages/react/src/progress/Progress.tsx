@@ -1,10 +1,10 @@
 import { Progress as BaseProgress } from '@base-ui/react/progress';
-import { type ProgressOwnProps, strings } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { progress } from '@koi/react/styled-system/recipes';
+import { type ProgressOwnProps, strings } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { progress } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef } from 'react';
 
-export type { ProgressSize } from '@koi/core';
+export type { ProgressSize } from '@tuuject/koi-core';
 
 export interface ProgressProps
   extends ProgressOwnProps,

@@ -1,4 +1,4 @@
-import { Button, Dialog, type DialogProps, Field, Input } from '@koi/react';
+import { Button, Dialog, type DialogProps, Field, Input } from '@tuuject/koi-react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 

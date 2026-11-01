@@ -1,9 +1,9 @@
-import { Button } from '@koi/react/button';
-import { Dialog } from '@koi/react/dialog';
-import { Field } from '@koi/react/field';
-import { Input } from '@koi/react/input';
-import { Select } from '@koi/react/select';
-import { css } from '@koi/react/styled-system/css';
+import { Button } from '@tuuject/koi-react/button';
+import { Dialog } from '@tuuject/koi-react/dialog';
+import { Field } from '@tuuject/koi-react/field';
+import { Input } from '@tuuject/koi-react/input';
+import { Select } from '@tuuject/koi-react/select';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import { useId, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ORDER_STATUS, type Order, type OrderDraft, type OrderStatus } from '../../mock/api';

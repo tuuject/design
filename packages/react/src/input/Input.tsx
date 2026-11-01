@@ -1,9 +1,9 @@
 import { Input as BaseInput } from '@base-ui/react/input';
-import type { InputOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { input } from '@koi/react/styled-system/recipes';
+import type { InputOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { input } from '@tuuject/koi-react/styled-system/recipes';
 import { type ComponentPropsWithRef, useContext } from 'react';
-import { KoiFieldContext } from '../field/context';
+import { KoiFieldContext } from '../field/context.js';
 
 export interface InputProps extends InputOwnProps, Omit<ComponentPropsWithRef<'input'>, keyof InputOwnProps> {}
 

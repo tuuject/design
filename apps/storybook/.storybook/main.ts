@@ -18,7 +18,7 @@ const config: StorybookConfig = {
       resolve: {
         alias: {
           // packages/react imports its generated Panda code by package name; point that at the generated folder.
-          '@koi/react/styled-system': `${root}packages/react/styled-system`,
+          '@tuuject/koi-react/styled-system': `${root}packages/react/styled-system`,
         },
       },
       server: { fs: { allow: [root] } },

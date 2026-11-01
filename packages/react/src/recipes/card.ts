@@ -1,5 +1,5 @@
-import { components as c } from '@koi/tokens/dimensions';
-import { defineSlotRecipe } from '@pandacss/dev';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev/define';
 
 // Port of .koi-card* in reference/legacy-web/components/bundle.css and docs/spec/components/Card.md.
 export const card = defineSlotRecipe({

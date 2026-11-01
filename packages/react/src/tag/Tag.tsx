@@ -1,8 +1,8 @@
-import { strings, type TagOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { tag } from '@koi/react/styled-system/recipes';
+import { strings, type TagOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { tag } from '@tuuject/koi-react/styled-system/recipes';
 import { type ComponentPropsWithRef, type MouseEvent, useId } from 'react';
-import { CloseIcon } from '../icons';
+import { CloseIcon } from '../icons.js';
 
 export interface TagProps
   extends TagOwnProps<MouseEvent<HTMLButtonElement>>,

@@ -1,6 +1,6 @@
-import { components as c } from '@koi/tokens/dimensions';
-import { defineRecipe } from '@pandacss/dev';
-import { toPx } from './dimensions';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
+import { defineRecipe } from '@pandacss/dev/define';
+import { toPx } from './dimensions.js';
 
 // docs/spec/components/ChatBubble.md. One element, no headless behavior. The anchor corner (the one nearest
 // the sender) drops to radius-sm so a column of bubbles reads directionally; the rest stay radius-xl.

@@ -1,5 +1,5 @@
-import { defineGlobalStyles } from '@pandacss/dev';
-import { state } from './recipes/headless';
+import { defineGlobalStyles } from '@pandacss/dev/define';
+import { state } from './recipes/headless.js';
 
 // Page-level defaults. Ported from the top of reference/legacy-web/components/bundle.css.
 export const globalCss = defineGlobalStyles({

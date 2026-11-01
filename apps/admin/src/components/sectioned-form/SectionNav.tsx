@@ -1,5 +1,5 @@
-import { SelectItem, SelectPanel } from '@koi/react/select-panel';
-import { css } from '@koi/react/styled-system/css';
+import { SelectItem, SelectPanel } from '@tuuject/koi-react/select-panel';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import { useSyncExternalStore } from 'react';
 import { focusRing, TOPBAR_HEIGHT } from '../app-shell/shared';
 import { STICKY_Z_INDEX, WIDE_TOP } from './context';

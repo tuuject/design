@@ -78,7 +78,7 @@ Roundness is the identity. The vocabulary is fixed:
 
 ## Icons
 
-- Icons are **Font Awesome Free Solid**, as Iconify data (`{ body, width, height }`) rendered by `Icon` from `@koi/react/icons`, drawn in `currentColor`. Import from `@iconify-icons/fa7-solid/<name>`; see `apps/admin/src/components/icons.tsx`.
+- Icons are **Font Awesome Free Solid**, as Iconify data (`{ body, width, height }`) rendered by `Icon` from `@tuuject/koi-react/icons`, drawn in `currentColor`. Import from `@iconify-icons/fa7-solid/<name>`; see `apps/admin/src/components/icons.tsx`.
 - A missing icon may come from another Iconify set or be hand-drawn in the same format. **Pick a filled one** so a row keeps one weight. Brand marks come from a brand set (e.g. Simple Icons), which is filled too.
 - Components' own icons (close, check, chevrons, sort, search, external, info / warning / error / success) are exported by name; reuse them.
 - Size with the icon tokens, not `em`.

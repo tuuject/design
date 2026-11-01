@@ -1,4 +1,4 @@
-import { css } from '@koi/react/styled-system/css';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import { type FormEvent, type ReactNode, useCallback, useRef, useState, useSyncExternalStore } from 'react';
 import {
   type FieldValues,

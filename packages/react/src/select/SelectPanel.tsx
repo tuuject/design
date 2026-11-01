@@ -9,10 +9,10 @@ import {
   type SelectOptionGroup,
   type SelectPanelOwnProps,
   strings,
-} from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { selectPanel } from '@koi/react/styled-system/recipes';
-import { components } from '@koi/tokens/dimensions';
+} from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { selectPanel } from '@tuuject/koi-react/styled-system/recipes';
+import { components } from '@tuuject/koi-tokens/dimensions';
 import {
   type ComponentPropsWithRef,
   type HTMLAttributes,
@@ -21,10 +21,10 @@ import {
   useContext,
   useMemo,
 } from 'react';
-import { KoiFieldContext } from '../field/context';
-import { CheckIcon, ChevronDownIcon, SearchIcon } from '../icons';
+import { KoiFieldContext } from '../field/context.js';
+import { CheckIcon, ChevronDownIcon, SearchIcon } from '../icons.js';
 
-export type { SelectOptionGroup } from '@koi/core';
+export type { SelectOptionGroup } from '@tuuject/koi-core';
 
 export interface SelectPanelProps<I extends Entry = Entry>
   extends SelectPanelOwnProps<I, Event>,

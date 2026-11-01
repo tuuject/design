@@ -1,5 +1,5 @@
-import { Button } from '@koi/react/button';
-import { css } from '@koi/react/styled-system/css';
+import { Button } from '@tuuject/koi-react/button';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/$')({

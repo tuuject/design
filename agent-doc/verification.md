@@ -59,7 +59,7 @@ cmp .temp/before.css .temp/after.css
 
 目前还没有 Expo 应用，所以只能在 Node 里验证 config：在 `packages/native` 下写个临时脚本，用 `npx tsx <脚本>` 运行，检查 `koiConfig.themes` 的名字和 key 数量、几个颜色和 token 的取值，以及 `koiConfig.getCSS()` 生成的变量。有了 Expo 应用以后（[plan.md](plan.md)）：
 
-- web 版 Storybook（react-native-web）截图，和 `@koi/react` 同名 story 逐像素比对，确认两种渲染一致；
+- web 版 Storybook（react-native-web）截图，和 `@tuuject/koi-react` 同名 story 逐像素比对，确认两种渲染一致；
 - iOS 模拟器 / Android 真机检查：毛玻璃、阴影、字体、按压反馈这些 web 截图看不出来的东西。
 
 ## 结果记录

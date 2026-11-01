@@ -1,6 +1,6 @@
-import { components as c } from '@koi/tokens/dimensions';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
 
-// Sizes come from tokens.json, through @koi/tokens/dimensions: `components` for a component's own sizes, the
+// Sizes come from tokens.json, through @tuuject/koi-tokens/dimensions: `components` for a component's own sizes, the
 // size / spacing / radius tokens by name ('control-md', 'icon', '3') for shared ones. Native reads the same numbers,
 // so a size written here as a literal would drift between platforms. scripts/check-raw-sizes.mjs enforces it.
 

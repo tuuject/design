@@ -1,7 +1,7 @@
 // Fails if a component writes a size as a literal instead of taking it from tokens.json. Native builds the same
-// components from @koi/tokens/dimensions, so a literal here would drift between platforms.
+// components from @tuuject/koi-tokens/dimensions, so a literal here would drift between platforms.
 // Use a shared token by name ('control-md', 'icon', '3'), or `components.<name>.<part>` from
-// @koi/tokens/dimensions through toPx() (recipes/dimensions.ts). A size that only exists on the web (a pseudo-element
+// @tuuject/koi-tokens/dimensions through toPx() (recipes/dimensions.ts). A size that only exists on the web (a pseudo-element
 // hit area, a baseline nudge) keeps its literal with a `// koi-web-only: <why>` comment on the line.
 // Usage: node scripts/check-raw-sizes.mjs [dir…]   (default: packages/react/src packages/native/src)
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
@@ -36,7 +36,7 @@ for (const f of files) {
       const hits = [...code.matchAll(PX), ...(f.endsWith('.tsx') ? code.matchAll(JSX) : [])].map((m) => m[0].trim());
       for (const h of hits) {
         bad++;
-        console.log(`${f}:${i + 1}  ${h}  →  take it from tokens.json (@koi/tokens/dimensions)`);
+        console.log(`${f}:${i + 1}  ${h}  →  take it from tokens.json (@tuuject/koi-tokens/dimensions)`);
       }
     });
 }

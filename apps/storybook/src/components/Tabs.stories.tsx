@@ -1,5 +1,5 @@
-import { Card, Skeleton, Spinner, Tabs } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Card, Skeleton, Spinner, Tabs } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ComponentProps, useState } from 'react';
 import { fn } from 'storybook/test';

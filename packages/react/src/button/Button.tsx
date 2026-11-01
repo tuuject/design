@@ -1,11 +1,11 @@
-import { type ButtonOwnProps, type IconButtonOwnProps, strings } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { button } from '@koi/react/styled-system/recipes';
+import { type ButtonOwnProps, type IconButtonOwnProps, strings } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { button } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef } from 'react';
-import { useButtonShape } from '../shape';
-import { Spinner } from '../spinner/Spinner';
+import { useButtonShape } from '../shape.js';
+import { Spinner } from '../spinner/Spinner.js';
 
-export type { ButtonColor, ButtonVariant } from '@koi/core';
+export type { ButtonColor, ButtonVariant } from '@tuuject/koi-core';
 
 type NativeButtonProps = Omit<ComponentPropsWithRef<'button'>, 'color'>;
 type NativeAnchorProps = Omit<ComponentPropsWithRef<'a'>, 'color' | 'type'>;

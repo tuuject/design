@@ -1,12 +1,12 @@
 import { Field as BaseField } from '@base-ui/react/field';
-import { type FieldOwnProps, strings } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { type FieldSlot, field } from '@koi/react/styled-system/recipes';
-import { sizes } from '@koi/tokens/dimensions';
+import { type FieldOwnProps, strings } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { type FieldSlot, field } from '@tuuject/koi-react/styled-system/recipes';
+import { sizes } from '@tuuject/koi-tokens/dimensions';
 import { type HTMLAttributes, useMemo } from 'react';
-import { ErrorIcon } from '../icons';
-import type { SlotClassNames } from '../types';
-import { KoiFieldContext } from './context';
+import { ErrorIcon } from '../icons.js';
+import type { SlotClassNames } from '../types.js';
+import { KoiFieldContext } from './context.js';
 
 export interface FieldProps extends FieldOwnProps, Omit<HTMLAttributes<HTMLDivElement>, keyof FieldOwnProps | 'id'> {
   /** The control's id (the label points at it). Generated when omitted. */

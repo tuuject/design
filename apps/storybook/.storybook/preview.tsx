@@ -1,5 +1,5 @@
-import '@koi/tokens/theme-init.js'; // sets <html data-theme> from the OS (in an app, inline it in <head> to avoid a flash)
-import '@koi/tokens/fonts.css'; // ChillRoundF subsets; only used with <html data-font="chill">
+import '@tuuject/koi-tokens/theme-init.js'; // sets <html data-theme> from the OS (in an app, inline it in <head> to avoid a flash)
+import '@tuuject/koi-tokens/fonts.css'; // ChillRoundF subsets; only used with <html data-font="chill">
 import '../src/index.css';
 import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks';
 import type { Preview } from '@storybook/react-vite';
@@ -52,7 +52,7 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
-    // The built-in palettes in @koi/tokens (tokens.json `color.palettes`).
+    // The built-in palettes in @tuuject/koi-tokens (tokens.json `color.palettes`).
     palette: {
       description: '配色',
       toolbar: {

@@ -1,6 +1,6 @@
-import { components as c } from '@koi/tokens/dimensions';
-import { defineSlotRecipe } from '@pandacss/dev';
-import { toPx } from './dimensions';
+import { components as c } from '@tuuject/koi-tokens/dimensions';
+import { defineSlotRecipe } from '@pandacss/dev/define';
+import { toPx } from './dimensions.js';
 
 // Port of .koi-field* in reference/legacy-web/components/bundle.css and docs/spec/components/Field.md.
 export const field = defineSlotRecipe({

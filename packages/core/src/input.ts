@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { ControlSize } from './common';
+import type { ControlSize } from './common.js';
 
 // The text itself (value, change handler) is the platform's: an <input> on the web, a TextInput on native.
 

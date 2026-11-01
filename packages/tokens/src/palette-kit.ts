@@ -1,5 +1,5 @@
 // Palettes at runtime, on any platform (no DOM, no React Native). dist/palette.ts binds this to the generated data;
-// import from `@koi/tokens/palette`, not from here.
+// import from `@tuuject/koi-tokens/palette`, not from here.
 //
 // A palette swaps the primary-* and accent-* scales. Every role that points at them follows, in both themes.
 // Colors here are hex (#rrggbb) or rgba(): what React Native reads, and what a theme editor usually produces.

@@ -1,9 +1,9 @@
 import { Field as BaseField } from '@base-ui/react/field';
-import type { TextareaOwnProps } from '@koi/core';
-import { cx } from '@koi/react/styled-system/css';
-import { textarea } from '@koi/react/styled-system/recipes';
+import type { TextareaOwnProps } from '@tuuject/koi-core';
+import { cx } from '@tuuject/koi-react/styled-system/css';
+import { textarea } from '@tuuject/koi-react/styled-system/recipes';
 import { type ComponentPropsWithRef, useContext } from 'react';
-import { KoiFieldContext } from '../field/context';
+import { KoiFieldContext } from '../field/context.js';
 
 export interface TextareaProps
   extends TextareaOwnProps,

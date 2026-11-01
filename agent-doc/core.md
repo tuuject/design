@@ -1,8 +1,8 @@
 # Core：各平台共享的部分
 
-`@koi/core`（`packages/core`）是每个组件与平台无关的部分，让 web 包和 native 包实现的是同一个 Koi，而不是两个逐渐分叉的版本。tokens 通过 `@koi/tokens` 共享；core 管 tokens 管不到的东西。
+`@tuuject/koi-core`（`packages/core`）是每个组件与平台无关的部分，让 web 包和 native 包实现的是同一个 Koi，而不是两个逐渐分叉的版本。tokens 通过 `@tuuject/koi-tokens` 共享；core 管 tokens 管不到的东西。
 
-| 放进 `@koi/core` | 留在平台包里 |
+| 放进 `@tuuject/koi-core` | 留在平台包里 |
 | --- | --- |
 | `<Name>OwnProps`：组件是什么、做什么（`color`、`variant`、`size`、`label`、`open`、`onCheckedChange`…） | DOM / native 属性、`className` / `style`、`ref` 目标 |
 | 变体列表（`BUTTON_COLORS`）及其类型（`ButtonColor`） | 平台自己的事件处理（`onClick`、`onPress`）、文本输入的 `value` / `onChange` |
@@ -25,7 +25,7 @@
 
    native 端对应地写成 `<Name>OwnProps<GestureResponderEvent>` 加 Tamagui / RN 的 props（见 [native.md](native.md)）。判断一个 prop 进不进 core：native 版也需要它、而且含义相同，就进 core。拿不准就放 core：以后把 prop 从 core 移出，对某个平台是 breaking change；移进来则不是。
 4. **文案来自 `strings`。** 组件里不写中文字符串字面量；把字符串加进 `packages/core/src/strings.ts`（简体中文，不用 emoji），然后用 `strings.close`。
-5. **平台包重新导出它们原来拥有的 core 类型**（`ButtonColor`、`RadioOption`、`SelectOption`…），从组件文件里导出，所以 `@koi/react/button` 依旧能导出它们。
+5. **平台包重新导出它们原来拥有的 core 类型**（`ButtonColor`、`RadioOption`、`SelectOption`…），从组件文件里导出，所以 `@tuuject/koi-react/button` 依旧能导出它们。
 
 `pnpm check` 用 `scripts/check-core.mjs` 强制规则 1–3（`pnpm typecheck` 也会在不带 DOM lib 的情况下编译 core）。确实需要例外的行加 `// koi-allow-core` 和理由。
 

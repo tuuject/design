@@ -1,8 +1,8 @@
-import { Badge } from '@koi/react/badge';
-import { IconButton } from '@koi/react/button';
-import { Checkbox } from '@koi/react/checkbox';
-import { Skeleton } from '@koi/react/skeleton';
-import { css } from '@koi/react/styled-system/css';
+import { Badge } from '@tuuject/koi-react/badge';
+import { IconButton } from '@tuuject/koi-react/button';
+import { Checkbox } from '@tuuject/koi-react/checkbox';
+import { Skeleton } from '@tuuject/koi-react/skeleton';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import {
   Table,
   TableBody,
@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableHeaderCell,
   TableRow,
-} from '@koi/react/table';
+} from '@tuuject/koi-react/table';
 import type { ReactNode } from 'react';
 import { formatDateTimeFull, formatMoney } from '../../lib/format';
 import { EditIcon, EyeIcon, TrashIcon } from '../icons';

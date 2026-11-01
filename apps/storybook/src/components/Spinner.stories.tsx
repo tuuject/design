@@ -1,5 +1,5 @@
-import { Button, Spinner } from '@koi/react';
-import { css } from '@koi/react/styled-system/css';
+import { Button, Spinner } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { label, row, stack } from '../layout';
 

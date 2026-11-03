@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-/** Desktop navigation: the vertical sidebar or the horizontal bar under the header. */
 export type NavLayout = 'sidebar' | 'horizontal';
 
 interface UiState {

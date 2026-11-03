@@ -8,7 +8,7 @@ import { focusRing } from './shared';
 interface NavItemButtonProps {
   item: NavItem;
   active: boolean;
-  /** Vertical sidebar only: the label is hidden and moves into a tooltip. */
+  /** Vertical sidebar only: wraps the button in a tooltip. The sidebar's CSS hides the label. */
   collapsed?: boolean;
   orientation?: 'vertical' | 'horizontal';
   /** Sidebar: close the mobile drawer after navigating. */
@@ -63,6 +63,5 @@ export function NavItemButton({
       <span data-nav-label>{item.title}</span>
     </button>
   );
-  // Collapsed sidebar: the label moves into a tooltip. The horizontal bar always shows labels.
   return collapsed ? <Tooltip content={item.title}>{button}</Tooltip> : button;
 }

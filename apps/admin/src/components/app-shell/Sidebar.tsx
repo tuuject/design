@@ -1,9 +1,11 @@
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { useRouterState } from '@tanstack/react-router';
-import { NAV_ITEMS } from '../../nav';
+import { useMediaQuery } from '../../hooks/use-media-query';
+import { NAV_GROUPS } from '../../nav';
 import { useUiStore } from '../../stores/ui';
 import { Brand } from './Brand';
-import { NavItemButton } from './NavItemButton';
+import { NavFlyout } from './NavFlyout';
+import { NavGroupItem } from './NavGroupItem';
 import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from './shared';
 
 export function Sidebar() {
@@ -12,6 +14,8 @@ export function Sidebar() {
   const open = useUiStore((st) => st.mobileNavOpen);
   const setMobileNavOpen = useUiStore((st) => st.setMobileNavOpen);
   const pathname = useRouterState({ select: (st) => st.location.pathname });
+  // Below md the aside is the full-width drawer, where the collapsed rail never applies: a group expands in place.
+  const desktop = useMediaQuery('(min-width: 768px)');
 
   return (
     <aside
@@ -49,7 +53,7 @@ export function Sidebar() {
           '&[data-nav-layout=horizontal]': { display: 'none' },
           '&[data-collapsed=true]': {
             width: SIDEBAR_WIDTH_COLLAPSED,
-            '& [data-nav-label], & [data-brand-text]': { display: 'none' },
+            '& [data-nav-label], & [data-brand-text], & [data-nav-chevron]': { display: 'none' },
             '& [data-nav-item]': { justifyContent: 'center', paddingInline: '0' },
           },
         },
@@ -66,23 +70,20 @@ export function Sidebar() {
           flexDirection: 'column',
           flex: '1',
           minH: '0',
+          // The rail can outgrow the viewport; the list scrolls rather than pushing the brand out.
+          overflowY: 'auto',
         })}
       >
-        <ul
-          className={css({
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1',
-          })}
-        >
-          {NAV_ITEMS.map((item) => (
-            <li key={item.to}>
-              <NavItemButton
-                item={item}
-                active={pathname === item.to}
-                collapsed={collapsed}
-                onNavigate={() => setMobileNavOpen(false)}
-              />
+        <ul className={css({ display: 'flex', flexDirection: 'column', gap: '1' })}>
+          {NAV_GROUPS.map((group) => (
+            <li key={group.title}>
+              {/* Collapsed to icons, the in-place panel has no labels left to show: the group opens beside the
+                  rail instead, the same panel the horizontal bar uses. */}
+              {collapsed && desktop ? (
+                <NavFlyout group={group} pathname={pathname} side="right" collapsed />
+              ) : (
+                <NavGroupItem group={group} pathname={pathname} onNavigate={() => setMobileNavOpen(false)} />
+              )}
             </li>
           ))}
         </ul>

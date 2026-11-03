@@ -1,57 +1,27 @@
-import { css } from '@tuuject/koi-react/styled-system/css';
-import { Tooltip } from '@tuuject/koi-react/tooltip';
-import { sizes } from '@tuuject/koi-tokens/dimensions';
+import { cx } from '@tuuject/koi-react/styled-system/css';
 import { useNavigate } from '@tanstack/react-router';
-import type { NavItem } from '../../nav';
-import { focusRing } from './shared';
+import type { NavLeaf } from '../../nav';
+import { navChildClass, navItemClass } from './nav-item';
 
 interface NavItemButtonProps {
-  item: NavItem;
+  item: NavLeaf;
   active: boolean;
-  /** Vertical sidebar only: wraps the button in a tooltip. The sidebar's CSS hides the label. */
-  collapsed?: boolean;
-  orientation?: 'vertical' | 'horizontal';
   /** Sidebar: close the mobile drawer after navigating. */
   onNavigate?: () => void;
 }
 
 /**
- * One navigation destination, shared by the sidebar and the horizontal bar. Both layouts use the NavMenu
- * item rules (36px tall, 16px icon, radius-xl, nav-item-* fills); only the axis and alignment differ.
+ * One page inside a group's panel. Every leaf is a level-2 row: no icon, indented to where the group's label
+ * starts, per NavMenu's child rule.
  */
-export function NavItemButton({
-  item,
-  active,
-  collapsed = false,
-  orientation = 'vertical',
-  onNavigate,
-}: NavItemButtonProps) {
+export function NavItemButton({ item, active, onNavigate }: NavItemButtonProps) {
   const navigate = useNavigate();
-  const button = (
+  return (
     <button
       type="button"
+      className={cx(navItemClass, navChildClass)}
       data-nav-item
-      data-orientation={orientation}
-      className={css({
-        display: 'flex',
-        alignItems: 'center',
-        gap: '2',
-        height: 'control-md',
-        paddingInline: '2',
-        borderRadius: 'xl',
-        color: 'nav-item-text',
-        textStyle: 'body',
-        whiteSpace: 'nowrap',
-        cursor: 'pointer',
-        transitionProperty: 'background-color, color',
-        transitionDuration: 'fast',
-        _hover: { bg: 'nav-item-hover' },
-        _focusVisible: focusRing,
-        '&[data-orientation=horizontal]:focus-visible': { outlineOffset: '-2px' },
-        '&[data-active=true]': { bg: 'nav-item-active', color: 'text', fontWeight: 'bold' },
-        '&[data-orientation=vertical]': { width: '100%', textAlign: 'left' },
-        '&[data-orientation=horizontal]': { flexShrink: '0' },
-      })}
+      data-orientation="vertical"
       data-active={active || undefined}
       aria-current={active ? 'page' : undefined}
       onClick={() => {
@@ -59,9 +29,7 @@ export function NavItemButton({
         onNavigate?.();
       }}
     >
-      <item.icon size={sizes.icon} />
       <span data-nav-label>{item.title}</span>
     </button>
   );
-  return collapsed ? <Tooltip content={item.title}>{button}</Tooltip> : button;
 }

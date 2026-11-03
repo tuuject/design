@@ -31,7 +31,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 
 | 能力 | 现状 |
 | --- | --- |
-| 侧边栏 / 水平导航 | 模板内 `Sidebar` + `TopNav`，共用一个 `NavItemButton`，样式按 NavMenu spec 的竖版 / 横版规则（`nav-item-*` token、36px、radius-xl、当前项加粗、横版焦点环画在内部），但只是三分实现；**NavMenu 仍是库里未移植的组件**，移植后应替换 |
+| 侧边栏 / 水平导航 | 模板内 `Sidebar` + `TopNav`，共用 `nav-item.ts` 的行样式与 `NavItemButton`（组内页面）、`NavGroupItem`（竖版分组，Base UI `Collapsible`）、`NavFlyout`（横版 / 折叠栏分组，Base UI `Menu`）。样式按 NavMenu spec 的竖版 / 横版规则（`nav-item-*` token、36px、radius-xl、当前项加粗、横版焦点环画在内部），但只是四分实现；**NavMenu 仍是库里未移植的组件**，移植后应替换 |
 | 用户下拉菜单 | 直接用 `@base-ui/react/menu`（Menu.Root/Trigger/Positioner/Popup），样式照 SelectPanel spec 的面板（36px 项、`radius-lg`、分隔线贴边、scale 96% 弹出）；等库里出了 Menu 再换 |
 | 表格 | 已进库：`@tuuject/koi-react/data-table` 的 `DataTable`（2026-10-16，spec `docs/spec/components/Table.md`）。要排序 / 选择时改用 `@tuuject/koi-react/table` 的 parts 自己拼，可直接接 TanStack Table |
 | 面包屑 | 模板内 `Breadcrumbs`，靠路由 `staticData.title`；祖先链接用 `Link variant="plain"`（`text-muted`，hover 变 `text-brand`，无下划线） |
@@ -48,10 +48,16 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 - **JSX 属性名撞 CSS 属性名**：Panda 默认把任何 JSX 上与 CSS 属性同名的 prop 当 style prop 抽取（`<DataTable columns={…}>` 报 `nested_property`，Tooltip 的 `content` 生成过 `content: 关闭` 之类的垃圾规则）。根配置已设 `jsxStyleProps: 'none'`，样式只走 `css()` 和 recipe，prop 可以放心叫 `columns`。
 - **产物告警**：库侧两条既有 `pure_helper_unevaluated`（Pagination 的 `useButtonShape`、SelectPanel 的 `useParts`）来自抽取器无法求值 hook，样式实际由 `staticCss: { recipes: '*' }` 预生成，渲染无影响；属于库的已知行为，不是模板引入的。
 - 布局常量（侧边栏 248/72、顶栏 56、水平导航行 44、app 层 z-index 60/40）是模板自己的 chrome 常量，低于 Koi 浮层（dialog 900+）；库的 focusRing 没有导出，`shared.ts` 里镜像了一份。
-- **桌面导航有两种布局**（2026-11-03）：`stores/ui.ts` 的 `navLayout: 'sidebar' | 'horizontal'`（persist），顶栏右侧的图标按钮切换。竖版是 `Sidebar`，横版是 `TopNav`（顶栏下面第二行，同一份 `NAV_ITEMS`），两者共用 `NavItemButton`（`data-orientation` 决定占满宽还是横排、焦点环画在内部还是外部）。横版下 `Sidebar` 只在 md 以下作为抽屉存在（`[data-nav-layout=horizontal]` 在 md 起 `display: none`），品牌从侧边栏移到顶栏第一行（`Brand compact`，36px logo）。顶栏 + 导航行包在同一个 sticky 块里（`TOPBAR_Z_INDEX`），滚动时两行一起钉住。断点以下没有横版：抽屉是唯一导航。
+- **桌面导航有两种布局**（2026-11-03）：`stores/ui.ts` 的 `navLayout: 'sidebar' | 'horizontal'`（persist），顶栏右侧的图标按钮切换。竖版是 `Sidebar`，横版是 `TopNav`（顶栏下面第二行，同一份 `NAV_GROUPS`），两者共用 `nav-item.ts` 的行样式（`data-orientation` 决定占满宽还是横排、焦点环画在内部还是外部）和 `NavItemButton`。横版下 `Sidebar` 只在 md 以下作为抽屉存在（`[data-nav-layout=horizontal]` 在 md 起 `display: none`），品牌从侧边栏移到顶栏第一行（`Brand compact`，36px logo）。顶栏 + 导航行包在同一个 sticky 块里（`TOPBAR_Z_INDEX`），滚动时两行一起钉住。断点以下没有横版：抽屉是唯一导航。
 - **横版是一条 1280 居中的列**：顶栏内层、导航行内层、`<main>` 都用 `CONTENT_MAX_WIDTH`（1280px）+ `marginInline: auto`，md 起统一 24px 内边距，所以 logo 盒、第一个导航项、页面 `h1` 左边缘对齐（1600px 下都在 184px）。竖版保持整宽。
 - **横版只有一条横线**：两行之间的分隔线去掉，顶栏在横版下把 `borderBottom` 归零，改由导航行自己的底边当 header / content 的分界。竖版仍是顶栏一条线。
 - **brand 与面包屑之间 16px**：横版第一行是 8px gap，品牌名和面包屑之间偏挤；分隔线加 `marginInline: '2'`（两侧各 8px），brand 到线、线到面包屑都是 16px。
+- **导航分组与二级菜单**（2026-11-03）：`nav.ts` 的 `NAV_GROUPS` 是两级树，**一级就是分类本身**（概览 / 业务 / 智能助手 / 账户，各带 16px 图标），二级是页面。分类不再是列表上方的静态标签，所以没有「分类标签」这层样式，横版也不再需要组间竖线。`NavGroup` / `NavLeaf` 用 `children` / `to` 互斥区分，`navContains` 判断某个分组是否含当前路径。spec 允许三级，模板只做两级。
+  - **竖版分组用 `Collapsible`**：自己一行是触发器（`aria-expanded` + `data-panel-open`），面板按 `--collapsible-panel-height` 动 height（150ms `out`）。当前页所在的分组在挂载时自动展开；从别的页面导航进分组时也展开，手动收起后不会再被强行拉开。子项 `depth=1`：不画图标，左内边距 32px（8 + 16 + 8）对齐分组标签。
+  - **分组之间 4px**：一级项是各自的分组，列表 `gap: '1'`，展开的页面在分组内零间距（hover / 当前填充相接）。
+  - **横版 / 折叠栏分组用 `Menu`**：横版向下弹、折叠栏（72px）向右弹，都是 `surface` + `border` + `radius-xl` + `shadow-float` 的面板（同 SelectPanel / UserMenu）。`openOnHover`、方向键、type-to-find、Esc、点外部、靠近窗口边缘翻转都由 Base UI 负责；`modal={false}` 免得锁页面滚动。面板里当前页标 `aria-current="page"` 并带 `nav-item-active` 填充。
+  - **折叠栏的分支只能弹出来**：72px 宽时标签全隐藏，就地展开没有意义，所以 `collapsed && desktop` 才换成 `NavFlyout`（`side="right"`、`aria-label` 补名字、`data-rail` 让分支图标带当前填充）；md 以下的抽屉永远是全宽，就地展开。
+  - **分支状态是加粗不是填充**：竖版父项带 `data-in-path` 时只把文字变粗（`text`），横版和折叠栏没有展开树可看，父项直接吃 `nav-item-active` 填充。
 - **sticky 偏移读 shell 的变量，不写死顶栏高度**：`AppShell` 在根元素设 `--app-header-offset`（竖版 56px；横版 md 起 56+44px），分区长表单的 `scroll-margin-top`、sticky 分区下拉都读它。加新的 sticky 行时改这一处，页面不用跟着改。
 - **横版的焦点环画在内部**（`outlineOffset: -2px`）：导航行 `overflowX: auto`，外扩的 2px 环会被裁掉。这是 NavMenu spec 对横版的规定。
 - **自己 portal 的浮层要给 z-index**：模板里直接用 Base UI 的浮层（如 UserMenu 的 `Menu.Positioner`）portal 到 `<body>` 后没有层级，会被 sticky 顶栏（z-index 40）盖住上沿。照 SelectPanel 给 Positioner `zIndex: 'popup'`。
@@ -63,7 +69,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 
 ## 验证
 
-`pnpm check` 全绿（含 admin typecheck）。浏览器冒烟（dev + 生产构建）：登录/守卫回跳、URL 筛选与分页、详情/删除弹窗 + toast、表单校验与保存同步、深浅主题、折叠侧边栏 + Tooltip、移动端抽屉、404。截图确认过浅色与深色。分区长表单（2026-10-30）用 Playwright（系统 Chrome）在 1440 / 1280 / 1024 / 900 / 390 宽度下跑过：scrollspy 与几何计算逐步对拍一致、导航与摘要跳转到具体字段（键盘、鼠标、触摸）、计数与回退、隐藏字段、校验失败跳转、保存失败保留、提交中编辑保留、服务器规范化后的基线、放弃更改。桌面导航双布局（2026-11-03）在 1600 / 1440 / 1280 / 1024 / 768 / 390 下验证：布局切换与刷新后的持久化、横版两行一起 sticky、横版三处内层都是 1280 居中（1600px 下 left=160，logo 盒 / 首个导航项 / `h1` 都在 184）、两行之间无横线且导航行底边保留 1px、`--app-header-offset` 在横版 100px / 竖版 56px、分区跳转落在头部下方（section top 124 = 100 + 24）、横版键盘 Tab 到导航项时焦点环内画不被裁、md 以下抽屉与导航后自动关闭、竖版仍是整宽 + 顶栏一条线、浅深两色截图。
+`pnpm check` 全绿（含 admin typecheck）。浏览器冒烟（dev + 生产构建）：登录/守卫回跳、URL 筛选与分页、详情/删除弹窗 + toast、表单校验与保存同步、深浅主题、折叠侧边栏 + Tooltip、移动端抽屉、404。截图确认过浅色与深色。分区长表单（2026-10-30）用 Playwright（系统 Chrome）在 1440 / 1280 / 1024 / 900 / 390 宽度下跑过：scrollspy 与几何计算逐步对拍一致、导航与摘要跳转到具体字段（键盘、鼠标、触摸）、计数与回退、隐藏字段、校验失败跳转、保存失败保留、提交中编辑保留、服务器规范化后的基线、放弃更改。导航分组与二级菜单（2026-11-03）用 Playwright 验证：竖版展开 / 收起、深链进来时分支自动展开、手动收起后再进分支会重新展开、子项 `aria-current`、横版 hover / Enter 开面板 / Esc 关并回到触发器 / 方向键落到第一项、面板里点选导航后关闭、折叠栏右弹面板、390 抽屉就地展开、浅深两色与 rose 配色截图，无 console 报错。分类改为可展开的一级项后重跑（2026-11-03）：两组可同时展开、组内子项标签与父项标签左边缘对齐（都是 44px，父项 padding 8px / 子项 32px）、两级行都是 36px 且子项无图标、导航进别组后该组自动展开、折叠栏 hover 弹出面板在 x=75 且能点选导航、横版面板与触发器左对齐（118/118）并落在行下方（96/100）、面板在 popup 层（950）、Esc 与方向键焦点行为、抽屉点选后关闭；几何测量组间 4px、组内 0。桌面导航双布局（2026-11-03）在 1600 / 1440 / 1280 / 1024 / 768 / 390 下验证：布局切换与刷新后的持久化、横版两行一起 sticky、横版三处内层都是 1280 居中（1600px 下 left=160，logo 盒 / 首个导航项 / `h1` 都在 184）、两行之间无横线且导航行底边保留 1px、`--app-header-offset` 在横版 100px / 竖版 56px、分区跳转落在头部下方（section top 124 = 100 + 24）、横版键盘 Tab 到导航项时焦点环内画不被裁、md 以下抽屉与导航后自动关闭、竖版仍是整宽 + 顶栏一条线、浅深两色截图。
 
 ## 外部仓库使用（npm 消费）
 

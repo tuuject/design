@@ -4,7 +4,7 @@ import { useUiStore } from '../../stores/ui';
 import { MenuIcon, PanelLeftIcon, RowsIcon } from '../icons';
 import { Brand } from './Brand';
 import { Breadcrumbs } from './Breadcrumbs';
-import { CONTENT_MAX_WIDTH, TOPBAR_HEIGHT } from './shared';
+import { CONTENT_MAX_WIDTH, HEADER_ROW_HEIGHT } from './shared';
 import { ThemeToggle } from './ThemeToggle';
 import { UserMenu } from './UserMenu';
 
@@ -17,19 +17,8 @@ export function Topbar() {
   const horizontal = navLayout === 'horizontal';
 
   return (
-    <header
-      data-flush={horizontal || undefined}
-      className={css({
-        display: 'flex',
-        bg: 'surface',
-        borderBottomWidth: '1px',
-        borderBottomStyle: 'solid',
-        borderBottomColor: 'divider',
-        // The horizontal layout stacks a nav row underneath: the row's own bottom edge is the header/content
-        // divider, so a rule between the two rows would read as a stray line in the middle of the header.
-        '&[data-flush=true]': { borderBottomWidth: '0' },
-      })}
-    >
+    // The shell's sticky block paints the surface behind both rows.
+    <header className={css({ display: 'flex' })}>
       <div
         data-narrow={horizontal || undefined}
         className={css({
@@ -37,7 +26,7 @@ export function Topbar() {
           alignItems: 'center',
           gap: '2',
           width: '100%',
-          height: TOPBAR_HEIGHT,
+          height: HEADER_ROW_HEIGHT,
           paddingInline: '4',
           // Same centered column as the nav row and the page content below it: same cap, same 24px inner
           // padding at md, so the brand and the page's left edge line up.

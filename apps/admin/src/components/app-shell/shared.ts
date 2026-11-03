@@ -1,10 +1,22 @@
 // App-shell metrics. These are template chrome, not library sizes (the design system only owns
 // component sizes); they stay below Koi's overlay layers (dialog 900 / popup 950 / toast 1000).
+import { sizes, space } from '@tuuject/koi-tokens/dimensions';
+
 export const SIDEBAR_WIDTH = '248px';
 export const SIDEBAR_WIDTH_COLLAPSED = '72px';
-export const TOPBAR_HEIGHT = '56px';
-/** The horizontal layout's second row: one control-lg tall. */
-export const TOP_NAV_HEIGHT = '44px';
+/**
+ * Air above, below and between the header rows, the same 8px (space-2) the rows use between their own
+ * controls and the nav row uses between its groups: the header reads as one grid instead of three different
+ * rhythms. It sits on the sticky block, not on the rows, so the gap between the two rows isn't the sum of two
+ * paddings.
+ */
+export const HEADER_ROW_PADDING = '2';
+/** A header row is exactly one control-md; the air around it belongs to the block. */
+export const HEADER_ROW_HEIGHT = `${sizes['control-md']}px`;
+/** One row plus its air on both sides: the header height in the sidebar layout. */
+export const HEADER_HEIGHT = `${sizes['control-md'] + space['2'] * 2}px`;
+/** Two rows with the same 8px above, between and below: the horizontal layout's header at md and up. */
+export const HEADER_HEIGHT_HORIZONTAL = `${sizes['control-md'] * 2 + space['2'] * 3}px`;
 /**
  * The horizontal layout reads as one centered column: header rows and page content share this cap, so on
  * wide screens the navigation doesn't stretch across the whole monitor. The sidebar layout stays full width.

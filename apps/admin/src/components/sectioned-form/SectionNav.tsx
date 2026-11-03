@@ -1,7 +1,7 @@
 import { SelectItem, SelectPanel } from '@tuuject/koi-react/select-panel';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { useSyncExternalStore } from 'react';
-import { focusRing, HEADER_OFFSET, TOPBAR_HEIGHT } from '../app-shell/shared';
+import { focusRing, HEADER_HEIGHT, HEADER_OFFSET } from '../app-shell/shared';
 import { STICKY_Z_INDEX, WIDE_TOP } from './context';
 import { ChangedDot, InvalidMark } from './markers';
 import type { FormOutline, SectionEntry } from './outline';
@@ -88,7 +88,7 @@ export function SectionMenu({ outline, sections, ...marks }: SectionNavProps) {
     <div
       className={css({
         position: 'sticky',
-        top: `var(${HEADER_OFFSET}, ${TOPBAR_HEIGHT})`,
+        top: `var(${HEADER_OFFSET}, ${HEADER_HEIGHT})`,
         zIndex: STICKY_Z_INDEX,
         paddingBlock: '2',
         // Sections scroll under it.

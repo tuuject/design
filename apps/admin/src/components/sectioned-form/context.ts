@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { HEADER_OFFSET, TOPBAR_HEIGHT } from '../app-shell/shared';
+import { HEADER_HEIGHT, HEADER_OFFSET } from '../app-shell/shared';
 import type { FormOutline } from './outline';
 
 export const OutlineContext = createContext<FormOutline | null>(null);
@@ -24,11 +24,11 @@ export function useSectionId() {
 // Layout metrics shared by the parts. The two-column layout starts at a 720px container ('@container
 // (min-width: 720px)', written out where used so Panda can read it).
 // The shell publishes its sticky header's total height (topbar, plus the horizontal nav row when that
-// layout is on) as a variable, so these offsets follow the chrome instead of assuming a 56px topbar.
+// layout is on) as a variable, so these offsets follow the chrome instead of assuming one topbar height.
 /** Wide layout: where the sticky section list sits, and where a section's top lands when jumped to. */
-export const WIDE_TOP = `calc(var(${HEADER_OFFSET}, ${TOPBAR_HEIGHT}) + 24px)`;
+export const WIDE_TOP = `calc(var(${HEADER_OFFSET}, ${HEADER_HEIGHT}) + 24px)`;
 /** Stacked layout: below the header and the sticky section dropdown (a 36px trigger with 8px above and below). */
-export const STACKED_TOP = `calc(var(${HEADER_OFFSET}, ${TOPBAR_HEIGHT}) + 52px + 16px)`;
+export const STACKED_TOP = `calc(var(${HEADER_OFFSET}, ${HEADER_HEIGHT}) + 52px + 16px)`;
 /** Room a field keeps below itself when scrolled to, so the action bar (68px, 16px off the edge) doesn't cover it. */
 export const BAR_CLEARANCE = 'calc(100px + env(safe-area-inset-bottom, 0px))';
 /** The sticky dropdown and action bar paint over the content, under the topbar (40). */

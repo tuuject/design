@@ -4,11 +4,12 @@ import { useUiStore } from '../../stores/ui';
 import { Sidebar } from './Sidebar';
 import {
   CONTENT_MAX_WIDTH,
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_HORIZONTAL,
   HEADER_OFFSET,
+  HEADER_ROW_PADDING,
   SHELL_Z_INDEX,
-  TOPBAR_HEIGHT,
   TOPBAR_Z_INDEX,
-  TOP_NAV_HEIGHT,
 } from './shared';
 import { Topbar } from './Topbar';
 import { TopNav } from './TopNav';
@@ -26,10 +27,10 @@ export function AppShell() {
         minHeight: '100%',
         bg: 'page-bg',
         // Pages (sectioned form jump targets, sticky sub-headers) read this instead of assuming the chrome.
-        [HEADER_OFFSET]: TOPBAR_HEIGHT,
+        [HEADER_OFFSET]: HEADER_HEIGHT,
         // Only md+ actually shows the nav row; below that the drawer is the navigation and the header is one row.
         '&[data-nav-layout=horizontal]': {
-          md: { [HEADER_OFFSET]: `calc(${TOPBAR_HEIGHT} + ${TOP_NAV_HEIGHT})` },
+          md: { [HEADER_OFFSET]: HEADER_HEIGHT_HORIZONTAL },
         },
       })}
       data-nav-layout={navLayout}
@@ -59,8 +60,24 @@ export function AppShell() {
       />
       <Sidebar />
       <div className={css({ display: 'flex', flexDirection: 'column', flex: '1', minW: '0' })}>
-        {/* One sticky block: the horizontal layout stacks its nav row under the topbar, both pinned. */}
-        <div className={css({ position: 'sticky', top: 0, zIndex: TOPBAR_Z_INDEX, bg: 'surface' })}>
+        {/* One sticky block: the horizontal layout stacks its nav row under the topbar, both pinned. The
+            8px air above, between and below the rows lives here, so both rows share one vertical rhythm and
+            the block's bottom edge is the single header/content divider. */}
+        <div
+          className={css({
+            position: 'sticky',
+            top: 0,
+            zIndex: TOPBAR_Z_INDEX,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: HEADER_ROW_PADDING,
+            paddingBlock: HEADER_ROW_PADDING,
+            bg: 'surface',
+            borderBottomWidth: '1px',
+            borderBottomStyle: 'solid',
+            borderBottomColor: 'divider',
+          })}
+        >
           <Topbar />
           {navLayout === 'horizontal' ? <TopNav /> : null}
         </div>

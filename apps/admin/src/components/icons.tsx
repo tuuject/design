@@ -5,6 +5,7 @@ import download from '@iconify-icons/fa7-solid/download';
 import eye from '@iconify-icons/fa7-solid/eye';
 import gaugeHigh from '@iconify-icons/fa7-solid/gauge-high';
 import gears from '@iconify-icons/fa7-solid/gears';
+import gripLines from '@iconify-icons/fa7-solid/grip-lines';
 import headset from '@iconify-icons/fa7-solid/headset';
 import moon from '@iconify-icons/fa7-solid/moon';
 import pen from '@iconify-icons/fa7-solid/pen';
@@ -34,6 +35,8 @@ export const MoonIcon = icon(moon);
 export const MenuIcon = icon(bars);
 // Free Solid has no sidebar icon; two columns reads closest.
 export const PanelLeftIcon = icon(tableColumns);
+// Horizontal bars: the nav layout switch's "put the navigation in a row" glyph.
+export const RowsIcon = icon(gripLines);
 export const TrashIcon = icon(trashCan);
 export const EyeIcon = icon(eye);
 export const ArrowRightIcon = icon(arrowRight);

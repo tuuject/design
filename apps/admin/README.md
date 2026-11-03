@@ -27,7 +27,7 @@ Demo account: `admin` / `123456`. All data is mock (`src/mock/api.ts`), generate
 
 ## What's inside
 
-- **App shell** (`src/components/app-shell/`): collapsible sidebar (persisted), sticky topbar, breadcrumb, user menu, light/dark toggle, responsive drawer below 768px.
+- **App shell** (`src/components/app-shell/`): two desktop navigation layouts — a collapsible sidebar, or a horizontal bar under the topbar — both persisted, with a sticky header, breadcrumb, user menu, light/dark toggle and a responsive drawer below 768px.
 - **Routes** (`src/routes/`): `login`, `_authed` (guard + shell) → `dashboard`, `orders` (filters, paging, CRUD and CSV import/export; URL state via `validateSearch`), `settings` (validation + submit), `assistant-settings` (a long sectioned form, below), `$.tsx` 404.
 - **Navigation config** (`src/nav.ts`): single source for the sidebar; titles come from each route's `staticData.title` (breadcrumb + `document.title`).
 - **Theming**: `theme-init.js` inlined into `<head>` by `vite.config.ts` (`transformIndexHtml`) — no flash of the wrong theme. The toggle calls `koiSetTheme`, exactly like any Koi consumer.

@@ -31,7 +31,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 
 | 能力 | 现状 |
 | --- | --- |
-| 侧边栏导航 | 模板内 `Sidebar`，样式按 NavMenu spec 的竖版规则（`nav-item-*` token、36px、radius-xl、当前项加粗），但只是三分实现；**NavMenu 仍是库里未移植的组件**，移植后应替换 |
+| 侧边栏 / 水平导航 | 模板内 `Sidebar` + `TopNav`，共用一个 `NavItemButton`，样式按 NavMenu spec 的竖版 / 横版规则（`nav-item-*` token、36px、radius-xl、当前项加粗、横版焦点环画在内部），但只是三分实现；**NavMenu 仍是库里未移植的组件**，移植后应替换 |
 | 用户下拉菜单 | 直接用 `@base-ui/react/menu`（Menu.Root/Trigger/Positioner/Popup），样式照 SelectPanel spec 的面板（36px 项、`radius-lg`、分隔线贴边、scale 96% 弹出）；等库里出了 Menu 再换 |
 | 表格 | 已进库：`@tuuject/koi-react/data-table` 的 `DataTable`（2026-10-16，spec `docs/spec/components/Table.md`）。要排序 / 选择时改用 `@tuuject/koi-react/table` 的 parts 自己拼，可直接接 TanStack Table |
 | 面包屑 | 模板内 `Breadcrumbs`，靠路由 `staticData.title`；祖先链接用 `Link variant="plain"`（`text-muted`，hover 变 `text-brand`，无下划线） |
@@ -47,7 +47,13 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 - **spacing token 是裸数字**：`gap: '4'`、`padding: '6'`，**不是** `'space-4'`——写错会生成空规则（`.px_space-4 { }`），`strictTokens: false` 下静默通过。radius/shadow/size 才用名字（`'xl'`、`'float'`、`'control-md'`）。
 - **JSX 属性名撞 CSS 属性名**：Panda 默认把任何 JSX 上与 CSS 属性同名的 prop 当 style prop 抽取（`<DataTable columns={…}>` 报 `nested_property`，Tooltip 的 `content` 生成过 `content: 关闭` 之类的垃圾规则）。根配置已设 `jsxStyleProps: 'none'`，样式只走 `css()` 和 recipe，prop 可以放心叫 `columns`。
 - **产物告警**：库侧两条既有 `pure_helper_unevaluated`（Pagination 的 `useButtonShape`、SelectPanel 的 `useParts`）来自抽取器无法求值 hook，样式实际由 `staticCss: { recipes: '*' }` 预生成，渲染无影响；属于库的已知行为，不是模板引入的。
-- 布局常量（侧边栏 248/72、顶栏 56、app 层 z-index 60/40）是模板自己的 chrome 常量，低于 Koi 浮层（dialog 900+）；库的 focusRing 没有导出，`shared.ts` 里镜像了一份。
+- 布局常量（侧边栏 248/72、顶栏 56、水平导航行 44、app 层 z-index 60/40）是模板自己的 chrome 常量，低于 Koi 浮层（dialog 900+）；库的 focusRing 没有导出，`shared.ts` 里镜像了一份。
+- **桌面导航有两种布局**（2026-11-03）：`stores/ui.ts` 的 `navLayout: 'sidebar' | 'horizontal'`（persist），顶栏右侧的图标按钮切换。竖版是 `Sidebar`，横版是 `TopNav`（顶栏下面第二行，同一份 `NAV_ITEMS`），两者共用 `NavItemButton`（`data-orientation` 决定占满宽还是横排、焦点环画在内部还是外部）。横版下 `Sidebar` 只在 md 以下作为抽屉存在（`[data-nav-layout=horizontal]` 在 md 起 `display: none`），品牌从侧边栏移到顶栏第一行（`Brand compact`，36px logo）。顶栏 + 导航行包在同一个 sticky 块里（`TOPBAR_Z_INDEX`），滚动时两行一起钉住。断点以下没有横版：抽屉是唯一导航。
+- **横版是一条 1280 居中的列**：顶栏内层、导航行内层、`<main>` 都用 `CONTENT_MAX_WIDTH`（1280px）+ `marginInline: auto`，md 起统一 24px 内边距，所以 logo 盒、第一个导航项、页面 `h1` 左边缘对齐（1600px 下都在 184px）。竖版保持整宽。
+- **横版只有一条横线**：两行之间的分隔线去掉，顶栏在横版下把 `borderBottom` 归零，改由导航行自己的底边当 header / content 的分界。竖版仍是顶栏一条线。
+- **brand 与面包屑之间 16px**：横版第一行是 8px gap，品牌名和面包屑之间偏挤；分隔线加 `marginInline: '2'`（两侧各 8px），brand 到线、线到面包屑都是 16px。
+- **sticky 偏移读 shell 的变量，不写死顶栏高度**：`AppShell` 在根元素设 `--app-header-offset`（竖版 56px；横版 md 起 56+44px），分区长表单的 `scroll-margin-top`、sticky 分区下拉都读它。加新的 sticky 行时改这一处，页面不用跟着改。
+- **横版的焦点环画在内部**（`outlineOffset: -2px`）：导航行 `overflowX: auto`，外扩的 2px 环会被裁掉。这是 NavMenu spec 对横版的规定。
 - **自己 portal 的浮层要给 z-index**：模板里直接用 Base UI 的浮层（如 UserMenu 的 `Menu.Positioner`）portal 到 `<body>` 后没有层级，会被 sticky 顶栏（z-index 40）盖住上沿。照 SelectPanel 给 Positioner `zIndex: 'popup'`。
 - **`reset()` 之后调用 `register` 的组件必须重渲染**：RHF 的 `reset` 会清空字段登记（无参时还会原生 `form.reset()` 把输入框清空），值要等调用 `register` 的组件下次渲染、ref 回调重新登记时才写回 DOM。页面若不读任何 `formState`，RHF 不会重渲染它：「放弃更改」后输入框全空、字段也没了校验。`SectionedForm` 渲染时读一次 `form.formState.isDirty`，让页面订阅上 isDirty。
 - **Base UI Menu 的坑**：默认 `modal` 会锁页面滚动，从菜单项开始的平滑滚动会被吃掉，摘要菜单用 `modal={false}`；`finalFocus` 回调拿到的关闭类型在触摸点选菜单项时不是 `touch`，要从菜单项 click 事件的 `pointerType` 自己判断（触摸时聚焦字段外层，不弹软键盘）。
@@ -57,7 +63,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 
 ## 验证
 
-`pnpm check` 全绿（含 admin typecheck）。浏览器冒烟（dev + 生产构建）：登录/守卫回跳、URL 筛选与分页、详情/删除弹窗 + toast、表单校验与保存同步、深浅主题、折叠侧边栏 + Tooltip、移动端抽屉、404。截图确认过浅色与深色。分区长表单（2026-10-30）用 Playwright（系统 Chrome）在 1440 / 1280 / 1024 / 900 / 390 宽度下跑过：scrollspy 与几何计算逐步对拍一致、导航与摘要跳转到具体字段（键盘、鼠标、触摸）、计数与回退、隐藏字段、校验失败跳转、保存失败保留、提交中编辑保留、服务器规范化后的基线、放弃更改。
+`pnpm check` 全绿（含 admin typecheck）。浏览器冒烟（dev + 生产构建）：登录/守卫回跳、URL 筛选与分页、详情/删除弹窗 + toast、表单校验与保存同步、深浅主题、折叠侧边栏 + Tooltip、移动端抽屉、404。截图确认过浅色与深色。分区长表单（2026-10-30）用 Playwright（系统 Chrome）在 1440 / 1280 / 1024 / 900 / 390 宽度下跑过：scrollspy 与几何计算逐步对拍一致、导航与摘要跳转到具体字段（键盘、鼠标、触摸）、计数与回退、隐藏字段、校验失败跳转、保存失败保留、提交中编辑保留、服务器规范化后的基线、放弃更改。桌面导航双布局（2026-11-03）在 1600 / 1440 / 1280 / 1024 / 768 / 390 下验证：布局切换与刷新后的持久化、横版两行一起 sticky、横版三处内层都是 1280 居中（1600px 下 left=160，logo 盒 / 首个导航项 / `h1` 都在 184）、两行之间无横线且导航行底边保留 1px、`--app-header-offset` 在横版 100px / 竖版 56px、分区跳转落在头部下方（section top 124 = 100 + 24）、横版键盘 Tab 到导航项时焦点环内画不被裁、md 以下抽屉与导航后自动关闭、竖版仍是整宽 + 顶栏一条线、浅深两色截图。
 
 ## 外部仓库使用（npm 消费）
 

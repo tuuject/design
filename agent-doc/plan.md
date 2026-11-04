@@ -12,7 +12,7 @@ Koi 的阶段计划。状态只在本页维护；完成项的结论同时写进�
 
 ## 进行中的 epic
 
-- [surowan Admin 重写：组件缺口](plans/surowan-admin-epic.md)：进行中。
+- [surowan Admin 重写：组件缺口](plans/surowan-admin-epic.md)：库侧 E1–E5 完成（2026-11-04）；E6 应用层组件在 surowan 仓库，随重写进行。
 
 Phase 0–1 的逐组件记录（每个组件相对 legacy 的 API / 行为决定）归档在 [web-port-record.md](web-port-record.md)。
 

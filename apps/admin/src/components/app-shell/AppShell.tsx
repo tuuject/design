@@ -1,6 +1,9 @@
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { Outlet } from '@tanstack/react-router';
+import { useCloseMobileNavOnDesktop } from '../../hooks/use-close-mobile-nav-on-desktop';
+import { useMediaQuery } from '../../hooks/use-media-query';
 import { useUiStore } from '../../stores/ui';
+import { MobileNav } from './MobileNav';
 import { Sidebar } from './Sidebar';
 import {
   CONTENT_MAX_WIDTH,
@@ -8,17 +11,17 @@ import {
   HEADER_HEIGHT_HORIZONTAL,
   HEADER_OFFSET,
   HEADER_ROW_PADDING,
-  SHELL_Z_INDEX,
   TOPBAR_Z_INDEX,
 } from './shared';
 import { Topbar } from './Topbar';
 import { TopNav } from './TopNav';
 
-/** The authenticated app chrome: off-canvas sidebar on mobile, sticky header, routed content. */
+/** The authenticated app chrome: a drawer below md, the sticky sidebar at md and up, sticky header, routed content. */
 export function AppShell() {
-  const open = useUiStore((st) => st.mobileNavOpen);
   const navLayout = useUiStore((st) => st.navLayout);
-  const setMobileNavOpen = useUiStore((st) => st.setMobileNavOpen);
+  // Below md the drawer is the only navigation; mounting it only there keeps a closed dialog out of the DOM.
+  const desktop = useMediaQuery('(min-width: 768px)');
+  useCloseMobileNavOnDesktop(desktop);
 
   return (
     <div
@@ -35,30 +38,7 @@ export function AppShell() {
       })}
       data-nav-layout={navLayout}
     >
-      <button
-        type="button"
-        className={css({
-          position: 'fixed',
-          inset: '0',
-          zIndex: SHELL_Z_INDEX - 5,
-          border: 'none',
-          padding: '0',
-          bg: 'backdrop',
-          backdropFilter: 'blur(var(--blurs-panel))',
-          cursor: 'pointer',
-          opacity: '0',
-          pointerEvents: 'none',
-          transitionProperty: 'opacity',
-          transitionDuration: 'fast',
-          md: { display: 'none' },
-          '&[data-open=true]': { opacity: '1', pointerEvents: 'auto' },
-        })}
-        data-open={open}
-        aria-label="关闭导航"
-        tabIndex={open ? 0 : -1}
-        onClick={() => setMobileNavOpen(false)}
-      />
-      <Sidebar />
+      {desktop ? <Sidebar /> : <MobileNav />}
       <div className={css({ display: 'flex', flexDirection: 'column', flex: '1', minW: '0' })}>
         {/* One sticky block: the horizontal layout stacks its nav row under the topbar, both pinned. The
             8px air above, between and below the rows lives here, so both rows share one vertical rhythm and

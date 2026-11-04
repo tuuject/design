@@ -16,13 +16,16 @@
     "./checkbox": "./src/checkbox/Checkbox.tsx",
     "./dialog": "./src/dialog/Dialog.tsx",
     "./divider": "./src/divider/Divider.tsx",
+    "./drawer": "./src/drawer/Drawer.tsx",
     "./drop-zone": "./src/drop-zone/DropZone.tsx",
     "./field": "./src/field/Field.tsx",
     "./icons": "./src/icons.tsx",
     "./input": "./src/input/Input.tsx",
     "./link": "./src/link/Link.tsx",
     "./map-editor": "./src/map-editor/MapEditor.tsx",
+    "./menu": "./src/menu/Menu.tsx",
     "./pagination": "./src/pagination/Pagination.tsx",
+    "./popover": "./src/popover/Popover.tsx",
     "./progress": "./src/progress/Progress.tsx",
     "./prose": "./src/prose/Prose.tsx",
     "./radio-group": "./src/radio-group/RadioGroup.tsx",
@@ -141,6 +144,10 @@
         "types": "./dist/divider/Divider.d.ts",
         "default": "./dist/divider/Divider.js"
       },
+      "./drawer": {
+        "types": "./dist/drawer/Drawer.d.ts",
+        "default": "./dist/drawer/Drawer.js"
+      },
       "./drop-zone": {
         "types": "./dist/drop-zone/DropZone.d.ts",
         "default": "./dist/drop-zone/DropZone.js"
@@ -165,9 +172,17 @@
         "types": "./dist/map-editor/MapEditor.d.ts",
         "default": "./dist/map-editor/MapEditor.js"
       },
+      "./menu": {
+        "types": "./dist/menu/Menu.d.ts",
+        "default": "./dist/menu/Menu.js"
+      },
       "./pagination": {
         "types": "./dist/pagination/Pagination.d.ts",
         "default": "./dist/pagination/Pagination.js"
+      },
+      "./popover": {
+        "types": "./dist/popover/Popover.d.ts",
+        "default": "./dist/popover/Popover.js"
       },
       "./progress": {
         "types": "./dist/progress/Progress.d.ts",

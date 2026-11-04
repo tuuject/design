@@ -6,7 +6,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 
 - **Vite**：`apps/admin/vite.config.ts`，入口是 `apps/admin/index.html`。TanStack Router 的文件路由插件走 `@tanstack/router-plugin/vite`，必须排在 `@vitejs/plugin-react` 前面。vite / plugin-react 与 Storybook 同版本。2026-10-30 从 Rsbuild 迁过来：Rsbuild 在热更新时经常崩。迁移后连续 40 次改组件和路由文件（含 `?tsr-split` 拆出的 chunk），HMR 全部生效，没有整页刷新，也没有报错。
 - **样式**：全仓库共用根 `panda.config.ts`，app 通过 `apps/admin/postcss.config.cjs`（Panda 的 PostCSS 插件，同 Storybook）注入 layers。app 里用 `css()` 的文件必须被根配置的 `include` 扫到——已加 `./apps/admin/src/**/*.{ts,tsx}`。
-- **只用一次的样式直接内联**：`className={css({ … })}` 写在 JSX 上，不抽进文件顶部的 `const s = { … }`；只有同一文件里用到两次以上的才放进 `s`（如 `UserMenu` 的 `item`、订单详情的 `detailLabel` / `detailValue`）。解释“为什么”的注释跟着属性写在 `css({})` 里面。
+- **只用一次的样式直接内联**：`className={css({ … })}` 写在 JSX 上，不抽进文件顶部的 `const s = { … }`；只有同一文件里用到两次以上的才放进 `s`（如订单详情的 `detailLabel` / `detailValue`）。解释“为什么”的注释跟着属性写在 `css({})` 里面。
 - **主题**：`theme-init.js` 在 `vite.config.ts` 里读包文件后，由一个内联插件的 `transformIndexHtml`（`head-prepend`）塞进 `<head>` 最前面（无主题闪烁）；切换走 `koiSetTheme`。`hooks/use-theme.ts` 用 `useSyncExternalStore` + `MutationObserver` 直接读 `<html data-theme>`，不另存 state，所以 `koiSetTheme`、跟随系统的切换都能看到。palette 没有做切换 UI，机制与 Storybook 一致。
 - **数据层用 TanStack Query**：`index.tsx` 里建 `QueryClient`。query key 约定：`['orders', 'list', query]`、`['orders', 'recent', n]`、`['stats']`；写操作成功后 `invalidateQueries` 前缀。订单页 `placeholderData: keepPreviousData`，`loading = isPending || isPlaceholderData`——换筛选 / 翻页出 skeleton，窗口聚焦、删除后的后台重拉不出。删除确认里 `await invalidateQueries` 后再关弹窗，弹窗关上时表格里那行已经没了。
 - **不直接写 `useEffect`**：组件里不用 `useEffect`，只有 `src/hooks/` 里的可复用 hook 可以（`useMountEffect`）。替代写法：页面标题直接渲染 React 19 的 `<title>`（`__root.tsx`；`index.html` 故意不写 `<title>`）；任何换页关移动端抽屉在 `index.tsx` 模块顶层 `router.subscribe('onResolved')`，覆盖浏览器后退。
@@ -32,11 +32,12 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 
 | 能力 | 现状 |
 | --- | --- |
-| 侧边栏 / 水平导航 | 模板内 `Sidebar` + `TopNav`，共用 `nav-item.ts` 的行样式与 `NavItemButton`（组内页面）、`NavGroupItem`（竖版分组，Base UI `Collapsible`）、`NavFlyout`（横版 / 折叠栏分组，Base UI `Menu`）。样式按 NavMenu spec 的竖版 / 横版规则（`nav-item-*` token、36px、radius-xl、当前项加粗、横版焦点环画在内部），但只是四分实现；**NavMenu 仍是库里未移植的组件**，移植后应替换 |
-| 用户下拉菜单 | 直接用 `@base-ui/react/menu`（Menu.Root/Trigger/Positioner/Popup），样式照 SelectPanel spec 的面板（36px 项、`radius-lg`、分隔线贴边、scale 96% 弹出）；等库里出了 Menu 再换 |
+| 侧边栏 / 水平导航 | 模板内 `Sidebar` + `TopNav`，共用 `nav-item.ts` 的行样式与 `NavItemButton`（组内页面）、`NavGroupItem`（竖版分组，Base UI `Collapsible`）、`NavFlyout`（横版 / 折叠栏分组，已改用库的 `Menu`）。样式按 NavMenu spec 的竖版 / 横版规则（`nav-item-*` token、36px、radius-xl、当前项加粗、横版焦点环画在内部），但只是四分实现；**NavMenu 仍是库里未移植的组件**，移植后应替换 |
+| 用户下拉菜单 | 已进库：`@tuuject/koi-react/menu` 的 `Menu`（2026-11-04，spec `docs/spec/components/Menu.md`）。`UserMenu` 用库组件，触发器仍是模板自己的按钮，`header` 放头像与邮箱 |
 | 表格 | 已进库：`@tuuject/koi-react/data-table` 的 `DataTable`（2026-10-16，spec `docs/spec/components/Table.md`）。要排序 / 选择时改用 `@tuuject/koi-react/table` 的 parts 自己拼，可直接接 TanStack Table |
 | 面包屑 | 模板内 `Breadcrumbs`，靠路由 `staticData.title`；祖先链接用 `Link variant="plain"`（`text-muted`，hover 变 `text-brand`，无下划线） |
-| 未保存更改摘要 | `sectioned-form/ChangeSummary.tsx` 直接用 Base UI `Menu`（方向键、类型查找、Esc），样式同用户菜单；库里有 Popover / Menu 后再换 |
+| 未保存更改摘要 | `sectioned-form/ChangeSummary.tsx` 用库的 `Menu`：`header` 是标题，分组列出改动字段，`endContent` 放「需修正 / 已隐藏 / 已修改」，`finalFocus` 把焦点交给跳转目标 |
+| 移动导航 | 已进库：`@tuuject/koi-react/drawer` 的 `Drawer`（2026-11-04，spec `docs/spec/components/Drawer.md`）。`MobileNav` 用它，md 以下才挂载；品牌与导航列表抽成 `SidebarContent`，与桌面 `Sidebar` 共用，宽度仍 248px。换页关闭在 `index.tsx` 的 `router.subscribe` |
 | 业务图标 | `components/icons.tsx`，从 `@iconify-icons/fa7-solid` 挑，用 `@tuuject/koi-react/icons` 的 `Icon` 渲染。Free 里没有的（如侧边栏图标）可以换别的 Iconify 图标集或手写 `{ body, width, height }` |
 
 ## 决定与坑
@@ -58,12 +59,12 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 - **导航分组与二级菜单**（2026-11-03）：`nav.ts` 的 `NAV_GROUPS` 是两级树，**一级就是分类本身**（概览 / 业务 / 智能助手 / 账户，各带 16px 图标），二级是页面。分类不再是列表上方的静态标签，所以没有「分类标签」这层样式，横版也不再需要组间竖线。`NavGroup` / `NavLeaf` 用 `children` / `to` 互斥区分，`navContains` 判断某个分组是否含当前路径。spec 允许三级，模板只做两级。
   - **竖版分组用 `Collapsible`**：自己一行是触发器（`aria-expanded` + `data-panel-open`），面板按 `--collapsible-panel-height` 动 height（150ms `out`）。当前页所在的分组在挂载时自动展开；从别的页面导航进分组时也展开，手动收起后不会再被强行拉开。子项 `depth=1`：不画图标，左内边距 32px（8 + 16 + 8）对齐分组标签。
   - **分组之间 4px**：一级项是各自的分组，列表 `gap: '1'`，展开的页面在分组内零间距（hover / 当前填充相接）。横版同一条规则放宽到 8px（`TopNav` 的 `gap: '2'`）：横版每个分组自带填充，4px 时 pill 几乎贴在一起（2026-11-03）。
-  - **横版 / 折叠栏分组用 `Menu`**：横版向下弹、折叠栏（72px）向右弹，都是 `surface` + `border` + `radius-xl` + `shadow-float` 的面板（同 SelectPanel / UserMenu）。`openOnHover`、方向键、type-to-find、Esc、点外部、靠近窗口边缘翻转都由 Base UI 负责；`modal={false}` 免得锁页面滚动。面板里当前页标 `aria-current="page"` 并带 `nav-item-active` 填充。
-  - **折叠栏的分支只能弹出来**：72px 宽时标签全隐藏，就地展开没有意义，所以 `collapsed && desktop` 才换成 `NavFlyout`（`side="right"`、`aria-label` 补名字、`data-rail` 让分支图标带当前填充）；md 以下的抽屉永远是全宽，就地展开。
+  - **横版 / 折叠栏分组用库的 `Menu`**：横版向下弹（`bottom-start`）、折叠栏（72px）向右弹（`right-start`），面板就是 Menu 与 Popover 共用的那一个（`surface` + `border` + `radius-xl` + `shadow-float`）。`openOnHover`、方向键、type-to-find、Esc、点外部、靠近窗口边缘翻转都由库负责；`modal={false}` 免得锁页面滚动。子项用 `href` + `current`，点选时 `preventDefault` 后自己 `navigate`。
+  - **折叠栏的分支只能弹出来**：72px 宽时标签全隐藏，就地展开没有意义，所以只有桌面侧栏（`SidebarContent` 的 `rail`）才换成 `NavFlyout`（`side="right"`、`aria-label` 补名字、`data-rail` 让分支图标带当前填充）；md 以下的抽屉永远是全宽，就地展开。
   - **分支状态是加粗不是填充**：竖版父项带 `data-in-path` 时只把文字变粗（`text`），横版和折叠栏没有展开树可看，父项直接吃 `nav-item-active` 填充。
 - **sticky 偏移读 shell 的变量，不写死顶栏高度**：`AppShell` 在根元素设 `--app-header-offset`（竖版 `HEADER_HEIGHT` 52px；横版 md 起 `HEADER_HEIGHT_HORIZONTAL` 96px），分区长表单的 `scroll-margin-top`、sticky 分区下拉都读它。加新的 sticky 行时改这一处，页面不用跟着改。
 - **横版的焦点环画在内部**（`outlineOffset: -2px`）：导航行 `overflowX: auto`，外扩的 2px 环会被裁掉。这是 NavMenu spec 对横版的规定。
-- **自己 portal 的浮层要给 z-index**：模板里直接用 Base UI 的浮层（如 UserMenu 的 `Menu.Positioner`）portal 到 `<body>` 后没有层级，会被 sticky 顶栏（z-index 40）盖住上沿。照 SelectPanel 给 Positioner `zIndex: 'popup'`。
+- **自己 portal 的浮层要给 z-index**：portal 到 `<body>` 的元素没有层级，会被 sticky 顶栏（z-index 40）盖住上沿。库里的 Menu / Popover / Drawer 已经带上 `popup` / `dialog` 层；模板自己 portal 的东西照 SelectPanel 给 Positioner `zIndex: 'popup'`。
 - **`reset()` 之后调用 `register` 的组件必须重渲染**：RHF 的 `reset` 会清空字段登记（无参时还会原生 `form.reset()` 把输入框清空），值要等调用 `register` 的组件下次渲染、ref 回调重新登记时才写回 DOM。页面若不读任何 `formState`，RHF 不会重渲染它：「放弃更改」后输入框全空、字段也没了校验。`SectionedForm` 渲染时读一次 `form.formState.isDirty`，让页面订阅上 isDirty。
 - **Base UI Menu 的坑**：默认 `modal` 会锁页面滚动，从菜单项开始的平滑滚动会被吃掉，摘要菜单用 `modal={false}`；`finalFocus` 回调拿到的关闭类型在触摸点选菜单项时不是 `touch`，要从菜单项 click 事件的 `pointerType` 自己判断（触摸时聚焦字段外层，不弹软键盘）。
 - **Dialog 的开关和数据分开存**：别用 `open={detail !== null}`、关闭时 `setDetail(null)`——Base UI 退场时 Popup 还挂着播淡出，数据一清空，内容就先消失再淡出。用独立的 `open` state，关闭只翻它，数据留到下次打开时覆盖；有 loading 的确认框在打开时重置 loading，别在请求结束后先关 loading 再关弹窗（按钮会在淡出中闪回原文案）。见 `routes/_authed.orders.tsx`。

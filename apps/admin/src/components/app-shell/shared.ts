@@ -28,8 +28,7 @@ export const CONTENT_MAX_WIDTH = '1280px';
  * hard-coding the chrome, so a jump target never lands under the header.
  */
 export const HEADER_OFFSET = '--app-header-offset';
-/** Mobile drawer + its backdrop, above the topbar (40), below every Koi overlay. */
-export const SHELL_Z_INDEX = 60;
+/** The sticky header block: below every Koi overlay (dialog 900, popup 950, toast 1000), above the page. */
 export const TOPBAR_Z_INDEX = 40;
 
 /** Koi's keyboard focus outline (mirrors recipes/dimensions.ts focusRing; that helper isn't exported). */

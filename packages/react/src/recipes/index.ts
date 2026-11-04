@@ -7,9 +7,11 @@ import { chatBubble } from './chat-bubble.js';
 import { checkbox } from './checkbox.js';
 import { collectionEditor } from './collection-editor.js';
 import { dialog } from './dialog.js';
+import { drawer } from './drawer.js';
 import { dropZone } from './drop-zone.js';
 import { separator } from './divider.js';
 import { field } from './field.js';
+import { floatingPanel } from './floating-panel.js';
 import { input } from './input.js';
 import { link } from './link.js';
 import { pagination } from './pagination.js';
@@ -38,8 +40,10 @@ export const slotRecipes = {
   checkbox,
   collectionEditor,
   dialog,
+  drawer,
   dropZone,
   field,
+  floatingPanel,
   input,
   link,
   pagination,

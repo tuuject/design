@@ -53,6 +53,7 @@ koi-ui/
 | recipe 里引用组件状态（不点名 Base UI） | [agent-doc/headless.md](agent-doc/headless.md) |
 | 验证：`pnpm check`、截图、像素与 CSS 比对 | [agent-doc/verification.md](agent-doc/verification.md) |
 | 现在的进度、下一步、未决事项 | [agent-doc/plan.md](agent-doc/plan.md) |
+| surowan Admin 重写的组件缺口与 epic 拆分 | [agent-doc/plans/surowan-admin-epic.md](agent-doc/plans/surowan-admin-epic.md) |
 | 某个组件移植时定下的 API / 行为决定 | [agent-doc/web-port-record.md](agent-doc/web-port-record.md) |
 | 本仓库术语 | [agent-doc/glossary.md](agent-doc/glossary.md) |
 | 组件应该长什么样、怎么交互 | `docs/spec/README.md`、`docs/spec/components/<Name>.md`（改组件前必读） |

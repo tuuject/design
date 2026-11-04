@@ -10,6 +10,10 @@ Koi 的阶段计划。状态只在本页维护；完成项的结论同时写进�
 | Phase 3：React Native（`@tuuject/koi-native`） | 进行中：基础设施完成，组件未开始 |
 | Phase 4：同步回设计 artifact | 未开始 |
 
+## 进行中的 epic
+
+- [surowan Admin 重写：组件缺口](plans/surowan-admin-epic.md)：进行中。
+
 Phase 0–1 的逐组件记录（每个组件相对 legacy 的 API / 行为决定）归档在 [web-port-record.md](web-port-record.md)。
 
 ## Phase 1 剩余

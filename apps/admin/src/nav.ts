@@ -10,7 +10,14 @@ import { BriefcaseIcon, LayoutIcon, RobotIcon, UserIcon } from './components/ico
  * top-level item is a `NavGroup` (概览, 业务, 智能助手, 账户) that expands into its pages, so the grouping is part
  * of the menu rather than a static label above it. The spec allows three levels; this template stops at two.
  */
-export type NavTo = '/dashboard' | '/orders' | '/support' | '/agent' | '/assistant-settings' | '/settings';
+export type NavTo =
+  | '/dashboard'
+  | '/orders'
+  | '/support'
+  | '/agent'
+  | '/assistant-settings'
+  | '/integration-settings'
+  | '/settings';
 
 export interface NavLeaf {
   title: string;
@@ -49,6 +56,7 @@ export const NAV_GROUPS: NavGroup[] = [
     children: [
       { title: '对话示例', to: '/agent' },
       { title: '助手配置', to: '/assistant-settings' },
+      { title: '接入设置', to: '/integration-settings' },
     ],
   },
   {

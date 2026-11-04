@@ -41,6 +41,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 
 ## 决定与坑
 
+- **集合编辑器示例页**（2026-11-04）：`/integration-settings`（`routes/_authed.integration-settings.tsx`）用 `MapEditor` 编辑请求头（`sortable={false}`，顺序无意义）、用 `SetEditor` 编辑允许来源（可拖动，顺序即显示顺序）。数据是页面 state，保存只做延迟和 toast，没走 `mock/api.ts`；重复和空条目在组件内标红，保存前再查一遍并拦下。侧栏入口挂在「智能助手」组。
 - **客服会话 / AI 助手是 ChatBubble 的两个组合示例**（2026-10-24）：`/support`（`routes/_authed.support.tsx`）是两个真人的会话——客户走 `received`（左，带头像）、客服走 `sent`（右），包在 Card 里；`/agent`（`routes/_authed.agent.tsx`）是真人消息在右侧气泡、助手回复直接平铺 markdown（`components/Markdown.tsx`，`react-markdown` 包在库的 `Prose size="sm"` 里，14px，与页面其余 UI 文字同一基准），不加 Card。markdown 用 `react-markdown`（admin 独有依赖，内容是静态示例，无输入框）。
 - **Panda preflight 把所有列表的 marker 去掉了**：reset 层有 `ol, ul, menu { list-style: none; }`。markdown 正文交给 `Prose`，它会把 marker 加回来；自己写列表时要在组件 css 恢复 `listStyleType`。不要动全局 reset——侧边栏等处的列表正依赖它。
 - **断点在 config，不在 tokens**：`panda.config.ts` 的 `theme.extend.breakpoints = { md: '768px' }`（与 Bilisound 的 md 768 约定一致）。preset-base 不带断点；等 tokens.json 收编后应挪过去（plan.md 未决事项）。

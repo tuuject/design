@@ -16,6 +16,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthedAgentRouteImport } from './routes/_authed.agent'
 import { Route as AuthedAssistantSettingsRouteImport } from './routes/_authed.assistant-settings'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed.dashboard'
+import { Route as AuthedIntegrationSettingsRouteImport } from './routes/_authed.integration-settings'
 import { Route as AuthedOrdersRouteImport } from './routes/_authed.orders'
 import { Route as AuthedSettingsRouteImport } from './routes/_authed.settings'
 import { Route as AuthedSupportRouteImport } from './routes/_authed.support'
@@ -54,6 +55,12 @@ const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedIntegrationSettingsRoute =
+  AuthedIntegrationSettingsRouteImport.update({
+    id: '/integration-settings',
+    path: '/integration-settings',
+    getParentRoute: () => AuthedRoute,
+  } as any)
 const AuthedOrdersRoute = AuthedOrdersRouteImport.update({
   id: '/orders',
   path: '/orders',
@@ -77,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/agent': typeof AuthedAgentRoute
   '/assistant-settings': typeof AuthedAssistantSettingsRoute
   '/dashboard': typeof AuthedDashboardRoute
+  '/integration-settings': typeof AuthedIntegrationSettingsRoute
   '/orders': typeof AuthedOrdersRoute
   '/settings': typeof AuthedSettingsRoute
   '/support': typeof AuthedSupportRoute
@@ -88,6 +96,7 @@ export interface FileRoutesByTo {
   '/agent': typeof AuthedAgentRoute
   '/assistant-settings': typeof AuthedAssistantSettingsRoute
   '/dashboard': typeof AuthedDashboardRoute
+  '/integration-settings': typeof AuthedIntegrationSettingsRoute
   '/orders': typeof AuthedOrdersRoute
   '/settings': typeof AuthedSettingsRoute
   '/support': typeof AuthedSupportRoute
@@ -101,6 +110,7 @@ export interface FileRoutesById {
   '/_authed/agent': typeof AuthedAgentRoute
   '/_authed/assistant-settings': typeof AuthedAssistantSettingsRoute
   '/_authed/dashboard': typeof AuthedDashboardRoute
+  '/_authed/integration-settings': typeof AuthedIntegrationSettingsRoute
   '/_authed/orders': typeof AuthedOrdersRoute
   '/_authed/settings': typeof AuthedSettingsRoute
   '/_authed/support': typeof AuthedSupportRoute
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
     | '/agent'
     | '/assistant-settings'
     | '/dashboard'
+    | '/integration-settings'
     | '/orders'
     | '/settings'
     | '/support'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
     | '/agent'
     | '/assistant-settings'
     | '/dashboard'
+    | '/integration-settings'
     | '/orders'
     | '/settings'
     | '/support'
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
     | '/_authed/agent'
     | '/_authed/assistant-settings'
     | '/_authed/dashboard'
+    | '/_authed/integration-settings'
     | '/_authed/orders'
     | '/_authed/settings'
     | '/_authed/support'
@@ -200,6 +213,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedDashboardRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/integration-settings': {
+      id: '/_authed/integration-settings'
+      path: '/integration-settings'
+      fullPath: '/integration-settings'
+      preLoaderRoute: typeof AuthedIntegrationSettingsRouteImport
+      parentRoute: typeof AuthedRoute
+    }
     '/_authed/orders': {
       id: '/_authed/orders'
       path: '/orders'
@@ -228,6 +248,7 @@ interface AuthedRouteChildren {
   AuthedAgentRoute: typeof AuthedAgentRoute
   AuthedAssistantSettingsRoute: typeof AuthedAssistantSettingsRoute
   AuthedDashboardRoute: typeof AuthedDashboardRoute
+  AuthedIntegrationSettingsRoute: typeof AuthedIntegrationSettingsRoute
   AuthedOrdersRoute: typeof AuthedOrdersRoute
   AuthedSettingsRoute: typeof AuthedSettingsRoute
   AuthedSupportRoute: typeof AuthedSupportRoute
@@ -237,6 +258,7 @@ const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedAgentRoute: AuthedAgentRoute,
   AuthedAssistantSettingsRoute: AuthedAssistantSettingsRoute,
   AuthedDashboardRoute: AuthedDashboardRoute,
+  AuthedIntegrationSettingsRoute: AuthedIntegrationSettingsRoute,
   AuthedOrdersRoute: AuthedOrdersRoute,
   AuthedSettingsRoute: AuthedSettingsRoute,
   AuthedSupportRoute: AuthedSupportRoute,

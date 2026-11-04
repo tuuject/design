@@ -5,6 +5,7 @@ import { Card } from '@tuuject/koi-react/card';
 import { Checkbox } from '@tuuject/koi-react/checkbox';
 import { Field } from '@tuuject/koi-react/field';
 import { Input } from '@tuuject/koi-react/input';
+import { PageHeader } from '@tuuject/koi-react/page-header';
 import { RadioGroup } from '@tuuject/koi-react/radio-group';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { Switch } from '@tuuject/koi-react/switch';
@@ -12,7 +13,6 @@ import { Textarea } from '@tuuject/koi-react/textarea';
 import { useToast } from '@tuuject/koi-react/toast';
 import { createFileRoute } from '@tanstack/react-router';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { PageHeader } from '../components/PageHeader';
 import { useAuthStore } from '../stores/auth';
 
 export const Route = createFileRoute('/_authed/settings')({

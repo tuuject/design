@@ -1,8 +1,8 @@
 import { ChatBubble } from '@tuuject/koi-react/chat-bubble';
+import { PageHeader } from '@tuuject/koi-react/page-header';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { createFileRoute } from '@tanstack/react-router';
 import { Markdown } from '../components/Markdown';
-import { PageHeader } from '../components/PageHeader';
 
 export const Route = createFileRoute('/_authed/agent')({
   staticData: { title: 'AI 助手' },

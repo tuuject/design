@@ -5,6 +5,7 @@
 export * from './alert.js';
 export * from './avatar.js';
 export * from './badge.js';
+export * from './breadcrumb.js';
 export * from './button.js';
 export * from './card.js';
 export * from './chat-bubble.js';
@@ -24,6 +25,7 @@ export * from './link.js';
 export * from './map-editor.js';
 export * from './menu.js';
 export * from './nav-menu.js';
+export * from './page-header.js';
 export * from './pagination.js';
 export * from './popover.js';
 export * from './progress.js';

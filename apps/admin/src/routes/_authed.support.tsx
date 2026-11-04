@@ -1,9 +1,9 @@
 import { Avatar } from '@tuuject/koi-react/avatar';
 import { Card } from '@tuuject/koi-react/card';
 import { ChatBubble } from '@tuuject/koi-react/chat-bubble';
+import { PageHeader } from '@tuuject/koi-react/page-header';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { createFileRoute } from '@tanstack/react-router';
-import { PageHeader } from '../components/PageHeader';
 
 export const Route = createFileRoute('/_authed/support')({
   staticData: { title: '客服会话' },

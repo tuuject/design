@@ -1,6 +1,7 @@
 export { Alert, type AlertProps, type AlertTone } from './alert/Alert.js';
 export { Avatar, type AvatarProps, type AvatarShape, type AvatarSize } from './avatar/Avatar.js';
 export { Badge, type BadgeProps, type BadgeTone } from './badge/Badge.js';
+export { Breadcrumb, type BreadcrumbItem, type BreadcrumbProps } from './breadcrumb/Breadcrumb.js';
 export {
   Button,
   type ButtonColor,
@@ -31,6 +32,7 @@ export {
   type NavMenuProps,
   type NavSection,
 } from './nav-menu/NavMenu.js';
+export { PageHeader, type PageHeaderProps } from './page-header/PageHeader.js';
 export { Pagination, type PaginationProps, type PaginationVariant } from './pagination/Pagination.js';
 export { Popover, type PopoverProps } from './popover/Popover.js';
 export { Progress, type ProgressProps, type ProgressSize } from './progress/Progress.js';

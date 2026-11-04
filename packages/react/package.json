@@ -10,6 +10,7 @@
     "./alert": "./src/alert/Alert.tsx",
     "./avatar": "./src/avatar/Avatar.tsx",
     "./badge": "./src/badge/Badge.tsx",
+    "./breadcrumb": "./src/breadcrumb/Breadcrumb.tsx",
     "./button": "./src/button/Button.tsx",
     "./card": "./src/card/Card.tsx",
     "./chat-bubble": "./src/chat-bubble/ChatBubble.tsx",
@@ -26,6 +27,7 @@
     "./map-editor": "./src/map-editor/MapEditor.tsx",
     "./menu": "./src/menu/Menu.tsx",
     "./nav-menu": "./src/nav-menu/NavMenu.tsx",
+    "./page-header": "./src/page-header/PageHeader.tsx",
     "./pagination": "./src/pagination/Pagination.tsx",
     "./popover": "./src/popover/Popover.tsx",
     "./progress": "./src/progress/Progress.tsx",
@@ -122,6 +124,10 @@
         "types": "./dist/badge/Badge.d.ts",
         "default": "./dist/badge/Badge.js"
       },
+      "./breadcrumb": {
+        "types": "./dist/breadcrumb/Breadcrumb.d.ts",
+        "default": "./dist/breadcrumb/Breadcrumb.js"
+      },
       "./button": {
         "types": "./dist/button/Button.d.ts",
         "default": "./dist/button/Button.js"
@@ -185,6 +191,10 @@
       "./nav-menu": {
         "types": "./dist/nav-menu/NavMenu.d.ts",
         "default": "./dist/nav-menu/NavMenu.js"
+      },
+      "./page-header": {
+        "types": "./dist/page-header/PageHeader.d.ts",
+        "default": "./dist/page-header/PageHeader.js"
       },
       "./pagination": {
         "types": "./dist/pagination/Pagination.d.ts",

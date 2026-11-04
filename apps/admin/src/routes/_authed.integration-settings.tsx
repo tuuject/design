@@ -2,12 +2,12 @@ import { Button } from '@tuuject/koi-react/button';
 import { Card } from '@tuuject/koi-react/card';
 import { Input } from '@tuuject/koi-react/input';
 import { MapEditor, type MapEntry } from '@tuuject/koi-react/map-editor';
+import { PageHeader } from '@tuuject/koi-react/page-header';
 import { SetEditor } from '@tuuject/koi-react/set-editor';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { useToast } from '@tuuject/koi-react/toast';
 import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
-import { PageHeader } from '../components/PageHeader';
 
 export const Route = createFileRoute('/_authed/integration-settings')({
   staticData: { title: '接入设置' },

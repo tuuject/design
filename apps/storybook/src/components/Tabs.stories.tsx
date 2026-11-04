@@ -165,3 +165,31 @@ export const InACard: Story = {
     </Card>
   ),
 };
+
+const phone = css({ width: '[280px]', maxWidth: '100%', outline: '1px dashed', outlineColor: 'divider' });
+
+/**
+ * Six tabs in a 280px row: the track scrolls sideways (wheel, trackpad, or ←/→ once a tab has focus) instead of
+ * clipping the last tabs or widening the page. The dashed outline is the story's own container, not the component.
+ */
+export const Narrow: Story = {
+  args: {
+    label: '内容分类',
+    items: [
+      { value: 'posts', label: '文章' },
+      { value: 'pages', label: '页面' },
+      { value: 'comments', label: '评论' },
+      { value: 'media', label: '媒体' },
+      { value: 'tags', label: '标签' },
+      { value: 'settings', label: '设置' },
+    ],
+    defaultValue: 'posts',
+  },
+  decorators: [
+    (Story) => (
+      <div className={phone}>
+        <Story />
+      </div>
+    ),
+  ],
+};

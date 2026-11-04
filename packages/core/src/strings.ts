@@ -29,6 +29,8 @@ export const strings = {
   notifications: '通知',
   /** A NavMenu's landmark name, and the mobile drawer's title. */
   navMenu: '主导航',
+  /** A Breadcrumb's landmark name. */
+  breadcrumb: '面包屑',
   /** A DropZone with no visible title, and its default title. */
   dropZone: '选择文件',
   dropZoneTitle: '拖拽文件到这里，或点击选择',

@@ -5,6 +5,7 @@ import { button } from './button.js';
 import { card } from './card.js';
 import { chatBubble } from './chat-bubble.js';
 import { checkbox } from './checkbox.js';
+import { collectionEditor } from './collection-editor.js';
 import { dialog } from './dialog.js';
 import { dropZone } from './drop-zone.js';
 import { separator } from './divider.js';
@@ -35,6 +36,7 @@ export const slotRecipes = {
   badge,
   card,
   checkbox,
+  collectionEditor,
   dialog,
   dropZone,
   field,

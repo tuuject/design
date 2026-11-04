@@ -19,6 +19,8 @@ export { Field, type FieldProps } from './field/Field.js';
 export * from './icons.js';
 export { Input, type InputProps } from './input/Input.js';
 export { Link, type LinkProps, type LinkVariant } from './link/Link.js';
+export { MapEditor, type MapEditorProps } from './map-editor/MapEditor.js';
+export type { CollectionFieldRenderProps, MapEntry } from './map-editor/MapEditor.js';
 export { Pagination, type PaginationProps, type PaginationVariant } from './pagination/Pagination.js';
 export { Progress, type ProgressProps, type ProgressSize } from './progress/Progress.js';
 export { Prose, type ProseProps, type ProseSize } from './prose/Prose.js';
@@ -35,6 +37,7 @@ export {
   SelectSeparator,
 } from './select/SelectPanel.js';
 export { type ButtonShape, ShapeProvider, useButtonShape } from './shape.js';
+export { SetEditor, type SetEditorProps } from './set-editor/SetEditor.js';
 export { Skeleton, type SkeletonProps } from './skeleton/Skeleton.js';
 export { Slider, type SliderProps } from './slider/Slider.js';
 export { Spinner, type SpinnerProps, type SpinnerSize } from './spinner/Spinner.js';

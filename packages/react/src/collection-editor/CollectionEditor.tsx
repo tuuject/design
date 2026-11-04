@@ -16,12 +16,12 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { strings } from '@tuuject/koi-core';
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { type CollectionEditorSlot, collectionEditor } from '@tuuject/koi-react/styled-system/recipes';
 import { type HTMLAttributes, type ReactNode, useRef } from 'react';
 import { Button, IconButton } from '../button/Button.js';
 import { GripVerticalIcon, PlusIcon, TrashIcon } from '../icons.js';
+import { useStrings } from '../strings.js';
 import type { SlotClassNames } from '../types.js';
 import type { CollectionEntry } from './useCollectionEntries.js';
 
@@ -63,6 +63,7 @@ export function CollectionEditor<T>({
   classNames,
   ...rest
 }: CollectionEditorArgs<T>) {
+  const t = useStrings();
   const s = collectionEditor({ layout, disabled });
   // A slot recipe returns class strings; the dragged row's lift is the same recipe with `dragging` on.
   const rowClass = s.row;
@@ -135,15 +136,15 @@ export function CollectionEditor<T>({
           onDragEnd={handleDragEnd}
           accessibility={{
             announcements: {
-              onDragStart: ({ active }) => strings.dragPickedUp(position(active.id)),
+              onDragStart: ({ active }) => t.dragPickedUp(position(active.id)),
               onDragOver: ({ active, over }) =>
                 over === null || over.id === active.id
-                  ? strings.dragPickedUp(position(active.id))
-                  : strings.dragMoved(position(over.id)),
-              onDragEnd: ({ over }) => (over === null ? strings.dragCanceled : strings.dragDropped(position(over.id))),
-              onDragCancel: () => strings.dragCanceled,
+                  ? t.dragPickedUp(position(active.id))
+                  : t.dragMoved(position(over.id)),
+              onDragEnd: ({ over }) => (over === null ? t.dragCanceled : t.dragDropped(position(over.id))),
+              onDragCancel: () => t.dragCanceled,
             },
-            screenReaderInstructions: { draggable: strings.dragInstructions },
+            screenReaderInstructions: { draggable: t.dragInstructions },
           }}
         >
           <SortableContext items={entries.map((entry) => entry.id)} strategy={verticalListSortingStrategy}>
@@ -178,10 +179,11 @@ interface SortableRowProps {
 }
 
 function SortableRow({ id, disabled, rowClass, handleClass, children }: SortableRowProps) {
+  const t = useStrings();
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({
     id,
     disabled,
-    attributes: { roleDescription: strings.sortableItem },
+    attributes: { roleDescription: t.sortableItem },
   });
 
   return (
@@ -193,7 +195,7 @@ function SortableRow({ id, disabled, rowClass, handleClass, children }: Sortable
     >
       <IconButton
         ref={setActivatorNodeRef}
-        label={strings.dragToReorder}
+        label={t.dragToReorder}
         icon={<GripVerticalIcon />}
         className={handleClass}
         disabled={disabled}

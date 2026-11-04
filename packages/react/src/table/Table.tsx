@@ -1,20 +1,20 @@
-import {
-  strings,
-  type TableBodyOwnProps,
-  type TableCaptionOwnProps,
-  type TableCellOwnProps,
-  type TableEmptyOwnProps,
-  type TableFooterOwnProps,
-  type TableHeaderCellOwnProps,
-  type TableHeaderOwnProps,
-  type TableOwnProps,
-  type TableRowOwnProps,
+import type {
+  TableBodyOwnProps,
+  TableCaptionOwnProps,
+  TableCellOwnProps,
+  TableEmptyOwnProps,
+  TableFooterOwnProps,
+  TableHeaderCellOwnProps,
+  TableHeaderOwnProps,
+  TableOwnProps,
+  TableRowOwnProps,
 } from '@tuuject/koi-core';
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { table } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef, MouseEvent } from 'react';
 import { SortDownIcon, SortIcon, SortUpIcon } from '../icons.js';
 import { ShapeProvider } from '../shape.js';
+import { useStrings } from '../strings.js';
 
 export type { TableAlign, TableLayout, TableSortDirection } from '@tuuject/koi-core';
 
@@ -123,10 +123,11 @@ export interface TableEmptyProps
 
 /** A full-width "no data" row for an empty TableBody. */
 export function TableEmpty({ colSpan, className, children, ...rest }: TableEmptyProps) {
+  const t = useStrings();
   return (
     <tr>
       <td {...rest} colSpan={colSpan} className={cx(table().empty, className)}>
-        <ShapeProvider shape="rounded">{children ?? strings.noData}</ShapeProvider>
+        <ShapeProvider shape="rounded">{children ?? t.noData}</ShapeProvider>
       </td>
     </tr>
   );

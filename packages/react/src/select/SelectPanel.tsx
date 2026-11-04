@@ -1,14 +1,13 @@
 import { Combobox } from '@base-ui/react/combobox';
 import { Select as BaseSelect } from '@base-ui/react/select';
-import {
-  type SelectEntry as Entry,
-  type SelectOptionOf as OptionOf,
-  type SelectGroupOwnProps,
-  type SelectItemOwnProps,
-  type SelectOption,
-  type SelectOptionGroup,
-  type SelectPanelOwnProps,
-  strings,
+import type {
+  SelectEntry as Entry,
+  SelectOptionOf as OptionOf,
+  SelectGroupOwnProps,
+  SelectItemOwnProps,
+  SelectOption,
+  SelectOptionGroup,
+  SelectPanelOwnProps,
 } from '@tuuject/koi-core';
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { selectPanel } from '@tuuject/koi-react/styled-system/recipes';
@@ -21,6 +20,7 @@ import {
   useContext,
   useMemo,
 } from 'react';
+import { useStrings } from '../strings.js';
 import { KoiFieldContext } from '../field/context.js';
 import { CheckIcon, ChevronDownIcon, SearchIcon } from '../icons.js';
 
@@ -92,7 +92,7 @@ export function SelectPanel<I extends Entry = Entry>({
   value,
   defaultValue,
   onChange,
-  placeholder = strings.selectPlaceholder,
+  placeholder,
   size = 'md',
   invalid,
   name,
@@ -100,8 +100,8 @@ export function SelectPanel<I extends Entry = Entry>({
   required,
   disabled,
   searchable,
-  searchPlaceholder = strings.search,
-  emptyText = strings.noMatches,
+  searchPlaceholder,
+  emptyText,
   renderValue,
   children,
   open,
@@ -111,6 +111,9 @@ export function SelectPanel<I extends Entry = Entry>({
   className,
   ...rest
 }: SelectPanelProps<I>) {
+  const t = useStrings();
+  const shownPlaceholder = placeholder ?? t.selectPlaceholder;
+  const shownSearch = searchPlaceholder ?? t.search;
   const f = useContext(KoiFieldContext);
   const s = selectPanel({ size });
   const flat = useMemo(
@@ -121,7 +124,7 @@ export function SelectPanel<I extends Entry = Entry>({
 
   const showValue = (v: string | null) => {
     const item = v == null ? undefined : flat.find((o) => o.value === v);
-    return item ? (renderValue ? renderValue(item) : item.label) : placeholder;
+    return item ? (renderValue ? renderValue(item) : item.label) : shownPlaceholder;
   };
   const root = {
     value,
@@ -171,13 +174,9 @@ export function SelectPanel<I extends Entry = Entry>({
             <Combobox.Popup className={s.popup}>
               <div className={s.search}>
                 <SearchIcon />
-                <Combobox.Input
-                  placeholder={searchPlaceholder}
-                  aria-label={searchPlaceholder}
-                  className={s.searchInput}
-                />
+                <Combobox.Input placeholder={shownSearch} aria-label={shownSearch} className={s.searchInput} />
               </div>
-              <Combobox.Empty className={s.empty}>{emptyText}</Combobox.Empty>
+              <Combobox.Empty className={s.empty}>{emptyText ?? t.noMatches}</Combobox.Empty>
               <Combobox.List className={s.list}>
                 <ModeContext.Provider value="combobox">
                   <Filtered render={render} />

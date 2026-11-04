@@ -1,4 +1,7 @@
-/** Every piece of copy a component writes on its own (labels, accessible names, defaults). Simplified Chinese, no emoji. */
+/**
+ * Every piece of copy a component writes on its own (labels, accessible names, defaults). Simplified Chinese, no
+ * emoji. Not `as const`: an app replaces these strings, so each key is a plain `string` in `Strings`, not a literal.
+ */
 export const strings = {
   close: '关闭',
   loading: '加载中',
@@ -45,4 +48,24 @@ export const strings = {
   /** Shown under a field whose key or value repeats another row. */
   duplicateKey: '键名不能重复',
   duplicateValue: '值不能重复',
-} as const;
+};
+
+/** The full copy table: every string Koi writes, with Koi's Simplified Chinese defaults. */
+export type Strings = typeof strings;
+
+/** Copy an app replaces. Every key is optional; a missing key keeps Koi's default. */
+export type StringsOverride = { [K in keyof Strings]?: Strings[K] };
+
+/**
+ * Builds a copy table from Koi's defaults plus `overrides`. Shallow: an overridden key is replaced whole.
+ * `undefined` is ignored rather than merged in, so `t('close')` returning undefined can't erase the default.
+ */
+export function createStrings(overrides: StringsOverride = {}): Strings {
+  const merged: Record<string, unknown> = { ...strings };
+  for (const [key, value] of Object.entries(overrides)) {
+    if (value !== undefined) {
+      merged[key] = value;
+    }
+  }
+  return merged as Strings;
+}

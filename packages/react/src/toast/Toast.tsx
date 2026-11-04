@@ -1,6 +1,5 @@
 import { Toast as BaseToast } from '@base-ui/react/toast';
 import {
-  strings,
   TOAST_DURATION,
   TOAST_LIMIT,
   type ToastApi,
@@ -12,6 +11,7 @@ import { cx } from '@tuuject/koi-react/styled-system/css';
 import { type ToastSlot, toast as toastRecipe } from '@tuuject/koi-react/styled-system/recipes';
 import { type HTMLAttributes, type ReactNode, createContext, useContext, useEffect, useMemo, useRef } from 'react';
 import { CloseIcon, ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../icons.js';
+import { useStrings } from '../strings.js';
 import type { SlotClassNames } from '../types.js';
 
 export type { ToastOptions, ToastTone } from '@tuuject/koi-core';
@@ -37,11 +37,13 @@ export function Toast({
   description,
   action,
   onClose,
+  closeLabel,
   className,
   classNames,
   ...rest
 }: ToastProps) {
   const s = toastRecipe({ tone, closable: !!onClose });
+  const t = useStrings();
   const Icon = toneIcon[tone] ?? InfoIcon;
   return (
     <div role={tone === 'error' ? 'alert' : 'status'} {...rest} className={cx(s.root, className)}>
@@ -57,8 +59,8 @@ export function Toast({
         <button
           type="button"
           className={cx(s.close, classNames?.close)}
-          aria-label={strings.close}
-          title={strings.close}
+          aria-label={closeLabel ?? t.close}
+          title={closeLabel ?? t.close}
           onClick={onClose}
         >
           <CloseIcon />
@@ -75,14 +77,15 @@ const ToastContext = createContext<ToastApi | null>(null);
  * (paused while the stack is hovered or focused, or the window is in the background), swipe-to-dismiss, F6 to
  * reach the toasts from the keyboard, and the screen reader announcements.
  */
-export function ToastProvider({ children, position = 'bottom' }: ToastProviderProps) {
+export function ToastProvider({ children, position = 'bottom', label, closeLabel }: ToastProviderProps) {
   const s = toastRecipe({ position });
+  const t = useStrings();
   return (
     <BaseToast.Provider limit={TOAST_LIMIT} timeout={TOAST_DURATION}>
       <ToastApiProvider>{children}</ToastApiProvider>
       <BaseToast.Portal>
-        <BaseToast.Viewport aria-label={strings.notifications} className={s.viewport}>
-          <ToastList position={position} />
+        <BaseToast.Viewport aria-label={label ?? t.notifications} className={s.viewport}>
+          <ToastList position={position} closeLabel={closeLabel} />
         </BaseToast.Viewport>
       </BaseToast.Portal>
     </BaseToast.Provider>
@@ -120,26 +123,27 @@ function ToastApiProvider({ children }: { children?: ReactNode }) {
   return <ToastContext.Provider value={api}>{children}</ToastContext.Provider>;
 }
 
-function ToastList({ position }: { position: 'bottom' | 'top' }) {
+function ToastList({ position, closeLabel }: { position: 'bottom' | 'top'; closeLabel?: string }) {
   const { toasts, close } = BaseToast.useToastManager<ToastData>();
+  const t = useStrings();
   // At most 4 at once, and the oldest goes for good (legacy). Base UI only marks the extras `limited` and brings
   // them back when a newer one closes, so close them.
   useEffect(() => {
-    for (const t of toasts) {
-      if (t.limited && t.transitionStatus !== 'ending') {
-        close(t.id);
+    for (const toast of toasts) {
+      if (toast.limited && toast.transitionStatus !== 'ending') {
+        close(toast.id);
       }
     }
   }, [toasts, close]);
 
-  return toasts.map((t) => {
-    const tone = (t.type ?? 'info') as ToastTone;
+  return toasts.map((toast) => {
+    const tone = (toast.type ?? 'info') as ToastTone;
     const s = toastRecipe({ tone, closable: true, position });
     const Icon = toneIcon[tone] ?? InfoIcon;
     return (
       <BaseToast.Root
-        key={t.id}
-        toast={t}
+        key={toast.id}
+        toast={toast}
         swipeDirection={[position === 'top' ? 'up' : 'down', 'left', 'right']}
         className={s.root}
       >
@@ -150,8 +154,8 @@ function ToastList({ position }: { position: 'bottom' | 'top' }) {
           <BaseToast.Title className={s.title} render={<p />} />
           <BaseToast.Description className={s.description} />
         </div>
-        {t.data?.action ? <div className={s.action}>{t.data.action}</div> : null}
-        <BaseToast.Close className={s.close} aria-label={strings.close} title={strings.close}>
+        {toast.data?.action ? <div className={s.action}>{toast.data.action}</div> : null}
+        <BaseToast.Close className={s.close} aria-label={closeLabel ?? t.close} title={closeLabel ?? t.close}>
           <CloseIcon />
         </BaseToast.Close>
       </BaseToast.Root>

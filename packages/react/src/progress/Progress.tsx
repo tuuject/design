@@ -1,8 +1,9 @@
 import { Progress as BaseProgress } from '@base-ui/react/progress';
-import { type ProgressOwnProps, strings } from '@tuuject/koi-core';
+import type { ProgressOwnProps } from '@tuuject/koi-core';
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { progress } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef } from 'react';
+import { useStrings } from '../strings.js';
 
 export type { ProgressSize } from '@tuuject/koi-core';
 
@@ -13,6 +14,7 @@ export interface ProgressProps
 /** A rounded progress bar. Base UI's root is the `role="progressbar"` element and carries the aria-value attributes. */
 export function Progress({ value, max, label, showValue, size = 'md', className, ...rest }: ProgressProps) {
   const s = progress({ size });
+  const t = useStrings();
   const known = value != null && Number.isFinite(value);
   // `max || 100` as legacy, so max={0} can't divide by zero.
   const top = max || 100;
@@ -22,9 +24,9 @@ export function Progress({ value, max, label, showValue, size = 'md', className,
     <BaseProgress.Root
       value={known ? value : null}
       max={top}
-      aria-label={label ? undefined : strings.progress}
+      aria-label={label ? undefined : t.progress}
       // Base UI's default text is English ("indeterminate progress"); the percentage stays as it formats it.
-      getAriaValueText={(formatted) => (known ? formatted : strings.inProgress)}
+      getAriaValueText={(formatted) => (known ? formatted : t.inProgress)}
       {...rest}
       className={cx(s.root, className)}
     >

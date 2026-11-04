@@ -22,6 +22,8 @@ export interface ButtonOwnProps {
   fullWidth?: boolean;
   /** Shows a Spinner in place of iconStart, disables the button and marks it busy. */
   loading?: boolean;
+  /** The loading spinner's accessible name. Default "处理中". */
+  loadingLabel?: string;
   disabled?: boolean;
   children?: ReactNode;
 }

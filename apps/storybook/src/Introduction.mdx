@@ -34,10 +34,10 @@ Koi（こい，恋）是一套柔和、圆润的界面设计系统，源自 tcdw
 
 - **主题：** 在 `<head>` 里内联 `@tuuject/koi-tokens/theme-init.js`，它按系统设置写入 `<html data-theme>`，避免闪烁。`koiSetTheme('dark' | 'light' | null)` 手动切换。
 - **字体：** 默认是系统字体栈；加载 `@tuuject/koi-tokens/fonts.css` 并调用 `koiSetFont('chill')` 后使用寒蝉全圆体。
-- **文案：** 组件内置的文字（「关闭」「加载中」）是简体中文，不使用 emoji。
+- **文案：** 组件内置的文字（「关闭」「加载中」）是简体中文，不使用 emoji。用 `StringsProvider` 传一份 `strings` 覆盖其中需要的键，里面的组件就改用应用的语言（见 Components / Strings）。
 
 npm 发布方式还没定，见仓库里的 `docs/plan.md`。
 
 ## 组件
 
-左侧「Components」下是已经移植好的组件：Button / IconButton、Spinner、Skeleton、Badge、Divider、Card、ChatBubble、Prose、Alert、Link、Field / Input / Textarea、Select / SelectPanel、Checkbox、RadioGroup、Switch、Slider、Tabs、Dialog、Tooltip、Avatar、Progress、Toast、Pagination、Tag、Table / DataTable、DropZone、MapEditor / SetEditor。每个组件都有一个 Docs 页面和可调参数的 Playground。其余组件（NavMenu）正在从旧版移植，进度见 `docs/plan.md`，外观和行为规范见 `docs/spec/`。
+左侧「Components」下是已经移植好的组件：Button / IconButton、Spinner、Skeleton、Badge、Divider、Card、ChatBubble、Prose、Alert、Link、Field / Input / Textarea、Select / SelectPanel、Checkbox、RadioGroup、Switch、Slider、Tabs、Dialog、Tooltip、Avatar、Progress、Toast、Pagination、Tag、Table / DataTable、DropZone、MapEditor / SetEditor、Strings。每个组件都有一个 Docs 页面和可调参数的 Playground。其余组件（NavMenu）正在从旧版移植，进度见 `docs/plan.md`，外观和行为规范见 `docs/spec/`。

@@ -1,10 +1,11 @@
-import { type PaginationOwnProps, pageList, strings } from '@tuuject/koi-core';
+import { type PaginationOwnProps, pageList } from '@tuuject/koi-core';
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { pagination } from '@tuuject/koi-react/styled-system/recipes';
 import { type ComponentPropsWithRef, useContext } from 'react';
 import { Button, IconButton } from '../button/Button.js';
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons.js';
 import { ShapeContext } from '../shape.js';
+import { useStrings } from '../strings.js';
 
 export type { PaginationVariant } from '@tuuject/koi-core';
 
@@ -28,6 +29,7 @@ export function Pagination({
   ...rest
 }: PaginationProps) {
   // `|| 1` as legacy, so 0 or NaN fall back to one page / the first page.
+  const t = useStrings();
   const count = pageCount || 1;
   const page = pageProp || 1;
   const go = onChange || noop;
@@ -44,7 +46,7 @@ export function Pagination({
       color="primary"
       variant="soft"
       shape="pill"
-      label={prevLabel || strings.prevPage}
+      label={prevLabel || t.prevPage}
       disabled={page <= 1}
       onClick={() => go(page - 1)}
       icon={<ChevronLeftIcon />}
@@ -57,7 +59,7 @@ export function Pagination({
       onClick={() => go(page - 1)}
       iconStart={simple ? undefined : <ChevronLeftIcon />}
     >
-      {prevLabel || strings.prevPage}
+      {prevLabel || t.prevPage}
     </Button>
   );
   const next = compact ? (
@@ -65,7 +67,7 @@ export function Pagination({
       color="primary"
       variant="soft"
       shape="pill"
-      label={nextLabel || strings.nextPage}
+      label={nextLabel || t.nextPage}
       disabled={page >= count}
       onClick={() => go(page + 1)}
       icon={<ChevronRightIcon />}
@@ -78,12 +80,12 @@ export function Pagination({
       onClick={() => go(page + 1)}
       iconEnd={simple ? undefined : <ChevronRightIcon />}
     >
-      {nextLabel || strings.nextPage}
+      {nextLabel || t.nextPage}
     </Button>
   );
 
   return (
-    <nav aria-label={label || strings.pagination} {...rest} className={cx(s.root, className)}>
+    <nav aria-label={label || t.pagination} {...rest} className={cx(s.root, className)}>
       {prev}
       {simple ? (
         <span className={s.count}>{`${page} / ${count}`}</span>
@@ -100,7 +102,7 @@ export function Pagination({
                   type="button"
                   className={s.page}
                   aria-current={p === page ? 'page' : undefined}
-                  aria-label={strings.page(p)}
+                  aria-label={t.page(p)}
                   onClick={() => go(p)}
                 >
                   {p}

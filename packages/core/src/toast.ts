@@ -16,6 +16,8 @@ export interface ToastOwnProps {
   action?: ReactNode;
   /** Shows a close button. */
   onClose?: () => void;
+  /** The close button's accessible name and tooltip. Default "关闭". */
+  closeLabel?: string;
 }
 
 export interface ToastOptions {
@@ -31,6 +33,10 @@ export interface ToastProviderOwnProps {
   children?: ReactNode;
   /** Where the stack sits, centered. Default bottom. */
   position?: 'bottom' | 'top';
+  /** The toast region's accessible name. Default "通知". */
+  label?: string;
+  /** The close button on every toast in the region. Default "关闭". */
+  closeLabel?: string;
 }
 
 /** What `useToast()` returns. */

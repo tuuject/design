@@ -41,6 +41,13 @@ export { SetEditor, type SetEditorProps } from './set-editor/SetEditor.js';
 export { Skeleton, type SkeletonProps } from './skeleton/Skeleton.js';
 export { Slider, type SliderProps } from './slider/Slider.js';
 export { Spinner, type SpinnerProps, type SpinnerSize } from './spinner/Spinner.js';
+export {
+  type Strings,
+  StringsProvider,
+  type StringsProviderProps,
+  type StringsOverride,
+  useStrings,
+} from './strings.js';
 export { Switch, type SwitchProps } from './switch/Switch.js';
 export { DataTable, type DataTableColumn, type DataTableProps } from './table/DataTable.js';
 export {

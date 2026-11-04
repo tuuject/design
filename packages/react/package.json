@@ -33,6 +33,7 @@
     "./shape": "./src/shape.tsx",
     "./skeleton": "./src/skeleton/Skeleton.tsx",
     "./spinner": "./src/spinner/Spinner.tsx",
+    "./strings": "./src/strings.tsx",
     "./switch": "./src/switch/Switch.tsx",
     "./table": "./src/table/Table.tsx",
     "./data-table": "./src/table/DataTable.tsx",
@@ -207,6 +208,10 @@
       "./spinner": {
         "types": "./dist/spinner/Spinner.d.ts",
         "default": "./dist/spinner/Spinner.js"
+      },
+      "./strings": {
+        "types": "./dist/strings.d.ts",
+        "default": "./dist/strings.js"
       },
       "./switch": {
         "types": "./dist/switch/Switch.d.ts",

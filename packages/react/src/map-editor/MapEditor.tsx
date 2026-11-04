@@ -1,4 +1,4 @@
-import { hasDuplicate, strings } from '@tuuject/koi-core';
+import { hasDuplicate } from '@tuuject/koi-core';
 import type { MapEditorOwnProps, MapEntry } from '@tuuject/koi-core';
 import { type CollectionEditorSlot, collectionEditor } from '@tuuject/koi-react/styled-system/recipes';
 import type { HTMLAttributes } from 'react';
@@ -6,6 +6,7 @@ import { CollectionEditor } from '../collection-editor/CollectionEditor.js';
 import { useCollectionEntries } from '../collection-editor/useCollectionEntries.js';
 import { Field } from '../field/Field.js';
 import { ArrowRightIcon } from '../icons.js';
+import { useStrings } from '../strings.js';
 import type { SlotClassNames } from '../types.js';
 
 export type { CollectionFieldRenderProps, MapEntry } from '@tuuject/koi-core';
@@ -34,12 +35,13 @@ export function MapEditor<K, V>({
   sortable = true,
   disabled,
   readOnly,
-  addLabel = strings.addEntry,
-  emptyText = strings.noEntries,
+  addLabel,
+  emptyText,
   className,
   classNames,
   ...rest
 }: MapEditorProps<K, V>) {
+  const t = useStrings();
   const sameEntry = (a: MapEntry<K, V>, b: MapEntry<K, V>) => keyEquals(a.key, b.key) && valueEquals(a.value, b.value);
   const { entries, update, add, remove, move } = useCollectionEntries(value, onChange, sameEntry);
   const s = collectionEditor({ layout: 'map', disabled });
@@ -54,7 +56,7 @@ export function MapEditor<K, V>({
         keyEquals,
       )
     ) {
-      return strings.duplicateKey;
+      return t.duplicateKey;
     }
     return validateKey?.(data[index].key, data, index) || undefined;
   };
@@ -67,9 +69,9 @@ export function MapEditor<K, V>({
       sortable={sortable}
       disabled={disabled}
       readOnly={readOnly}
-      addLabel={addLabel}
-      emptyText={emptyText}
-      removeLabel={strings.removeEntry}
+      addLabel={addLabel ?? t.addEntry}
+      emptyText={emptyText ?? t.noEntries}
+      removeLabel={t.removeEntry}
       onAdd={() => add(createEntry)}
       onRemove={remove}
       onMove={move}

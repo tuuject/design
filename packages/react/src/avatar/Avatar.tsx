@@ -1,8 +1,9 @@
 import { Avatar as BaseAvatar } from '@base-ui/react/avatar';
-import { type AvatarOwnProps, initials, strings } from '@tuuject/koi-core';
+import { type AvatarOwnProps, initials } from '@tuuject/koi-core';
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { avatar } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef } from 'react';
+import { useStrings } from '../strings.js';
 
 export type { AvatarShape, AvatarSize } from '@tuuject/koi-core';
 
@@ -13,9 +14,10 @@ export interface AvatarProps
 /** A round (or rounded-square) picture of a person or site. Base UI swaps in the image once it has loaded. */
 export function Avatar({ src, name, size = 'md', shape = 'circle', className, ...rest }: AvatarProps) {
   const s = avatar({ size, shape });
+  const t = useStrings();
   return (
     // role="img" + aria-label names it the same way whether the image or the initials show.
-    <BaseAvatar.Root role="img" aria-label={name || strings.avatar} {...rest} className={cx(s.root, className)}>
+    <BaseAvatar.Root role="img" aria-label={name || t.avatar} {...rest} className={cx(s.root, className)}>
       {src ? <BaseAvatar.Image src={src} alt="" className={s.image} /> : null}
       <BaseAvatar.Fallback aria-hidden="true" className={s.fallback}>
         {initials(name)}

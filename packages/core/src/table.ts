@@ -57,8 +57,13 @@ export interface TableRowOwnProps {
 export interface TableEmptyOwnProps {
   /** How many columns the message spans: the table's column count. */
   colSpan: number;
-  /** Default "暂无数据". */
+  /** The title. Default "暂无数据". */
   children?: ReactNode;
+  /** Optional content above the title, as in Empty. */
+  icon?: ReactNode;
+  description?: ReactNode;
+  /** A way out under the copy, e.g. a Button. Buttons here default to shape="rounded". */
+  action?: ReactNode;
 }
 
 export interface DataTableColumn<T> {

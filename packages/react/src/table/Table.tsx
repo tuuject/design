@@ -12,6 +12,7 @@ import type {
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { table } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef, MouseEvent } from 'react';
+import { Empty } from '../empty/Empty.js';
 import { SortDownIcon, SortIcon, SortUpIcon } from '../icons.js';
 import { ShapeProvider } from '../shape.js';
 import { useStrings } from '../strings.js';
@@ -121,13 +122,15 @@ export interface TableEmptyProps
   extends TableEmptyOwnProps,
     Omit<ComponentPropsWithRef<'td'>, keyof TableEmptyOwnProps> {}
 
-/** A full-width "no data" row for an empty TableBody. */
-export function TableEmpty({ colSpan, className, children, ...rest }: TableEmptyProps) {
+/** A full-width "no data" row for an empty TableBody. Renders Empty's plain variant inside the cell. */
+export function TableEmpty({ colSpan, className, children, icon, description, action, ...rest }: TableEmptyProps) {
   const t = useStrings();
   return (
     <tr>
       <td {...rest} colSpan={colSpan} className={cx(table().empty, className)}>
-        <ShapeProvider shape="rounded">{children ?? t.noData}</ShapeProvider>
+        <ShapeProvider shape="rounded">
+          <Empty variant="plain" icon={icon} title={children ?? t.noData} description={description} action={action} />
+        </ShapeProvider>
       </td>
     </tr>
   );

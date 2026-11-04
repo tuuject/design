@@ -18,6 +18,7 @@
     "./divider": "./src/divider/Divider.tsx",
     "./drawer": "./src/drawer/Drawer.tsx",
     "./drop-zone": "./src/drop-zone/DropZone.tsx",
+    "./empty": "./src/empty/Empty.tsx",
     "./field": "./src/field/Field.tsx",
     "./icons": "./src/icons.tsx",
     "./input": "./src/input/Input.tsx",
@@ -151,6 +152,10 @@
       "./drop-zone": {
         "types": "./dist/drop-zone/DropZone.d.ts",
         "default": "./dist/drop-zone/DropZone.js"
+      },
+      "./empty": {
+        "types": "./dist/empty/Empty.d.ts",
+        "default": "./dist/empty/Empty.js"
       },
       "./field": {
         "types": "./dist/field/Field.d.ts",

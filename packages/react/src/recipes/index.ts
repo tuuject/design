@@ -9,6 +9,7 @@ import { collectionEditor } from './collection-editor.js';
 import { dialog } from './dialog.js';
 import { drawer } from './drawer.js';
 import { dropZone } from './drop-zone.js';
+import { empty } from './empty.js';
 import { separator } from './divider.js';
 import { field } from './field.js';
 import { floatingPanel } from './floating-panel.js';
@@ -42,6 +43,7 @@ export const slotRecipes = {
   dialog,
   drawer,
   dropZone,
+  empty,
   field,
   floatingPanel,
   input,

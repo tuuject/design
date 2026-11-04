@@ -91,6 +91,7 @@ export const table = defineSlotRecipe({
       '& > svg': { flex: 'none', width: 'icon-sm', height: 'icon-sm', color: 'text-muted' },
       '[aria-sort] > & > svg': { color: 'text' },
     },
+    // The cell owns the row's padding and muted copy; Empty's plain variant only draws the content.
     empty: {
       py: '10',
       px: '4',

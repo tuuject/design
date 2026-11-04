@@ -34,7 +34,7 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 | --- | --- |
 | 侧边栏 / 水平导航 | 模板内 `Sidebar` + `TopNav`，共用 `nav-item.ts` 的行样式与 `NavItemButton`（组内页面）、`NavGroupItem`（竖版分组，Base UI `Collapsible`）、`NavFlyout`（横版 / 折叠栏分组，已改用库的 `Menu`）。样式按 NavMenu spec 的竖版 / 横版规则（`nav-item-*` token、36px、radius-xl、当前项加粗、横版焦点环画在内部），但只是四分实现；**NavMenu 仍是库里未移植的组件**，移植后应替换 |
 | 用户下拉菜单 | 已进库：`@tuuject/koi-react/menu` 的 `Menu`（2026-11-04，spec `docs/spec/components/Menu.md`）。`UserMenu` 用库组件，触发器仍是模板自己的按钮，`header` 放头像与邮箱 |
-| 表格 | 已进库：`@tuuject/koi-react/data-table` 的 `DataTable`（2026-10-16，spec `docs/spec/components/Table.md`）。要排序 / 选择时改用 `@tuuject/koi-react/table` 的 parts 自己拼，可直接接 TanStack Table |
+| 表格 | 已进库：`@tuuject/koi-react/data-table` 的 `DataTable`（2026-10-16，spec `docs/spec/components/Table.md`）。要排序 / 选择时改用 `@tuuject/koi-react/table` 的 parts 自己拼，可直接接 TanStack Table。空行是 `TableEmpty`，2026-11-04 起内部渲染 `Empty`，与页面空态共用同一套 recipe |
 | 面包屑 | 模板内 `Breadcrumbs`，靠路由 `staticData.title`；祖先链接用 `Link variant="plain"`（`text-muted`，hover 变 `text-brand`，无下划线） |
 | 未保存更改摘要 | `sectioned-form/ChangeSummary.tsx` 用库的 `Menu`：`header` 是标题，分组列出改动字段，`endContent` 放「需修正 / 已隐藏 / 已修改」，`finalFocus` 把焦点交给跳转目标 |
 | 移动导航 | 已进库：`@tuuject/koi-react/drawer` 的 `Drawer`（2026-11-04，spec `docs/spec/components/Drawer.md`）。`MobileNav` 用它，md 以下才挂载；品牌与导航列表抽成 `SidebarContent`，与桌面 `Sidebar` 共用，宽度仍 248px。换页关闭在 `index.tsx` 的 `router.subscribe` |

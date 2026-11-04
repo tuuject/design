@@ -16,6 +16,7 @@ export { Dialog, type DialogProps } from './dialog/Dialog.js';
 export { Divider, type DividerProps } from './divider/Divider.js';
 export { Drawer, type DrawerProps } from './drawer/Drawer.js';
 export { DropZone, type DropZoneProps } from './drop-zone/DropZone.js';
+export { Empty, type EmptyProps } from './empty/Empty.js';
 export { Field, type FieldProps } from './field/Field.js';
 export * from './icons.js';
 export { Input, type InputProps } from './input/Input.js';

@@ -20,6 +20,8 @@ export const state = {
   unchecked: '[data-unchecked]',
   /** A Progress with no value. */
   indeterminate: '[data-indeterminate]',
+  /** A Slider being dragged, and a DropZone with files over it. */
+  dragging: '[data-dragging]',
   /** Disabled through the library (a Field, a group, or a non-native control). Native elements use `:disabled`. */
   disabled: '[data-disabled]',
   /** Inside a Field with an error. */

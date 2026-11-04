@@ -20,6 +20,9 @@ Phase 0–1 的逐组件记录（每个组件相对 legacy 的 API / 行为决�
 - [x] **ChatBubble**（2026-10-24，新组件，非移植）：聊天 / 评论消息气泡。`side: 'received' | 'sent'`（默认 `received`：`surface-muted` 底 + `text`；`sent`：`action` 底 + `on-action`），`radius-xl` 12px、锚角（received 左下 / sent 右下）收到 `radius-sm`，`max-width` 480px 断行。对齐、头像、时间戳由应用排版，组件只是气泡本身；无文案、无事件，不依赖 headless 库。用的原子 recipe（`defineRecipe`），注册在 `recipes` 而不是 `slotRecipes`——放错一边会变成空 slot recipe，`base` 整个丢失。颜色组合（`text/surface-muted`、`on-action/action`）都是 `contrast-pairs.json` 里已有的 pair。**native 版暂缓**（core 的 `ChatBubbleOwnProps` 平台无关，到时直接建在上面）。
 - [x] **Prose**（2026-10-25，新组件，非移植）：渲染好的富文本（markdown、CMS HTML）的长文排版，照搬博客 `MarkdownBody.astro`（Tailwind Typography `prose` + `prose-slate` + Koi 的覆盖）。内部所有字号、间距都是 em（按博客 16px 下的 px 值、除以落在的那个元素的字号），`size: 'sm' | 'md'`（14 / 16px）只设根字号，consumer 自己设 font-size 也一样等比缩放；只有线宽（hairline、`prose.quote-rule` 4px、`prose.head-rule` 2px、`prose.kbd-depth` 3px）是固定 px，进了 `component.prose`。新 role：`prose-text`、`code-block-bg`、`code-block-text`。选择器用 `.koi-prose :where(el)` 保持一个 class 的特异性，上下文覆盖（`pre code`、`h2 + *`）写普通选择器靠特异性取胜，首尾子元素的 margin 归零放进 `size` variant（后面的 layer）；`koi-not-prose` 里的内容不受影响。链接样式与 Link 共用 `recipes/link.ts` 的 `linkStyle`。admin 的 `Markdown.tsx` 已改用它。**native 版暂缓**：em 比例目前只在 recipe 里，native 要做 markdown 渲染时再决定是否收进 tokens。
 
+- [x] **Slider**（2026-11-04，新组件，非移植）：单拇指范围控件，Base UI `Slider`。`value` / `defaultValue`、`min` / `max` / `step`、`onValueChange` / `onValueCommitted`；可选 `label`、`showValue`、`formatValue`（同时作为 `aria-valuetext`）、`disabled`。轨道 6px、拇指 20px（`component.slider`），填充用 `control-checked`，无阴影；在 Field 里接上 label / help / error。Bilisound 的音量条可用。**native 版暂缓**（core 的 `SliderOwnProps` 已平台无关）。
+- [x] **DropZone**（2026-11-04，新组件，非移植）：虚线文件投放区，点击、Space、Enter 打开选择器。core 放视觉 props（`title` / `description` / `icon` / `accept` / `multiple` / `disabled`），web 加 `onFiles(files: File[])`；校验和处理留在应用。拖入时边线 `control-checked`、底色 `action-subtle`。**native 版暂缓**（原生没有拖放，选择器回调到时另加）。
+
 ## Phase 2：打包与文档
 
 - [x] **发布方式**（2026-11-01）：用 Panda v2 的 `panda lib` + 消费方 `designSystem`，scope `@tuuject`，MIT。构建、消费方配置、版本规则和验证记录见 [publishing.md](publishing.md)。`@tuuject/koi-native` 暂不发布。
@@ -60,7 +63,7 @@ Phase 0–1 的逐组件记录（每个组件相对 legacy 的 API / 行为决�
 1. **Expo 应用**：在本仓库新建一个 Expo 项目，展示 native 组件、跑 Storybook。名字和 Storybook 形式待定，见下方「未决事项」。
 2. **首批组件**：Button、Switch、Dialog，与 `@tuuject/koi-react` 做截图比对。做法见 [native.md](native.md)。
 3. **palette 自动修正**：用户自定义的 palette 没通过 `checkPalette()` 时，自动把色阶整体调深或调浅直到全部达标。现在只能由应用拒绝。Bilisound 的 classic palette 有 5 处不达标、red 有 1 处，它从封面取色生成的 palette 会经常踩线。
-4. Bilisound 需要而 Koi 还没有的组件：Slider、Sheet / ActionMenu、Text / Heading、Stack 布局原语。
+4. Bilisound 需要而 Koi 还没有的组件：Sheet / ActionMenu、Text / Heading、Stack 布局原语。
 
 Bilisound 的接入计划和兼容性分析记录在 Bilisound 仓库的 `agent-doc/v3-plan/koi-design-system.md`（目前暂缓）。
 

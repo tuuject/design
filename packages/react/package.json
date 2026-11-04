@@ -16,6 +16,7 @@
     "./checkbox": "./src/checkbox/Checkbox.tsx",
     "./dialog": "./src/dialog/Dialog.tsx",
     "./divider": "./src/divider/Divider.tsx",
+    "./drop-zone": "./src/drop-zone/DropZone.tsx",
     "./field": "./src/field/Field.tsx",
     "./icons": "./src/icons.tsx",
     "./input": "./src/input/Input.tsx",
@@ -26,6 +27,7 @@
     "./radio-group": "./src/radio-group/RadioGroup.tsx",
     "./select": "./src/select/Select.tsx",
     "./select-panel": "./src/select/SelectPanel.tsx",
+    "./slider": "./src/slider/Slider.tsx",
     "./shape": "./src/shape.tsx",
     "./skeleton": "./src/skeleton/Skeleton.tsx",
     "./spinner": "./src/spinner/Spinner.tsx",
@@ -136,6 +138,10 @@
         "types": "./dist/divider/Divider.d.ts",
         "default": "./dist/divider/Divider.js"
       },
+      "./drop-zone": {
+        "types": "./dist/drop-zone/DropZone.d.ts",
+        "default": "./dist/drop-zone/DropZone.js"
+      },
       "./field": {
         "types": "./dist/field/Field.d.ts",
         "default": "./dist/field/Field.js"
@@ -175,6 +181,10 @@
       "./select-panel": {
         "types": "./dist/select/SelectPanel.d.ts",
         "default": "./dist/select/SelectPanel.js"
+      },
+      "./slider": {
+        "types": "./dist/slider/Slider.d.ts",
+        "default": "./dist/slider/Slider.js"
       },
       "./shape": {
         "types": "./dist/shape.d.ts",

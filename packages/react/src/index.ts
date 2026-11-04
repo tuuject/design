@@ -14,6 +14,7 @@ export { ChatBubble, type ChatBubbleProps } from './chat-bubble/ChatBubble.js';
 export { Checkbox, type CheckboxProps } from './checkbox/Checkbox.js';
 export { Dialog, type DialogProps } from './dialog/Dialog.js';
 export { Divider, type DividerProps } from './divider/Divider.js';
+export { DropZone, type DropZoneProps } from './drop-zone/DropZone.js';
 export { Field, type FieldProps } from './field/Field.js';
 export * from './icons.js';
 export { Input, type InputProps } from './input/Input.js';
@@ -35,6 +36,7 @@ export {
 } from './select/SelectPanel.js';
 export { type ButtonShape, ShapeProvider, useButtonShape } from './shape.js';
 export { Skeleton, type SkeletonProps } from './skeleton/Skeleton.js';
+export { Slider, type SliderProps } from './slider/Slider.js';
 export { Spinner, type SpinnerProps, type SpinnerSize } from './spinner/Spinner.js';
 export { Switch, type SwitchProps } from './switch/Switch.js';
 export { DataTable, type DataTableColumn, type DataTableProps } from './table/DataTable.js';

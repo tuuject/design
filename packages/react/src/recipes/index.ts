@@ -6,6 +6,7 @@ import { card } from './card.js';
 import { chatBubble } from './chat-bubble.js';
 import { checkbox } from './checkbox.js';
 import { dialog } from './dialog.js';
+import { dropZone } from './drop-zone.js';
 import { separator } from './divider.js';
 import { field } from './field.js';
 import { input } from './input.js';
@@ -15,6 +16,7 @@ import { progress } from './progress.js';
 import { prose } from './prose.js';
 import { radioGroup } from './radio-group.js';
 import { select, selectPanel } from './select.js';
+import { slider } from './slider.js';
 import { skeleton } from './skeleton.js';
 import { spinner } from './spinner.js';
 import { switchRecipe } from './switch.js';
@@ -34,6 +36,7 @@ export const slotRecipes = {
   card,
   checkbox,
   dialog,
+  dropZone,
   field,
   input,
   link,
@@ -42,6 +45,7 @@ export const slotRecipes = {
   radioGroup,
   select,
   selectPanel,
+  slider,
   spinner,
   switchRecipe,
   table,

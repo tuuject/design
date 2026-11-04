@@ -5,6 +5,7 @@
     ["text", "surface"],
     ["text", "surface-muted"],
     ["text", "action-subtle"],
+    ["text-muted", "action-subtle"],
     ["text", "action-subtle-hover"],
     ["text", "table-row-hover", "surface"],
     ["text-muted", "table-row-hover", "surface"],

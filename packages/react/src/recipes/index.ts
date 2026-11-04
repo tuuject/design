@@ -15,6 +15,7 @@ import { field } from './field.js';
 import { floatingPanel } from './floating-panel.js';
 import { input } from './input.js';
 import { link } from './link.js';
+import { navMenu } from './nav-menu.js';
 import { pagination } from './pagination.js';
 import { progress } from './progress.js';
 import { prose } from './prose.js';
@@ -48,6 +49,7 @@ export const slotRecipes = {
   floatingPanel,
   input,
   link,
+  navMenu,
   pagination,
   progress,
   radioGroup,

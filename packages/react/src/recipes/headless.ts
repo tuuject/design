@@ -30,6 +30,8 @@ export const state = {
   placeholder: '[data-placeholder]',
   /** A trigger whose popup is open. */
   popupOpen: '[data-popup-open]',
+  /** A trigger whose collapsible panel is open (Collapsible's trigger; a Menu trigger is `popupOpen`). */
+  panelOpen: '[data-panel-open]',
   /** The current tab. */
   selected: '[data-active]',
   /** The item a pointer or the arrow keys are on, in a list or menu. */
@@ -67,4 +69,6 @@ export const vars = {
   activeTabTop: 'var(--active-tab-top)',
   activeTabWidth: 'var(--active-tab-width)',
   activeTabHeight: 'var(--active-tab-height)',
+  // A collapsible panel's content height, measured when it opens; the panel animates height between 0 and this.
+  collapsiblePanelHeight: 'var(--collapsible-panel-height)',
 } as const;

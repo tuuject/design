@@ -27,6 +27,8 @@ export const strings = {
   noData: '暂无数据',
   /** The toast region's accessible name. */
   notifications: '通知',
+  /** A NavMenu's landmark name, and the mobile drawer's title. */
+  navMenu: '主导航',
   /** A DropZone with no visible title, and its default title. */
   dropZone: '选择文件',
   dropZoneTitle: '拖拽文件到这里，或点击选择',

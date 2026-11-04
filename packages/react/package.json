@@ -25,6 +25,7 @@
     "./link": "./src/link/Link.tsx",
     "./map-editor": "./src/map-editor/MapEditor.tsx",
     "./menu": "./src/menu/Menu.tsx",
+    "./nav-menu": "./src/nav-menu/NavMenu.tsx",
     "./pagination": "./src/pagination/Pagination.tsx",
     "./popover": "./src/popover/Popover.tsx",
     "./progress": "./src/progress/Progress.tsx",
@@ -180,6 +181,10 @@
       "./menu": {
         "types": "./dist/menu/Menu.d.ts",
         "default": "./dist/menu/Menu.js"
+      },
+      "./nav-menu": {
+        "types": "./dist/nav-menu/NavMenu.d.ts",
+        "default": "./dist/nav-menu/NavMenu.js"
       },
       "./pagination": {
         "types": "./dist/pagination/Pagination.d.ts",

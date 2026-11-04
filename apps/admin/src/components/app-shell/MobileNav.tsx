@@ -23,8 +23,10 @@ export function MobileNav() {
       title="主导航"
       // The content starts with the brand and the nav list, which already say what this is.
       hideTitle
-      // The drawer keeps the sidebar's 248px, so the list lands on the same left edge as on desktop.
-      className={css({ width: SIDEBAR_WIDTH })}
+      // The drawer keeps the sidebar's 248px, so the list lands on the same left edge as on desktop. Both the
+      // popup and its body hand their padding to NavMenu, which insets the brand and the rows itself.
+      className={css({ width: SIDEBAR_WIDTH, padding: '0' })}
+      classNames={{ body: css({ padding: '0', overflow: 'hidden' }) }}
     >
       <SidebarContent pathname={pathname} onNavigate={() => setMobileNavOpen(false)} />
     </Drawer>

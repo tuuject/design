@@ -23,6 +23,7 @@ export * from './input.js';
 export * from './link.js';
 export * from './map-editor.js';
 export * from './menu.js';
+export * from './nav-menu.js';
 export * from './pagination.js';
 export * from './popover.js';
 export * from './progress.js';

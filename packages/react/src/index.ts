@@ -24,6 +24,13 @@ export { Link, type LinkProps, type LinkVariant } from './link/Link.js';
 export { MapEditor, type MapEditorProps } from './map-editor/MapEditor.js';
 export type { CollectionFieldRenderProps, MapEntry } from './map-editor/MapEditor.js';
 export { Menu, type MenuProps } from './menu/Menu.js';
+export {
+  NavMenu,
+  type NavItem,
+  type NavMenuBrand,
+  type NavMenuProps,
+  type NavSection,
+} from './nav-menu/NavMenu.js';
 export { Pagination, type PaginationProps, type PaginationVariant } from './pagination/Pagination.js';
 export { Popover, type PopoverProps } from './popover/Popover.js';
 export { Progress, type ProgressProps, type ProgressSize } from './progress/Progress.js';

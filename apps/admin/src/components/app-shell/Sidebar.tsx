@@ -5,7 +5,7 @@ import { SidebarContent } from './SidebarContent';
 import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from './shared';
 
 /** The desktop navigation: the shell's first flex column, pinned to the viewport from md up. Below md the
- * mobile drawer is the navigation, so the aside is not rendered there at all. */
+ * mobile drawer is the navigation, so the aside is not rendered there at all. NavMenu owns the padding. */
 export function Sidebar() {
   const collapsed = useUiStore((st) => st.sidebarCollapsed);
   const navLayout = useUiStore((st) => st.navLayout);
@@ -24,7 +24,6 @@ export function Sidebar() {
           alignSelf: 'flex-start',
           height: '100dvh',
           width: SIDEBAR_WIDTH,
-          padding: '3',
           bg: 'surface',
           borderRightWidth: '1px',
           borderRightStyle: 'solid',
@@ -33,11 +32,7 @@ export function Sidebar() {
           transition: 'width token(durations.fast) token(easings.out)',
           // The horizontal layout owns the desktop header; the aside stays out of the way there.
           '&[data-nav-layout=horizontal]': { display: 'none' },
-          '&[data-collapsed=true]': {
-            width: SIDEBAR_WIDTH_COLLAPSED,
-            '& [data-nav-label], & [data-brand-text], & [data-nav-chevron]': { display: 'none' },
-            '& [data-nav-item]': { justifyContent: 'center', paddingInline: '0' },
-          },
+          '&[data-collapsed=true]': { width: SIDEBAR_WIDTH_COLLAPSED },
         },
       })}
       data-collapsed={collapsed}

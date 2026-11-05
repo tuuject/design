@@ -25,3 +25,19 @@ body,
   --app-titlebar-inset-left: env(titlebar-area-x, 0px);
   --app-titlebar-inset-right: calc(100vw - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100vw));
 }
+
+/*
+ * Window dragging, for a shell that hides the system title bar (Electron, an installed PWA): elements marked
+ * data-app-region="drag" move the window; browser tabs ignore the property. Controls are exempted everywhere,
+ * not only inside a drag region, and so is everything portaled out of #root (menus, dialogs, toasts): those
+ * float over the header and would otherwise pass their clicks to the drag region under them. A drag region
+ * inside one of them (the mobile drawer's title-bar strip) opts back in for its own box. The shell also drops
+ * the header's drag region while the drawer covers it, rather than count on how overlapping regions merge.
+ */
+[data-app-region="drag"] {
+  -webkit-app-region: drag;
+}
+:is(a, button, input, select, textarea, label, summary, [role="button"], [tabindex]:not([tabindex="-1"])),
+body > :not(#root) {
+  -webkit-app-region: no-drag;
+}

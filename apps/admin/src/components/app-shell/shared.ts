@@ -37,10 +37,12 @@ export const SAFE_BOTTOM = 'var(--app-safe-bottom)';
 export const SAFE_LEFT = 'var(--app-safe-left)';
 /**
  * How far the first header row keeps its content from the window's left / right edge: past a cutout, or past
- * the window controls plus the row's own 8px control gap, so the controls read as one more item in the row.
- * Only the top row needs this; the controls sit in the title-bar strip and nothing below it is covered.
+ * the window controls. Only the top row needs this; the controls sit in the title-bar strip and nothing below it
+ * is covered. Controls on the left are macOS traffic lights, reported with their margin on both sides, so the
+ * row starts right after them and the gap matches the margin. Caption buttons on the right sit flush with the
+ * window edge: the row's own 8px control gap keeps it off them.
  */
-export const TOP_ROW_CLEAR_LEFT = `max(${SAFE_LEFT}, calc(var(--app-titlebar-inset-left) + token(spacing.2)))`;
+export const TOP_ROW_CLEAR_LEFT = `max(${SAFE_LEFT}, var(--app-titlebar-inset-left))`;
 export const TOP_ROW_CLEAR_RIGHT = `max(${SAFE_RIGHT}, calc(var(--app-titlebar-inset-right) + token(spacing.2)))`;
 /**
  * Space between the window edge and the centered column (0 once the window is narrower than the cap), for
@@ -55,6 +57,10 @@ export const COLUMN_OFFSET = `max(0px, (100% - ${CONTENT_MAX_WIDTH}) / 2)`;
  * the strip height. Controls on the right (Windows) leave the sidebar alone.
  */
 export const SIDEBAR_TITLEBAR_STRIP = 'min(calc(var(--app-titlebar-inset-left) * 1000), var(--app-titlebar-height))';
+/** Width of the window controls on the left (0 elsewhere); the collapsed rail widens to hold them. */
+export const TITLEBAR_INSET_LEFT = 'var(--app-titlebar-inset-left)';
+/** Height of the strip window controls are drawn in (0 without a desktop shell). */
+export const TITLEBAR_HEIGHT = 'var(--app-titlebar-height)';
 /** The sticky header block: below every Koi overlay (dialog 900, popup 950, toast 1000), above the page. */
 export const TOPBAR_Z_INDEX = 40;
 

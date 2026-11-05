@@ -6,7 +6,14 @@ import { Input } from '@tuuject/koi-react/input';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
-import { SAFE_BOTTOM, SAFE_LEFT, SAFE_RIGHT, SAFE_TOP, TOP_ROW_CLEAR_RIGHT } from '../components/app-shell/shared';
+import {
+  SAFE_BOTTOM,
+  SAFE_LEFT,
+  SAFE_RIGHT,
+  SAFE_TOP,
+  TITLEBAR_HEIGHT,
+  TOP_ROW_CLEAR_RIGHT,
+} from '../components/app-shell/shared';
 import { ThemeToggle } from '../components/app-shell/ThemeToggle';
 import { mockLogin } from '../mock/api';
 import { useAuthStore } from '../stores/auth';
@@ -65,6 +72,12 @@ function LoginPage() {
         paddingInlineStart: `max(token(spacing.4), ${SAFE_LEFT})`,
       })}
     >
+      {/* No header here: an empty strip as tall as the window controls (0 in a browser) moves the window. */}
+      <div
+        aria-hidden="true"
+        data-app-region="drag"
+        className={css({ position: 'fixed', top: 0, insetInline: 0, height: TITLEBAR_HEIGHT })}
+      />
       {/* In the window's top strip, so it steps aside for window controls the way the shell's header row does. */}
       <div
         className={css({

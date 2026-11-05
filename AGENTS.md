@@ -91,11 +91,12 @@ koi-ui/
 - `pnpm dev:status`：Storybook dev server 在跑时退出码 0，并打印地址和日志路径。
 - `pnpm dev:admin`：tokens + codegen + Admin 模板 dev server（端口 3000），输出同时写进 `.temp/dev-admin.log`。长期进程。
 - `pnpm dev:admin:status`：Admin dev server 在跑时退出码 0，并打印地址和日志路径。
+- `pnpm dev:admin:electron`：用 Electron 窗口打开正在跑的 Admin dev server（先确认 `pnpm dev:admin:status`），macOS 上隐藏标题栏、保留红绿灯。长期进程。做法与验证见 [admin.md](agent-doc/admin.md)。
 - `pnpm build:storybook` / `pnpm deploy:storybook`：静态 Storybook 构建 / 部署到 Cloudflare Workers。
 
 ## Long-Running Process Rules
 
-`pnpm dev`、`pnpm --filter storybook dev`，以及将来的 `expo start`，都不会自行退出，**禁止直接裸跑**。必须使用以下任一方式：
+`pnpm dev`、`pnpm --filter storybook dev`、`pnpm dev:admin:electron`，以及将来的 `expo start`，都不会自行退出，**禁止直接裸跑**。必须使用以下任一方式：
 
 1. 后台运行，等就绪后验证，最后 kill。
 2. 用 `timeout` 包裹。

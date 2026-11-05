@@ -39,6 +39,14 @@ export function MobileNav() {
         close: css({ top: `calc(token(spacing.3) + ${SAFE_TOP})` }),
       }}
     >
+      {/* The drawer covers the header, so its share of the title-bar strip above the brand moves the window
+          instead (0 tall unless window controls sit on the left). It comes before the drawer's close button in
+          the document, so the button's no-drag region still wins. */}
+      <div
+        aria-hidden="true"
+        data-app-region="drag"
+        className={css({ position: 'absolute', top: 0, insetInline: 0, height: SIDEBAR_TITLEBAR_STRIP })}
+      />
       <SidebarContent pathname={pathname} onNavigate={() => setMobileNavOpen(false)} />
     </Drawer>
   );

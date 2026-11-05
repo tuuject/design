@@ -9,6 +9,7 @@ import {
   SIDEBAR_TITLEBAR_STRIP,
   SIDEBAR_WIDTH,
   SIDEBAR_WIDTH_COLLAPSED,
+  TITLEBAR_INSET_LEFT,
 } from './shared';
 
 /** The desktop navigation: the shell's first flex column, pinned to the viewport from md up. Below md the
@@ -46,12 +47,22 @@ export function Sidebar() {
           transition: 'width token(durations.fast) token(easings.out)',
           // The horizontal layout owns the desktop header; the aside stays out of the way there.
           '&[data-nav-layout=horizontal]': { display: 'none' },
-          '&[data-collapsed=true]': { width: `calc(${SIDEBAR_WIDTH_COLLAPSED} + ${SAFE_LEFT})` },
+          // Window controls on the left (macOS traffic lights) are wider than the 72px rail: the rail grows to hold
+          // them, so they sit centered above the icons instead of across the rail's edge.
+          '&[data-collapsed=true]': {
+            width: `max(calc(${SIDEBAR_WIDTH_COLLAPSED} + ${SAFE_LEFT}), ${TITLEBAR_INSET_LEFT})`,
+          },
         },
       })}
       data-collapsed={collapsed}
       data-nav-layout={navLayout}
     >
+      {/* The title-bar strip above the brand moves the window (0 tall unless window controls sit on the left). */}
+      <div
+        aria-hidden="true"
+        data-app-region="drag"
+        className={css({ position: 'absolute', top: 0, insetInline: 0, height: SIDEBAR_TITLEBAR_STRIP })}
+      />
       <SidebarContent pathname={pathname} rail={collapsed} />
     </aside>
   );

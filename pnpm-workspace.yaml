@@ -3,5 +3,6 @@ packages:
   - apps/*
 allowBuilds:
   '@parcel/watcher': true
+  electron: true
   esbuild: true
   workerd: true

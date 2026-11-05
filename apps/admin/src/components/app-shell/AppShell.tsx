@@ -24,9 +24,13 @@ import { TopNav } from './TopNav';
 /** The authenticated app chrome: a drawer below md, the sticky sidebar at md and up, sticky header, routed content. */
 export function AppShell() {
   const navLayout = useUiStore((st) => st.navLayout);
+  const open = useUiStore((st) => st.mobileNavOpen);
   // Below md the drawer is the only navigation; mounting it only there keeps a closed dialog out of the DOM.
   const desktop = useMediaQuery('(min-width: 768px)');
   useCloseMobileNavOnDesktop(desktop);
+  // An open drawer and its backdrop cover the header: the header stops dragging the window (index.css) so a click
+  // there reaches the backdrop and closes the drawer, whatever order Chromium merges the overlapping regions in.
+  const drawerOverHeader = open && !desktop;
 
   return (
     <div
@@ -50,6 +54,7 @@ export function AppShell() {
             8px air above, between and below the rows lives here, so both rows share one vertical rhythm and
             the block's bottom edge is the single header/content divider. */}
         <div
+          data-app-region={drawerOverHeader ? undefined : 'drag'}
           className={css({
             position: 'sticky',
             top: 0,

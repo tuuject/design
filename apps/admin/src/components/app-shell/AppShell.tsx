@@ -3,11 +3,16 @@ import { Outlet } from '@tanstack/react-router';
 import { useUiStore } from '../../stores/ui';
 import { Sidebar } from './Sidebar';
 import {
+  COLUMN_OFFSET,
   CONTENT_MAX_WIDTH,
   HEADER_HEIGHT,
   HEADER_HEIGHT_HORIZONTAL,
   HEADER_OFFSET,
   HEADER_ROW_PADDING,
+  SAFE_BOTTOM,
+  SAFE_LEFT,
+  SAFE_RIGHT,
+  SAFE_TOP,
   SHELL_Z_INDEX,
   TOPBAR_Z_INDEX,
 } from './shared';
@@ -27,10 +32,11 @@ export function AppShell() {
         minHeight: '100%',
         bg: 'page-bg',
         // Pages (sectioned form jump targets, sticky sub-headers) read this instead of assuming the chrome.
-        [HEADER_OFFSET]: HEADER_HEIGHT,
+        // The header grows by the top safe inset (an iOS status bar in standalone mode), so the offset does too.
+        [HEADER_OFFSET]: `calc(${HEADER_HEIGHT} + ${SAFE_TOP})`,
         // Only md+ actually shows the nav row; below that the drawer is the navigation and the header is one row.
         '&[data-nav-layout=horizontal]': {
-          md: { [HEADER_OFFSET]: HEADER_HEIGHT_HORIZONTAL },
+          md: { [HEADER_OFFSET]: `calc(${HEADER_HEIGHT_HORIZONTAL} + ${SAFE_TOP})` },
         },
       })}
       data-nav-layout={navLayout}
@@ -71,7 +77,8 @@ export function AppShell() {
             display: 'flex',
             flexDirection: 'column',
             gap: HEADER_ROW_PADDING,
-            paddingBlock: HEADER_ROW_PADDING,
+            paddingBlockStart: `calc(token(spacing.${HEADER_ROW_PADDING}) + ${SAFE_TOP})`,
+            paddingBlockEnd: HEADER_ROW_PADDING,
             bg: 'surface',
             borderBottomWidth: '1px',
             borderBottomStyle: 'solid',
@@ -84,13 +91,28 @@ export function AppShell() {
         <main
           className={css({
             flex: '1',
-            padding: '4',
-            md: { padding: '6' },
+            paddingBlockStart: '4',
+            // Below md the content spans the window, so every edge but the top (the header holds that) can meet
+            // an inset.
+            paddingInlineStart: `max(token(spacing.4), ${SAFE_LEFT})`,
+            paddingInlineEnd: `max(token(spacing.4), ${SAFE_RIGHT})`,
+            paddingBlockEnd: `max(token(spacing.4), ${SAFE_BOTTOM})`,
+            md: {
+              paddingBlockStart: '6',
+              // The sidebar holds the window's left edge (and its inset).
+              paddingInlineStart: '6',
+              paddingInlineEnd: `max(token(spacing.6), ${SAFE_RIGHT})`,
+              paddingBlockEnd: `max(token(spacing.6), ${SAFE_BOTTOM})`,
+            },
             // The horizontal layout is one centered column: header rows and content line up on the same cap.
             '&[data-narrow=true]': {
               width: '100%',
               maxWidth: CONTENT_MAX_WIDTH,
               marginInline: 'auto',
+              md: {
+                paddingInlineStart: `max(token(spacing.6), calc(${SAFE_LEFT} - ${COLUMN_OFFSET}))`,
+                paddingInlineEnd: `max(token(spacing.6), calc(${SAFE_RIGHT} - ${COLUMN_OFFSET}))`,
+              },
             },
           })}
           data-narrow={navLayout === 'horizontal' || undefined}

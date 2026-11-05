@@ -1,7 +1,7 @@
 import { SelectItem, SelectPanel } from '@tuuject/koi-react/select-panel';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { useSyncExternalStore } from 'react';
-import { focusRing, HEADER_HEIGHT, HEADER_OFFSET } from '../app-shell/shared';
+import { focusRing, HEADER_HEIGHT, HEADER_OFFSET, SAFE_BOTTOM } from '../app-shell/shared';
 import { STICKY_Z_INDEX, WIDE_TOP } from './context';
 import { ChangedDot, InvalidMark } from './markers';
 import type { FormOutline, SectionEntry } from './outline';
@@ -37,7 +37,7 @@ export function SectionNav({ outline, sections, ...marks }: SectionNavProps) {
           top: WIDE_TOP,
           alignSelf: 'start',
           // Long section lists scroll on their own rather than run under the bottom of the screen.
-          maxHeight: `calc(100dvh - ${WIDE_TOP} - 24px)`,
+          maxHeight: `calc(100dvh - ${WIDE_TOP} - max(24px, ${SAFE_BOTTOM}))`,
           overflowY: 'auto',
         },
       })}

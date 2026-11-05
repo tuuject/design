@@ -6,3 +6,22 @@ body,
 #root {
   height: 100%;
 }
+
+/*
+ * Safe area. The page paints edge to edge (viewport-fit=cover), but content keeps clear of two kinds of
+ * obstruction: device cutouts and system bars on any edge (iOS notch, home indicator), and window controls
+ * drawn over the page's top strip (Electron's titleBarOverlay, an installed PWA's Window Controls Overlay).
+ * The shell reads only these variables, never env() directly, so a test or a desktop host can override them
+ * on <html>. Without either obstruction every value is 0 and the layout is unchanged.
+ */
+:root {
+  --app-safe-top: env(safe-area-inset-top, 0px);
+  --app-safe-right: env(safe-area-inset-right, 0px);
+  --app-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --app-safe-left: env(safe-area-inset-left, 0px);
+  /* The free title-bar area runs from x to x + width; the window controls fill what's left on either side
+     (traffic lights on the left on macOS, caption buttons on the right on Windows and Linux). */
+  --app-titlebar-height: env(titlebar-area-height, 0px);
+  --app-titlebar-inset-left: env(titlebar-area-x, 0px);
+  --app-titlebar-inset-right: calc(100vw - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100vw));
+}

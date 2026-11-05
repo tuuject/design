@@ -6,7 +6,19 @@ import { useUiStore } from '../../stores/ui';
 import { Brand } from './Brand';
 import { NavFlyout } from './NavFlyout';
 import { NavGroupItem } from './NavGroupItem';
-import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from './shared';
+import {
+  SAFE_BOTTOM,
+  SAFE_LEFT,
+  SAFE_TOP,
+  SIDEBAR_TITLEBAR_STRIP,
+  SIDEBAR_WIDTH,
+  SIDEBAR_WIDTH_COLLAPSED,
+} from './shared';
+
+// The sidebar always holds the window's left edge (as the drawer and as the desktop column): it widens by the
+// left inset so the content inside keeps its usual geometry, and its background still reaches the edge.
+const width = `calc(${SIDEBAR_WIDTH} + ${SAFE_LEFT})`;
+const widthCollapsed = `calc(${SIDEBAR_WIDTH_COLLAPSED} + ${SAFE_LEFT})`;
 
 export function Sidebar() {
   const collapsed = useUiStore((st) => st.sidebarCollapsed);
@@ -31,8 +43,11 @@ export function Sidebar() {
         bottom: 0,
         left: 0,
         zIndex: 60,
-        width: SIDEBAR_WIDTH,
-        padding: '3',
+        width,
+        paddingBlockStart: `max(calc(token(spacing.3) + ${SAFE_TOP}), ${SIDEBAR_TITLEBAR_STRIP})`,
+        paddingInlineStart: `calc(token(spacing.3) + ${SAFE_LEFT})`,
+        paddingInlineEnd: '3',
+        paddingBlockEnd: `calc(token(spacing.3) + ${SAFE_BOTTOM})`,
         bg: 'surface',
         borderRightWidth: '1px',
         borderRightStyle: 'solid',
@@ -48,11 +63,11 @@ export function Sidebar() {
           transform: 'none',
           // Width collapse animates with a plain ease-out: the spring's overshoot makes the icons jitter.
           transition: 'width token(durations.fast) token(easings.out)',
-          width: SIDEBAR_WIDTH,
+          width,
           // The horizontal layout owns the desktop header; the aside stays only as the mobile drawer.
           '&[data-nav-layout=horizontal]': { display: 'none' },
           '&[data-collapsed=true]': {
-            width: SIDEBAR_WIDTH_COLLAPSED,
+            width: widthCollapsed,
             '& [data-nav-label], & [data-brand-text], & [data-nav-chevron]': { display: 'none' },
             '& [data-nav-item]': { justifyContent: 'center', paddingInline: '0' },
           },

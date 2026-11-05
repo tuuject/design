@@ -54,7 +54,6 @@ koi-ui/
 | 验证：`pnpm check`、截图、像素与 CSS 比对 | [agent-doc/verification.md](agent-doc/verification.md) |
 | 现在的进度、下一步、未决事项 | [agent-doc/plan.md](agent-doc/plan.md) |
 | surowan Admin 重写的组件缺口与 epic 拆分 | [agent-doc/plans/surowan-admin-epic.md](agent-doc/plans/surowan-admin-epic.md) |
-| Admin Electron 壳的 Windows 版接手说明 | [agent-doc/plans/admin-electron-windows.md](agent-doc/plans/admin-electron-windows.md) |
 | 某个组件移植时定下的 API / 行为决定 | [agent-doc/web-port-record.md](agent-doc/web-port-record.md) |
 | 本仓库术语 | [agent-doc/glossary.md](agent-doc/glossary.md) |
 | 组件应该长什么样、怎么交互 | `docs/spec/README.md`、`docs/spec/components/<Name>.md`（改组件前必读） |
@@ -92,7 +91,7 @@ koi-ui/
 - `pnpm dev:status`：Storybook dev server 在跑时退出码 0，并打印地址和日志路径。
 - `pnpm dev:admin`：tokens + codegen + Admin 模板 dev server（端口 3000），输出同时写进 `.temp/dev-admin.log`。长期进程。
 - `pnpm dev:admin:status`：Admin dev server 在跑时退出码 0，并打印地址和日志路径。
-- `pnpm dev:admin:electron`：用 Electron 窗口打开正在跑的 Admin dev server（先确认 `pnpm dev:admin:status`），macOS 上隐藏标题栏、保留红绿灯。长期进程。做法与验证见 [admin.md](agent-doc/admin.md)。
+- `pnpm dev:admin:electron`：用 Electron 窗口打开正在跑的 Admin dev server（先确认 `pnpm dev:admin:status`），macOS 和 Windows 上隐藏标题栏、只保留窗口按钮。长期进程。做法与验证见 [admin.md](agent-doc/admin.md)。
 - `pnpm build:storybook` / `pnpm deploy:storybook`：静态 Storybook 构建 / 部署到 Cloudflare Workers。
 
 ## Long-Running Process Rules

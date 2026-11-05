@@ -15,6 +15,9 @@ body,
  * on <html>. Without either obstruction every value is 0 and the layout is unchanged.
  */
 :root {
+  /* Makes 100cqw below the viewport width without a classic scrollbar (100vw includes it). The overlay reports
+     its area against the whole window, but the rows that step aside end where the scrollbar begins. */
+  container-type: inline-size;
   --app-safe-top: env(safe-area-inset-top, 0px);
   --app-safe-right: env(safe-area-inset-right, 0px);
   --app-safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -23,7 +26,7 @@ body,
      (traffic lights on the left on macOS, caption buttons on the right on Windows and Linux). */
   --app-titlebar-height: env(titlebar-area-height, 0px);
   --app-titlebar-inset-left: env(titlebar-area-x, 0px);
-  --app-titlebar-inset-right: calc(100vw - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100vw));
+  --app-titlebar-inset-right: calc(100cqw - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100cqw));
 }
 
 /*

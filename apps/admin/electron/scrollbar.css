@@ -1,0 +1,36 @@
+/*
+ * Windows only, inserted by main.ts into every page the window loads. The caption buttons cover the top of the
+ * window's right edge, where the document scrollbar starts: its thumb would show through the close button, and
+ * grabbing it there would close the window. Only a styled scrollbar can start its track lower, so the window's
+ * scrollbars take Koi's look (a pill thumb in the control-edge color) and the document's track starts below the
+ * title-bar strip. Overlay scrollbars would avoid the overlap too, but Chromium only enables them from the
+ * launch command line, which an app's main script can no longer change.
+ */
+::-webkit-scrollbar {
+  width: var(--spacing-3);
+  height: var(--spacing-3);
+  background: transparent;
+}
+
+/* The transparent border insets the pill but still counts as thumb, so the whole gutter width can be grabbed. */
+::-webkit-scrollbar-thumb {
+  min-width: var(--sizes-control-md);
+  min-height: var(--sizes-control-md);
+  border: var(--spacing-1) solid transparent;
+  border-radius: var(--radii-full);
+  background: var(--colors-border-control) padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--colors-border-control-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* The document's scrollbar: Chromium styles it from body (html's rules don't apply once body has any). */
+body::-webkit-scrollbar-track {
+  margin-top: var(--app-titlebar-height);
+}

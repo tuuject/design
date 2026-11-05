@@ -9,6 +9,7 @@ import {
   SIDEBAR_TITLEBAR_STRIP,
   SIDEBAR_WIDTH,
   SIDEBAR_WIDTH_COLLAPSED,
+  TITLEBAR_HEIGHT,
   TITLEBAR_INSET_LEFT,
 } from './shared';
 
@@ -57,11 +58,13 @@ export function Sidebar() {
       data-collapsed={collapsed}
       data-nav-layout={navLayout}
     >
-      {/* The title-bar strip above the brand moves the window (0 tall unless window controls sit on the left). */}
+      {/* The sidebar's share of the title-bar strip moves the window, so the whole top edge drags alongside the
+          header. With controls on the left it is the empty strip above the brand; with controls on the right
+          (Windows) the sidebar starts at the top and the strip lies over the brand row, which holds no controls. */}
       <div
         aria-hidden="true"
         data-app-region="drag"
-        className={css({ position: 'absolute', top: 0, insetInline: 0, height: SIDEBAR_TITLEBAR_STRIP })}
+        className={css({ position: 'absolute', top: 0, insetInline: 0, height: TITLEBAR_HEIGHT })}
       />
       <SidebarContent pathname={pathname} rail={collapsed} />
     </aside>

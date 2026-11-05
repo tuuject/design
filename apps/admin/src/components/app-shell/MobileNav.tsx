@@ -2,7 +2,7 @@ import { Drawer } from '@tuuject/koi-react/drawer';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { useRouterState } from '@tanstack/react-router';
 import { useUiStore } from '../../stores/ui';
-import { SAFE_BOTTOM, SAFE_LEFT, SAFE_TOP, SIDEBAR_TITLEBAR_STRIP, SIDEBAR_WIDTH } from './shared';
+import { SAFE_BOTTOM, SAFE_LEFT, SAFE_TOP, SIDEBAR_TITLEBAR_STRIP, SIDEBAR_WIDTH, TITLEBAR_HEIGHT } from './shared';
 import { SidebarContent } from './SidebarContent';
 
 /**
@@ -39,13 +39,14 @@ export function MobileNav() {
         close: css({ top: `calc(token(spacing.3) + ${SAFE_TOP})` }),
       }}
     >
-      {/* The drawer covers the header, so its share of the title-bar strip above the brand moves the window
-          instead (0 tall unless window controls sit on the left). It comes before the drawer's close button in
-          the document, so the button's no-drag region still wins. */}
+      {/* The drawer covers the header, so its share of the title-bar strip moves the window instead. With
+          controls on the left it is the empty strip above the brand; with controls on the right (Windows) the
+          drawer starts at the top and the strip lies over the brand row, which holds no controls. It comes before
+          the drawer's close button in the document, so the button's no-drag region still wins. */}
       <div
         aria-hidden="true"
         data-app-region="drag"
-        className={css({ position: 'absolute', top: 0, insetInline: 0, height: SIDEBAR_TITLEBAR_STRIP })}
+        className={css({ position: 'absolute', top: 0, insetInline: 0, height: TITLEBAR_HEIGHT })}
       />
       <SidebarContent pathname={pathname} onNavigate={() => setMobileNavOpen(false)} />
     </Drawer>

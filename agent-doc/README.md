@@ -22,6 +22,7 @@
 | 验证改动：`pnpm check`、截图、像素和 CSS 比对 | [verification.md](verification.md) |
 | 现在做到哪了、下一步、未决事项 | [plan.md](plan.md) |
 | 支撑 surowan Admin 重写的组件缺口 epic | [plans/surowan-admin-epic.md](plans/surowan-admin-epic.md) |
+| Admin Electron 壳的 Windows 版（接手说明） | [plans/admin-electron-windows.md](plans/admin-electron-windows.md) |
 | 某个组件移植时定下的 API / 行为决定 | [web-port-record.md](web-port-record.md) |
 | 查本仓库的术语 | [glossary.md](glossary.md) |
 

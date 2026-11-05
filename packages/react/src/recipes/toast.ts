@@ -22,6 +22,10 @@ function stacked(edge: 'bottom' | 'top') {
     insetInline: '0',
     width: '100%',
     maxWidth: 'none',
+    // shadow-float drops downward, so the lower toast has to be in front or the one above shades it. Base UI renders
+    // the newest first, which gets this right for a top stack only; a bottom stack, newest lowest, needs it flipped.
+    // The viewport is its own stacking context, so the negative values stay inside it.
+    zIndex: `calc(0 ${sign} ${vars.toastIndex})`,
     // Dragging is swipe-to-dismiss, not text selection.
     userSelect: 'none',
     '--koi-toast-shift': shift,

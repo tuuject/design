@@ -171,7 +171,14 @@ export const CurrentAndDisabled: Story = {
             ],
           },
           { value: 'settings', label: '设置', icon: <PlusIcon />, href: '#settings', disabled: true },
-          { value: 'danger', label: '危险操作', icon: <WarningIcon />, disabled: true },
+          // A disabled parent doesn't expand, or open its panel in the bar and the rail.
+          {
+            value: 'danger',
+            label: '危险操作',
+            icon: <WarningIcon />,
+            disabled: true,
+            children: [{ value: 'danger-reset', label: '重置数据' }],
+          },
         ],
       },
     ],

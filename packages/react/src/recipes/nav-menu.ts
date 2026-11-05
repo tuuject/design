@@ -155,14 +155,17 @@ export const navMenu = defineSlotRecipe({
       transition: 'height {durations.fast} {easings.out}',
       [`&${state.entering}, &${state.exiting}` as const]: { height: '0' },
     },
-    // Applied together with floatingPanel's popup: only the width differs from a Menu's panel.
+    // Applied together with floatingPanel's popup: only the width differs from a Menu's panel, and it gives way to
+    // the room left on a narrow viewport the same way.
     panel: {
-      minWidth: toPx(c.navMenu.flyoutMinWidth),
-      maxWidth: toPx(c.navMenu.flyoutMaxWidth),
+      minWidth: `min(${c.navMenu.flyoutMinWidth}px, ${vars.availableWidth})`,
+      maxWidth: `min(${c.navMenu.flyoutMaxWidth}px, ${vars.availableWidth})`,
     },
+    // Applied together with floatingPanel's body, which scrolls a branch taller than the room below the trigger.
     panelList: { display: 'flex', flexDirection: 'column', gap: '0', m: '0', p: '0', listStyleType: 'none' },
-    // Inside the panel's radius-xl and 4px padding, radius-lg is the concentric corner.
-    panelItem: { borderRadius: 'lg' },
+    // Inside the panel's radius-xl and 4px padding, radius-lg is the concentric corner. Rows keep their 36px when the
+    // list scrolls, rather than squeezing to fit the panel.
+    panelItem: { flex: 'none', borderRadius: 'lg' },
     divider: {
       flex: 'none',
       width: `${c.stroke.hairline}px`,
@@ -232,16 +235,18 @@ export const navMenu = defineSlotRecipe({
     },
     collapsed: {
       true: {
-        // A 72px rail: only the icons stay. The logo box keeps its 44px and centers in the rail.
+        // A 72px rail: only the icons stay. The logo box keeps its 44px and centers in the rail. The brand's text
+        // and the row labels stay for screen readers: they are the only names the link and the rows have, whatever
+        // node the label is. `relative` keeps the visually hidden text anchored to its row.
         root: { width: toPx(c.navMenu.railWidth) },
-        brand: { px: '0', justifyContent: 'center' },
-        brandText: { display: 'none' },
+        brand: { position: 'relative', px: '0', justifyContent: 'center' },
+        brandText: { srOnly: true },
         // A 72px rail has no room for a heading, but the group keeps its name for screen readers.
         sectionLabel: { srOnly: true },
         // The branch is hidden behind a flyout, so its icon carries the fill the bar gives its parent.
-        item: { justifyContent: 'center', px: '0' },
+        item: { position: 'relative', justifyContent: 'center', px: '0' },
         onPath: { bg: 'nav-item-active', color: 'text', fontWeight: 'bold' },
-        itemLabel: { display: 'none' },
+        itemLabel: { srOnly: true },
         trailing: { display: 'none' },
       },
     },

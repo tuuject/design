@@ -58,9 +58,9 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
 - **横版只有一条横线**：由 sticky 块的底边统一当 header / content 的分界。竖版也走同一条规则：块高度 53px（8 + 36 + 8 + 1）。
 - **brand 与面包屑之间 16px**：横版第一行是 8px gap，品牌名和面包屑之间偏挤；分隔线加 `marginInline: '2'`（两侧各 8px），brand 到线、线到面包屑都是 16px。
 - **导航分组与二级菜单**（2026-11-03，2026-11-04 换成库组件）：`nav.ts` 的 `NAV_GROUPS` 是两级树，**一级就是分类本身**（概览 / 业务 / 智能助手 / 账户，各带 16px 图标），二级是页面。分类不再是列表上方的静态标签，所以没有「分类标签」这层样式，横版也不再需要组间竖线。`NavGroup` / `NavLeaf` 用 `children` / `to` 互斥区分；`use-nav-menu.tsx` 把它适配成 `NavSection[]`：一级是带 `children` 的父项（`value` 是标题，自身没有 `href`），二级是带 `href` 的叶子。spec 允许三级，模板只做两级。
-  - **竖版展开**：NavMenu 自己用 Base UI `Collapsible` 做（`--collapsible-panel-height` 动 height），当前页所在的分支在挂载和导航进该分支时自动展开，手动收起后不会被强行拉开。子项不画图标，左内边距 36px 对齐父项标签。
+  - **竖版展开**：NavMenu 自己用 Base UI `Collapsible` 做（`--collapsible-panel-height` 动 height），当前页所在的分支在挂载、导航进该分支、或该分支随 items 晚到时自动展开（比较的是祖先链，不只是 value），手动收起后不会被强行拉开。子项不画图标，左内边距 36px 对齐父项标签。
   - **横版 / 折叠栏的分组弹面板**：横版向下（`bottom-start`）、折叠栏向右（`right-start`），面板就是 Menu 与 Popover 共用的那一个（`surface` + `border` + `radius-xl` + `shadow-float`，200–280px）。`openOnHover`、方向键、Esc、点外部、靠近窗口边缘翻转都由 NavMenu 内的 Base UI Menu 负责；`modal={false}` 免得锁页面滚动。
-  - **折叠栏的分支只能弹出来**：72px 宽时标签全隐藏，就地展开没有意义，所以 `Sidebar` 的 `collapsed` 交给 NavMenu，由它把每个父项换成向右的面板；md 以下的抽屉永远是全宽，就地展开。
+  - **折叠栏的分支只能弹出来**：72px 宽时标签只留给读屏（srOnly，行和带链接的 brand 靠它取名），就地展开没有意义，所以 `Sidebar` 的 `collapsed` 交给 NavMenu，由它把每个父项换成向右的面板；md 以下的抽屉永远是全宽，就地展开。
   - **分支状态是加粗不是填充**：竖版父项只把文字变粗（`text`），横版和折叠栏没有展开树可看，父项直接吃 `nav-item-active` 填充。
 - **sticky 偏移读 shell 的变量，不写死顶栏高度**：`AppShell` 在根元素设 `--app-header-offset`（竖版 `HEADER_HEIGHT` 52px；横版 md 起 `HEADER_HEIGHT_HORIZONTAL` 96px），分区长表单的 `scroll-margin-top`、sticky 分区下拉都读它。加新的 sticky 行时改这一处，页面不用跟着改。
 - **自己 portal 的浮层要给 z-index**：portal 到 `<body>` 的元素没有层级，会被 sticky 顶栏（z-index 40）盖住上沿。库里的 Menu / Popover / Drawer 已经带上 `popup` / `dialog` 层；模板自己 portal 的东西照 SelectPanel 给 Positioner `zIndex: 'popup'`。

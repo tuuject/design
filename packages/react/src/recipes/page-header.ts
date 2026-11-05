@@ -20,7 +20,15 @@ export const pageHeader = defineSlotRecipe({
     // pushing the actions off the row.
     main: { display: 'flex', flexDirection: 'column', gap: '1', flex: '1', minWidth: '0' },
     titleRow: { display: 'flex', alignItems: 'center', gap: '2', minWidth: '0' },
-    title: { m: '0', textStyle: 'heading-1', fontWeight: 'bold', color: 'text' },
+    // An unbroken title (an order number, an ID) breaks where it must instead of pushing the info mark out.
+    title: {
+      m: '0',
+      minWidth: '0',
+      overflowWrap: 'anywhere',
+      textStyle: 'heading-1',
+      fontWeight: 'bold',
+      color: 'text',
+    },
     // The mark keeps its size; it never squeezes the title.
     info: { display: 'inline-flex', alignItems: 'center', flexShrink: '0', color: 'text-muted' },
     description: { m: '0', textStyle: 'body', color: 'text-muted' },

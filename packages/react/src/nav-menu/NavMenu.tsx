@@ -4,7 +4,7 @@ import { type NavItem, type NavMenuOwnProps, type NavSection, navPath } from '@t
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { floatingPanel, type NavMenuSlot, navMenu } from '@tuuject/koi-react/styled-system/recipes';
 import { components, sizes, space } from '@tuuject/koi-tokens/dimensions';
-import { Fragment, type MouseEvent, type ReactNode, useEffect, useId, useState } from 'react';
+import { Fragment, type MouseEvent, type ReactNode, useEffect, useId, useRef, useState } from 'react';
 import { ChevronDownIcon, ChevronRightIcon } from '../icons.js';
 import { useStrings } from '../strings.js';
 import type { ChangeDetails, SlotClassNames } from '../types.js';
@@ -63,28 +63,41 @@ export function NavMenu({
   const ancestors = path.slice(0, -1);
 
   const [expanded, setExpanded] = useState<string[]>(() => [...(defaultExpanded ?? []), ...ancestors]);
-  // Moving into another branch opens it. A manual collapse of the current branch stays collapsed until the value
-  // changes, because only a value change lands here.
-  const [seenValue, setSeenValue] = useState(selected);
-  if (seenValue !== selected) {
-    setSeenValue(selected);
+  // Moving into another branch opens it, and so does the current item's branch arriving after the value (items
+  // loaded later). A manual collapse of the current branch stays collapsed until the trail changes, because only
+  // a trail change lands here.
+  const trail = JSON.stringify(path);
+  const [seenTrail, setSeenTrail] = useState(trail);
+  if (seenTrail !== trail) {
+    setSeenTrail(trail);
     setExpanded((open) => [...new Set([...open, ...ancestors])]);
   }
 
   const toggle = (value: string, open: boolean) =>
     setExpanded((prev) => (open ? [...new Set([...prev, value])] : prev.filter((v) => v !== value)));
 
-  // Horizontal and rail menus: one panel at a time, and it closes when the page scrolls or the window resizes.
+  // Horizontal and rail menus: one panel at a time, and it closes when its trigger scrolls away or the window
+  // resizes.
+  const navRef = useRef<HTMLElement>(null);
   const [openFlyout, setOpenFlyout] = useState<string | null>(null);
   useEffect(() => {
     if (openFlyout === null) {
       return;
     }
     const close = () => setOpenFlyout(null);
-    window.addEventListener('scroll', close);
+    // Scroll events don't bubble, so this listens while capturing: the bar's own sideways scroll and any scrolling
+    // ancestor move the trigger. A scroll anywhere else, such as the open panel's own list, leaves it in place.
+    const closeOnScroll = (event: Event) => {
+      const nav = navRef.current;
+      const target = event.target;
+      if (nav !== null && target instanceof Node && (target.contains(nav) || nav.contains(target))) {
+        close();
+      }
+    };
+    window.addEventListener('scroll', closeOnScroll, true);
     window.addEventListener('resize', close);
     return () => {
-      window.removeEventListener('scroll', close);
+      window.removeEventListener('scroll', closeOnScroll, true);
       window.removeEventListener('resize', close);
     };
   }, [openFlyout]);
@@ -131,17 +144,14 @@ export function NavMenu({
   );
 
   /** A row that goes somewhere: a real link with an href, an inert disabled button without one. */
-  const leaf = (item: NavItem, level: number, rail = false) => {
+  const leaf = (item: NavItem, level: number) => {
     const active = item.value === selected;
     const className = cx(s.item, level === 1 && s.level2, level === 2 && s.level3, classNames?.item);
     const body = content(s, item, level, 'none');
-    // A rail row has no label left to name it with.
-    const name = rail && typeof item.label === 'string' ? item.label : undefined;
     return item.href !== undefined && !item.disabled ? (
       <a
         href={item.href}
         className={className}
-        aria-label={name}
         aria-current={active ? current : undefined}
         onClick={(event) => choose(item, event.nativeEvent)}
       >
@@ -152,7 +162,6 @@ export function NavMenu({
         type="button"
         className={className}
         disabled={item.disabled}
-        aria-label={name}
         aria-current={active ? current : undefined}
         onClick={(event) => choose(item, event.nativeEvent)}
       >
@@ -194,6 +203,7 @@ export function NavMenu({
       <BaseMenu.SubmenuRoot key={item.value}>
         <BaseMenu.SubmenuTrigger
           className={cx(panelS.item, panelS.panelItem, inPath && panelS.onPath, classNames?.item)}
+          disabled={item.disabled}
         >
           {content(panelS, item, 0, 'right')}
         </BaseMenu.SubmenuTrigger>
@@ -205,7 +215,7 @@ export function NavMenu({
             className={fp.positioner}
           >
             <BaseMenu.Popup className={cx(fp.popup, panelS.panel, classNames?.panel)}>
-              <div className={cx(panelS.panelList, classNames?.panelList)}>
+              <div className={cx(fp.body, panelS.panelList, classNames?.panelList)}>
                 {item.children?.map((child) => menuLeaf(child))}
               </div>
             </BaseMenu.Popup>
@@ -227,8 +237,7 @@ export function NavMenu({
         <BaseMenu.Trigger
           className={cx(s.item, inPath && s.onPath, classNames?.item)}
           openOnHover
-          // A rail row has no label left to name it with.
-          aria-label={rail && typeof item.label === 'string' ? item.label : undefined}
+          disabled={item.disabled}
           aria-current={item.value === selected ? current : undefined}
         >
           {content(s, item, 0, rail ? 'none' : 'down')}
@@ -242,7 +251,7 @@ export function NavMenu({
             className={fp.positioner}
           >
             <BaseMenu.Popup className={cx(fp.popup, panelS.panel, classNames?.panel)}>
-              <div className={cx(panelS.panelList, classNames?.panelList)}>
+              <div className={cx(fp.body, panelS.panelList, classNames?.panelList)}>
                 {item.children?.map((child) => (child.children?.length ? submenu(child) : menuLeaf(child)))}
               </div>
             </BaseMenu.Popup>
@@ -259,13 +268,17 @@ export function NavMenu({
     }
     if (collapsed) {
       // A 72px rail has no room for an expanded tree: every parent opens its pages beside it instead.
-      return <li key={item.value}>{item.children?.length ? flyout(item, 'right', true) : leaf(item, 0, true)}</li>;
+      return <li key={item.value}>{item.children?.length ? flyout(item, 'right', true) : leaf(item, 0)}</li>;
     }
     // Three levels at most: a level-3 item's own children are ignored, so it renders as a row.
     if (level < 2 && item.children?.length) {
       return (
         <li key={item.value}>
-          <Collapsible.Root open={expanded.includes(item.value)} onOpenChange={(open) => toggle(item.value, open)}>
+          <Collapsible.Root
+            open={expanded.includes(item.value)}
+            onOpenChange={(open) => toggle(item.value, open)}
+            disabled={item.disabled}
+          >
             <Collapsible.Trigger className={cx(s.item, level === 1 && s.level2, inPath && s.onPath, classNames?.item)}>
               {content(s, item, level, 'down')}
             </Collapsible.Trigger>
@@ -307,7 +320,7 @@ export function NavMenu({
     );
 
   return (
-    <nav className={cx(s.root, className)} aria-label={label ?? t.navMenu}>
+    <nav ref={navRef} className={cx(s.root, className)} aria-label={label ?? t.navMenu}>
       {brandNode}
       <div className={cx(s.body, classNames?.body)}>
         {groups.map((group, index) => {

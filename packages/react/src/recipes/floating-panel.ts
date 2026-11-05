@@ -32,8 +32,9 @@ export const floatingPanel = defineSlotRecipe({
       boxSizing: 'border-box',
       display: 'flex',
       flexDirection: 'column',
-      minWidth: toPx(c.floatingPanel.minWidth),
-      maxWidth: toPx(c.floatingPanel.maxWidth),
+      // Flipping can't shrink a panel, so on a narrow or zoomed viewport both bounds give way to the room left.
+      minWidth: `min(${c.floatingPanel.minWidth}px, ${vars.availableWidth})`,
+      maxWidth: `min(${c.floatingPanel.maxWidth}px, ${vars.availableWidth})`,
       maxHeight: `min(${c.floatingPanel.maxHeight}px, ${vars.availableHeight})`,
       overflow: 'hidden',
       p: '1',

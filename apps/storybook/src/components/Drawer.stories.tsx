@@ -135,8 +135,6 @@ function NotDismissible({ initialOpen = false, ...args }: Partial<DrawerProps> &
       </Button>
       <Drawer
         dismissible={false}
-        title="编辑资料"
-        description="点击抽屉外面不会关闭它，按 Esc 或点「取消」才会。"
         footer={
           <>
             <Button color="secondary" variant="ghost" onClick={() => setOpen(false)}>
@@ -156,5 +154,6 @@ function NotDismissible({ initialOpen = false, ...args }: Partial<DrawerProps> &
 /** `dismissible={false}`: a click outside doesn't close it; Esc, the × and the footer buttons do. */
 export const NotDismissibleStory: Story = {
   name: 'Not dismissible',
+  args: { title: '编辑资料', description: '点击抽屉外面不会关闭它，按 Esc 或点「取消」才会。' },
   render: (args) => <NotDismissible {...args} />,
 };

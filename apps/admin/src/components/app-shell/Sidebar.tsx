@@ -21,6 +21,7 @@ export function Sidebar() {
           // Sticky rather than fixed so it keeps its width in the row and the collapse animation still pushes
           // the content over.
           position: 'sticky',
+          top: 0,
           alignSelf: 'flex-start',
           height: '100dvh',
           width: SIDEBAR_WIDTH,

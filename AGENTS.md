@@ -88,10 +88,10 @@ koi-ui/
 - `pnpm lint:fix`：Biome 自动修复 + 格式化。含 `--unsafe`，会改语义（例如删 hook 依赖），跑完必须 review diff。
 - `pnpm shots [组件…]`：截每个 story 的浅色和深色到 `apps/storybook/shots/`。`KOI_PALETTE=rose` / `KOI_FONT=chill` 截其它配色 / 字体。任何视觉改动后都要打开 PNG 看。
 - `pnpm dev`：tokens + codegen + Storybook（端口 6006），输出同时写进 `.temp/dev-storybook.log`。长期进程。
-- `pnpm dev:status`：Storybook dev server 在跑时退出码 0，并打印地址和日志路径。
+- `pnpm dev:status`：本 checkout 的 Storybook dev server 在跑时退出码 0，并打印地址和日志路径；没在跑是 1；端口被别的 server 占着（另一个 worktree 的、或不报 checkout 的）是 3。
 - `pnpm dev:admin`：tokens + codegen + Admin 模板 dev server（端口 3000），输出同时写进 `.temp/dev-admin.log`。长期进程。
-- `pnpm dev:admin:status`：Admin dev server 在跑时退出码 0，并打印地址和日志路径。
-- `pnpm dev:admin:electron`：用 Electron 窗口打开正在跑的 Admin dev server（先确认 `pnpm dev:admin:status`），macOS 和 Windows 上隐藏标题栏、只保留窗口按钮。长期进程。做法与验证见 [admin.md](agent-doc/admin.md)。
+- `pnpm dev:admin:status`：同上，查 Admin dev server（端口 3000）。
+- `pnpm dev:admin:electron`：用 Electron 窗口打开正在跑的 Admin dev server（先确认 `pnpm dev:admin:status` 是 0；3000 上是别的 checkout 的 server 时直接报错退出），macOS 和 Windows 上隐藏标题栏、只保留窗口按钮。长期进程。做法与验证见 [admin.md](agent-doc/admin.md)。
 - `pnpm build:storybook` / `pnpm deploy:storybook`：静态 Storybook 构建 / 部署到 Cloudflare Workers。
 
 ## Long-Running Process Rules
@@ -106,8 +106,9 @@ koi-ui/
 
 - 在跑：直接用 `http://localhost:6006` / `http://localhost:3000`，编译错误、HMR 状态看 `.temp/dev-storybook.log` / `.temp/dev-admin.log`。改源码会热更新，不用重启。**这个进程是用户的，不准 kill 或重启**；改了 `.storybook/`、`vite.config.ts`、`panda.config.ts`、tokens 这类要重启或重新 codegen 的东西时，停下来请用户重启。
 - 不在跑：按上面的方式自己后台启动，用完 kill。
+- 被别的 server 占着（退出码 3）：多半是用户在另一个 worktree 开的，页面是那个分支的代码，看它不能验证本 checkout 的改动；本 checkout 也起不了自己的（端口被占）。不准 kill，停下来告诉用户；只需要构建产物时可以绕开 dev server（如 `pnpm --filter admin electron:preview`）。
 
-两个命令都由 `scripts/dev-server.mjs` 启动（纯 Node，Windows 也能跑）。端口被占时直接失败（admin 的 `strictPort`、Storybook 的 `--exact-port`），不会换端口再起第二个。
+两个命令都由 `scripts/dev-server.mjs` 启动（纯 Node，Windows 也能跑）。端口被占时直接失败（admin 的 `strictPort`、Storybook 的 `--exact-port`），不会换端口再起第二个。两个 app 的 Vite 配置都在响应里带 `X-Koi-Checkout`（URI 编码的仓库根路径），`--status` 和 Electron 的 dev 模式靠它分辨端口上是不是本 checkout 的 server。
 
 **判断标准**：正常情况下不会自行退出的命令，就属于长期进程。`pnpm shots` 会自己启动并关闭 Storybook，`pnpm check`、构建都会正常结束，不受此限制。
 

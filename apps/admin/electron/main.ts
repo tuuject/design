@@ -5,7 +5,7 @@
 //
 // Electron runs this file as TypeScript directly (Node's type stripping), so it uses erasable syntax only.
 import { existsSync, readFileSync, statSync } from 'node:fs';
-import { extname, join, sep } from 'node:path';
+import { extname, join, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { sizes, space } from '@tuuject/koi-tokens/dimensions';
 import { colors } from '@tuuject/koi-tokens/native';
@@ -21,6 +21,9 @@ const SCHEME = 'app';
 const APP_URL = `${SCHEME}://admin/`;
 const START_URL = dev ? DEV_URL : APP_URL;
 const DIST = join(import.meta.dirname, '..', 'dist');
+// The repository this shell belongs to. Worktrees share port 3000, so in dev mode the shell checks that the server
+// there runs from this checkout too: vite.config.ts sends it as X-Koi-Checkout (URI-encoded).
+const CHECKOUT = join(import.meta.dirname, '..', '..', '..');
 
 const mac = process.platform === 'darwin';
 const windows = process.platform === 'win32';
@@ -49,6 +52,22 @@ function serveDist() {
     }
     return net.fetch(pathToFileURL(join(DIST, 'index.html')).href);
   });
+}
+
+/** The checkout the dev server runs from: undefined when nothing answers, null when it doesn't say. */
+async function devServerCheckout() {
+  try {
+    const res = await fetch(new URL('@vite/client', DEV_URL));
+    await res.body?.cancel();
+    const value = res.headers.get('x-koi-checkout');
+    return value === null ? null : decodeURIComponent(value);
+  } catch {
+    return undefined;
+  }
+}
+
+function samePath(a: string, b: string) {
+  return windows ? resolve(a).toLowerCase() === resolve(b).toLowerCase() : resolve(a) === resolve(b);
 }
 
 function openExternal(url: string) {
@@ -170,8 +189,19 @@ ipcMain.on('koi:theme', (event, theme: unknown, choice: unknown) => {
   applyTheme(win, theme);
 });
 
-app.whenReady().then(() => {
-  if (!dev) {
+app.whenReady().then(async () => {
+  if (dev) {
+    // A server that isn't running is reported by did-fail-load instead.
+    const checkout = await devServerCheckout();
+    if (checkout !== undefined && !(checkout && samePath(checkout, CHECKOUT))) {
+      const server = checkout ? `another checkout's dev server (${checkout})` : `not this checkout's dev server`;
+      console.error(
+        `${DEV_URL} is ${server}, so this window would show another branch's code. Stop that server and run pnpm dev:admin here, or use pnpm --filter admin electron:preview.`,
+      );
+      app.exit(1);
+      return;
+    }
+  } else {
     serveDist();
   }
   createWindow();

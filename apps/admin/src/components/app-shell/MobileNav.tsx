@@ -46,16 +46,18 @@ export function MobileNav() {
         close: css({ top: `calc(token(spacing.3) + ${SAFE_TOP})` }),
       }}
     >
+      <SidebarContent pathname={pathname} onNavigate={() => setMobileNavOpen(false)} />
       {/* The drawer covers the header, so its share of the title-bar strip moves the window instead. With
           controls on the left it is the empty strip above the brand; with controls on the right (Windows) the
-          drawer starts at the top and the strip lies over the brand row, which holds no controls. It comes before
-          the drawer's close button in the document, so the button's no-drag region still wins. */}
+          drawer starts at the top and the strip lies over the brand row, which holds no controls. Electron applies
+          app regions in document order, the later one winning, and everything in the portal inherits no-drag
+          (index.css): the strip has to come after the nav, whose box covers it, and before the drawer's close
+          button, which must stay clickable. */}
       <div
         aria-hidden="true"
         data-app-region="drag"
         className={css({ position: 'absolute', top: 0, insetInline: 0, height: TITLEBAR_HEIGHT })}
       />
-      <SidebarContent pathname={pathname} onNavigate={() => setMobileNavOpen(false)} />
     </Drawer>
   );
 }

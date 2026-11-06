@@ -33,9 +33,11 @@ body,
  * Window dragging, for a shell that hides the system title bar (Electron, an installed PWA): elements marked
  * data-app-region="drag" move the window; browser tabs ignore the property. Controls are exempted everywhere,
  * not only inside a drag region, and so is everything portaled out of #root (menus, dialogs, toasts): those
- * float over the header and would otherwise pass their clicks to the drag region under them. A drag region
- * inside one of them (the mobile drawer's title-bar strip) opts back in for its own box. The shell also drops
- * the header's drag region while the drawer covers it, rather than count on how overlapping regions merge.
+ * float over the header and would otherwise pass their clicks to the drag region under them. The property
+ * inherits and Electron applies regions in document order, the later one winning: a drag region inside a portal
+ * (the mobile drawer's title-bar strip) opts back in only if it comes after the elements whose boxes cover it.
+ * The shell also drops the header's drag region while the drawer covers it, rather than count on how
+ * overlapping regions merge.
  */
 [data-app-region="drag"] {
   -webkit-app-region: drag;

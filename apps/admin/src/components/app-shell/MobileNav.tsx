@@ -2,7 +2,7 @@ import { Drawer } from '@tuuject/koi-react/drawer';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { useRouterState } from '@tanstack/react-router';
 import { useUiStore } from '../../stores/ui';
-import { SIDEBAR_WIDTH } from './shared';
+import { SAFE_BOTTOM, SAFE_LEFT, SAFE_TOP, SIDEBAR_TITLEBAR_STRIP, SIDEBAR_WIDTH } from './shared';
 import { SidebarContent } from './SidebarContent';
 
 /**
@@ -24,9 +24,20 @@ export function MobileNav() {
       // The content starts with the brand and the nav list, which already say what this is.
       hideTitle
       // The drawer keeps the sidebar's 248px, so the list lands on the same left edge as on desktop. Both the
-      // popup and its body hand their padding to NavMenu, which insets the brand and the rows itself.
-      className={css({ width: SIDEBAR_WIDTH, padding: '0' })}
-      classNames={{ body: css({ padding: '0', overflow: 'hidden' }) }}
+      // popup and its body hand their padding to NavMenu, which insets the brand and the rows itself; the popup
+      // only adds the safe-area insets, the same way the desktop Sidebar does.
+      className={css({
+        width: `calc(${SIDEBAR_WIDTH} + ${SAFE_LEFT})`,
+        paddingBlockStart: `max(${SAFE_TOP}, ${SIDEBAR_TITLEBAR_STRIP})`,
+        paddingInlineStart: SAFE_LEFT,
+        paddingInlineEnd: '0',
+        paddingBlockEnd: SAFE_BOTTOM,
+      })}
+      classNames={{
+        body: css({ padding: '0', overflow: 'hidden' }),
+        // Absolutely placed, so the popup's padding doesn't move it: keep it below an iOS status bar.
+        close: css({ top: `calc(token(spacing.3) + ${SAFE_TOP})` }),
+      }}
     >
       <SidebarContent pathname={pathname} onNavigate={() => setMobileNavOpen(false)} />
     </Drawer>

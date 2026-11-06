@@ -6,6 +6,7 @@ import { sizes } from '@tuuject/koi-tokens/dimensions';
 import { useState } from 'react';
 import { ChangeSummary } from './ChangeSummary';
 import type { FieldMark } from './changes';
+import { SAFE_BOTTOM } from '../app-shell/shared';
 import { STICKY_Z_INDEX } from './context';
 import { type FormOutline, isTouch, type SectionEntry } from './outline';
 
@@ -53,7 +54,7 @@ export function FormActionBar({
     <div
       className={css({
         position: 'sticky',
-        bottom: 'calc(token(spacing.4) + env(safe-area-inset-bottom, 0px))',
+        bottom: `calc(token(spacing.4) + ${SAFE_BOTTOM})`,
         zIndex: STICKY_Z_INDEX,
         display: 'flex',
         flexWrap: 'wrap',

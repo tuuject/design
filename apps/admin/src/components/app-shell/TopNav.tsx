@@ -1,7 +1,7 @@
 import { NavMenu } from '@tuuject/koi-react/nav-menu';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { useRouterState } from '@tanstack/react-router';
-import { CONTENT_MAX_WIDTH, HEADER_ROW_HEIGHT } from './shared';
+import { COLUMN_OFFSET, CONTENT_MAX_WIDTH, HEADER_ROW_HEIGHT, SAFE_LEFT, SAFE_RIGHT } from './shared';
 import { useNavMenu } from './use-nav-menu';
 
 /**
@@ -19,14 +19,18 @@ export function TopNav() {
     <div
       className={css({
         display: 'none',
-        md: { display: 'flex' },
         width: '100%',
         maxWidth: CONTENT_MAX_WIDTH,
         // Same centered column as the topbar row above and the page content below.
         marginInline: 'auto',
         height: HEADER_ROW_HEIGHT,
-        // Matches the topbar row and the page content at md.
-        paddingInline: { base: '4', md: '6' },
+        md: {
+          display: 'flex',
+          // Matches the page content at md: the usual 24px, or more where a side cutout reaches into the column.
+          // Below the title-bar strip, so window controls don't concern this row.
+          paddingInlineStart: `max(token(spacing.6), calc(${SAFE_LEFT} - ${COLUMN_OFFSET}))`,
+          paddingInlineEnd: `max(token(spacing.6), calc(${SAFE_RIGHT} - ${COLUMN_OFFSET}))`,
+        },
       })}
     >
       <NavMenu

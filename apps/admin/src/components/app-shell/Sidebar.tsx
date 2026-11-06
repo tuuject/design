@@ -2,7 +2,14 @@ import { css } from '@tuuject/koi-react/styled-system/css';
 import { useRouterState } from '@tanstack/react-router';
 import { useUiStore } from '../../stores/ui';
 import { SidebarContent } from './SidebarContent';
-import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from './shared';
+import {
+  SAFE_BOTTOM,
+  SAFE_LEFT,
+  SAFE_TOP,
+  SIDEBAR_TITLEBAR_STRIP,
+  SIDEBAR_WIDTH,
+  SIDEBAR_WIDTH_COLLAPSED,
+} from './shared';
 
 /** The desktop navigation: the shell's first flex column, pinned to the viewport from md up. Below md the
  * mobile drawer is the navigation, so the aside is not rendered there at all. NavMenu owns the padding. */
@@ -24,7 +31,13 @@ export function Sidebar() {
           top: 0,
           alignSelf: 'flex-start',
           height: '100dvh',
-          width: SIDEBAR_WIDTH,
+          // The aside holds the window's left edge: it widens by the left inset and pads past the insets, so
+          // NavMenu keeps its usual geometry inside and the background still reaches the edge (MobileNav does
+          // the same for the drawer).
+          width: `calc(${SIDEBAR_WIDTH} + ${SAFE_LEFT})`,
+          paddingBlockStart: `max(${SAFE_TOP}, ${SIDEBAR_TITLEBAR_STRIP})`,
+          paddingInlineStart: SAFE_LEFT,
+          paddingBlockEnd: SAFE_BOTTOM,
           bg: 'surface',
           borderRightWidth: '1px',
           borderRightStyle: 'solid',
@@ -33,7 +46,7 @@ export function Sidebar() {
           transition: 'width token(durations.fast) token(easings.out)',
           // The horizontal layout owns the desktop header; the aside stays out of the way there.
           '&[data-nav-layout=horizontal]': { display: 'none' },
-          '&[data-collapsed=true]': { width: SIDEBAR_WIDTH_COLLAPSED },
+          '&[data-collapsed=true]': { width: `calc(${SIDEBAR_WIDTH_COLLAPSED} + ${SAFE_LEFT})` },
         },
       })}
       data-collapsed={collapsed}

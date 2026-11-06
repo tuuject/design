@@ -6,6 +6,7 @@ import { Input } from '@tuuject/koi-react/input';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
+import { SAFE_BOTTOM, SAFE_LEFT, SAFE_RIGHT, SAFE_TOP, TOP_ROW_CLEAR_RIGHT } from '../components/app-shell/shared';
 import { ThemeToggle } from '../components/app-shell/ThemeToggle';
 import { mockLogin } from '../mock/api';
 import { useAuthStore } from '../stores/auth';
@@ -53,8 +54,25 @@ function LoginPage() {
   });
 
   return (
-    <div className={css({ minHeight: '100%', display: 'grid', placeItems: 'center', padding: '4' })}>
-      <div className={css({ position: 'fixed', top: '4', right: '4' })}>
+    <div
+      className={css({
+        minHeight: '100%',
+        display: 'grid',
+        placeItems: 'center',
+        paddingBlockStart: `max(token(spacing.4), ${SAFE_TOP})`,
+        paddingInlineEnd: `max(token(spacing.4), ${SAFE_RIGHT})`,
+        paddingBlockEnd: `max(token(spacing.4), ${SAFE_BOTTOM})`,
+        paddingInlineStart: `max(token(spacing.4), ${SAFE_LEFT})`,
+      })}
+    >
+      {/* In the window's top strip, so it steps aside for window controls the way the shell's header row does. */}
+      <div
+        className={css({
+          position: 'fixed',
+          top: `max(token(spacing.4), ${SAFE_TOP})`,
+          right: `max(token(spacing.4), ${TOP_ROW_CLEAR_RIGHT})`,
+        })}
+      >
         <ThemeToggle />
       </div>
       <Card className={css({ width: 'min(400px, 100%)', boxSizing: 'border-box' })}>

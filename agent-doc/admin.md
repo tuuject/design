@@ -62,7 +62,14 @@ Koi 的 React Admin Template：参考 vue-element-admin 的产品定位，提供
   - **横版 / 折叠栏的分组弹面板**：横版向下（`bottom-start`）、折叠栏向右（`right-start`），面板就是 Menu 与 Popover 共用的那一个（`surface` + `border` + `radius-xl` + `shadow-float`，200–280px）。`openOnHover`、方向键、Esc、点外部、靠近窗口边缘翻转都由 NavMenu 内的 Base UI Menu 负责；`modal={false}` 免得锁页面滚动。
   - **折叠栏的分支只能弹出来**：72px 宽时标签只留给读屏（srOnly，行和带链接的 brand 靠它取名），就地展开没有意义，所以 `Sidebar` 的 `collapsed` 交给 NavMenu，由它把每个父项换成向右的面板；md 以下的抽屉永远是全宽，就地展开。
   - **分支状态是加粗不是填充**：竖版父项只把文字变粗（`text`），横版和折叠栏没有展开树可看，父项直接吃 `nav-item-active` 填充。
-- **sticky 偏移读 shell 的变量，不写死顶栏高度**：`AppShell` 在根元素设 `--app-header-offset`（竖版 `HEADER_HEIGHT` 52px；横版 md 起 `HEADER_HEIGHT_HORIZONTAL` 96px），分区长表单的 `scroll-margin-top`、sticky 分区下拉都读它。加新的 sticky 行时改这一处，页面不用跟着改。
+- **sticky 偏移读 shell 的变量，不写死顶栏高度**：`AppShell` 在根元素设 `--app-header-offset`（竖版 `HEADER_HEIGHT` 52px；横版 md 起 `HEADER_HEIGHT_HORIZONTAL` 96px，两者都再加上顶部安全区），分区长表单的 `scroll-margin-top`、sticky 分区下拉都读它。加新的 sticky 行时改这一处，页面不用跟着改。
+- **安全区**（2026-11-05，为 Electron 模式铺路：`titleBarStyle: 'hidden'` + `titleBarOverlay`，先做 macOS / Windows，Linux 未定）：页面铺满窗口（`index.html` 的 `viewport-fit=cover`），内容避开两类遮挡，即四边的刘海 / 系统条（`env(safe-area-inset-*)`），以及画在顶部条带上的窗口控件（`env(titlebar-area-*)`，Electron overlay 和已安装 PWA 的 Window Controls Overlay 都给）。
+  - **只读变量，不直接读 env()**：`index.css` 的 `:root` 把 env() 映射成 `--app-safe-{top,right,bottom,left}`、`--app-titlebar-height`、`--app-titlebar-inset-{left,right}`，`shared.ts` 导出对应常量。没有遮挡时全是 0，布局与之前逐像素一致。测试或桌面宿主可以在 `<html>` 上覆盖这些变量来模拟。
+  - **贴边的行用 `max(自身 padding, inset)`**，不是相加：刘海的 inset 已经自带边距。窗口控件只遮顶部条带，所以只有顶栏第一行（`TOP_ROW_CLEAR_LEFT/RIGHT` = 控件宽 + 8px，和行内控件同一个间距）和登录页右上角的主题切换让位，导航行和正文不管。
+  - **居中列只在被挤到时才让**：横版三行的 padding 是 `max(24px, inset - COLUMN_OFFSET)`，`COLUMN_OFFSET` 是窗口边到 1280 列的距离。宽窗口下品牌仍和页面左边缘对齐，窄到控件伸进列里时只有第一行内移（macOS 原生工具栏也是这样）。
+  - **侧边栏和抽屉**：`Sidebar` 的 aside 和 `MobileNav` 的 Drawer popup 宽度加上左侧 inset，只补 inset 那部分 padding（NavMenu 自带内边距），内部几何不变、背景铺到边；抽屉的关闭按钮是绝对定位，`top` 另加顶部 inset。控件在左（macOS 红绿灯）时，248px 的品牌行和 72px 的折叠栏都放不下，侧边栏改从一条与标题栏同高的条带下面开始（`SIDEBAR_TITLEBAR_STRIP`，用 `min(inset * 1000, height)` 在 CSS 里判断非零）；控件在右（Windows）时不受影响。
+  - **验证方法**：dev server 起来后，用 Playwright 在 `<html>` 上设变量模拟 macOS（`--app-titlebar-inset-left: 78px`、`--app-titlebar-height: 52px`）、Windows（`--app-titlebar-inset-right: 138px`）、iOS 竖屏 / 横屏的 inset，量顶栏、侧边栏、`main` 的 padding，并检查没有横向滚动。真实 `env()` 只有在 Electron / 已安装 PWA / iOS 上才有值，浏览器里看不出差别。
+  - **已知未覆盖**：库里 Toast 的 viewport 固定离边 16px，还没读安全区；Windows 下文档滚动条的顶端会被标题栏按钮盖住（要么换成内部滚动容器，要么接受），留给 Electron 那一步决定。
 - **自己 portal 的浮层要给 z-index**：portal 到 `<body>` 的元素没有层级，会被 sticky 顶栏（z-index 40）盖住上沿。库里的 Menu / Popover / Drawer 已经带上 `popup` / `dialog` 层；模板自己 portal 的东西照 SelectPanel 给 Positioner `zIndex: 'popup'`。
 - **`reset()` 之后调用 `register` 的组件必须重渲染**：RHF 的 `reset` 会清空字段登记（无参时还会原生 `form.reset()` 把输入框清空），值要等调用 `register` 的组件下次渲染、ref 回调重新登记时才写回 DOM。页面若不读任何 `formState`，RHF 不会重渲染它：「放弃更改」后输入框全空、字段也没了校验。`SectionedForm` 渲染时读一次 `form.formState.isDirty`，让页面订阅上 isDirty。
 - **Base UI Menu 的坑**：默认 `modal` 会锁页面滚动，从菜单项开始的平滑滚动会被吃掉，摘要菜单用 `modal={false}`；`finalFocus` 回调拿到的关闭类型在触摸点选菜单项时不是 `touch`，要从菜单项 click 事件的 `pointerType` 自己判断（触摸时聚焦字段外层，不弹软键盘）。

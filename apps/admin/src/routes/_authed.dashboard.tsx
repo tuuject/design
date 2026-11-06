@@ -1,6 +1,7 @@
 import { Badge } from '@tuuject/koi-react/badge';
 import { Card } from '@tuuject/koi-react/card';
 import { DataTable, type DataTableColumn } from '@tuuject/koi-react/data-table';
+import { PageHeader } from '@tuuject/koi-react/page-header';
 import { Skeleton } from '@tuuject/koi-react/skeleton';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { sizes } from '@tuuject/koi-tokens/dimensions';
@@ -8,7 +9,6 @@ import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { AppLink } from '../components/AppLink';
 import { ArrowRightIcon } from '../components/icons';
-import { PageHeader } from '../components/PageHeader';
 import { formatDateTime, formatMoney } from '../lib/format';
 import { type DashboardStats, fetchRecentOrders, fetchStats, ORDER_STATUS, type Order } from '../mock/api';
 

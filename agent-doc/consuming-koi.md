@@ -110,7 +110,7 @@ cp -R /tmp/koi-ui/apps/admin/. apps/admin-koi/
 1. 新建一个 Vite app（例如 `apps/admin-koi`），照上面的清单复制模板，接真实 API，先跑到和旧 admin 的 parity。
 2. 旧 app 保留到迁移完成，再把入口切过去；不要在同一棵路由树里一半 Tailwind 一半 Panda。
 
-需要从旧配置带过去的东西：Vite 的 `server.proxy`（API 目标、Origin 改写）、TanStack Router 的路由约定、e2e 的登录/主题用例。i18n 产品要注意：Koi 组件内置文案在 `@tuuject/koi-core` 的 `strings` 里，是简体中文；props 能覆盖的显式传英文，覆盖不到的（部分 aria-label、空状态）要么接受中文，要么给库提 PR。
+需要从旧配置带过去的东西：Vite 的 `server.proxy`（API 目标、Origin 改写）、TanStack Router 的路由约定、e2e 的登录/主题用例。i18n 产品要注意：Koi 组件内置文案默认是简体中文，用 `@tuuject/koi-react/strings` 的 `StringsProvider` 整表或按 key 覆盖（必须包在 `ToastProvider` 外面）；单点覆盖还有 `Field.optionalLabel`、`Button.loadingLabel`、`Toast.closeLabel` 等 props。见 [core.md](core.md#文案注入)。
 
 ## 验收
 

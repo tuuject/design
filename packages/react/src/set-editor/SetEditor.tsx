@@ -1,10 +1,11 @@
-import { hasDuplicate, strings } from '@tuuject/koi-core';
+import { hasDuplicate } from '@tuuject/koi-core';
 import type { SetEditorOwnProps } from '@tuuject/koi-core';
 import type { CollectionEditorSlot } from '@tuuject/koi-react/styled-system/recipes';
 import type { HTMLAttributes } from 'react';
 import { CollectionEditor } from '../collection-editor/CollectionEditor.js';
 import { useCollectionEntries } from '../collection-editor/useCollectionEntries.js';
 import { Field } from '../field/Field.js';
+import { useStrings } from '../strings.js';
 import type { SlotClassNames } from '../types.js';
 
 export type { CollectionFieldRenderProps } from '@tuuject/koi-core';
@@ -30,19 +31,20 @@ export function SetEditor<T>({
   sortable = true,
   disabled,
   readOnly,
-  addLabel = strings.addValue,
-  emptyText = strings.noValues,
+  addLabel,
+  emptyText,
   className,
   classNames,
   ...rest
 }: SetEditorProps<T>) {
+  const t = useStrings();
   const { entries, update, add, remove, move } = useCollectionEntries(value, onChange, equals);
   const data = entries.map((entry) => entry.data);
 
   // Duplicates win over custom validation: the value is kept, so the row has to say why it can't be saved.
   const valueError = (index: number): string | undefined => {
     if (hasDuplicate(data, index, equals)) {
-      return strings.duplicateValue;
+      return t.duplicateValue;
     }
     return validateValue?.(data[index], data, index) || undefined;
   };
@@ -55,9 +57,9 @@ export function SetEditor<T>({
       sortable={sortable}
       disabled={disabled}
       readOnly={readOnly}
-      addLabel={addLabel}
-      emptyText={emptyText}
-      removeLabel={strings.removeValue}
+      addLabel={addLabel ?? t.addValue}
+      emptyText={emptyText ?? t.noValues}
+      removeLabel={t.removeValue}
       onAdd={() => add(createValue)}
       onRemove={remove}
       onMove={move}

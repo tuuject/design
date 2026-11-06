@@ -24,9 +24,20 @@
    ```
 
    native 端对应地写成 `<Name>OwnProps<GestureResponderEvent>` 加 Tamagui / RN 的 props（见 [native.md](native.md)）。判断一个 prop 进不进 core：native 版也需要它、而且含义相同，就进 core。拿不准就放 core：以后把 prop 从 core 移出，对某个平台是 breaking change；移进来则不是。
-4. **文案来自 `strings`。** 组件里不写中文字符串字面量；把字符串加进 `packages/core/src/strings.ts`（简体中文，不用 emoji），然后用 `strings.close`。
+4. **文案来自 `strings`。** 组件里不写中文字符串字面量；把字符串加进 `packages/core/src/strings.ts`（简体中文，不用 emoji），平台组件通过 `useStrings()` 读到它再用 `t.close`。可见文案还要留一个显式 prop（见下），provider 之外的单点覆盖才不会逼消费方包一层。
 5. **平台包重新导出它们原来拥有的 core 类型**（`ButtonColor`、`RadioOption`、`SelectOption`…），从组件文件里导出，所以 `@tuuject/koi-react/button` 依旧能导出它们。
 
 `pnpm check` 用 `scripts/check-core.mjs` 强制规则 1–3（`pnpm typecheck` 也会在不带 DOM lib 的情况下编译 core）。确实需要例外的行加 `// koi-allow-core` 和理由。
+
+## 文案注入
+
+默认文案仍然是简体中文，`strings` 的每个值都不变；应用可以整表替换或只替换几个键。
+
+- **core**：`strings` 是默认表，`Strings = typeof strings` 是整表类型，`StringsOverride = { [K in keyof Strings]?: Strings[K] }` 是覆盖类型，`createStrings(overrides)` 做浅合并（函数键如 `page`、`dragPickedUp` 整只替换）。`strings` 故意没有 `as const`，否则 `StringsOverride` 只接受中文字面量。
+- **web**：`@tuuject/koi-react` 的 `StringsProvider strings={{ close: 'Close' }}` 用 `useMemo` 把合并结果放进 context；组件里一律 `const t = useStrings()`，没有 provider 时拿到默认 `strings`。导出在包根和 `@tuuject/koi-react/strings`。provider 必须包在 `ToastProvider` 外面（后者在挂载处读 context），并且传稳定的对象（提到组件外或用 `useMemo`），否则每次渲染都会换 context 值。`createStrings` 忽略 `undefined`，不会把默认值抹掉。
+- **默认参数要搬进函数体**：`placeholder = strings.selectPlaceholder` 这类写法在模块加载时就求值，读不到 context；改成解构 `placeholder`，函数体里 `placeholder ?? t.selectPlaceholder`。
+- **单点覆盖用 props**：`Field.optionalLabel`（默认 `strings.optional`）、`Button.loadingLabel`（默认 `strings.processing`）、`Toast.closeLabel` 与 `ToastProvider.closeLabel`（默认 `strings.close`）、`ToastProvider.label`（区域名，默认 `strings.notifications`）。其余已有 prop（`TableEmpty` 的 children、`SelectPanel.placeholder` / `searchPlaceholder` / `emptyText`、`DropZone.title`、`Pagination.prevLabel` / `nextLabel` / `label`）继续优先于 provider。
+- **覆盖范围**：provider 影响所有内置文案，包括分页页码名、Link 的外链说明、两个 editor 的重复错误与拖拽播报、SelectPanel 的搜索与空态、DropZone 的默认标题、Avatar 的回退名、Progress 的值文本、Table 空态、Tag 移除、Dialog / Alert / Toast 关闭、Spinner 加载。
+- **native 暂不提供 provider**：context 是 web 包的东西。native 需要时自己包一层 context，或者直接用 `createStrings()` 工厂；core 不依赖 React state。
 
 已知限制：`@types/react` 会全局声明 `Event`、`HTMLElement` 等的空壳类型，所以光靠 tsconfig 不带 DOM lib 拦不住它们，必须靠脚本。规则 3 的检查目前只扫 `packages/react`。

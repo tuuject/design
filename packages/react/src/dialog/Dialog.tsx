@@ -1,6 +1,6 @@
 import { AlertDialog } from '@base-ui/react/alert-dialog';
 import { Dialog as BaseDialog } from '@base-ui/react/dialog';
-import { type DialogOwnProps, strings } from '@tuuject/koi-core';
+import type { DialogOwnProps } from '@tuuject/koi-core';
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { type DialogSlot, dialog } from '@tuuject/koi-react/styled-system/recipes';
 import { sizes } from '@tuuject/koi-tokens/dimensions';
@@ -8,6 +8,7 @@ import { type MouseEvent, useRef } from 'react';
 import { IconButton } from '../button/Button.js';
 import { CloseIcon } from '../icons.js';
 import { ShapeProvider } from '../shape.js';
+import { useStrings } from '../strings.js';
 import type { SlotClassNames } from '../types.js';
 
 export interface DialogProps extends DialogOwnProps {
@@ -36,6 +37,7 @@ export function Dialog({
   classNames,
 }: DialogProps) {
   const s = dialog({ size });
+  const t = useStrings();
   const footerRef = useRef<HTMLDivElement>(null);
   const alert = role === 'alertdialog';
   // WAI-ARIA alertdialog: focus the least destructive action. The footer's first button is cancel by convention;
@@ -78,12 +80,7 @@ export function Dialog({
             <BaseDialog.Close
               className={cx(s.close, classNames?.close)}
               render={
-                <IconButton
-                  label={strings.close}
-                  icon={<CloseIcon size={sizes['icon-lg']} />}
-                  size="sm"
-                  shape="rounded"
-                />
+                <IconButton label={t.close} icon={<CloseIcon size={sizes['icon-lg']} />} size="sm" shape="rounded" />
               }
             />
           )}

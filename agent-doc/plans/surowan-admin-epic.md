@@ -1,6 +1,6 @@
 # Surowan Admin 重写：组件缺口 Epic
 
-> 状态：进行中，进度与下一步只在 [../plan.md](../plan.md) 维护。
+> 状态：库侧 E1–E5 完成（2026-11-04）；E6 在 surowan 仓库，随重写进行。进度与下一步只在 [../plan.md](../plan.md) 维护。
 > 创建：2026-11-04
 > 关联：[../admin.md](../admin.md)（模板现状与缺口表）、[../consuming-koi.md](../consuming-koi.md)（外部仓库消费）、[../../docs/spec/components/NavMenu.md](../../docs/spec/components/NavMenu.md)
 
@@ -77,35 +77,35 @@ surowan 的 `apps/admin-next` 目前是 Rsbuild + Tailwind v4 + shadcn/Radix + s
 
 ### E1 浮层基础
 
-- [ ] `Menu`：Base UI Menu 包装；items、trigger、placement、openOnHover；36px 项、`radius-lg`、`shadow-float`。
-- [ ] `Drawer`：Base UI Dialog 包装；side、open、onOpenChange；贴边 `out` 200ms。
-- [ ] `Popover`：Base UI Popover 包装；与 Menu 共用面板 recipe。
-- [ ] 模板 `UserMenu`、`NavFlyout`、`ChangeSummary` 换成库组件。
-- [ ] 验收：`pnpm check`、`pnpm shots Menu Drawer Popover`、模板浅深色与 390px 截图。
+- [x] `Menu`：Base UI Menu 包装；items、trigger、placement、openOnHover；36px 项、`radius-lg`、`shadow-float`。
+- [x] `Drawer`：Base UI Dialog 包装；side、open、onOpenChange；贴边 `out` 200ms。
+- [x] `Popover`：Base UI Popover 包装；与 Menu 共用面板 recipe。
+- [x] 模板 `UserMenu`、`NavFlyout`、`ChangeSummary` 换成库组件。
+- [x] 验收：`pnpm check`、`pnpm shots Menu Drawer Popover`、模板浅深色与 390px 截图。
 
 ### E2 Empty
 
-- [ ] `Empty`：icon、title、description、action；`TableEmpty` 复用同一 recipe。
-- [ ] 验收：surowan 的列表空态、错误态、详情占位各接一处。
+- [x] `Empty`：icon、title、description、action；`TableEmpty` 复用同一 recipe。
+- [x] 验收：surowan 的列表空态、错误态、详情占位各接一处。（库侧与模板空行已就绪；surowan 接线随 E6）
 
 ### E3 NavMenu
 
-- [ ] 按 `docs/spec/components/NavMenu.md` 移植；竖版 Collapsible，横版 flyout。
-- [ ] 模板删除重复的行样式与 flyout 实现，改用库。
-- [ ] 验收：键盘、边缘翻转、`aria-current`、折叠 rail、390 / 1440 截图。
+- [x] 按 `docs/spec/components/NavMenu.md` 移植；竖版 Collapsible，横版 flyout。
+- [x] 模板删除重复的行样式与 flyout 实现，改用库。
+- [x] 验收：键盘、边缘翻转、`aria-current`、折叠 rail、390 / 1440 截图。
 
 ### E4 文案注入
 
-- [ ] `strings` 支持应用覆盖（provider 或工厂），默认值保持中文。
-- [ ] 可见文案补 props：`Field` 的 optional 标签、`Button` 的 loading 文案、`Toast` 的关闭与区域名；`Table.empty`、`SelectPanel.emptyText`、`DropZone.title` 已有。
-- [ ] 验收：surowan en locale 页面无中文；`pnpm check` 与模板回归截图。
+- [x] `strings` 支持应用覆盖（provider 或工厂），默认值保持中文。
+- [x] 可见文案补 props：`Field` 的 optional 标签、`Button` 的 loading 文案、`Toast` 的关闭与区域名；`Table.empty`、`SelectPanel.emptyText`、`DropZone.title` 已有。
+- [x] 验收：surowan en locale 页面无中文；`pnpm check` 与模板回归截图。（Storybook en 覆盖已验证；surowan 接线随 E6）
 
 ### E5 模板提取
 
-- [ ] `Breadcrumb`（items）进库；模板保留路由适配。
-- [ ] `PageHeader` 增加 actions 与 info 插槽。
-- [ ] `Tabs` 窄屏溢出处理。
-- [ ] 验收：surowan 页面标题、面包屑、详情 tab 在 390px 正常。
+- [x] `Breadcrumb`（items）进库；模板保留路由适配。
+- [x] `PageHeader` 增加 actions 与 info 插槽。
+- [x] `Tabs` 窄屏溢出处理。
+- [x] 验收：surowan 页面标题、面包屑、详情 tab 在 390px 正常。（模板 390px 与 Storybook 窄屏已验证；surowan 接线随 E6）
 
 ### E6 应用层组件（surowan 侧，不阻塞库）
 
@@ -132,10 +132,14 @@ E1 与 E4 是硬前置：不补，surowan 的移动导航、帮助面板、行�
 - 模板侧：先跑 `pnpm dev:admin:status` 接管或后台启动；1440 / 1024 / 390 三种宽度，浅色与深色截图；导航键盘路径。
 - 消费方：surowan 的 `pnpm run admin:build` 与 `pnpm run admin:test:e2e`；en 与 zh-CN 两套 locale。
 
-## 未决事项
+## 已定
 
-- `Menu` 与 `Popover` 是否共用一个 panel recipe，还是各自 recipe。
-- `Drawer` 与 Dialog 是否共享 recipe（圆角、遮罩、动效差异）。
-- 文案注入用 provider 还是 `createStrings()` 工厂；provider 对将来 SSR 的影响（模板是 SPA，暂无）。
-- `Breadcrumb` 是否值得长期进库，还是留在模板。
-- Chart 是否需要 chart series token；当前用色阶，第二个消费方出现再议。
+- `Menu` 与 `Popover` 共用 `floatingPanel` slot recipe（positioner、popup、header/body/footer、group、item 槽）；Menu 用行槽，Popover 只画面板。
+- `Drawer` 与 Dialog 各自 recipe：遮罩和焦点行为相同，圆角、贴边几何和 200ms 位移不同，共用一个 recipe 会让两边的默认值互相牵制。
+- 文案注入同时提供 `createStrings()` 工厂和 web 的 `StringsProvider`；默认值仍是简体中文，provider 必须包在 `ToastProvider` 外面。
+- `Breadcrumb` 长期进库，路由适配留在应用（admin 的 `Breadcrumbs.tsx` 只做 `staticData.title` → items 与 `navigate`）。
+- `Tabs` 窄屏用横向滚动，不降级为 `SelectPanel`；详情页的多个平级视图保持同一控件。
+
+## 仍未决
+
+- Chart 是否需要 chart series token；当前用色阶，第二个真实消费方出现再议（E6）。

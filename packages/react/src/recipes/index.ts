@@ -1,17 +1,23 @@
 import { alert } from './alert.js';
 import { avatar } from './avatar.js';
 import { badge } from './badge.js';
+import { breadcrumb } from './breadcrumb.js';
 import { button } from './button.js';
 import { card } from './card.js';
 import { chatBubble } from './chat-bubble.js';
 import { checkbox } from './checkbox.js';
 import { collectionEditor } from './collection-editor.js';
 import { dialog } from './dialog.js';
+import { drawer } from './drawer.js';
 import { dropZone } from './drop-zone.js';
+import { empty } from './empty.js';
 import { separator } from './divider.js';
 import { field } from './field.js';
+import { floatingPanel } from './floating-panel.js';
 import { input } from './input.js';
 import { link } from './link.js';
+import { navMenu } from './nav-menu.js';
+import { pageHeader } from './page-header.js';
 import { pagination } from './pagination.js';
 import { progress } from './progress.js';
 import { prose } from './prose.js';
@@ -34,14 +40,20 @@ export const slotRecipes = {
   alert,
   avatar,
   badge,
+  breadcrumb,
   card,
   checkbox,
   collectionEditor,
   dialog,
+  drawer,
   dropZone,
+  empty,
   field,
+  floatingPanel,
   input,
   link,
+  navMenu,
+  pageHeader,
   pagination,
   progress,
   radioGroup,

@@ -11,14 +11,23 @@ export const tabs = defineSlotRecipe({
   className: 'koi-tabs',
   slots: ['root', 'list', 'tab', 'indicator', 'panel'],
   base: {
-    root: { display: 'flex', flexDirection: 'column', gap: '4' },
+    // minWidth 0 lets the track shrink inside a flex/grid column instead of widening the page.
+    root: { display: 'flex', flexDirection: 'column', gap: '4', minWidth: '0' },
     // 36px tabs + 4px padding = the 44px (control-lg) track. `isolation` makes the list a stacking context so
     // the indicator's negative z-index puts it above the track's fill but under the labels.
+    // With more tabs than fit (a 280px-wide track and six tabs), the track scrolls sideways instead of clipping
+    // them or widening the page; the scrollbar itself is hidden, so it still reads as a pill. Base UI's indicator
+    // adds the list's scrollLeft to its measurement, so the white pill stays on the active tab while scrolling.
     list: {
       position: 'relative',
       isolation: 'isolate',
       display: 'inline-flex',
       alignSelf: 'flex-start',
+      maxWidth: '100%',
+      overflowX: 'auto',
+      overscrollBehaviorX: 'contain',
+      scrollbarWidth: 'none',
+      '&::-webkit-scrollbar': { display: 'none' },
       gap: '1',
       p: '1',
       borderRadius: 'full',

@@ -50,7 +50,7 @@ for (const f of coreFiles) {
 }
 
 const DECL = /^export (?:interface|type) (\w+)Props\b/;
-const webFiles = walk('packages/react/src').filter((f) => /\/[^/]+\/[A-Z]\w*\.tsx$/.test(f));
+const webFiles = walk('packages/react/src').filter((f) => /\/[^/]+\/[A-Z]\w*\.tsx$/.test(f.replaceAll('\\', '/')));
 for (const f of webFiles) {
   const lines = readFileSync(f, 'utf8').split('\n');
   lines.forEach((line, i) => {

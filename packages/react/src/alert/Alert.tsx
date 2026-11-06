@@ -1,8 +1,9 @@
-import { type AlertOwnProps, strings } from '@tuuject/koi-core';
+import type { AlertOwnProps } from '@tuuject/koi-core';
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { type AlertSlot, alert } from '@tuuject/koi-react/styled-system/recipes';
 import type { HTMLAttributes } from 'react';
 import { CloseIcon, ErrorIcon, InfoIcon, WarningIcon } from '../icons.js';
+import { useStrings } from '../strings.js';
 import type { SlotClassNames } from '../types.js';
 
 export type { AlertTone } from '@tuuject/koi-core';
@@ -29,6 +30,7 @@ export function Alert({
   ...rest
 }: AlertProps) {
   const s = alert({ tone, closable: !!onClose });
+  const t = useStrings();
   const Icon = toneIcon[tone] ?? InfoIcon;
   const shownIcon = icon !== undefined ? icon : <Icon />;
   return (
@@ -43,8 +45,8 @@ export function Alert({
         <button
           type="button"
           className={cx(s.close, classNames?.close)}
-          aria-label={strings.close}
-          title={strings.close}
+          aria-label={t.close}
+          title={t.close}
           onClick={onClose}
         >
           <CloseIcon />

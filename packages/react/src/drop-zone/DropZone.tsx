@@ -1,8 +1,9 @@
-import { type DropZoneOwnProps, strings } from '@tuuject/koi-core';
+import type { DropZoneOwnProps } from '@tuuject/koi-core';
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { dropZone } from '@tuuject/koi-react/styled-system/recipes';
 import { type ComponentPropsWithRef, type DragEvent, useId, useRef, useState } from 'react';
 import { UploadIcon } from '../icons.js';
+import { useStrings } from '../strings.js';
 
 export interface DropZoneProps
   extends DropZoneOwnProps,
@@ -27,6 +28,7 @@ export function DropZone({
   ...rest
 }: DropZoneProps) {
   const s = dropZone();
+  const t = useStrings();
   const uid = useId();
   const titleId = `${uid}-title`;
   const descriptionId = `${uid}-description`;
@@ -98,7 +100,7 @@ export function DropZone({
         tabIndex={disabled ? -1 : 0}
         aria-disabled={disabled || undefined}
         aria-labelledby={title != null ? titleId : undefined}
-        aria-label={title == null ? strings.dropZone : undefined}
+        aria-label={title == null ? t.dropZone : undefined}
         aria-describedby={description != null ? descriptionId : undefined}
         data-dragging={dragging || undefined}
         className={s.zone}
@@ -117,7 +119,7 @@ export function DropZone({
         <span className={s.icon}>{icon ?? <UploadIcon />}</span>
         <div className={s.body}>
           <p id={titleId} className={s.title}>
-            {title ?? strings.dropZoneTitle}
+            {title ?? t.dropZoneTitle}
           </p>
           {description != null ? (
             <p id={descriptionId} className={s.description}>

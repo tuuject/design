@@ -14,3 +14,9 @@ export const focusRing = {
   outlineColor: 'focus-ring',
   outlineOffset: `${c.focusRing.offset}px`,
 } as const;
+
+/**
+ * The same ring drawn just inside the element: a scroll container (the horizontal nav bar) clips an outside one.
+ * NavMenu's rows use it in both orientations, per the spec.
+ */
+export const focusRingInside = { ...focusRing, outlineOffset: `-${c.focusRing.offset}px` } as const;

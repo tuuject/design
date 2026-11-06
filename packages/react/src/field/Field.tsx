@@ -1,10 +1,11 @@
 import { Field as BaseField } from '@base-ui/react/field';
-import { type FieldOwnProps, strings } from '@tuuject/koi-core';
+import type { FieldOwnProps } from '@tuuject/koi-core';
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { type FieldSlot, field } from '@tuuject/koi-react/styled-system/recipes';
 import { sizes } from '@tuuject/koi-tokens/dimensions';
 import { type HTMLAttributes, useMemo } from 'react';
 import { ErrorIcon } from '../icons.js';
+import { useStrings } from '../strings.js';
 import type { SlotClassNames } from '../types.js';
 import { KoiFieldContext } from './context.js';
 
@@ -24,6 +25,7 @@ export function Field({
   error,
   required,
   optional,
+  optionalLabel,
   id,
   className,
   classNames,
@@ -31,6 +33,7 @@ export function Field({
   ...rest
 }: FieldProps) {
   const s = field();
+  const t = useStrings();
   const hasError = error != null && error !== false && error !== '';
   const ctx = useMemo(() => ({ id, required }), [id, required]);
   return (
@@ -45,7 +48,9 @@ export function Field({
                 *
               </span>
             ) : null}
-            {optional ? <span className={cx(s.optional, classNames?.optional)}>{strings.optional}</span> : null}
+            {optional ? (
+              <span className={cx(s.optional, classNames?.optional)}>{optionalLabel ?? t.optional}</span>
+            ) : null}
           </BaseField.Label>
         ) : null}
         {children}

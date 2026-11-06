@@ -10,6 +10,8 @@ export interface FieldOwnProps {
   required?: boolean;
   /** Appends "（选填）" to the label. */
   optional?: boolean;
+  /** Replaces the "（选填）" note an optional field appends. Default "（选填）". */
+  optionalLabel?: ReactNode;
   /** One Input, Textarea or Select; it gets the label, help and error wired to it. */
   children: ReactNode;
 }

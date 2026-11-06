@@ -5,25 +5,27 @@ Koi 的阶段计划。状态只在本页维护；完成项的结论同时写进�
 | 阶段 | 状态 |
 | --- | --- |
 | Phase 0：工具链跑通 | 完成（2026-10-08） |
-| Phase 1：移植 web 组件 | 完成，NavMenu 除外（见下） |
+| Phase 1：移植 web 组件 | 完成（2026-11-04，NavMenu 收尾） |
 | Phase 2：打包与文档 | 进行中 |
 | Phase 3：React Native（`@tuuject/koi-native`） | 进行中：基础设施完成，组件未开始 |
 | Phase 4：同步回设计 artifact | 未开始 |
 
 ## 进行中的 epic
 
-- [surowan Admin 重写：组件缺口](plans/surowan-admin-epic.md)：进行中。
+- [surowan Admin 重写：组件缺口](plans/surowan-admin-epic.md)：库侧 E1–E5 完成（2026-11-04）；E6 应用层组件在 surowan 仓库，随重写进行。
 
 Phase 0–1 的逐组件记录（每个组件相对 legacy 的 API / 行为决定）归档在 [web-port-record.md](web-port-record.md)。
 
-## Phase 1 剩余
+## Phase 1 收尾
 
-- **NavMenu**：唯一没移植的组件。spec 在 `docs/spec/components/NavMenu.md`。竖版用 Base UI `Collapsible`，横版用 `Navigation Menu`（或 `Menubar` + `Menu` 做多级 flyout）。三级嵌套、靠近窗口边缘时 flyout 翻转，用 Base UI 的定位替换 legacy 手写的翻转逻辑。
-- 移植完成后再加的新组件（Base UI 做起来便宜、spec 列为 "not included"）：Menu（下拉菜单）、Popover。可搜索的 Combobox 已经以 `SelectPanel searchable` 存在。
+- [x] **NavMenu**（2026-11-04，移植）：最后一个没移植的组件，spec 在 `docs/spec/components/NavMenu.md`。竖版用 Base UI `Collapsible` 就地展开（`--collapsible-panel-height` 动 height），横版和折叠 rail 用 Base UI `Menu` 弹面板（二级再 `SubmenuRoot` 向右级联），靠近窗口边缘的翻转交给库的 Positioner；面板共用 `floatingPanel` 的 positioner / popup，行仍是 NavMenu 自己的 36px / radius-xl。`navPath()` 放 core 算当前项的祖先链，竖版据此自动展开、父项加粗。admin 模板的 `nav-item.ts` / `NavItemButton` / `NavGroupItem` / `NavFlyout` 四分实现随之删除，见 [admin.md](admin.md)。
+- 移植期间另外加的新组件（Base UI 做起来便宜、spec 列为 "not included"）：Menu、Popover、Drawer、Empty、DropZone、Slider、MapEditor / SetEditor。可搜索的 Combobox 已经以 `SelectPanel searchable` 存在。
 - [x] **Table / DataTable**（2026-10-16，新组件，非移植）：从 admin 模板挪进库。两层：`@tuuject/koi-react/table` 的 parts（原生 table 元素，props 全透传；`TableHeaderCell` 的 `sort` / `onSort` 与 TanStack Table 的 `getIsSorted()` / `getToggleSortingHandler()` 同形）和 `@tuuject/koi-react/data-table` 的 `DataTable`（columns + rows + loading + empty）。不依赖 headless 库，选中行用 Koi 自己的 `data-koi-selected`。Storybook 里有 TanStack Table v9 的接法。**native 版暂缓**（core 里的 `Table*OwnProps` 已经平台无关，到时直接建在上面）。
 - [x] **ChatBubble**（2026-10-24，新组件，非移植）：聊天 / 评论消息气泡。`side: 'received' | 'sent'`（默认 `received`：`surface-muted` 底 + `text`；`sent`：`action` 底 + `on-action`），`radius-xl` 12px、锚角（received 左下 / sent 右下）收到 `radius-sm`，`max-width` 480px 断行。对齐、头像、时间戳由应用排版，组件只是气泡本身；无文案、无事件，不依赖 headless 库。用的原子 recipe（`defineRecipe`），注册在 `recipes` 而不是 `slotRecipes`——放错一边会变成空 slot recipe，`base` 整个丢失。颜色组合（`text/surface-muted`、`on-action/action`）都是 `contrast-pairs.json` 里已有的 pair。**native 版暂缓**（core 的 `ChatBubbleOwnProps` 平台无关，到时直接建在上面）。
 - [x] **Prose**（2026-10-25，新组件，非移植）：渲染好的富文本（markdown、CMS HTML）的长文排版，照搬博客 `MarkdownBody.astro`（Tailwind Typography `prose` + `prose-slate` + Koi 的覆盖）。内部所有字号、间距都是 em（按博客 16px 下的 px 值、除以落在的那个元素的字号），`size: 'sm' | 'md'`（14 / 16px）只设根字号，consumer 自己设 font-size 也一样等比缩放；只有线宽（hairline、`prose.quote-rule` 4px、`prose.head-rule` 2px、`prose.kbd-depth` 3px）是固定 px，进了 `component.prose`。新 role：`prose-text`、`code-block-bg`、`code-block-text`。选择器用 `.koi-prose :where(el)` 保持一个 class 的特异性，上下文覆盖（`pre code`、`h2 + *`）写普通选择器靠特异性取胜，首尾子元素的 margin 归零放进 `size` variant（后面的 layer）；`koi-not-prose` 里的内容不受影响。链接样式与 Link 共用 `recipes/link.ts` 的 `linkStyle`。admin 的 `Markdown.tsx` 已改用它。**native 版暂缓**：em 比例目前只在 recipe 里，native 要做 markdown 渲染时再决定是否收进 tokens。
 
+- [x] **Breadcrumb / PageHeader**（2026-11-04，新组件，非移植）：从 admin 模板挪进库的两个页面骨架件。`Breadcrumb` 吃 `items`（`label` / `href` / `current` / `onSelect`），根是 `<nav aria-label>` 包一个 `<ol>`，祖先用 `Link variant="plain"`，当前页是加粗的 `text` 加 `aria-current="page"`，分隔符是 14px 的 `ChevronRightIcon`（`aria-hidden`）；根、列表和每一级都 `min-width: 0` 加省略号，深路径不会把顶栏撑宽。路由留在应用：`onSelect` 拿到 `{ reason: 'link-press', event, cancel }`，普通左键自己 `preventDefault()` 后导航。`PageHeader` 是 `h1` + `description` + `info`（标题旁的说明标记）+ `actions`（页面级控件，右侧、放不下时换行）；根自己是 container，窄于 ~30rem 时 `actions` 落到标题块下面一行，看的是标题自己的宽度而不是视口。模板的 `components/PageHeader.tsx` 删除，`app-shell/Breadcrumbs.tsx` 只留路由适配，见 [admin.md](admin.md)。
+- [x] **Tabs 窄屏溢出**（2026-11-04）：轨道 `overflow-x: auto`（隐藏滚动条、`overscroll-behavior-x: contain`）、`max-width: 100%`，root `min-width: 0`；tab 仍 `flex-shrink: 0`，Base UI 的指示条把轨道的 `scrollLeft` 算进测量，所以白药丸跟着滚动停在当前 tab 上。280px 六个 tab 时轨道横向滚动，页面不再被撑宽，也不裁掉最后的 tab。spec 已补「Narrow screens」，Storybook 加了 `Narrow` story。
 - [x] **Slider**（2026-11-04，新组件，非移植）：单拇指范围控件，Base UI `Slider`。`value` / `defaultValue`、`min` / `max` / `step`、`onValueChange` / `onValueCommitted`；可选 `label`、`showValue`、`formatValue`（同时作为 `aria-valuetext`）、`disabled`。轨道 6px、拇指 20px（`component.slider`），填充用 `control-checked`，无阴影；在 Field 里接上 label / help / error。Bilisound 的音量条可用。**native 版暂缓**（core 的 `SliderOwnProps` 已平台无关）。
 - [x] **DropZone**（2026-11-04，新组件，非移植）：虚线文件投放区，点击、Space、Enter 打开选择器。core 放视觉 props（`title` / `description` / `icon` / `accept` / `multiple` / `disabled`），web 加 `onFiles(files: File[])`；校验和处理留在应用。拖入时边线 `control-checked`、底色 `action-subtle`。**native 版暂缓**（原生没有拖放，选择器回调到时另加）。
 - [x] **MapEditor / SetEditor**（2026-11-04，新组件，非移植）：集合编辑器，一行一个条目，拖拽手柄、删除按钮、底部添加按钮。对外是 `{ key, value }[]` / `T[]` 数组，重复 key / value 保留并显示错误，不静默合并或去重；应用校验后自己转成 `Map` / `Set`。行身份在输入和排序时稳定（内部 id），父组件换数组时按 `keyEquals` + `valueEquals` / `equals` 匹配。core 放 `MapEditorOwnProps` / `SetEditorOwnProps`、`CollectionFieldRenderProps`（只给 `invalid`，不传错误文案）和 `hasDuplicate`；web 用 dnd-kit（`@dnd-kit/core` / `sortable` / `modifiers`）做 Pointer + Keyboard 排序，`sortable={false}` 时不渲染 DndContext 和手柄。两个组件共用一个内部 `CollectionEditor`（不公开）。**native 版暂缓**（dnd-kit 是 web 的）。admin 示例在 `/integration-settings`（请求头用 MapEditor、允许来源用 SetEditor）。

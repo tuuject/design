@@ -1,9 +1,10 @@
-import { type ButtonOwnProps, type IconButtonOwnProps, strings } from '@tuuject/koi-core';
+import type { ButtonOwnProps, IconButtonOwnProps } from '@tuuject/koi-core';
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { button } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef } from 'react';
 import { useButtonShape } from '../shape.js';
 import { Spinner } from '../spinner/Spinner.js';
+import { useStrings } from '../strings.js';
 
 export type { ButtonColor, ButtonVariant } from '@tuuject/koi-core';
 
@@ -40,12 +41,14 @@ export function Button({
   iconEnd,
   fullWidth,
   loading,
+  loadingLabel,
   disabled,
   className,
   children,
   ...rest
 }: ButtonProps) {
   const resolvedShape = useButtonShape(shape);
+  const t = useStrings();
   return (
     <Pressable
       {...rest}
@@ -53,7 +56,7 @@ export function Button({
       aria-busy={loading || undefined}
       className={cx(button({ color, variant, size, shape: resolvedShape, fullWidth }), className)}
     >
-      {loading ? <Spinner size={size === 'lg' ? 'md' : 'sm'} label={strings.processing} /> : iconStart}
+      {loading ? <Spinner size={size === 'lg' ? 'md' : 'sm'} label={loadingLabel ?? t.processing} /> : iconStart}
       <span>{children}</span>
       {iconEnd}
     </Pressable>

@@ -55,8 +55,7 @@ export const COLUMN_OFFSET = `max(0px, (100% - ${CONTENT_MAX_WIDTH}) / 2)`;
  * the strip height. Controls on the right (Windows) leave the sidebar alone.
  */
 export const SIDEBAR_TITLEBAR_STRIP = 'min(calc(var(--app-titlebar-inset-left) * 1000), var(--app-titlebar-height))';
-/** Mobile drawer + its backdrop, above the topbar (40), below every Koi overlay. */
-export const SHELL_Z_INDEX = 60;
+/** The sticky header block: below every Koi overlay (dialog 900, popup 950, toast 1000), above the page. */
 export const TOPBAR_Z_INDEX = 40;
 
 /** Koi's keyboard focus outline (mirrors recipes/dimensions.ts focusRing; that helper isn't exported). */

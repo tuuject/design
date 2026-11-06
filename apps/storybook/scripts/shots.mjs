@@ -22,7 +22,11 @@ if (!only.length) {
   }
 }
 
-const server = spawn(`${root}node_modules/.bin/storybook`, ['dev', '-p', '6199', '--ci', '--quiet'], {
+// Run the CLI through Node itself rather than the .bin shim: on Windows that shim is a `storybook.cmd`, which
+// Node can only start through a shell — and a shell keeps the child's pipes open after kill(), so the run would
+// never end. Node + the dispatcher script behaves the same on every platform.
+const bin = `${root}node_modules/storybook/dist/bin/dispatcher.js`;
+const server = spawn(process.execPath, [bin, 'dev', '-p', '6199', '--ci', '--quiet'], {
   cwd: root,
   stdio: ['ignore', 'ignore', 'pipe'],
 });

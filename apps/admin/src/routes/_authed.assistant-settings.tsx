@@ -1,5 +1,6 @@
 import { Checkbox } from '@tuuject/koi-react/checkbox';
 import { Input } from '@tuuject/koi-react/input';
+import { PageHeader } from '@tuuject/koi-react/page-header';
 import { RadioGroup } from '@tuuject/koi-react/radio-group';
 import { Select } from '@tuuject/koi-react/select';
 import { Skeleton } from '@tuuject/koi-react/skeleton';
@@ -10,7 +11,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { Controller, useForm, useFormContext, useWatch } from 'react-hook-form';
-import { PageHeader } from '../components/PageHeader';
 import { FormField } from '../components/sectioned-form/FormField';
 import { FormSection } from '../components/sectioned-form/FormSection';
 import { SectionedForm } from '../components/sectioned-form/SectionedForm';
@@ -30,28 +30,14 @@ function AssistantSettingsPage() {
   return (
     // Capped like the other form pages, wide enough for the section list beside the form.
     <div className={css({ maxWidth: '960px', marginInline: 'auto' })}>
-      <div
-        className={css({
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          columnGap: '6',
-        })}
-      >
-        <PageHeader
-          title="助手配置"
-          description="分区较多的长表单：按分区跳转，在底部查看和提交未保存的更改。数据只存在内存里，刷新页面会还原。"
-        />
-        {/* A demo control, outside the form: it applies at once and is never part of the saved settings. */}
-        <Switch
-          label="模拟保存失败"
-          checked={failSaves}
-          onCheckedChange={setFailSaves}
-          // Only matters once it wraps under the header on narrow screens.
-          className={css({ marginBlockEnd: '4' })}
-        />
-      </div>
+      <PageHeader
+        title="助手配置"
+        description="分区较多的长表单：按分区跳转，在底部查看和提交未保存的更改。数据只存在内存里，刷新页面会还原。"
+        actions={
+          // A demo control, outside the form: it applies at once and is never part of the saved settings.
+          <Switch label="模拟保存失败" checked={failSaves} onCheckedChange={setFailSaves} />
+        }
+      />
       {data ? (
         <AssistantSettingsForm initial={data} failSaves={failSaves} />
       ) : (

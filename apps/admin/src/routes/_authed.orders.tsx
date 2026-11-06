@@ -2,6 +2,7 @@ import { Badge } from '@tuuject/koi-react/badge';
 import { Button, IconButton } from '@tuuject/koi-react/button';
 import { Dialog } from '@tuuject/koi-react/dialog';
 import { Input } from '@tuuject/koi-react/input';
+import { PageHeader } from '@tuuject/koi-react/page-header';
 import { Pagination } from '@tuuject/koi-react/pagination';
 import { Select } from '@tuuject/koi-react/select';
 import { css } from '@tuuject/koi-react/styled-system/css';
@@ -13,7 +14,6 @@ import { DownloadIcon, EditIcon, PlusIcon, RefreshIcon, TrashIcon, UploadIcon } 
 import { OrderFormDialog } from '../components/orders/OrderFormDialog';
 import { OrderSearchForm } from '../components/orders/OrderSearchForm';
 import { OrderTable } from '../components/orders/OrderTable';
-import { PageHeader } from '../components/PageHeader';
 import { formatDateTimeFull, formatMoney } from '../lib/format';
 import { ordersToCsv, parseOrderCsv } from '../lib/order-csv';
 import {

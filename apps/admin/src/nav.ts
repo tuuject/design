@@ -34,8 +34,6 @@ export interface NavGroup {
   to?: never;
 }
 
-export type NavItem = NavLeaf | NavGroup;
-
 export const NAV_GROUPS: NavGroup[] = [
   {
     title: '概览',
@@ -65,8 +63,3 @@ export const NAV_GROUPS: NavGroup[] = [
     children: [{ title: '个人设置', to: '/settings' }],
   },
 ];
-
-/** Whether `pathname` is one of `item`'s children, or the item itself when it is a leaf. */
-export function navContains(item: NavItem, pathname: string): boolean {
-  return item.children ? item.children.some((child) => child.to === pathname) : item.to === pathname;
-}

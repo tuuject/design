@@ -51,14 +51,22 @@ export const TOP_ROW_CLEAR_RIGHT = `max(${SAFE_RIGHT}, calc(var(--app-titlebar-i
  */
 export const COLUMN_OFFSET = `max(0px, (100% - ${CONTENT_MAX_WIDTH}) / 2)`;
 /**
- * Window controls on the left (macOS traffic lights) sit over the sidebar's top corner, where neither the
- * 248px brand row nor the 72px rail has room beside them: the sidebar starts below a title-bar strip instead,
- * like a native macOS sidebar. `inset * 1000` is a CSS-only "is it non-zero": 0 stays 0, anything else caps at
- * the strip height. Controls on the right (Windows) leave the sidebar alone.
+ * `value` while a desktop shell draws window controls over the page (Electron's title-bar overlay, an installed
+ * PWA's Window Controls Overlay), 0 otherwise. `height * 1000` is a CSS-only "is it non-zero": 0 stays 0,
+ * anything else caps at `value`. Only for non-negative lengths. Staying in CSS keeps the DOM fixed, so macOS
+ * fullscreen (the overlay goes away) changes the layout without remounting the page.
+ */
+export const withTitlebar = (value: string) => `min(calc(var(--app-titlebar-height) * 1000), ${value})`;
+/**
+ * The mobile drawer covers the header, so window controls on the left (macOS traffic lights) sit over its top
+ * corner: it starts below a title-bar strip, like a native macOS sidebar. Controls on the right (Windows) leave
+ * it alone. From md the header runs across the sidebar instead and holds the controls (AppShell).
  */
 export const SIDEBAR_TITLEBAR_STRIP = 'min(calc(var(--app-titlebar-inset-left) * 1000), var(--app-titlebar-height))';
-/** Width of the window controls on the left (0 elsewhere); the collapsed rail widens to hold them. */
-export const TITLEBAR_INSET_LEFT = 'var(--app-titlebar-inset-left)';
+// The sidebar always holds the window's left edge (as the drawer and as the desktop column): it widens by the
+// left inset so the content inside keeps its usual geometry, and its background still reaches the edge.
+export const SIDEBAR_OUTER_WIDTH = `calc(${SIDEBAR_WIDTH} + ${SAFE_LEFT})`;
+export const SIDEBAR_OUTER_WIDTH_COLLAPSED = `calc(${SIDEBAR_WIDTH_COLLAPSED} + ${SAFE_LEFT})`;
 /** Height of the strip window controls are drawn in (0 without a desktop shell). */
 export const TITLEBAR_HEIGHT = 'var(--app-titlebar-height)';
 /** The sticky header block: below every Koi overlay (dialog 900, popup 950, toast 1000), above the page. */

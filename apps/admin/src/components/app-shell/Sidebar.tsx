@@ -3,14 +3,14 @@ import { useRouterState } from '@tanstack/react-router';
 import { useUiStore } from '../../stores/ui';
 import { SidebarContent } from './SidebarContent';
 import {
+  HEADER_HEIGHT,
   SAFE_BOTTOM,
   SAFE_LEFT,
   SAFE_TOP,
-  SIDEBAR_TITLEBAR_STRIP,
-  SIDEBAR_WIDTH,
-  SIDEBAR_WIDTH_COLLAPSED,
-  TITLEBAR_HEIGHT,
-  TITLEBAR_INSET_LEFT,
+  SIDEBAR_OUTER_WIDTH,
+  SIDEBAR_OUTER_WIDTH_COLLAPSED,
+  TOPBAR_Z_INDEX,
+  withTitlebar,
 } from './shared';
 
 /** The desktop navigation: the shell's first flex column, pinned to the viewport from md up. Below md the
@@ -36,8 +36,11 @@ export function Sidebar() {
           // The aside holds the window's left edge: it widens by the left inset and pads past the insets, so
           // NavMenu keeps its usual geometry inside and the background still reaches the edge (MobileNav does
           // the same for the drawer).
-          width: `calc(${SIDEBAR_WIDTH} + ${SAFE_LEFT})`,
-          paddingBlockStart: `max(${SAFE_TOP}, ${SIDEBAR_TITLEBAR_STRIP})`,
+          width: SIDEBAR_OUTER_WIDTH,
+          // In a desktop shell the header runs across the window as its title bar and covers the sidebar's top
+          // (AppShell): the sidebar sits under it and starts below the header's divider (row, air, 1px line).
+          zIndex: TOPBAR_Z_INDEX - 1,
+          paddingBlockStart: `calc(${SAFE_TOP} + ${withTitlebar(`calc(${HEADER_HEIGHT} + 1px)`)})`,
           paddingInlineStart: SAFE_LEFT,
           paddingBlockEnd: SAFE_BOTTOM,
           bg: 'surface',
@@ -48,24 +51,12 @@ export function Sidebar() {
           transition: 'width token(durations.fast) token(easings.out)',
           // The horizontal layout owns the desktop header; the aside stays out of the way there.
           '&[data-nav-layout=horizontal]': { display: 'none' },
-          // Window controls on the left (macOS traffic lights) are wider than the 72px rail: the rail grows to hold
-          // them, so they sit centered above the icons instead of across the rail's edge.
-          '&[data-collapsed=true]': {
-            width: `max(calc(${SIDEBAR_WIDTH_COLLAPSED} + ${SAFE_LEFT}), ${TITLEBAR_INSET_LEFT})`,
-          },
+          '&[data-collapsed=true]': { width: SIDEBAR_OUTER_WIDTH_COLLAPSED },
         },
       })}
       data-collapsed={collapsed}
       data-nav-layout={navLayout}
     >
-      {/* The sidebar's share of the title-bar strip moves the window, so the whole top edge drags alongside the
-          header. With controls on the left it is the empty strip above the brand; with controls on the right
-          (Windows) the sidebar starts at the top and the strip lies over the brand row, which holds no controls. */}
-      <div
-        aria-hidden="true"
-        data-app-region="drag"
-        className={css({ position: 'absolute', top: 0, insetInline: 0, height: TITLEBAR_HEIGHT })}
-      />
       <SidebarContent pathname={pathname} rail={collapsed} />
     </aside>
   );

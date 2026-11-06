@@ -1,6 +1,6 @@
 {
   "name": "@tuuject/koi-react",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "description": "Koi components for React web: Base UI for behavior, Panda CSS v2 for styling.",
   "sideEffects": false,

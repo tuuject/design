@@ -1,6 +1,6 @@
 {
   "name": "@tuuject/koi-native",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "description": "Koi for Expo apps (iOS, Android and Expo web): Tamagui, built on @tuuject/koi-tokens and @tuuject/koi-core.",
   "sideEffects": false,

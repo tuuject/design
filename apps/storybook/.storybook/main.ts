@@ -21,7 +21,8 @@ const config: StorybookConfig = {
           '@tuuject/koi-react/styled-system': `${root}packages/react/styled-system`,
         },
       },
-      server: { fs: { allow: [root] } },
+      // X-Koi-Checkout: which checkout serves port 6006, for scripts/dev-server.mjs (worktrees share the port).
+      server: { fs: { allow: [root] }, headers: { 'X-Koi-Checkout': encodeURIComponent(root) } },
     }),
 };
 

@@ -2,7 +2,14 @@ import { Drawer } from '@tuuject/koi-react/drawer';
 import { css } from '@tuuject/koi-react/styled-system/css';
 import { useRouterState } from '@tanstack/react-router';
 import { useUiStore } from '../../stores/ui';
-import { SAFE_BOTTOM, SAFE_LEFT, SAFE_TOP, SIDEBAR_TITLEBAR_STRIP, SIDEBAR_WIDTH } from './shared';
+import {
+  SAFE_BOTTOM,
+  SAFE_LEFT,
+  SAFE_TOP,
+  SIDEBAR_OUTER_WIDTH,
+  SIDEBAR_TITLEBAR_STRIP,
+  TITLEBAR_HEIGHT,
+} from './shared';
 import { SidebarContent } from './SidebarContent';
 
 /**
@@ -27,7 +34,7 @@ export function MobileNav() {
       // popup and its body hand their padding to NavMenu, which insets the brand and the rows itself; the popup
       // only adds the safe-area insets, the same way the desktop Sidebar does.
       className={css({
-        width: `calc(${SIDEBAR_WIDTH} + ${SAFE_LEFT})`,
+        width: SIDEBAR_OUTER_WIDTH,
         paddingBlockStart: `max(${SAFE_TOP}, ${SIDEBAR_TITLEBAR_STRIP})`,
         paddingInlineStart: SAFE_LEFT,
         paddingInlineEnd: '0',
@@ -40,6 +47,17 @@ export function MobileNav() {
       }}
     >
       <SidebarContent pathname={pathname} onNavigate={() => setMobileNavOpen(false)} />
+      {/* The drawer covers the header, so its share of the title-bar strip moves the window instead. With
+          controls on the left it is the empty strip above the brand; with controls on the right (Windows) the
+          drawer starts at the top and the strip lies over the brand row, which holds no controls. Electron applies
+          app regions in document order, the later one winning, and everything in the portal inherits no-drag
+          (index.css): the strip has to come after the nav, whose box covers it, and before the drawer's close
+          button, which must stay clickable. */}
+      <div
+        aria-hidden="true"
+        data-app-region="drag"
+        className={css({ position: 'absolute', top: 0, insetInline: 0, height: TITLEBAR_HEIGHT })}
+      />
     </Drawer>
   );
 }

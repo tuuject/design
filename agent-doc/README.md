@@ -21,6 +21,7 @@
 | recipe 里怎么引用组件状态，不点名 Base UI | [headless.md](headless.md) |
 | 验证改动：`pnpm check`、截图、像素和 CSS 比对 | [verification.md](verification.md) |
 | 现在做到哪了、下一步、未决事项 | [plan.md](plan.md) |
+| Admin 模板：Vite、TanStack Router、安全区、Electron 壳 | [admin.md](admin.md) |
 | 支撑 surowan Admin 重写的组件缺口 epic | [plans/surowan-admin-epic.md](plans/surowan-admin-epic.md) |
 | 某个组件移植时定下的 API / 行为决定 | [web-port-record.md](web-port-record.md) |
 | 查本仓库的术语 | [glossary.md](glossary.md) |

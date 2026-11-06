@@ -15,6 +15,9 @@ body,
  * on <html>. Without either obstruction every value is 0 and the layout is unchanged.
  */
 :root {
+  /* Makes 100cqw below the viewport width without a classic scrollbar (100vw includes it). The overlay reports
+     its area against the whole window, but the rows that step aside end where the scrollbar begins. */
+  container-type: inline-size;
   --app-safe-top: env(safe-area-inset-top, 0px);
   --app-safe-right: env(safe-area-inset-right, 0px);
   --app-safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -23,5 +26,23 @@ body,
      (traffic lights on the left on macOS, caption buttons on the right on Windows and Linux). */
   --app-titlebar-height: env(titlebar-area-height, 0px);
   --app-titlebar-inset-left: env(titlebar-area-x, 0px);
-  --app-titlebar-inset-right: calc(100vw - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100vw));
+  --app-titlebar-inset-right: calc(100cqw - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100cqw));
+}
+
+/*
+ * Window dragging, for a shell that hides the system title bar (Electron, an installed PWA): elements marked
+ * data-app-region="drag" move the window; browser tabs ignore the property. Controls are exempted everywhere,
+ * not only inside a drag region, and so is everything portaled out of #root (menus, dialogs, toasts): those
+ * float over the header and would otherwise pass their clicks to the drag region under them. The property
+ * inherits and Electron applies regions in document order, the later one winning: a drag region inside a portal
+ * (the mobile drawer's title-bar strip) opts back in only if it comes after the elements whose boxes cover it.
+ * The shell also drops the header's drag region while the drawer covers it, rather than count on how
+ * overlapping regions merge.
+ */
+[data-app-region="drag"] {
+  -webkit-app-region: drag;
+}
+:is(a, button, input, select, textarea, label, summary, [role="button"], [tabindex]:not([tabindex="-1"])),
+body > :not(#root) {
+  -webkit-app-region: no-drag;
 }

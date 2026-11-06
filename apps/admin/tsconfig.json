@@ -4,5 +4,5 @@
     "lib": ["ES2024", "DOM", "DOM.Iterable"],
     "paths": { "@tuuject/koi-react/styled-system/*": ["../../packages/react/styled-system/*"] }
   },
-  "include": ["src", "vite.config.ts"]
+  "include": ["src", "electron", "vite.config.ts"]
 }

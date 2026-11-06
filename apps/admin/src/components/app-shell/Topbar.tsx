@@ -4,7 +4,14 @@ import { useUiStore } from '../../stores/ui';
 import { MenuIcon, PanelLeftIcon, RowsIcon } from '../icons';
 import { Brand } from './Brand';
 import { Breadcrumbs } from './Breadcrumbs';
-import { COLUMN_OFFSET, CONTENT_MAX_WIDTH, HEADER_ROW_HEIGHT, TOP_ROW_CLEAR_LEFT, TOP_ROW_CLEAR_RIGHT } from './shared';
+import {
+  COLUMN_OFFSET,
+  CONTENT_MAX_WIDTH,
+  HEADER_ROW_HEIGHT,
+  TOP_ROW_CLEAR_LEFT,
+  TOP_ROW_CLEAR_RIGHT,
+  withTitlebar,
+} from './shared';
 import { ThemeToggle } from './ThemeToggle';
 import { UserMenu } from './UserMenu';
 
@@ -30,8 +37,9 @@ export function Topbar() {
           // The window's top strip: clear of cutouts and of window controls drawn over the page.
           paddingInlineStart: `max(token(spacing.4), ${TOP_ROW_CLEAR_LEFT})`,
           paddingInlineEnd: `max(token(spacing.4), ${TOP_ROW_CLEAR_RIGHT})`,
-          // The sidebar holds the window's left edge from md up (it clears the left controls itself).
-          md: { paddingInlineStart: '4' },
+          // From md the sidebar holds the window's left edge, unless a desktop shell runs the header across it
+          // (AppShell): then this row starts at the window edge again and clears the controls there.
+          md: { paddingInlineStart: `max(token(spacing.4), ${withTitlebar(TOP_ROW_CLEAR_LEFT)})` },
           // Same centered column as the nav row and the page content below it: same cap, same 24px inner
           // padding at md, so the brand and the page's left edge line up. Only when the window is too narrow
           // for the controls to fit beside the column does this row's padding grow past 24px.

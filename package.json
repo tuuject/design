@@ -14,6 +14,7 @@
     "dev:status": "node scripts/dev-server.mjs storybook --status",
     "dev:admin": "node scripts/dev-server.mjs admin",
     "dev:admin:status": "node scripts/dev-server.mjs admin --status",
+    "dev:admin:electron": "pnpm --filter admin electron:dev",
     "build:storybook": "pnpm codegen && pnpm --filter storybook build",
     "deploy:storybook": "pnpm --filter storybook run deploy",
     "build": "pnpm codegen && pnpm -r build",

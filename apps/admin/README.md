@@ -18,10 +18,15 @@ A production-shaped admin application built on **Koi React components** — the 
 
 ```sh
 pnpm dev:admin        # codegen (tokens + panda) then vite on :3000, also logged to .temp/dev-admin.log
-pnpm dev:admin:status # is it already running? (exit 0 + URL and log path)
+pnpm dev:admin:status # is this checkout's server running? (0 + URL and log path; 3 if another checkout's holds the port)
 pnpm check            # static checks + typecheck (includes this app)
 pnpm --filter admin build
+
+pnpm dev:admin:electron                 # Electron window on the running dev server (start pnpm dev:admin first)
+pnpm --filter admin electron:preview    # vite build, then Electron on the built app (served as app://admin/)
 ```
+
+The Electron shell (`electron/main.ts`) hides the title bar and keeps only the window controls on the header's first row: the traffic lights on macOS, the caption buttons on Windows (their glyphs follow the page's theme through `electron/preload.cjs`). The page reads the controls' footprint from the Window Controls Overlay `env()` variables and marks drag regions with `data-app-region="drag"`. Linux keeps the system frame for now, and there is no packaging step yet.
 
 Demo account: `admin` / `123456`. All data is mock (`src/mock/api.ts`), generated deterministically so screenshots are stable.
 

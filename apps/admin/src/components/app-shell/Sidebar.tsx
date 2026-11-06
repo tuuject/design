@@ -3,12 +3,14 @@ import { useRouterState } from '@tanstack/react-router';
 import { useUiStore } from '../../stores/ui';
 import { SidebarContent } from './SidebarContent';
 import {
+  HEADER_HEIGHT,
   SAFE_BOTTOM,
   SAFE_LEFT,
   SAFE_TOP,
-  SIDEBAR_TITLEBAR_STRIP,
-  SIDEBAR_WIDTH,
-  SIDEBAR_WIDTH_COLLAPSED,
+  SIDEBAR_OUTER_WIDTH,
+  SIDEBAR_OUTER_WIDTH_COLLAPSED,
+  TOPBAR_Z_INDEX,
+  withTitlebar,
 } from './shared';
 
 /** The desktop navigation: the shell's first flex column, pinned to the viewport from md up. Below md the
@@ -34,8 +36,11 @@ export function Sidebar() {
           // The aside holds the window's left edge: it widens by the left inset and pads past the insets, so
           // NavMenu keeps its usual geometry inside and the background still reaches the edge (MobileNav does
           // the same for the drawer).
-          width: `calc(${SIDEBAR_WIDTH} + ${SAFE_LEFT})`,
-          paddingBlockStart: `max(${SAFE_TOP}, ${SIDEBAR_TITLEBAR_STRIP})`,
+          width: SIDEBAR_OUTER_WIDTH,
+          // In a desktop shell the header runs across the window as its title bar and covers the sidebar's top
+          // (AppShell): the sidebar sits under it and starts below the header's divider (row, air, 1px line).
+          zIndex: TOPBAR_Z_INDEX - 1,
+          paddingBlockStart: `calc(${SAFE_TOP} + ${withTitlebar(`calc(${HEADER_HEIGHT} + 1px)`)})`,
           paddingInlineStart: SAFE_LEFT,
           paddingBlockEnd: SAFE_BOTTOM,
           bg: 'surface',
@@ -46,7 +51,7 @@ export function Sidebar() {
           transition: 'width token(durations.fast) token(easings.out)',
           // The horizontal layout owns the desktop header; the aside stays out of the way there.
           '&[data-nav-layout=horizontal]': { display: 'none' },
-          '&[data-collapsed=true]': { width: `calc(${SIDEBAR_WIDTH_COLLAPSED} + ${SAFE_LEFT})` },
+          '&[data-collapsed=true]': { width: SIDEBAR_OUTER_WIDTH_COLLAPSED },
         },
       })}
       data-collapsed={collapsed}

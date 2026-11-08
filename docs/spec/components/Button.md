@@ -12,7 +12,7 @@ Koi's button: five colors, four variants, three sizes, and two shapes, `rounded`
 - `error` (red): destructive actions such as delete or remove, usually confirmed in a Dialog.
 
 **Variant** (`variant`, default `solid`):
-- `solid`: full fill, no shadow; the strongest. Use one solid button per group.
+- `solid`: full fill, no shadow; the strongest. Solids may sit side by side, such as a `secondary` solid beside the `primary` one; their colors tell them apart. The `accent` rule above still holds.
 - `soft`: tinted fill; for alternatives next to a solid button.
 - `outline`: transparent with a colored edge; for secondary actions on busy surfaces.
 - `ghost`: text only; for toolbars, dialogs and low-emphasis actions.
@@ -32,6 +32,8 @@ Koi's button: five colors, four variants, three sizes, and two shapes, `rounded`
 - Focus: a 2px `focus-ring` outline at a 2px offset.
 
 - Do keep labels to one line.
-- Don't put two solid buttons side by side, and don't use color alone to signal danger: say it in the label too ("删除").
+- Do put the main action last in a row of actions, after the secondary ones, as in a Dialog footer.
+- Do show a set of toggles (`aria-pressed`) as `soft` `primary` for the pressed one and `ghost` `secondary` for the rest, so only the current choice carries a fill.
+- Don't use color alone to signal danger: say it in the label too ("删除").
 - Pick one shape per group of buttons. Rounded is the default; use `pill` (or a pill `ShapeProvider` around a page) for the blog's softer voice. Table cells and Dialog footers keep `rounded` as the default for the buttons inside them, even inside a pill page.
 - `loading` keeps the button's width steady and announces itself with `aria-busy`. A loading button looks disabled (50% opacity) but keeps its spinner turning and shows a `progress` cursor.

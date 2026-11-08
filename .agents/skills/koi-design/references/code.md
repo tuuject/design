@@ -5,13 +5,14 @@
 - Styles go through `css({...})` or a recipe. JSX style props are off (`jsxStyleProps: 'none'`).
 - Token names in `css()`:
   - colors by role name: `bg: 'surface'`, `color: 'text-muted'`, `borderColor: 'border-control'`
-  - spacing as **bare numbers**: `padding: '6'`, `gap: '4'`. `'space-4'` silently generates an empty rule
+  - spacing by **step key**, as a string or a number: `padding: '6'` and `padding: 6` both resolve to `var(--spacing-6)`. `'space-4'` silently generates an empty rule
   - radius / shadow / size by short name: `borderRadius: 'xl'`, `boxShadow: 'float'`, `height: 'control-md'`
   - type: `textStyle: 'body'`
   - motion: `transitionDuration: 'fast'`, `transitionTimingFunction: 'spring'`
   - layers: `zIndex: 'popup'`
   - responsive: `md: {...}` or `{ base: ..., md: ... }` (no underscore). Nested selectors start with `&` (`'& [data-x]'` is a descendant, `'&[data-x]'` the same element)
 - `width: 'full'` isn't a token here; write `'100%'`.
+- Panda extracts styles statically: a value computed at runtime (from props, a function call, `.join()`) is dropped without a warning. Write a multi-layer value as one string literal and reach tokens inside it with `token()`: `backgroundImage: 'linear-gradient(token(colors.divider), token(colors.divider))'`, `top: 'calc(var(--app-header-offset) + token(spacing.6))'`.
 - Generated code is imported by package name (`@tuuject/koi-react/styled-system/css`), never by relative path. In a consumer project, `css()` / `cx()` come from that published subpath or from the app's own generated `styled-system`; there is no `packages/react` to reach into.
 - One-off styles stay inline on the JSX; hoist into a local `s` object only when used twice in the file.
 - Component-specific sizes come from `@tuuject/koi-tokens/dimensions` (`components.*`, `toPx()` in recipes). A size that only makes sense on the web carries `// koi-web-only: <reason>`.

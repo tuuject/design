@@ -19,6 +19,8 @@
 
 - Don't set `fontWeight` by hand; the text style carries it. ChillRoundF has only 400 and 700 (600 renders as 700).
 - **Don't drop to 12px to make something secondary when it sits beside 14px content**: table headers and row-action labels at 12px read as fine print. Set it apart with `text-muted` or weight instead (headers are `label` in `text-muted`). `small` is for text that stands on its own: help, descriptions, captions, tooltips.
+- **A secondary line stacked under a primary label** (a model's id under its name in an option, a list row's meta) is `small` in `text-muted`: it has its own line, so it isn't the fine-print case above. When it would be the only line (nothing to sit under), it takes the primary's place: `body` in `text`. A one-line spot (a Select trigger) shows only the primary, or the identifier when there's no name, truncated. Don't repeat what a group heading already says.
+- Numbers that change in place (a count in a button label, a live counter) use `fontVariantNumeric: 'tabular-nums'`, so the element doesn't change width.
 - `text-autospace: normal` is on the body. Don't type spaces between Chinese and Latin by hand.
 - Font smoothing stays `auto`. Never `antialiased`: it thins ChillRoundF on macOS.
 - Koi has no logo. A product name is set in `display` (or `heading-3` in a NavMenu brand slot).
@@ -50,6 +52,7 @@ Roundness is the identity. The vocabulary is fixed:
 - Glass: `surface-glass` + `blur-panel` for a content panel **over imagery or color** (the glass Card). `surface-glass-tint` + `blur-float` for floating chrome (Toast, nav pill). Never glass on a flat background as decoration.
 - Card variants: `outlined` (default; `surface` + `border`), `filled` (`surface-muted`), `glass`. **Never nest cards**, and never put a card around something that brings its own frame.
 - Prefer whitespace to a Divider. Add a divider only when space alone doesn't separate the groups.
+- Cards frame independent things. The areas of one continuous workspace (master and detail, a title bar over its sections, a list's header row) are separated by `divider` hairlines instead; see `layouts.md`.
 
 ## Size and space
 
@@ -57,7 +60,7 @@ Roundness is the identity. The vocabulary is fixed:
 - `md` is the default everywhere a page has room. `sm` belongs to dense containers only: table cells, tags, compact toolbars inside a component. An **icon-only** control is never `sm`: without a label, 28px is too small a target.
 - Icons: `icon` 16 beside 14px text, `icon-sm` 14 in small controls and tags, `icon-xs` 12 beside 12px text, `icon-lg` 18 beside 16px titles.
 - Spacing is the 4px scale, `space-1`…`space-16`. Meanings:
-  - `2` inside controls, icon-to-label
+  - `2` inside controls, icon-to-label, between sibling badges, tags or status icons
   - `4` between fields
   - `5` content padding on mobile, card padding
   - `6` content padding from `md` up, dialog padding

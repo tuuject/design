@@ -24,6 +24,19 @@ The orders page (`apps/admin/src/routes/_authed.orders.tsx`, or the copied route
 - Filter fields stack their labels above the controls (Field); side-by-side labels in a filter bar read as cramped.
 - **Size table columns against real data.** With `layout="fixed"`, give every fixed-content column (IDs, amounts, status, timestamps, actions) a width that fits its longest value plus the cell's 16px sides, with no ellipsis. Leave **two or more** free-text columns (customer, product) without a width, so the spare room splits between them instead of pooling into one wide gap. Set the table's `minWidth` so it still fits the target window (1280px) without scrolling sideways.
 - Row actions: see the Table spec. Icon-only actions are `md` IconButtons in a `paddingBlock="none"` cell; the destructive one is `color="error"`.
+- **A list that isn't a table still reads like one.** Its header row (select-all checkbox, selection count, batch action) has a `divider` hairline under it, `space-3` below its content. Every row has a bottom hairline, the last one too, so the list is closed before the pager. The empty state gets `space-4` block padding; the pager sits `space-4` below the last line.
+
+## Workspace pages (master–detail)
+
+A page that is one continuous workspace (the provider list on the left, the selected provider's settings on the right) is layered with hairlines, not Cards. Cards are for independent things, like a dashboard's summaries or separate settings groups; wrapping the parts of one workspace in Cards stacks frames.
+
+- **One hairline between master and detail.** Stacked, it is the detail's top border; side by side, the detail's start border. Set the grid's `columnGap` to `0` and give each side `space-6` toward the line, so the line sits in the middle of the gutter. The master's grid column is its content width plus that padding (308 + 24 = 332px). Stretch the detail (`alignSelf: 'stretch'`) so the line runs the full height even when the master is taller.
+- Split only where both panes fit (about 1200px for a 300px rail beside a form), not at `md`; below that, stack master above detail.
+- **The detail opens with a title bar**: the object's name in `heading-2`, its kind in `text-muted`, status Badges, then a hairline `space-6` below. Actions on the whole object (delete it, `ghost` `error`) sit at the end of the title bar; each section keeps its own actions.
+- Sections inside the detail are unframed: a `heading-3` title with the section's actions at the end of the same row, `space-8` between sections.
+- **A sticky master** keeps the same air above and below: `top: 'calc(var(--app-header-offset) + token(spacing.6))'`, `maxHeight: 'calc(100dvh - var(--app-header-offset) - token(spacing.6) * 2)'`. Only its list scrolls; the search box above and the create button below keep `flexShrink: '0'`.
+- A scroll box clips its rows' focus rings. Give it `padding: '1'` and `margin: '-1'`, so the ring fits inside the clip and the rows don't move.
+- Mark a scroll edge with a hairline only while rows are hidden past it: two `divider` lines that stay with the box (`backgroundAttachment: 'scroll'`) under two `page-bg` covers that scroll with the content (`'local'`), which hide the lines when the list rests at that end.
 
 ## Charts
 

@@ -30,11 +30,11 @@ These hold on every task. The references explain them and add the detail.
 - **Color:** role tokens only (`surface`, `text-muted`, `action`, `border-control`); scale steps only for illustration and chart series; never a literal or a per-theme override. Sky = action, amber = links and small highlights (an accent Button at most once per view), status always paired with an icon or word.
 - **Type:** `fontFamily: 'sans'`, 14px `body` base, named text styles only (they carry the weight). Beside 14px content, mark secondary text with `text-muted` or weight, not by dropping to 12px.
 - **Shape:** buttons `rounded` 8px by default (`pill` via `shape` or `ShapeProvider`), one shape per button group; tabs, tags, badges, Switch always pills; fields 12, cards 24, dialogs 32, concentric corners.
-- **Depth:** no shadows on buttons or cards; `raised` only for the active tab and switch thumb, `float` only for things over the page; glass only over imagery or color. Never nest cards.
+- **Depth:** no shadows on buttons or cards; `raised` only for the active tab and switch thumb, `float` only for things over the page; glass only over imagery or color. Never nest cards; the areas of one continuous workspace are split by `divider` hairlines, not framed.
 - **Size:** control heights 28 / 36 / 44, one height per row; `md` by default, `sm` only inside dense containers (table cells, tags), never `sm` for icon-only controls; spacing on the 4px `space-*` scale; when in doubt, one step looser.
 - **Motion:** colors 150ms; moving things on `spring`, edge-anchored drawers on `out` 200ms; respect reduced motion.
 - **Icons:** Font Awesome Free Solid as Iconify data through `Icon`, `currentColor`, icon size tokens; no emoji.
-- **Copy:** Simplified Chinese, short and plain; buttons are verbs ("保存"), navigation nouns ("首页"); errors written as the fix ("邮箱格式不太对，请检查一下。"); dates like "Oct 7, 2026"; optional fields "（选填）"; no decorative English; no middle dots (`U+00B7`, `U+30FB`, look-alikes) as separators: separate inline meta with a layout gap, or with ，、 in a sentence (a name or title that contains one keeps it, marked `koi-allow-dot: <reason>`). Component copy comes from `strings` in `@tuuject/koi-core`, so it is Chinese: in a product with its own locale, pass labels explicitly where props allow and treat the remaining built-in strings (some aria-labels, empty states) as a known gap rather than half-translating around them.
+- **Copy:** Simplified Chinese, short and plain; buttons are verbs ("保存"), navigation nouns ("首页"); errors written as the fix ("邮箱格式不太对，请检查一下。"); dates like "Oct 7, 2026"; optional fields "（选填）"; no decorative English; the user's words, not the implementation's: no config keys, enum values, file names, internal codenames or protocol acronyms as labels (`base_url` → "接口地址", TTFB → "首次响应"), product names kept as they are, and a raw identifier only where the user has to copy or match it, in mono; no middle dots (`U+00B7`, `U+30FB`, look-alikes) as separators: separate inline meta with a layout gap, or with ，、 in a sentence (a name or title that contains one keeps it, marked `koi-allow-dot: <reason>`). Component copy comes from `strings` in `@tuuject/koi-core`, so it is Chinese: in a product with its own locale, pass labels explicitly where props allow and treat the remaining built-in strings (some aria-labels, empty states) as a known gap rather than half-translating around them.
 
 ## References
 
@@ -45,7 +45,7 @@ Read only what the task needs:
 | `references/color.md` | Picking a role token for anything; palettes, dark mode, contrast pairs |
 | `references/foundations.md` | Type styles, the radius table, shadows and glass, spacing meanings, motion curves, icons, focus |
 | `references/components.md` | Choosing between components (Badge vs Tag, Alert vs Toast, Select vs SelectPanel…); button color / variant rules; forms |
-| `references/layouts.md` | Composing a page, dashboard or admin screen; charts; blog-like content pages; responsive recomposition |
+| `references/layouts.md` | Composing a page, dashboard or admin screen; master–detail workspaces; charts; blog-like content pages; responsive recomposition |
 | `references/code.md` | Writing the styles: Panda `css()` token names and pitfalls, Tamagui theme keys |
 | `references/web-design-taste.md` | The general skill is also in play, or a rule from it seems to apply |
 | `references/consumer.md` | The project installs `@tuuject/koi-*` from npm instead of living in koi-ui; wiring Panda, copying the Admin template, migrating from another stack |
@@ -58,15 +58,15 @@ Before presenting a design or a diff:
 1. Any scale step or literal color outside illustration / charts? Any per-theme color override?
 2. Amber on anything clickable that isn't a link, or for status? More than one accent Button in the view?
 3. Every status color paired with an icon or a word?
-4. Any raw `fontSize` or hand-set `fontWeight`? Anything at 12px beside 14px content that should be `text-muted` instead?
+4. Any raw `fontSize` or hand-set `fontWeight`? Anything at 12px beside 14px content that should be `text-muted` instead? A stacked second line that isn't `small` `text-muted`, or a lone line that is? Changing counts without `tabular-nums`?
 5. Any radius off the vocabulary? One shape per button group? Pills where Koi requires them? Nested corners concentric?
-6. Any shadow on a button or a card? Glass on a flat background? A card in a card, or around a bordered component?
+6. Any shadow on a button or a card? Glass on a flat background? A card in a card, or around a bordered component? Parts of one workspace framed in Cards instead of split by hairlines?
 7. Controls in one row sharing one height? Page-level controls `md`, not `sm`? Icons sized by token?
 8. Tables: any cell cut off with an ellipsis on real data? Spare width pooling into one wide gap?
 9. Spacing on the scale, page padding even on all sides? Tight → loosen a step. Lost → one frame per area.
 10. Color transitions 150ms; moving things on spring (`out` for edge-anchored); reduced motion respected?
 11. Icons filled and in `currentColor`, no emoji, icon-only controls named?
-12. Copy in Chinese, verbs on buttons, errors as fixes, no decorative English, no middle-dot separators?
+12. Copy in Chinese, verbs on buttons, errors as fixes, no decorative English, no middle-dot separators? Any config key, enum value or acronym shown as a label? Unfamiliar fields explained in `help`?
 13. Could a Koi component replace something hand-styled?
 14. New role-on-background pair added to `contrast-pairs.json`?
 15. Checked in **both themes** and under the `rose` palette?

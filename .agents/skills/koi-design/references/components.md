@@ -35,9 +35,11 @@ Not in Koi yet: dropdown Menu, Popover, date picker, free-text autocomplete, Sli
 ## Buttons
 
 - `color`: `primary` (main action), `accent` (one highlight per view), `secondary` (cancel / back / close), `warning` (consequences worth a second look), `error` (destructive, usually confirmed in a Dialog).
-- `variant`: `solid` > `soft` > `outline` > `ghost`. **One solid per group.** Never two solids side by side.
+- `variant`: `solid` > `soft` > `outline` > `ghost`. Solids may sit side by side (a `secondary` solid beside the `primary` one); only `accent` never sits beside a solid `primary`.
 - Labels are short Chinese verbs on one line. Don't signal danger by color alone; say it ("删除").
-- Dialog footer order: cancel (`secondary ghost`), then the confirming solid (`primary`, or `error` when it destroys something).
+- **The main action comes last** in every action row (a section header, a toolbar), after the secondary ones. Dialog footers: cancel (`secondary ghost`), then the confirming solid (`primary`, or `error` when it destroys something).
+- Toggles (`aria-pressed`, e.g. assigning a role to a row): the pressed one `soft primary`, the rest `ghost secondary`. Outlines on every unpressed toggle add edges a ruled list already has. A `small` `text-muted` lead-in label before the group keeps `space-2` from the first button.
+- Actions on a whole object (delete the provider) sit in its title bar, apart from the sections' own Save and add actions.
 - Table row actions: `sm ghost` Buttons with no gap between them, end-aligned, the group pulled 8px outward so the last label lines up with the header. Icon-only row actions are `md` IconButtons in a `paddingBlock="none"` cell.
 
 ## Forms
@@ -46,3 +48,7 @@ Not in Koi yet: dropdown Menu, Popover, date picker, free-text autocomplete, Sli
 - Mark optional fields "（选填）" rather than starring every required one, unless most fields are optional.
 - Errors go in the Field's `error`, written as the fix.
 - Don't use a placeholder as a label.
+- Explain an unfamiliar field in the Field's `help`, and name the safe default when there is one ("不确定的话选 OpenAI (Chat Completions)…").
+- A choice that's allowed but usually wrong gets a `warning` Alert right where it's made, rather than being hidden or disabled.
+- Section-level Alerts (a warning about the draft, a stale draft, a failed save) stack right under the section's title and action row, above the fields, so they sit next to the Save that raised them; never at the bottom of the form.
+- A problem with one field goes on that Field (`error`) and moves focus to it, instead of a separate Alert. Show it once the user has tried to submit, not while they're still filling the form in.

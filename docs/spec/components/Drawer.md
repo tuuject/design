@@ -14,7 +14,7 @@ A panel that slides in from an edge of the viewport, on the dialog's backdrop.
 - It's labelled by its title (or by `label`), and described by its description.
 
 **Styling:**
-- Backdrop: `backdrop` with `blur-panel`. It fades in and out over 200ms.
+- Backdrop: `backdrop`, the dialog's black 60% scrim with no blur. It fades in and out over 200ms.
 - Panel: `surface` with `shadow-float`. From the left or right it is at most 280px wide and full height; from the top or bottom it spans the viewport width and is at most 80% tall, scrolling inside. The 1px `divider` edge sits on the inner edge, against the page.
 - It slides in and out over 200ms on `out`, not the spring: the spring's overshoot would pull the panel off the edge it's anchored to and show a gap behind it.
 - Title: `heading-3` (16px). Description and body: `body` (14px). Footer actions are rounded (`radius-lg`).

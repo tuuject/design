@@ -89,7 +89,7 @@ tsconfig 不带 DOM lib。`scripts/check-raw-sizes.mjs` 已经覆盖 `packages/n
 
 | web | native |
 | --- | --- |
-| `backdrop-filter` 毛玻璃（`surface-glass`、Dialog 背景） | `expo-blur` 的 `BlurView`，上面再铺半透明的 role 颜色 |
+| `backdrop-filter` 毛玻璃（`surface-glass`） | `expo-blur` 的 `BlurView`，上面再铺半透明的 role 颜色 |
 | Skeleton 全页同步的 shimmer（`background-attachment: fixed`） | 做不到原样。每个占位一个 Reanimated + 线性渐变，或用一个共享的动画值驱动全部 |
 | ChillRoundF 的 121 个 `unicode-range` woff2 子集 | native 需要完整 TTF/OTF（CJK 很大），或用系统字体（苹方 / Noto Sans CJK）。和 web 的字体决定一起定 |
 | 横版 NavMenu 的 hover flyout | 触屏没有 hover：用原生 tabs / drawer |

@@ -16,7 +16,6 @@ export const drawer = defineSlotRecipe({
       inset: '0',
       zIndex: 'dialog',
       bg: 'backdrop',
-      backdropFilter: 'blur(var(--blurs-panel))',
       transitionProperty: 'opacity',
       transitionDuration: 'overlay',
       [`&${state.entering}, &${state.exiting}` as const]: { opacity: '0' },

@@ -13,7 +13,6 @@ export const dialog = defineSlotRecipe({
       inset: '0',
       zIndex: 'dialog',
       bg: 'backdrop',
-      backdropFilter: 'blur(var(--blurs-panel))',
       transitionProperty: 'opacity',
       // Same 300ms as the popup, so the two open and close together.
       transitionDuration: 'dialog',

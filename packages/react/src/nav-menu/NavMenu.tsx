@@ -76,21 +76,33 @@ export function NavMenu({
   const toggle = (value: string, open: boolean) =>
     setExpanded((prev) => (open ? [...new Set([...prev, value])] : prev.filter((v) => v !== value)));
 
-  // Horizontal and rail menus: one panel at a time, and it closes when its trigger scrolls away or the window
-  // resizes.
+  // Horizontal and rail menus: one panel at a time, and it closes when the bar it hangs from moves away or the
+  // window resizes.
   const navRef = useRef<HTMLElement>(null);
   const [openFlyout, setOpenFlyout] = useState<string | null>(null);
   useEffect(() => {
     if (openFlyout === null) {
       return;
     }
+    const nav = navRef.current;
+    const pinnedAt = nav?.getBoundingClientRect() ?? null;
     const close = () => setOpenFlyout(null);
-    // Scroll events don't bubble, so this listens while capturing: the bar's own sideways scroll and any scrolling
-    // ancestor move the trigger. A scroll anywhere else, such as the open panel's own list, leaves it in place.
+    // Scroll events don't bubble, so this listens while capturing. A scroll inside the bar moves its rows, and a
+    // scroll of an ancestor moves the bar itself: either one leaves the panel behind. The page scrolling under a
+    // sticky or fixed bar moves neither, and the panel follows its parent through it (Base UI tracks the anchor on
+    // scroll), so only a bar that actually moved counts. A scroll anywhere else, such as the open panel's own list,
+    // leaves the panel in place.
     const closeOnScroll = (event: Event) => {
-      const nav = navRef.current;
       const target = event.target;
-      if (nav !== null && target instanceof Node && (target.contains(nav) || nav.contains(target))) {
+      if (nav === null || !(target instanceof Node) || !(nav.contains(target) || target.contains(nav))) {
+        return;
+      }
+      if (pinnedAt === null || nav.contains(target)) {
+        close();
+        return;
+      }
+      const moved = nav.getBoundingClientRect();
+      if (Math.abs(moved.x - pinnedAt.x) > 0.5 || Math.abs(moved.y - pinnedAt.y) > 0.5) {
         close();
       }
     };

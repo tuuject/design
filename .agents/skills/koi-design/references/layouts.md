@@ -2,6 +2,23 @@
 
 The Admin template (`apps/admin`) is the reference composition for app pages. Read its routes (`apps/admin/src/routes/`) and `agent-doc/admin.md` before inventing a layout. In a consumer project the template is a Vite app to copy, not a dependency: see `references/consumer.md`; the same sources are at <https://github.com/tuuject/design/tree/main/apps/admin>.
 
+## Text on the page
+
+A page stays clean: every line left visible helps the user work this screen. That means the content itself, units on values, empty states and missing-data hints ("未配置", "暂无记录"), plus the field help and errors in `references/components.md`.
+
+- **Explain once, elsewhere.** How it works underneath, how to use it and its limits go on a separate help page or in the docs, written once. Don't repeat them page after page, or in a PageHeader or Card `description`; a `description` says in one line what the thing is for, when the title doesn't.
+- **A section that needs explaining gets an icon, not a sentence**: a `circle-info` IconButton (`md`, `ghost`, a `label` naming the topic, e.g. "关于请求头") beside its title, opening the matching section of that help page. At the top of a page it goes in PageHeader's `info`.
+
+## Secondary information
+
+Secondary information never costs the main layout. Give it the lightest form that still says it clearly. If adding it
+
+- wraps text where it shouldn't (a label, value or column header breaking onto a second line),
+- stretches the layout (one row taller than its siblings, a column pushed wider, siblings out of line),
+- or makes the page, or a table, scroll sideways at full desktop width,
+
+switch to a lighter form (a unit instead of a phrase, a Tooltip on an icon) or put it behind a toggle (a Switch such as "显示明细" that reveals the extra columns or lines).
+
 ## Dashboards and admin pages
 
 - **A list page puts its table straight on the page**, so a long list isn't boxed in. A table that shares the page with other panels (a dashboard's recent orders) goes in a Card.

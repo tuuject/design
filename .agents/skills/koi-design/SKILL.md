@@ -34,6 +34,7 @@ These hold on every task. The references explain them and add the detail.
 - **Size:** control heights 28 / 36 / 44, one height per row; `md` by default, `sm` only inside dense containers (table cells, tags), never `sm` for icon-only controls; spacing on the 4px `space-*` scale; when in doubt, one step looser.
 - **Motion:** colors 150ms; moving things on `spring`, edge-anchored drawers on `out` 200ms; respect reduced motion.
 - **Icons:** Font Awesome Free Solid as Iconify data through `Icon`, `currentColor`, icon size tokens; no emoji.
+- **Page text:** every visible line helps the user work this screen: core content, units, empty states, missing-data hints. How it works, how to use it and its limits are written once on a separate help page; a section that needs them gets a small info icon beside its title linking there, not another sentence. Secondary information takes the lightest form that says it clearly; when it wraps text oddly, stretches the layout or makes the page scroll sideways at full width, go lighter or put it behind a toggle.
 - **Copy:** Simplified Chinese, short and plain; buttons are verbs ("保存"), navigation nouns ("首页"); errors written as the fix ("邮箱格式不太对，请检查一下。"); dates like "Oct 7, 2026"; optional fields "（选填）"; no decorative English; the user's words, not the implementation's: no config keys, enum values, file names, internal codenames or protocol acronyms as labels (`base_url` → "接口地址", TTFB → "首次响应"), product names kept as they are, and a raw identifier only where the user has to copy or match it, in mono; no middle dots (`U+00B7`, `U+30FB`, look-alikes) as separators: separate inline meta with a layout gap, or with ，、 in a sentence (a name or title that contains one keeps it, marked `koi-allow-dot: <reason>`). Component copy comes from `strings` in `@tuuject/koi-core`, so it is Chinese: in a product with its own locale, pass labels explicitly where props allow and treat the remaining built-in strings (some aria-labels, empty states) as a known gap rather than half-translating around them.
 
 ## References
@@ -45,7 +46,7 @@ Read only what the task needs:
 | `references/color.md` | Picking a role token for anything; palettes, dark mode, contrast pairs |
 | `references/foundations.md` | Type styles, the radius table, shadows and glass, spacing meanings, motion curves, icons, focus |
 | `references/components.md` | Choosing between components (Badge vs Tag, Alert vs Toast, Select vs SelectPanel…); button color / variant rules; forms |
-| `references/layouts.md` | Composing a page, dashboard or admin screen; master–detail workspaces; charts; blog-like content pages; responsive recomposition |
+| `references/layouts.md` | Composing a page, dashboard or admin screen; what text stays on the page and where secondary information goes; master–detail workspaces; charts; blog-like content pages; responsive recomposition |
 | `references/code.md` | Writing the styles: Panda `css()` token names and pitfalls, Tamagui theme keys |
 | `references/web-design-taste.md` | The general skill is also in play, or a rule from it seems to apply |
 | `references/consumer.md` | The project installs `@tuuject/koi-*` from npm instead of living in koi-ui; wiring Panda, copying the Admin template, migrating from another stack |
@@ -67,12 +68,15 @@ Before presenting a design or a diff:
 10. Color transitions 150ms; moving things on spring (`out` for edge-anchored); reduced motion respected?
 11. Icons filled and in `currentColor`, no emoji, icon-only controls named?
 12. Copy in Chinese, verbs on buttons, errors as fixes, no decorative English, no middle-dot separators? Any config key, enum value or acronym shown as a label? Unfamiliar fields explained in `help`?
-13. Could a Koi component replace something hand-styled?
-14. New role-on-background pair added to `contrast-pairs.json`?
-15. Checked in **both themes** and under the `rose` palette?
-16. Consumer project: `designSystem` set, no `presets` / `staticCss` duplication, no `node_modules` in `include`, no import from `@tuuject/koi-react/src` or `packages/`, theme through `data-theme` rather than a `.dark` class?
+13. Any visible line explaining how it works, how to use it or its limits, instead of helping the user act? Move it to the help page and link it from an info icon beside the section title. Any secondary information that wraps text oddly, stretches the layout or scrolls sideways at full width?
+14. Could a Koi component replace something hand-styled?
+15. New role-on-background pair added to `contrast-pairs.json`?
+16. Looked at the rendered preview at desktop full width and phone width, in **both themes**, under the `rose` palette, and in each language the product ships (Chinese and English)?
+17. Consumer project: `designSystem` set, no `presets` / `staticCss` duplication, no `node_modules` in `include`, no import from `@tuuject/koi-react/src` or `packages/`, theme through `data-theme` rather than a `.dark` class?
 
 ## Verification
+
+**Look at the rendered result after every visual change**: desktop at full width and phone width, and in a product with more than one language, switch to Chinese and to English in turn. Rendered widths can't be worked out reliably from the code, and Chinese and English set at very different widths, so a layout that fits in one wraps or overflows in the other.
 
 **Inside koi-ui:**
 

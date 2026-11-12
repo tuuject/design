@@ -48,7 +48,7 @@ Not in Koi yet: dropdown Menu, Popover, date picker, free-text autocomplete, Sli
 - Mark optional fields "（选填）" rather than starring every required one, unless most fields are optional.
 - Errors go in the Field's `error`, written as the fix.
 - Don't use a placeholder as a label.
-- Explain an unfamiliar field in the Field's `help`, and name the safe default when there is one ("不确定的话选 OpenAI (Chat Completions)…").
+- Explain an unfamiliar field in the Field's `help`, and name the safe default when there is one ("不确定的话选 OpenAI (Chat Completions)…"). Keep `help` to what the user needs to fill the field in now; background and limits go on the help page (`references/layouts.md`, Text on the page).
 - A choice that's allowed but usually wrong gets a `warning` Alert right where it's made, rather than being hidden or disabled.
 - Section-level Alerts (a warning about the draft, a stale draft, a failed save) stack right under the section's title and action row, above the fields, so they sit next to the Save that raised them; never at the bottom of the form.
 - A problem with one field goes on that Field (`error`) and moves focus to it, instead of a separate Alert. Show it once the user has tried to submit, not while they're still filling the form in.

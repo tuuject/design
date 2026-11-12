@@ -101,7 +101,7 @@ function Turn({ turn }: { turn: AgentTurn }) {
 function AgentPage() {
   return (
     <div className={css({ maxWidth: '768px', marginInline: 'auto' })}>
-      <PageHeader title="AI 助手" description="真人消息是右侧的气泡，助手的回复直接平铺成 markdown 正文。" />
+      <PageHeader title="AI 助手" />
       <div className={css({ display: 'flex', flexDirection: 'column', gap: '5' })}>
         {TURNS.map((turn) => (
           <Turn key={turn.at} turn={turn} />

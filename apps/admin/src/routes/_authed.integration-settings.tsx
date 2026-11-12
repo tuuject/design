@@ -58,12 +58,9 @@ function IntegrationSettingsPage() {
 
   return (
     <div className={css({ maxWidth: '768px', marginInline: 'auto' })}>
-      <PageHeader
-        title="接入设置"
-        description="调用助手接口时使用的请求头和允许的来源。保存只做演示，离开或刷新页面后会还原。"
-      />
+      <PageHeader title="接入设置" description="调用助手接口时使用的请求头和允许的来源" />
       <div className={css({ display: 'flex', flexDirection: 'column', gap: '6' })}>
-        <Card title="请求头" description="随每次请求发送。请求头的顺序不影响结果，所以这里关掉了拖动。">
+        <Card title="请求头" description="随每次请求发送">
           <MapEditor
             value={headers}
             onChange={setHeaders}
@@ -90,7 +87,7 @@ function IntegrationSettingsPage() {
             )}
           />
         </Card>
-        <Card title="允许来源" description="只有名单里的来源可以调用接口。列表顺序就是显示顺序，可以拖动调整。">
+        <Card title="允许来源" description="只有名单里的来源可以调用接口">
           <SetEditor
             value={origins}
             onChange={setOrigins}

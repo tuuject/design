@@ -69,7 +69,7 @@ function MessageRow({ message }: { message: SupportMessage }) {
 function SupportPage() {
   return (
     <div className={css({ maxWidth: '768px', marginInline: 'auto' })}>
-      <PageHeader title="客服会话" description="客户与客服的一来一回：received 在左，sent 在右。" />
+      <PageHeader title="客服会话" />
       <Card
         title={CUSTOMER_NAME}
         description={

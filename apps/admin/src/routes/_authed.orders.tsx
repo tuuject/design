@@ -329,7 +329,7 @@ function OrdersPage() {
 
   return (
     <div>
-      <PageHeader title="订单管理" description="筛选、创建、修改、删除并导入导出商城订单" />
+      <PageHeader title="订单管理" />
       <OrderSearchForm value={filters} onSearch={applyFilters} onReset={resetFilters} />
       <div
         className={css({

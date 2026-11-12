@@ -32,7 +32,6 @@ function AssistantSettingsPage() {
     <div className={css({ maxWidth: '960px', marginInline: 'auto' })}>
       <PageHeader
         title="助手配置"
-        description="分区较多的长表单：按分区跳转，在底部查看和提交未保存的更改。数据只存在内存里，刷新页面会还原。"
         actions={
           // A demo control, outside the form: it applies at once and is never part of the saved settings.
           <Switch label="模拟保存失败" checked={failSaves} onCheckedChange={setFailSaves} />
@@ -146,7 +145,7 @@ function AssistantSettingsForm({ initial, failSaves }: { initial: AssistantSetti
         <FormField name="model.systemPrompt" label="系统提示词" optional>
           <Textarea {...register('model.systemPrompt')} rows={5} />
         </FormField>
-        <FormField name="model.apiKey" label="API 密钥" help="未保存的更改里只显示「已修改」，不会显示密钥内容">
+        <FormField name="model.apiKey" label="API 密钥">
           <Input
             type="password"
             autoComplete="off"

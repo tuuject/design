@@ -30,13 +30,15 @@ The Electron shell (`electron/main.ts`) hides the title bar and keeps only the w
 
 Demo account: `admin` / `123456`. All data is mock (`src/mock/api.ts`), generated deterministically so screenshots are stable.
 
+Nothing is sent to a server. On `settings`, the nickname and email go into the signed-in session and survive a reload; the other fields reset when you leave the page. `assistant-settings` keeps its saves in mock memory until a reload, and its 「模拟保存失败」 switch makes saves fail so you can walk the failure path. `integration-settings` is page state and resets when you leave the page. These notes live here rather than on the pages: page copy only helps the user act (see the koi-design skill, Page text).
+
 ## What's inside
 
 - **App shell** (`src/components/app-shell/`): two desktop navigation layouts — a collapsible sidebar, or a horizontal bar under the topbar — both persisted, with a sticky header, breadcrumb, user menu, light/dark toggle and a responsive drawer below 768px.
 - **Routes** (`src/routes/`): `login`, `_authed` (guard + shell) → `dashboard`, `orders` (filters, paging, CRUD and CSV import/export; URL state via `validateSearch`), `settings` (validation + submit), `assistant-settings` (a long sectioned form, below), `integration-settings` (MapEditor and SetEditor on a plain page state form), `$.tsx` 404.
 - **Navigation config** (`src/nav.ts`): single source for both desktop layouts — `NAV_GROUPS` is a two-level tree whose first level *is* the category (概览 / 业务 / 智能助手 / 账户), each group expanding into its pages in place (sidebar, drawer) or in a `Menu` flyout (horizontal bar, collapsed rail). Page titles still come from each route's `staticData.title` (breadcrumb + `document.title`).
 - **Theming**: `theme-init.js` inlined into `<head>` by `vite.config.ts` (`transformIndexHtml`) — no flash of the wrong theme. The toggle calls `koiSetTheme`, exactly like any Koi consumer.
-- **Sectioned forms** (`src/components/sectioned-form/`): `SectionedForm` + `FormSection` + `FormField` for long react-hook-form forms: sticky section list with scrollspy (a dropdown in narrow containers), a sticky action bar that counts unsaved fields, lists them and jumps to each one, and a save flow that keeps edits on failure and rebases on the server's copy on success. Example: `routes/_authed.assistant-settings.tsx`.
+- **Sectioned forms** (`src/components/sectioned-form/`): `SectionedForm` + `FormSection` + `FormField` for long react-hook-form forms: sticky section list with scrollspy (a dropdown in narrow containers), a sticky action bar that counts unsaved fields, lists them by name (never their values, so a changed API key stays hidden) and jumps to each one, and a save flow that keeps edits on failure and rebases on the server's copy on success. Example: `routes/_authed.assistant-settings.tsx`.
 - **Business pieces built here, not in the library**: sidebar nav, breadcrumbs, user menu (Base UI `Menu` directly), admin icons. See `agent-doc/admin.md` for what should move into `@tuuject/koi-react` once specced (Menu, NavMenu, Breadcrumb). Tables come from the library (`@tuuject/koi-react/data-table`, plus the `@tuuject/koi-react/table` parts where row selection is needed).
 
 ## Copying this template into another repo

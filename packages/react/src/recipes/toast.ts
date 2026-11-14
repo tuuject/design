@@ -36,7 +36,9 @@ function stacked(edge: 'bottom' | 'top') {
       transform: `translateY(${edge === 'bottom' ? '' : '-'}${c.toast.enterOffset}px) scale(.96)`,
     },
     [`&${state.exiting}` as const]: { opacity: '0', transform: `translateY(${y}) scale(.96)` },
-    // Flung away: keep going the way the swipe went.
+    // Flung away: keep going the way the swipe went. Swiping is a physical gesture (Base UI reports the direction the
+    // pointer moved in), so these stay physical in RTL: a toast flicked left leaves to the left.
+    // koi-physical: follows the pointer, not the reading direction.
     [`&${state.exiting}${state.swiped.left}` as const]: {
       transform: `translateX(calc(${swipeX} - 150%)) translateY(${y})`,
     },
@@ -95,8 +97,16 @@ export const toast = defineSlotRecipe({
     },
     content: { flex: '1', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '1' },
     // One step above the 14px base on purpose: a toast is only glanced at.
-    title: { m: '0', textStyle: 'heading-3' },
-    description: { m: '0', textStyle: 'body', color: 'text-muted' },
+    title: { m: '0', textStyle: 'heading-3', overflowWrap: 'break-word' },
+    description: {
+      m: '0',
+      textStyle: 'body',
+      color: 'text-muted',
+      overflowWrap: 'break-word',
+      // Hyphenation follows the page's `lang`; a compound word long enough for the 360px panel breaks with a hyphen
+      // in German instead of being pushed out of it.
+      hyphens: 'auto',
+    },
     action: { flex: 'none', display: 'flex', alignSelf: 'center', gap: '2' },
     // Alert's 24px round close button, aligned with the title line (legacy: top space-4, end space-3).
     close: {

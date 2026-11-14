@@ -47,8 +47,8 @@ export const dropZone = defineSlotRecipe({
       transitionProperty: 'background-color, color',
       transitionDuration: 'fast',
     },
-    body: { display: 'flex', flexDirection: 'column', gap: '1' },
-    title: { textStyle: 'heading-3', color: 'text', margin: '0' },
-    description: { textStyle: 'small', color: 'text-muted', margin: '0' },
+    body: { display: 'flex', flexDirection: 'column', gap: '1', minWidth: '0' },
+    title: { textStyle: 'heading-3', color: 'text', margin: '0', overflowWrap: 'anywhere' },
+    description: { textStyle: 'small', color: 'text-muted', margin: '0', overflowWrap: 'anywhere', hyphens: 'auto' },
   },
 });

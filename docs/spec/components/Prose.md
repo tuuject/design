@@ -13,6 +13,7 @@ Koi's long-form type for rendered rich text: markdown output, CMS HTML, docs. It
 - Paragraphs: 20px apart. `.lead`: 20px in `text-muted`.
 - Headings, all `text`: `h1` 36px / 800, `h2` 24px / 700, `h3` 20px / 600, `h4` 16px / 600, `h5` 14px / 600, `h6` 14px / 600 in `text-muted`. Whatever follows `h2`–`h6` or `hr` has no top margin.
 - Links: exactly Link's style. `link` text over a 2px dashed `link-border` underline, `link-hover-bg` behind it on hover, weight 500, and the focus ring.
+- Technical strings: `code` and `kbd` are isolated with `unicode-bidi: plaintext` (their first strong character sets the direction, so an identifier is LTR and Arabic code stays RTL), so a key, model id, URL or path inside translated copy keeps its own order instead of being reordered by the surrounding RTL text. `pre` is `direction: ltr` and left-aligned even in an RTL article: source text reads left to right.
 - Bold: `text`, 600. Italic stays italic.
 - Lists: disc and decimal markers in `text-muted`, 26px indent, items 2px apart (the blog's `prose-li:my-0.5`). `ol[type]` picks letters or roman numerals.
 - Blockquote: `text`, italic, weight 500, a 4px `border` rule at the start and curly quotes added around it.

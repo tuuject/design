@@ -8,7 +8,7 @@ An inline message box for information, warnings and errors related to the page o
 
 **Styling:**
 - Box: `radius-xl` corners, `space-3` padding, a 1px `<tone>-border` edge and a `<tone>-surface` fill. Text is `body` (14px) with a 16px icon.
-- Text: the icon and title use `<tone>-text`, the body uses `text`, with a `space-1` (4px) gap between title and body.
+- Text: the icon and title use `<tone>-text`, the body uses `text`, with a `space-1` (4px) gap between title and body. Title and body wrap, and the close button's room is reserved with `padding-inline-end`, so a long message never runs under the ×.
 - `info` uses the sky primary, `warning` uses yellow, `error` uses red.
 - Every tone has its own icon, so the meaning never depends on color alone.
 - Accessibility: warning and error alerts use `role="alert"`, info uses `role="status"`.

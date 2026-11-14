@@ -14,6 +14,7 @@
 | `check-raw-sizes.mjs` | 组件源码里的字面尺寸（`Npx`、`size={N}`、`sideOffset={N}`…） | 换成 token；web 专属的加 `// koi-web-only: <原因>` |
 | `check-headless.mjs` | recipe 里的 Base UI 选择器 / 变量；公开 props 里的 Base UI 类型 | [headless.md](headless.md) |
 | `check-core.mjs` | core 里的平台类型和导入；web 的 `<Name>Props` 是否建立在 `<Name>OwnProps` 上 | [core.md](core.md) |
+| `check-logical-props.mjs` | `packages/react/src` 里的物理方向写法（`left`/`right`、`ml`/`mr`/`pl`/`pr`、`marginLeft`、`borderLeft*`、物理圆角、`textAlign: 'left'`、`side: 'left'`…） | 换成逻辑属性；确实要物理的加 `// koi-physical: <原因>`（[web-components.md](web-components.md#方向与长文案)） |
 | `check-versions.mjs` | 四个 `@tuuject` 包是否锁步在同一版本 | 跑 `pnpm version:bump <major\|minor\|patch\|x.y.z>` |
 | `check-dots.mjs` | 全仓库（`reference/` 除外）文本文件里的间隔号（`U+00B7`、`U+30FB` 及形近字符） | 并列元信息拆成多个元素用 gap 隔开；句子里用「，」「、」；注释里用 ` / ` 或逗号。内容自带的（译名、作品名）在那一行标 `koi-allow-dot: <原因>` |
 | `pnpm typecheck` | 全部包的 tsc；tokens 包还会重跑构建和对比度检查 | |
@@ -42,6 +43,22 @@ Biome 负责 lint 和格式，配置在根 `biome.json`。格式化风格与 `pl
 
 - `pnpm shots [组件…]`：截每个 story 的浅色和深色，存到 `apps/storybook/shots/<组件>-<Story>_<主题>.png`。会自己启动 Storybook（端口 6199），跑完自动关闭。末尾打印 `No console errors.` 才算干净。
 - `KOI_PALETTE=rose pnpm shots`、`KOI_FONT=chill pnpm shots`：其它配色 / 字体，文件名带后缀。
+- `KOI_DIR=rtl pnpm shots`、`KOI_DIR=rtl KOI_PALETTE=rose pnpm shots`：RTL，文件名带 `_rtl`（和 palettes 后缀可叠加）。
+- 截图脚本等的是 `#storybook-root > *` 的 `attached` 而不是 `visible`：有的 story 只有 portal 内容（一个单独的 Drawer / Dialog），根节点下面的那层没有盒子。
+- Storybook 工具栏的「方向」切换 `<html dir>` 并把 story 包进 `DirectionProvider`；docs 页面不给 `<html>` 写方向，而是把 `dir`/`lang` scope 在 story 自己的包装上（一页多个 story 不会互相覆盖）。「语言」工具栏写 `<html lang>`（`auto` 跟随方向），德语 / 阿拉伯语 story 用 story 级 `globals` 固定它，portal 里的文案才按对应语言断字。
+- story 可以给自己加 `koi-shot-<宽>x<高>` 标签（`Components/I18nStress` 的手机 story 是 `koi-shot-390x1500`），`shots.mjs` 会为它换视口：固定定位的 Dialog / Drawer / Toast 跟随视口，不是 story 的盒子。用标签而不是 story 参数，因为脚本只拿得到 Storybook 的 index（里面有 tags，没有 parameters）。
+- `Components/I18nStress` 用真实德语 / 阿拉伯语长文案在桌面 / 平板 / 手机下压测组件；`Components/RtlProbe` 是下面 `pnpm rtl-check` 的探针。
+
+## `pnpm rtl-check`
+
+`apps/storybook/scripts/rtl-check.mjs`：截图看不出来的行为，用 Playwright 断言。自己起 Storybook（端口 6199），跑完关掉。
+
+- 浮层对齐：Popover / Menu / SelectPanel 的 `bottom-start` 必须对齐触发器的**行内起始边**（LTR 左、RTL 右），面板明显宽于触发器、两侧都有空间（碰撞规避没法把错的翻成对的）。三种模式：文档 LTR、文档 RTL（`<html dir>` + provider）、**LTR 文档里的 RTL 子树**（`dir` 在包装上 + provider）。最后一种专门抓「positioner 没拿到方向」。
+- Drawer `side="start"` / `"end"` 在两种方向下贴哪条边。
+- 一行里 Button 36 / Tag 28 / Badge 22，旁边是更高的 Textarea（`align-items: stretch` 不应把它们拉长）。
+- 一个 40 字符复合词放进 240px 宽的行：控件不能溢出（回到 `overflowWrap` 与 min-content 的坑）。
+
+探针 story 是 `Components/RtlProbe`，脚本读它上面的 `data-koi-probe` 属性，改探针时两边一起改。
 - 任何视觉改动之后都要**真的打开 PNG 看**，不能只看命令有没有报错。
 
 ### 像素比对（重构必须做）

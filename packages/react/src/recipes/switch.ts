@@ -35,10 +35,13 @@ export const switchRecipe = defineSlotRecipe({
       [`&${state.disabled}` as const]: { opacity: '0.5', cursor: 'not-allowed' },
     },
     // Slides on the spring curve; global-css.ts stops it under reduced motion (the spec says all motion stops).
+    // The offset is inline-start (the thumb rests at the leading edge); the checked transform can't be logical, so the
+    // RTL rule moves it the other way. `:dir()` on the thumb reads the direction it inherits, whether it comes from
+    // `<html dir>` or a DirectionProvider.
     thumb: {
       position: 'absolute',
       top: toPx(c.switch.thumbInset),
-      left: toPx(c.switch.thumbInset),
+      insetInlineStart: toPx(c.switch.thumbInset),
       width: toPx(c.switch.thumb),
       height: toPx(c.switch.thumb),
       borderRadius: 'full',
@@ -47,6 +50,9 @@ export const switchRecipe = defineSlotRecipe({
       transition: 'transform {durations.spring} {easings.spring}',
       [`&${state.checked}` as const]: {
         transform: `translateX(${c.switch.trackWidth - c.switch.thumb - 2 * c.switch.thumbInset}px)`,
+      },
+      [`&:dir(rtl)${state.checked}` as const]: {
+        transform: `translateX(-${c.switch.trackWidth - c.switch.thumb - 2 * c.switch.thumbInset}px)`,
       },
     },
   },

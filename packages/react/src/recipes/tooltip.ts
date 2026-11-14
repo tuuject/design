@@ -25,6 +25,9 @@ export const tooltip = defineSlotRecipe({
       fontFamily: 'sans',
       textStyle: 'small',
       overflowWrap: 'break-word',
+      // Hyphenation needs the page's `lang`; a 240px bubble holding a German compound hyphenates instead of breaking
+      // mid-word with no marker.
+      hyphens: 'auto',
       outline: 'none',
       // Overlays fade (legacy koi-fade, 150ms ease-out); a tooltip doesn't move.
       transitionProperty: 'opacity',

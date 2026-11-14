@@ -1,9 +1,11 @@
 import { Menu as BaseMenu } from '@base-ui/react/menu';
-import type { FloatingPlacement, MenuGroupOwnProps, MenuItemOwnProps, MenuOwnProps } from '@tuuject/koi-core';
+import type { MenuGroupOwnProps, MenuItemOwnProps, MenuOwnProps } from '@tuuject/koi-core';
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { type FloatingPanelSlot, floatingPanel } from '@tuuject/koi-react/styled-system/recipes';
 import { components } from '@tuuject/koi-tokens/dimensions';
 import { type MouseEvent, type ReactNode, useRef } from 'react';
+import { useDirectionAttr } from '../direction.js';
+import { placementOf } from '../placement.js';
 import type { ChangeDetails, SlotClassNames } from '../types.js';
 
 export interface MenuProps extends MenuOwnProps<Event> {
@@ -16,12 +18,6 @@ export interface MenuProps extends MenuOwnProps<Event> {
    */
   // biome-ignore lint/suspicious/noConfusingVoidType: a handler that returns nothing must stay allowed; `undefined` would reject it.
   finalFocus?: (interactionType: 'mouse' | 'touch' | 'pen' | 'keyboard' | '') => HTMLElement | boolean | null | void;
-}
-
-/** Koi's placements are Base UI's side plus align, spelled out so no library type leaks into the props. */
-function placementOf(placement: FloatingPlacement) {
-  const [side, align] = placement.split('-') as ['bottom' | 'top' | 'left' | 'right', 'start' | 'end'];
-  return { side, align };
 }
 
 const isGroup = <E,>(entry: MenuItemOwnProps<E> | MenuGroupOwnProps<E> | 'separator'): entry is MenuGroupOwnProps<E> =>
@@ -52,6 +48,7 @@ export function Menu({
   // action (client routing) has to see the click first.
   const actions = useRef<{ unmount(): void; close(): void } | null>(null);
   const { side, align } = placementOf(placement);
+  const dir = useDirectionAttr();
 
   const choose = (item: MenuItemOwnProps<Event>, event: MouseEvent) => {
     let canceled = false;
@@ -115,7 +112,9 @@ export function Menu({
     <BaseMenu.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange} modal={modal} actionsRef={actions}>
       <BaseMenu.Trigger render={trigger} openOnHover={openOnHover} />
       <BaseMenu.Portal>
+        {/* The positioner carries the direction: Floating UI reads it to mirror `start`/`end`, and the popup inherits it. */}
         <BaseMenu.Positioner
+          dir={dir}
           side={side}
           align={align}
           sideOffset={components.popup.offset}

@@ -6,4 +6,4 @@ A native dropdown styled like Input, with a chevron.
 
 **The consumer supplies:** either `options` (`{value, label, disabled?}`) or `<option>` children (`<optgroup>` too), plus `value`/`onChange` or `defaultValue`. Optionally `placeholder` (a disabled first option shown until the user picks), `size` and `invalid`.
 
-**Styling:** identical to Input. The chevron is drawn in `text-muted`. It stays a native `<select>`, so it opens the platform picker on phones and is fully keyboard accessible.
+**Styling:** identical to Input. The chevron is drawn in `text-muted` at the inline end. It stays a native `<select>`, so it opens the platform picker on phones and is fully keyboard accessible. A long option label shortens inside the control rather than widening it; the full value is in the native `title`.

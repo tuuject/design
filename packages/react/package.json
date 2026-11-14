@@ -17,6 +17,7 @@
     "./checkbox": "./src/checkbox/Checkbox.tsx",
     "./dialog": "./src/dialog/Dialog.tsx",
     "./divider": "./src/divider/Divider.tsx",
+    "./direction": "./src/direction.tsx",
     "./drawer": "./src/drawer/Drawer.tsx",
     "./drop-zone": "./src/drop-zone/DropZone.tsx",
     "./empty": "./src/empty/Empty.tsx",
@@ -151,6 +152,10 @@
       "./divider": {
         "types": "./dist/divider/Divider.d.ts",
         "default": "./dist/divider/Divider.js"
+      },
+      "./direction": {
+        "types": "./dist/direction.d.ts",
+        "default": "./dist/direction.js"
       },
       "./drawer": {
         "types": "./dist/drawer/Drawer.d.ts",

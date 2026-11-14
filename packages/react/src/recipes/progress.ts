@@ -12,7 +12,7 @@ export const progress = defineSlotRecipe({
   base: {
     root: { display: 'flex', flexDirection: 'column', gap: '2', width: '100%', fontFamily: 'sans' },
     head: { display: 'flex', justifyContent: 'space-between', gap: '3', textStyle: 'body', color: 'text' },
-    label: { minWidth: '0' },
+    label: { minWidth: '0', overflowWrap: 'anywhere' },
     // Pushed to the end even when there's no label.
     value: { marginInlineStart: 'auto', color: 'text-muted', fontVariantNumeric: 'tabular-nums' },
     track: {
@@ -33,8 +33,9 @@ export const progress = defineSlotRecipe({
       [`&${state.indeterminate}` as const]: {
         position: 'absolute',
         insetBlock: '0',
-        // Physical, like the keyframes: the slide runs left to right in RTL too (as legacy).
-        left: '0',
+        // Physical, like the keyframes: the slide runs left to right in RTL too (as legacy). It isn't reading order,
+        // it's motion, so mirroring it would make the bar travel against the fill of every determinate bar beside it.
+        left: '0', // koi-physical: where the slide starts, not a text-aligned position
         width: '40%',
         animationName: 'koi-indet',
         animationDuration: 'indeterminate',

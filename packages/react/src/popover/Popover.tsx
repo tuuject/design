@@ -1,8 +1,10 @@
 import { Popover as BasePopover } from '@base-ui/react/popover';
-import type { FloatingPlacement, PopoverOwnProps } from '@tuuject/koi-core';
+import type { PopoverOwnProps } from '@tuuject/koi-core';
 import { css, cx } from '@tuuject/koi-react/styled-system/css';
 import { floatingPanel } from '@tuuject/koi-react/styled-system/recipes';
 import { components } from '@tuuject/koi-tokens/dimensions';
+import { useDirectionAttr } from '../direction.js';
+import { placementOf } from '../placement.js';
 import { useStrings } from '../strings.js';
 import type { SlotClassNames } from '../types.js';
 
@@ -12,11 +14,6 @@ export interface PopoverProps extends PopoverOwnProps {
   /** Lands on the panel. */
   className?: string;
   classNames?: SlotClassNames<PopoverSlot>;
-}
-
-function placementOf(placement: FloatingPlacement) {
-  const [side, align] = placement.split('-') as ['bottom' | 'top' | 'left' | 'right', 'start' | 'end'];
-  return { side, align };
 }
 
 /**
@@ -38,12 +35,15 @@ export function Popover({
   const s = floatingPanel({ content: 'panel' });
   const t = useStrings();
   const { side, align } = placementOf(placement);
+  const dir = useDirectionAttr();
 
   return (
     <BasePopover.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange} modal={modal}>
       <BasePopover.Trigger render={trigger} />
       <BasePopover.Portal>
+        {/* The positioner carries the direction: Floating UI reads it to mirror `start`/`end`, and the popup inherits it. */}
         <BasePopover.Positioner
+          dir={dir}
           side={side}
           align={align}
           sideOffset={components.popup.offset}

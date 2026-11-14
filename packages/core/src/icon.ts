@@ -20,4 +20,11 @@ export interface IconOwnProps {
   icon: IconData;
   /** px. The box is square and the drawing is centered in it. Default `icon` (16). */
   size?: number;
+  /**
+   * The drawing points along the reading direction (a back/forward chevron, an arrow), so it is flipped in RTL.
+   * Koi's own chevron and arrow icons set it; apps mark their own directional icons the same way. Never set it on
+   * an icon whose meaning isn't direction (close, play, check, a logo): an 'X' flipped is still an 'X', and a
+   * mirrored play triangle reads as "back".
+   */
+  mirrored?: boolean;
 }

@@ -25,12 +25,15 @@ export const choiceRow = {
       borderColor: 'border-control-hover',
     },
   },
-  text: { display: 'flex', flexDirection: 'column' },
-  label: { textStyle: 'body' },
+  // flex 1 + minWidth 0 keeps a long label inside the row it sits in; `anywhere` lets one unbreakable word go with it
+  // rather than making the row wider than its container.
+  text: { flex: '1', minWidth: '0', display: 'flex', flexDirection: 'column' },
+  label: { textStyle: 'body', overflowWrap: 'anywhere' },
   description: {
     mt: '1',
     textStyle: 'small',
     color: 'text-muted',
+    overflowWrap: 'anywhere',
     // The disabled control is an earlier sibling of the text column.
     [`${state.disabled} ~ * > &` as const]: { color: 'text-disabled' },
   },

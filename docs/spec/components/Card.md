@@ -11,5 +11,5 @@ A rounded container (24px corners) that groups related content. Its `glass` vari
 - `outlined`: `surface` with a 1px `border`.
 - `filled`: `surface-muted`.
 - `glass`: `surface-glass` with a `blur-panel` backdrop.
-- Title: `heading-3` (16px). Body: `body` (14px). Description: `small` (12px) in `text-muted`.
+- Title: `heading-3` (16px). Body: `body` (14px). Description: `small` (12px) in `text-muted`. All three wrap; the footer wraps its actions onto more rows when they don't fit.
 - No shadow. Koi layers with translucency, not elevation.

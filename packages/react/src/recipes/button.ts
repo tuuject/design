@@ -62,7 +62,13 @@ export const button = defineRecipe({
     borderRadius: 'full',
     fontFamily: 'sans',
     fontWeight: '600',
-    whiteSpace: 'nowrap',
+    // A label that doesn't fit on one line wraps and the button grows taller. `height: fit-content` keeps that
+    // growth content-based, so the button stays its own size in a flex row (a definite height is also what stops
+    // `align-items: stretch` from pulling it to a taller sibling's height); the `minHeight` per size is the floor.
+    height: 'fit-content',
+    whiteSpace: 'normal',
+    textAlign: 'center',
+    overflowWrap: 'break-word',
     userSelect: 'none',
     cursor: 'pointer',
     textDecoration: 'none',
@@ -90,7 +96,7 @@ export const button = defineRecipe({
     variant: empty(BUTTON_VARIANTS),
     size: {
       sm: {
-        height: 'control-sm',
+        minHeight: 'control-sm',
         px: '3',
         textStyle: 'button-sm',
         '& > svg': { width: 'icon-sm', height: 'icon-sm' },
@@ -98,8 +104,8 @@ export const button = defineRecipe({
         // Here rather than in the table recipe: slot recipes sit in an earlier layer, so it would lose.
         'td &': { textStyle: 'button' },
       },
-      md: { height: 'control-md', px: '4', textStyle: 'button' },
-      lg: { height: 'control-lg', px: '5', textStyle: 'button' },
+      md: { minHeight: 'control-md', px: '4', textStyle: 'button' },
+      lg: { minHeight: 'control-lg', px: '5', textStyle: 'button' },
     },
     shape: {
       pill: { borderRadius: 'full' },
@@ -120,8 +126,13 @@ export const button = defineRecipe({
     // compound variants in its own order, so this can't rely on iconOnly's px 0 coming later.
     { shape: 'rounded', size: 'sm', iconOnly: false, css: { px: '2' } },
     // Panda emits variants alphabetically within one layer, so `size`'s padding would beat a plain `iconOnly`
-    // variant. compound_variants is a later layer.
-    { iconOnly: true, css: { px: '0', flex: 'none', aspectRatio: '1' } },
+    // variant. compound_variants is a later layer. One square per size: an icon-only button has no label to wrap,
+    // so it keeps a fixed height (a min-height would let aspect-ratio's width/height pair drift apart).
+    ...(['sm', 'md', 'lg'] as const).map((size) => ({
+      iconOnly: true,
+      size,
+      css: { px: '0', flex: 'none', aspectRatio: '1', height: `control-${size}` as const },
+    })),
   ],
   defaultVariants: { color: 'primary', variant: 'solid', size: 'md', shape: 'rounded', iconOnly: false },
 });

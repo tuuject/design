@@ -86,7 +86,8 @@ koi-ui/
 - `pnpm publish:packages`：检查版本、构建并发布 `@tuuject/koi-tokens`、`@tuuject/koi-core`、`@tuuject/koi-react`；`@tuuject/koi-native` 仍是 private。
 - `pnpm lint`：Biome lint + 格式检查（只读，不写文件）。**提交前必须通过。**
 - `pnpm lint:fix`：Biome 自动修复 + 格式化。含 `--unsafe`，会改语义（例如删 hook 依赖），跑完必须 review diff。
-- `pnpm shots [组件…]`：截每个 story 的浅色和深色到 `apps/storybook/shots/`。`KOI_PALETTE=rose` / `KOI_FONT=chill` 截其它配色 / 字体。任何视觉改动后都要打开 PNG 看。
+- `pnpm shots [组件…]`：截每个 story 的浅色和深色到 `apps/storybook/shots/`。`KOI_PALETTE=rose` / `KOI_FONT=chill` 截其它配色 / 字体，`KOI_DIR=rtl` 截 RTL。任何视觉改动后都要打开 PNG 看。
+- `pnpm rtl-check`：用 Playwright 断言截图看不出来的方向/长文案行为（浮层对齐、Drawer 边、控件高度、长词换行）。改 RTL 或长文案相关的东西后跑，细节见 [verification.md](agent-doc/verification.md)。
 - `pnpm dev`：tokens + codegen + Storybook（端口 6006），输出同时写进 `.temp/dev-storybook.log`。长期进程。
 - `pnpm dev:status`：本 checkout 的 Storybook dev server 在跑时退出码 0，并打印地址和日志路径；没在跑是 1；端口被别的 server 占着（另一个 worktree 的、或不报 checkout 的）是 3。
 - `pnpm dev:admin`：tokens + codegen + Admin 模板 dev server（端口 3000），输出同时写进 `.temp/dev-admin.log`。长期进程。

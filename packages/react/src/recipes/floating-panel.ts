@@ -105,13 +105,18 @@ export const floatingPanel = defineSlotRecipe({
       gap: '2',
       boxSizing: 'border-box',
       minHeight: 'control-md',
+      // Content-based, so a flex row can't stretch the row to a taller sibling (`minHeight` is only the floor).
+      height: 'fit-content',
       px: '3',
       py: '2',
       // radius-lg (8px) inside the popup's radius-xl (12px) and 4px padding: concentric.
       borderRadius: 'lg',
       color: 'text',
       lineHeight: toPx(c.field.lineHeight),
-      whiteSpace: 'nowrap',
+      // A long label (a translated one, a German compound) wraps and the row grows, rather than running under the
+      // panel's edge: the panel has a max width, the row has no reason to be one line.
+      whiteSpace: 'normal',
+      overflowWrap: 'break-word',
       textDecoration: 'none',
       cursor: 'pointer',
       userSelect: 'none',
@@ -130,7 +135,8 @@ export const floatingPanel = defineSlotRecipe({
       color: 'text-muted',
       '& > svg': { width: 'icon', height: 'icon' },
     },
-    itemText: { flex: '1', minWidth: '0', overflow: 'hidden', textOverflow: 'ellipsis' },
+    // Hyphenation needs the page's `lang`; without one (zh) this does nothing and words break only where they may.
+    itemText: { flex: '1', minWidth: '0', overflowWrap: 'break-word', hyphens: 'auto' },
     itemEnd: {
       display: 'flex',
       alignItems: 'center',

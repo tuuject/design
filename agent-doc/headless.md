@@ -21,7 +21,9 @@ Koi 自己画组件；headless 库提供行为和无障碍：web 端是 Base UI�
    maxHeight: `min(${c.selectPanel.maxHeight}px, ${vars.availableHeight})`,
    ```
 
-   可以原样写的：HTML 伪类（`:disabled`、`:focus-within`、原生 input 上的 `:checked`）；被样式化元素自身的 ARIA 属性（`[aria-invalid=true]`、`[aria-current=page]`、`[aria-pressed]`、`[aria-busy=true]`）；Koi 自己的属性和变量（`data-theme`、`data-font`、`data-palette`、`--koi-*`、Panda token 变量如 `--blurs-panel`）；以及用在原生元素上、只取其原生那一半含义的 `_hover`、`_focusVisible`、`_disabled`、`_placeholder`、`_empty`。
+   可以原样写的：HTML 伪类（`:disabled`、`:focus-within`、原生 input 上的 `:checked`）；`&:dir(rtl)`（标准 CSS，阅读方向由 `dir` 决定，任何库都给不了）；被样式化元素自身的 ARIA 属性（`[aria-invalid=true]`、`[aria-current=page]`、`[aria-pressed]`、`[aria-busy=true]`）；Koi 自己的属性和变量（`data-theme`、`data-font`、`data-palette`、`--koi-*`、Panda token 变量如 `--blurs-panel`）；以及用在原生元素上、只取其原生那一半含义的 `_hover`、`_focusVisible`、`_disabled`、`_placeholder`、`_empty`。
+
+停用方向性图标、让行为跟阅读方向走的 API（`DirectionProvider` / `useDirection`）在 `src/direction.tsx`：它转给 Base UI 的 direction provider，但公开 props 用的是 core 的 `Direction`，不暴露库的类型（规则 5）。
 
 2. **状态按含义命名，不按属性命名。** Base UI 把当前 tab 标为 `data-active`，adapter 里叫 `state.selected`。含义相同就复用已有名字；不同就新加一个，并写 doc comment。
 

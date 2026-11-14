@@ -50,6 +50,23 @@ Import the theme bootstrap before your CSS in the app entry (or inline the same 
 import '@tuuject/koi-tokens/theme-init.js';
 ```
 
+## Right-to-left
+
+An RTL locale needs two things. Set `dir` and `lang` on `<html>` (the browser does the bidi text, `:dir()`, hyphenation and font fallback with them), and wrap the app in `DirectionProvider` so Koi and Base UI know which way to place popups and which arrow keys go where:
+
+```tsx
+import { DirectionProvider } from '@tuuject/koi-react';
+
+const rtl = locale === 'ar';
+
+// <html dir={rtl ? 'rtl' : 'ltr'} lang={locale}> is set by your shell or the server.
+<DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
+  <App />
+</DirectionProvider>;
+```
+
+`DirectionProvider` renders no element of its own (like Base UI's provider): `dir` stays the app's, on `<html>` or on the root of an RTL region. What the provider adds is behaviour: floating placement, the arrow keys in Tabs, Menu, RadioGroup and Slider, and the `dir` Koi writes on portalled content. Panels (Popover, Menu, SelectPanel, Tooltip) and Dialog, Drawer and Toast are portalled to `document.body`, so Koi puts the provider's direction on each Positioner/Viewport; without the provider they inherit `<html dir>`, which is enough for text but not for placement or keyboard navigation. `placement` values are reading-direction relative, `Drawer`'s `side` also accepts `start` / `end`, and directional icons mirror (`<Icon icon={…} mirrored />` marks your own). `useDirection()` and `useDirectionAttr()` are exported for app code that builds its own floating UI.
+
 ## Use
 
 ```tsx

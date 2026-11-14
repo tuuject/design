@@ -48,9 +48,11 @@ export const dialog = defineSlotRecipe({
       transformOrigin: 'center',
       [`&${state.entering}, &${state.exiting}` as const]: { opacity: '0', transform: 'scale(.96)' },
     },
-    title: { m: '0', pe: '8', textStyle: 'heading-2' },
-    description: { m: '0', textStyle: 'body', color: 'text-muted' },
-    body: { mt: '2', textStyle: 'body' },
+    // `hyphens`: a long translated title breaks at its syllables when the page's `lang` allows it, instead of
+    // splitting a compound at an arbitrary letter.
+    title: { m: '0', pe: '8', textStyle: 'heading-2', overflowWrap: 'break-word', hyphens: 'auto' },
+    description: { m: '0', textStyle: 'body', color: 'text-muted', overflowWrap: 'break-word' },
+    body: { mt: '2', textStyle: 'body', overflowWrap: 'break-word', hyphens: 'auto' },
     footer: { mt: '4', display: 'flex', gap: '2', justifyContent: 'flex-end', flexWrap: 'wrap' },
     close: { position: 'absolute', top: '4', insetInlineEnd: '4' },
   },

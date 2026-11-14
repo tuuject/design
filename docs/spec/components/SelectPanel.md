@@ -11,7 +11,8 @@ A dropdown whose panel the consumer draws: grouped options, rich rows (an avatar
 **Behavior:** Base UI Select (a listbox) without `searchable`, Base UI Combobox with its input inside the panel with it. Either way: the panel opens below the trigger (flipping above near the viewport edge), at least as wide as the trigger; ↓ / Enter / Space open it, arrow keys move, Enter chooses, Esc closes and returns focus to the trigger. Disabled options can't be chosen.
 
 **Styling:**
-- Trigger: identical to Select and Input (`surface`, 1px `border-control`, `radius-xl`, the three control heights); the edge stays `focus-ring` while the panel is open, and the chevron turns over on the spring curve.
+- Trigger: identical to Select and Input (`surface`, 1px `border-control`, `radius-xl`, the three control heights); the edge stays `focus-ring` while the panel is open, and the chevron turns over on the spring curve. The value keeps one line and ellipsizes, with the full text as the trigger's `title`.
+- Direction: the panel opens aligned to the trigger's start edge (mirrored in RTL by the positioner, which carries the provider's `dir`), and its rows and check marks use logical order.
 - Panel: `surface`, a 1px `border` edge, `radius-xl`, `shadow-float`, 4px padding, at most 360px tall (it scrolls). It pops in from the trigger (scale from 96% on the spring curve, fade on `out`).
 - Options: 36px tall, `body` type, `radius-lg` (concentric with the panel). The highlighted option fills `surface-muted`; the chosen one shows a 16px check in `text-brand`; disabled ones are `text-disabled`.
 - Group labels: `small` `text-muted`. Separators: 1px `divider`, edge to edge.

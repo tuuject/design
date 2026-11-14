@@ -10,6 +10,7 @@ import {
 import { cx } from '@tuuject/koi-react/styled-system/css';
 import { type ToastSlot, toast as toastRecipe } from '@tuuject/koi-react/styled-system/recipes';
 import { type HTMLAttributes, type ReactNode, createContext, useContext, useEffect, useMemo, useRef } from 'react';
+import { useDirectionAttr } from '../direction.js';
 import { CloseIcon, ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../icons.js';
 import { useStrings } from '../strings.js';
 import type { SlotClassNames } from '../types.js';
@@ -80,11 +81,13 @@ const ToastContext = createContext<ToastApi | null>(null);
 export function ToastProvider({ children, position = 'bottom', label, closeLabel }: ToastProviderProps) {
   const s = toastRecipe({ position });
   const t = useStrings();
+  // The stack lives in a portal on <body>; the viewport carries the direction for every toast in it.
+  const dir = useDirectionAttr();
   return (
     <BaseToast.Provider limit={TOAST_LIMIT} timeout={TOAST_DURATION}>
       <ToastApiProvider>{children}</ToastApiProvider>
       <BaseToast.Portal>
-        <BaseToast.Viewport aria-label={label ?? t.notifications} className={s.viewport}>
+        <BaseToast.Viewport dir={dir} aria-label={label ?? t.notifications} className={s.viewport}>
           <ToastList position={position} closeLabel={closeLabel} />
         </BaseToast.Viewport>
       </BaseToast.Portal>

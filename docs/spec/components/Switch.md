@@ -9,3 +9,4 @@ A pill toggle whose thumb slides on Koi's springy curve.
 **Styling:**
 - Track: 36 × 20px with `radius-full` corners. It's `border-control` when off (3:1 on `surface`) and `control-checked` when on.
 - Thumb: a 14px `white` circle with `shadow-raised`, moving over 400ms on `cubic-bezier(.47,1.64,.41,.8)`. That's the same spring as the blog's mobile menu.
+- Direction: the thumb rests at the inline start and slides toward the inline end, so in RTL it travels the other way (`insetInlineStart` plus a `:dir(rtl)` transform). The label wraps under a long translation and the track stays aligned with its first line.

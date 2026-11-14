@@ -21,8 +21,8 @@ export const empty = defineSlotRecipe({
     },
     // No size of its own: an arbitrary child (Icon, illustration) keeps whatever size it was given.
     icon: { display: 'inline-flex', color: 'text-muted' },
-    title: { m: '0', textStyle: 'label', color: 'text' },
-    description: { m: '0', textStyle: 'small', color: 'text-muted' },
+    title: { m: '0', textStyle: 'label', color: 'text', overflowWrap: 'anywhere' },
+    description: { m: '0', textStyle: 'small', color: 'text-muted', overflowWrap: 'anywhere', hyphens: 'auto' },
     action: { marginBlockStart: '2', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2' },
   },
   variants: {

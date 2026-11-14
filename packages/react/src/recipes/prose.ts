@@ -178,8 +178,16 @@ export const prose = defineRecipe({
     // Outranks `figure > *`.
     [ctx('figure > figcaption')]: { marginTop: em(12, 14) },
 
-    // Inline code keeps Tailwind Typography's backticks.
-    [el('code')]: { color: 'text', fontWeight: '600', fontSize: em(14, 16) },
+    // Inline code keeps Tailwind Typography's backticks. Technical strings (an API key, a model id, a path) are
+    // isolated from the bidi text around them: `plaintext` takes the run's direction from its first strong character,
+    // so `foo/bar()` stays LTR inside Arabic copy — an isolated run would keep the paragraph's RTL base direction and
+    // put the trailing punctuation on the wrong side — while Arabic source stays RTL.
+    [el('code')]: {
+      color: 'text',
+      fontWeight: '600',
+      fontSize: em(14, 16),
+      unicodeBidi: 'plaintext',
+    },
     [el('code', '::before')]: { content: '"`"' },
     [el('code', '::after')]: { content: '"`"' },
     [ctx(
@@ -199,6 +207,8 @@ export const prose = defineRecipe({
     [el('kbd')]: {
       fontWeight: '500',
       fontFamily: 'inherit',
+      // A key name is technical too: the first strong character decides, as with `code`.
+      unicodeBidi: 'plaintext',
       color: 'text',
       fontSize: em(14, 16),
       borderRadius: em(5, 14),
@@ -227,6 +237,10 @@ export const prose = defineRecipe({
       paddingInlineEnd: em(16, 14),
       paddingBottom: em(12, 14),
       paddingInlineStart: em(16, 14),
+      // A code block is source text: it reads left to right at the inline start even in an RTL article, and the
+      // lines stay left-aligned instead of right-aligning their brackets and indentation.
+      direction: 'ltr',
+      textAlign: 'start',
     },
     [ctx('pre code')]: {
       bg: 'transparent',

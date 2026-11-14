@@ -31,6 +31,24 @@ Phase 0–1 的逐组件记录（每个组件相对 legacy 的 API / 行为决�
 - [x] **DropZone**（2026-11-04，新组件，非移植）：虚线文件投放区，点击、Space、Enter 打开选择器。core 放视觉 props（`title` / `description` / `icon` / `accept` / `multiple` / `disabled`），web 加 `onFiles(files: File[])`；校验和处理留在应用。拖入时边线 `control-checked`、底色 `action-subtle`。**native 版暂缓**（原生没有拖放，选择器回调到时另加）。
 - [x] **MapEditor / SetEditor**（2026-11-04，新组件，非移植）：集合编辑器，一行一个条目，拖拽手柄、删除按钮、底部添加按钮。对外是 `{ key, value }[]` / `T[]` 数组，重复 key / value 保留并显示错误，不静默合并或去重；应用校验后自己转成 `Map` / `Set`。行身份在输入和排序时稳定（内部 id），父组件换数组时按 `keyEquals` + `valueEquals` / `equals` 匹配。core 放 `MapEditorOwnProps` / `SetEditorOwnProps`、`CollectionFieldRenderProps`（只给 `invalid`，不传错误文案）和 `hasDuplicate`；web 用 dnd-kit（`@dnd-kit/core` / `sortable` / `modifiers`）做 Pointer + Keyboard 排序，`sortable={false}` 时不渲染 DndContext 和手柄。两个组件共用一个内部 `CollectionEditor`（不公开）。**native 版暂缓**（dnd-kit 是 web 的）。admin 示例在 `/integration-settings`（请求头用 MapEditor、允许来源用 SetEditor）。
 
+## 国际化加固：RTL 与长文案（2026-11-05）
+
+目标是让 Koi 自己不再假设「文案很短」和「阅读方向是 LTR」：Surowan Admin 要接 de-DE / ar 时，问题在组件层修掉，而不是每页打补丁。结论写进 [web-components.md](web-components.md#方向与长文案) 和 `docs/spec/README.md` 的 “Direction and text expansion”。
+
+- [x] **`DirectionProvider`**（`@tuuject/koi-react`，同 `./direction` 子路径）：只做 context —— 转发 Base UI 的 direction provider，不渲染任何元素（第一版用了 `display: contents` 的 `<div dir>`，会改掉每个接入应用的 DOM，`#root > *`、`:first-child` 都受影响，已去掉）。`dir` / `lang` 由应用写在 `<html>` 或 RTL 区域的根元素上；portal 里的浮层用 `useDirectionAttr()` 把方向写到自己的 Positioner / Viewport。导出的 `Direction` 在 core（README 有示例）。
+- [x] **placement 不做数字符翻转**：`placementOf()` 只把 `left` / `right` 改名成 `inline-start` / `inline-end`，`start` / `end` 原样交给 positioner —— Floating UI 会读 **positioner 自己的** `direction` 去镜像 top/bottom 的对齐，所以 Koi 只负责把方向放上去（Pull request review：先前在 `placementOf` 里翻了一次，文档 RTL 时被 Floating UI 再翻一次，`bottom-start` 反着对齐；`pnpm rtl-check` 会抓到）。
+- [x] **`pnpm rtl-check`**（`apps/storybook/scripts/rtl-check.mjs` + `Components/RtlProbe`）：Playwright 断言浮层对齐（文档 LTR / 文档 RTL / LTR 文档里的 RTL 子树三种模式）、Drawer `start`/`end`、一行里 Button/Tag/Badge 的高度、40 字符复合词在 240px 里不溢出。
+- [x] **逻辑属性**：Switch 滑块、Tabs 指示条（保持物理：Base UI 的测量是物理左偏移）、Progress 的不确定条（物理：动效不是行文）、Drawer、NavMenu（渐隐遮罩 + 缩进）、Toast、Table、Breadcrumb、Pagination 全部改逻辑或 `:dir(rtl)`；`scripts/check-logical-props.mjs` 进 `pnpm check`。
+- [x] **Drawer 的 `side`**：`left` / `right` 保持物理含义（向后兼容，也符合「贴在屏幕某一边」的语义），新增 `start` / `end` 给跟随阅读方向的面板；默认仍是 `left`。记录在 `docs/spec/components/Drawer.md`。
+- [x] **图标镜像**：`IconOwnProps.mirrored` + `global-css.ts` 的 `.koi-mirror`（`:dir(rtl)` 时 `scaleX(-1)`）；只有 `ChevronLeftIcon`、`ChevronRightIcon`、`ArrowRightIcon` 内置镜像。应用给自家方向性图标加同一个 prop。
+- [x] **长文案**：按钮、Badge、Tag、菜单行、垂直 NavMenu 行、字段消息、Dialog / Toast / Alert / Card / Empty 文案改为换行 + 撑高（`minHeight` + `height: fit-content`，`overflowWrap: anywhere`、flex 文字槽的 `minWidth: 0`，必要时 `hyphens: auto`）；该截断的（面包屑、Select 的值、NavMenu 品牌）补 `title`。
+- [x] **字体**：`sans` / `chill` 在 CJK 之后、`sans-serif` 之前加 `SF Arabic`、`Geeza Pro`、`Noto Sans Arabic`、`Tahoma`。逐字形回退，Latin / CJK 的渲染不变。
+- [x] **压测**：Storybook 的「方向」工具栏 + `KOI_DIR=rtl pnpm shots`；`Components/I18nStress` 用真实德语 / 阿拉伯语（含 API key、URL、路径、JSON）在 1000 / 820 / 390px 下压测。
+- [ ] **未做：native**。`Direction` 在 core，`IconOwnProps.mirrored` 也是平台无关的，但 Tamagui 侧还没有组件；native 做 RTL 时用它自己的 `I18nManager` 或 `direction` prop，图标镜像用同一套 prop。
+- [ ] **未做：Admin 模板本身**。`apps/admin` 仍是中文 LTR；它接 i18n 时按 README 的例子加 `DirectionProvider` 与 `<html dir lang>`（Surowan 侧并行做）。
+- [ ] **未做：`table.ts` 单元格换行**。表格仍是 `nowrap` + 容器横向滚动（spec 约定），长译文靠滚动而不是换行；要改就是一次独立的 spec 决定。
+- [ ] **未做：断点进 tokens**。PageHeader 的容器查询仍是 `koi-web-only` 的 30rem 字面量。
+
 ## Phase 2：打包与文档
 
 - [x] **发布方式**（2026-11-01）：用 Panda v2 的 `panda lib` + 消费方 `designSystem`，scope `@tuuject`，MIT。构建、消费方配置、版本规则和验证记录见 [publishing.md](publishing.md)。`@tuuject/koi-native` 暂不发布。

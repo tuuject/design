@@ -3,6 +3,11 @@ import { defineSlotRecipe } from '@pandacss/dev/define';
 import { focusRingInside, toPx } from './dimensions.js';
 import { state, vars } from './headless.js';
 
+// The horizontal bar fades out its inline end to hint at rows it has scrolled past. Mask alpha only, not a Koi
+// color: it follows whatever the nav sits on. `to right`/`to left` can't be logical, so RTL gets its own gradient.
+const FADE = `calc(100% - ${space['8']}px)`;
+const fade = (to: 'right' | 'left') => `linear-gradient(to ${to}, currentColor ${FADE}, transparent)`;
+
 // Port of .koi-nav* in reference/legacy-web/components/bundle.css and docs/spec/components/NavMenu.md.
 // DOM: <nav root> <a|div brand> <div body> <div section> <div sectionLabel/> <ul list> <li> <a|button|trigger item/>
 // … </div> </div> <div footer/> </nav>. The horizontal and rail flyouts are Base UI Menu popups: they take
@@ -79,8 +84,22 @@ export const navMenu = defineSlotRecipe({
       '& > img, & > svg:only-child': { maxWidth: '100%' },
     },
     brandText: { display: 'flex', flexDirection: 'column', minWidth: '0' },
-    brandTitle: { textStyle: 'heading-3', fontWeight: 'bold', whiteSpace: 'nowrap' },
-    brandSubtitle: { textStyle: 'small', color: 'text-muted', whiteSpace: 'nowrap' },
+    // Products keep one line even when the name is long: the brand sits in the sidebar's header and a wrapped
+    // subtitle would push the rows down. The overflow becomes an ellipsis and NavMenu puts the full text in a `title`.
+    brandTitle: {
+      textStyle: 'heading-3',
+      fontWeight: 'bold',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
+    brandSubtitle: {
+      textStyle: 'small',
+      color: 'text-muted',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
     body: { display: 'flex', flexDirection: 'column', gap: '6', minWidth: '0' },
     section: { display: 'flex', flexDirection: 'column', gap: '1' },
     sectionLabel: { px: '3', textStyle: 'small', color: 'text-muted' },
@@ -99,7 +118,11 @@ export const navMenu = defineSlotRecipe({
       gap: '2',
       boxSizing: 'border-box',
       width: '100%',
-      height: 'control-md',
+      // A floor rather than a fixed height: a long label (a German compound in a 248px sidebar) wraps onto a second
+      // line and the row grows, instead of truncating the destination away. `fit-content` keeps the growth from the
+      // content, so a flex row can't stretch the row to a taller sibling either.
+      minHeight: 'control-md',
+      height: 'fit-content',
       px: '3',
       m: '0',
       borderWidth: '0',
@@ -111,7 +134,8 @@ export const navMenu = defineSlotRecipe({
       fontWeight: 'normal',
       textAlign: 'start',
       textDecoration: 'none',
-      whiteSpace: 'nowrap',
+      whiteSpace: 'normal',
+      overflowWrap: 'break-word',
       cursor: 'pointer',
       outline: 'none',
       transitionProperty: 'background-color, color',
@@ -133,7 +157,7 @@ export const navMenu = defineSlotRecipe({
       flex: 'none',
       '& > svg': { width: 'icon', height: 'icon' },
     },
-    itemLabel: { flex: '1', minWidth: '0', overflow: 'hidden', textOverflow: 'ellipsis' },
+    itemLabel: { flex: '1', minWidth: '0' },
     // Badge and chevron travel together at the end of the row; one auto margin keeps them from splitting apart.
     trailing: { display: 'flex', alignItems: 'center', gap: '2', flex: 'none', marginInlineStart: 'auto' },
     badge: { flex: 'none' },
@@ -218,16 +242,18 @@ export const navMenu = defineSlotRecipe({
           // The bar never shows a scrollbar; the fade at the end hints that it scrolls.
           scrollbarWidth: 'none',
           '&::-webkit-scrollbar': { display: 'none' },
-          // Mask alpha only, not a Koi color: the fade follows whatever the nav sits on. The trailing padding
-          // keeps the fade off the last row while everything fits.
-          maskImage: `linear-gradient(to right, currentColor calc(100% - ${space['8']}px), transparent)`,
-          pr: '8',
+          // The fade sits at the inline end (right in LTR, left in RTL); the trailing padding keeps it off the last
+          // row while everything fits.
+          maskImage: fade('right'),
+          '&:dir(rtl)': { maskImage: fade('left') },
+          pe: '8',
         },
         section: { flexDirection: 'row', alignItems: 'center', flex: 'none', gap: '0' },
         sectionLabel: { srOnly: true },
         list: { flexDirection: 'row' },
         // No expanded tree to read in one row, so a parent holding the current page takes the current fill.
-        item: { width: 'auto', flexShrink: '0' },
+        // One row only: a label that doesn't fit scrolls sideways with the bar instead of making the bar taller.
+        item: { width: 'auto', flexShrink: '0', whiteSpace: 'nowrap' },
         onPath: { bg: 'nav-item-active', color: 'text', fontWeight: 'bold' },
         itemLabel: { flex: 'none' },
         footer: { marginInlineStart: 'auto' },

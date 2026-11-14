@@ -43,8 +43,8 @@ export const drawer = defineSlotRecipe({
       transitionDuration: 'overlay',
       transitionTimingFunction: 'out',
     },
-    title: { m: '0', pe: '8', textStyle: 'heading-3' },
-    description: { m: '0', textStyle: 'body', color: 'text-muted' },
+    title: { m: '0', pe: '8', textStyle: 'heading-3', overflowWrap: 'break-word', hyphens: 'auto' },
+    description: { m: '0', textStyle: 'body', color: 'text-muted', overflowWrap: 'break-word' },
     body: {
       flex: '1',
       minHeight: '0',
@@ -57,29 +57,60 @@ export const drawer = defineSlotRecipe({
     close: { position: 'absolute', top: '3', insetInlineEnd: '3' },
   },
   variants: {
+    // `left` / `right` are physical screen edges (a panel pinned to one side whatever the language); `start` / `end`
+    // are the inline edges, so they swap in RTL. A slide can't be logical, so the logical sides carry a `:dir(rtl)`
+    // rule with the opposite sign; the physical ones translate the same way in both directions.
     side: {
+      // koi-physical: `left` names a physical screen edge, unlike `start`.
       left: {
+        viewport: { justifyContent: 'left' }, // koi-physical: a physical edge, so the row packs left in RTL too
+        popup: {
+          width: '100%',
+          maxWidth: toPx(c.drawer.width),
+          height: '100%',
+          borderRightWidth: `${c.stroke.hairline}px`, // koi-physical: a left panel's inner edge is its right one
+          borderRightStyle: 'solid', // koi-physical: same edge
+          borderRightColor: 'divider', // koi-physical: same edge
+          [`&${state.entering}, &${state.exiting}` as const]: { transform: 'translateX(-100%)' },
+        },
+      },
+      // koi-physical: `right` names a physical screen edge, unlike `end`.
+      right: {
+        viewport: { justifyContent: 'right' }, // koi-physical: a physical edge, so the row packs right in RTL too
+        popup: {
+          width: '100%',
+          maxWidth: toPx(c.drawer.width),
+          height: '100%',
+          borderLeftWidth: `${c.stroke.hairline}px`, // koi-physical: a right panel's inner edge is its left one
+          borderLeftStyle: 'solid', // koi-physical: same edge
+          borderLeftColor: 'divider', // koi-physical: same edge
+          [`&${state.entering}, &${state.exiting}` as const]: { transform: 'translateX(100%)' },
+        },
+      },
+      start: {
         viewport: { justifyContent: 'flex-start' },
         popup: {
           width: '100%',
           maxWidth: toPx(c.drawer.width),
           height: '100%',
-          borderRightWidth: `${c.stroke.hairline}px`,
-          borderRightStyle: 'solid',
-          borderRightColor: 'divider',
+          borderInlineEndWidth: `${c.stroke.hairline}px`,
+          borderInlineEndStyle: 'solid',
+          borderInlineEndColor: 'divider',
           [`&${state.entering}, &${state.exiting}` as const]: { transform: 'translateX(-100%)' },
+          [`&:dir(rtl)${state.entering}, &:dir(rtl)${state.exiting}` as const]: { transform: 'translateX(100%)' },
         },
       },
-      right: {
+      end: {
         viewport: { justifyContent: 'flex-end' },
         popup: {
           width: '100%',
           maxWidth: toPx(c.drawer.width),
           height: '100%',
-          borderLeftWidth: `${c.stroke.hairline}px`,
-          borderLeftStyle: 'solid',
-          borderLeftColor: 'divider',
+          borderInlineStartWidth: `${c.stroke.hairline}px`,
+          borderInlineStartStyle: 'solid',
+          borderInlineStartColor: 'divider',
           [`&${state.entering}, &${state.exiting}` as const]: { transform: 'translateX(100%)' },
+          [`&:dir(rtl)${state.entering}, &:dir(rtl)${state.exiting}` as const]: { transform: 'translateX(-100%)' },
         },
       },
       top: {
@@ -110,5 +141,5 @@ export const drawer = defineSlotRecipe({
       true: { title: { srOnly: true } },
     },
   },
-  defaultVariants: { side: 'left' },
+  defaultVariants: { side: 'left' }, // koi-physical: the documented default is the left screen edge; `start`/`end` are opt-in
 });

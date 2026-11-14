@@ -1,5 +1,5 @@
 import type { ButtonOwnProps, IconButtonOwnProps } from '@tuuject/koi-core';
-import { cx } from '@tuuject/koi-react/styled-system/css';
+import { css, cx } from '@tuuject/koi-react/styled-system/css';
 import { button } from '@tuuject/koi-react/styled-system/recipes';
 import type { ComponentPropsWithRef } from 'react';
 import { useButtonShape } from '../shape.js';
@@ -21,6 +21,11 @@ type AsButtonOrLink<Own> =
   | (Own & Omit<NativeAnchorProps, keyof Own> & { href: string; disabled?: boolean; type?: never });
 
 export type ButtonProps = AsButtonOrLink<ButtonOwnProps>;
+
+// The label is a flex item between the icons: its automatic minimum width is its longest word, so it needs
+// `min-width: 0` to shrink and `anywhere` to make one unbreakable word breakable (`break-word` only breaks at line
+// time, and doesn't change min-content). Hyphenation follows the page's `lang`, so German breaks at syllables.
+const labelStyle = css({ minWidth: '0', overflowWrap: 'anywhere', hyphens: 'auto' });
 
 /** Renders <a> or <button> for Button and IconButton. */
 function Pressable({ href, disabled, type = 'button', ...rest }: AsButtonOrLink<Record<never, never>>) {
@@ -57,7 +62,7 @@ export function Button({
       className={cx(button({ color, variant, size, shape: resolvedShape, fullWidth }), className)}
     >
       {loading ? <Spinner size={size === 'lg' ? 'md' : 'sm'} label={loadingLabel ?? t.processing} /> : iconStart}
-      <span>{children}</span>
+      <span className={labelStyle}>{children}</span>
       {iconEnd}
     </Pressable>
   );

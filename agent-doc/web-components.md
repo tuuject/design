@@ -12,6 +12,8 @@ packages/react/src/
 ├── recipes/dimensions.ts  toPx()、focusRing
 ├── icons.tsx           Icon（渲染 Iconify 格式的图标数据）+ 组件用的内置图标（FA Free Solid）
 ├── shape.tsx           ShapeProvider：容器给按钮默认形状（默认 rounded；页面包 pill；Dialog footer → rounded）
+├── direction.tsx       DirectionProvider（转发 Base UI 的）+ useDirection / useDirectionAttr
+├── placement.ts        Koi 的 placement（阅读方向相对）→ positioner 的 side / align
 ├── global-css.ts       全局样式、reduced-motion 总开关
 ├── types.ts            web 的 ChangeDetails = ChangeDetails<Event>
 └── index.ts            根入口；package.json 另有每个组件的子路径导出
@@ -29,6 +31,21 @@ packages/react/src/
 | 颜色只用 role token（`bg: 'surface'`），不用色阶（`primary.500`），不写字面颜色 | [tokens.md](tokens.md) |
 | 尺寸不写字面量：共享的按 token 名（`'control-md'`、`'3'`、`'icon'`），组件自己的用 `toPx(c.<组件>.<部件>)` | [tokens.md](tokens.md#component-组) |
 | 外观规则（形状、深度、动效、尺寸档位） | `docs/spec/README.md`，AGENTS.md 的 Design Invariants |
+| 方向相关的样式（RTL）、长文案 / 译文撑开时的布局 | 下面「方向与长文案」一节、`docs/spec/README.md` 的 Direction and text expansion |
+
+## 方向与长文案
+
+Koi 支持 RTL（阿拉伯语、希伯来语），也要求译文把文案撑长 30–50% 时布局不塌。规则全文在 `docs/spec/README.md` 的 “Direction and text expansion”，这里只记 web 实现的落点。
+
+- **能逻辑就逻辑**：`ps`/`pe`、`ms`/`me`、`insetInlineStart`/`insetInlineEnd`、`borderInlineStart*`、逻辑圆角（`borderEndStartRadius`）、`textAlign: 'start' | 'end'`、`marginInlineStart: 'auto'`。不要用 `row-reverse` 换行序：flex / grid 本来就跟 `dir` 走。
+- **确实要物理的**：写在它所在的物理侧（Drawer 的 `left` / `right` 是物理边缘、Toast 的甩动方向、Tabs 指示条用 Base UI 测出的物理左侧偏移），并在同一行加 `// koi-physical: <原因>`。`scripts/check-logical-props.mjs` 会拦住其余所有 `left` / `right` / `ml` / `mr` / `pl` / `pr` / `marginLeft` / `borderLeft*` / 逻辑圆角的物理写法 / `textAlign: 'left'` / `side: 'left'` 之类；`recipes/headless.ts` 例外（它写的是库的甩动方向）。
+- **transform 和渐变无法逻辑**：用 `&:dir(rtl)` 覆盖（Switch 滑块、Drawer 的 `start`/`end` 滑入、NavMenu 横向条的渐隐遮罩），不要在组件里判断语言。
+- **浮层的位置**：`placementOf(placement)`（`src/placement.ts`）只做 `left`/`right` → `inline-start`/`inline-end` 的改名，`start`/`end` 原样传下去。镜像由 positioner 自己做：Floating UI 读 **positioner 元素自己的 `direction`**，top/bottom 的 `start`/`end` 在 RTL 由它翻转（`@floating-ui/core` 的 `computeCoordsFromPlacement`）。所以 Koi 这边的责任只有一个：**每个浮层把 provider 的方向写到自己的 Positioner/Viewport 上**，否则子树 RTL、文档 LTR 时 positioner 会按 LTR 算。
+- **方向从哪来**：`DirectionProvider`（`src/direction.tsx`）只做两件事：转发 Base UI 的 provider（键盘、测量），并把方向放进 Koi 自己的 context —— **它不渲染任何元素**。CSS 方向来自 `dir`，应用写在 `<html>`（或它 scope 的那块子树的根元素）上，配对的 `lang` 一起写。**portal 里的浮层**（Popover、Menu、SelectPanel、Tooltip 的 Positioner，Dialog、Drawer 的 Viewport，Toast 的 Viewport）用 `useDirectionAttr()` 拿方向并写到那个元素上：有 provider 时是方向本身，没有时是 `undefined`（那就继承 `<html dir>`，绝不会写出一个反向的 `dir="ltr"`）。
+- **图标方向**：`Icon` 的 `mirrored`（`IconOwnProps.mirrored`）给 `<svg>` 加 `.koi-mirror`，`global-css.ts` 里 `:dir(rtl)` 时 `scaleX(-1)`。内置图标里只有 `ChevronLeftIcon`、`ChevronRightIcon`、`ArrowRightIcon` 标了 `mirrored`；关闭、勾选、搜索、播放、logo 永不过镜像。不要镜像整页或容器。
+- **行的长度**：`minHeight` 只是下限，组件还要有 `height: fit-content`，否则 flex 行默认的 `align-items: stretch` 会把它拉到比邻居（比如 Textarea）还高。文字槽若本身是 flex 子项（Button 的 label、Field 的错误文字），要 `minWidth: 0` 才会收缩；`break-word` 不改变 min-content，内容自适应的盒子（Badge、Tag）要用 `anywhere`。
+- **长文案**：会撑开的地方给 `minHeight`（不是 `height`），文字槽给 `overflowWrap: 'break-word'`（flex 子项里用 `anywhere`，它才影响 min-content），需要连字符的地方 `hyphens: 'auto'`（跟页面的 `lang`，中文没变化）。真正该截断的（面包屑、Select 的值、NavMenu 品牌）单行省略并补 `title`，可访问名字保持全文。表格单元格仍是 `nowrap` + 容器横向滚动（spec 的约定）。
+- **技术字符串**：Prose 的 `code` / `kbd` 用 `unicode-bidi: plaintext`（首个强字符定方向），`pre` 是 `direction: ltr`；组件或应用自己渲染的 API key、URL、路径用 `<bdi dir="ltr">` 或 `unicode-bidi: isolate` + `direction: ltr`。只写 `isolate` 不够：它继承 RTL 基准方向，`/srv/app` 的开头斜杠会跑到末尾。隔离一律用标记，不插不可见控制字符，复制出来才是原字符串。
 
 ## 移植流程
 

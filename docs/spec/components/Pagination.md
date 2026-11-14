@@ -12,3 +12,4 @@ Page navigation in three shapes: `numbered`; `simple`, which is the blog's two l
 - Page numbers: round `control-md` (36px) buttons in `body` (14px).
 - Current page: an `action` fill with `on-action` text and `aria-current="page"`.
 - Gaps: shown as "…" in `text-muted`.
+- Direction: the prev/next chevrons mirror (prev points along the reading direction, next against it), and the row's order, gaps and page numbers follow `dir` on their own. Long `prevLabel`/`nextLabel` wrap the row rather than overflowing it.

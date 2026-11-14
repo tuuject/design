@@ -3,7 +3,9 @@ import { defineRecipe } from '@pandacss/dev/define';
 import { toPx } from './dimensions.js';
 
 // docs/spec/components/ChatBubble.md. One element, no headless behavior. The anchor corner (the one nearest
-// the sender) drops to radius-sm so a column of bubbles reads directionally; the rest stay radius-xl.
+// the sender) drops to radius-sm so a column of bubbles reads directionally; the rest stay radius-xl. The anchor
+// corner is at the block end and the sender's inline side, so it follows the reading direction: a received bubble
+// is anchored bottom-left in LTR and bottom-right in RTL.
 export const chatBubble = defineRecipe({
   className: 'koi-chat-bubble',
   base: {
@@ -22,12 +24,12 @@ export const chatBubble = defineRecipe({
       received: {
         bg: 'surface-muted',
         color: 'text',
-        borderBottomLeftRadius: 'sm',
+        borderEndStartRadius: 'sm',
       },
       sent: {
         bg: 'action',
         color: 'on-action',
-        borderBottomRightRadius: 'sm',
+        borderEndEndRadius: 'sm',
       },
     },
   },

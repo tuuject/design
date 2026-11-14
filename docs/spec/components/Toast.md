@@ -11,7 +11,8 @@ A short, floating confirmation on Koi's frosted glass, the same material as the 
 
 **Styling:**
 - Material: `surface-glass-tint` with a `blur-float` backdrop, `radius-panel` (24px) corners like Cards and Dialogs, and `shadow-float`. It has no border: the shadow alone lifts it off the page.
-- Entrance: it rises in on the spring curve.
+- Entrance: it rises in on the spring curve. A swipe dismisses it in the direction it was flung, in either reading direction (the gesture is physical, not reading order).
+- Direction: the stack is centred and its viewport carries the `dir` of the `DirectionProvider`, so a toast opened from an RTL subtree reads RTL even though it is portalled. Title and description wrap and hyphenate with the page's `lang` instead of overflowing the 360px panel.
 - Icons: `text-brand` for info and success, the status text colors for warning and error.
 - Size: 360px wide with `space-4` (16px) padding and a `space-3` (12px) gap between icon and text; a 16px bold title and a 14px description `space-1` (4px) apart, with an 18px icon. That's one step above the page's 14px base on purpose: a toast is glanced at for a few seconds, so it reads larger than the text around it.
 - At most 4 toasts stack at once.

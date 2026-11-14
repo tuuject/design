@@ -10,7 +10,7 @@ A quiet placeholder for a place with nothing to show: an icon over a short title
 - Layout: a centered column with a `space-2` (8px) gap, `space-4` (16px) sides and `space-10` (40px) block padding, in `body` (14px) `text-muted`. The generous block padding is what makes it read as a state rather than a paragraph.
 - Icon: `inline-flex` in `text-muted`, with no size of its own: an `Icon` or an illustration keeps the size it was given. A 24–32px icon reads best; the empty-state icon is decorative.
 - Title: `label` (14px bold) in `text`, so it's the one line that stands out from the muted copy.
-- Description: `small` (12px) in `text-muted`, for what happened and what to do next.
+- Description: `small` (12px) in `text-muted`, for what happened and what to do next. Both title and description wrap (and hyphenate with the page's `lang`) inside the centred column.
 - Action: 16px above the copy (the column's 8px gap plus 8px), centered, and wraps when there are several controls. Usually one Button; it keeps the surrounding shape (a pill page gives a pill button).
 - No background, border or radius of its own: it takes whatever it sits on, the page or a Card.
 

@@ -1,6 +1,6 @@
 {
   "name": "@tuuject/koi-core",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "type": "module",
   "description": "Koi's platform-neutral layer: each component's props contract, change details, UI copy and pure helpers. Shared by @tuuject/koi-react and the future native package; no DOM, no styling, no headless library.",
   "sideEffects": false,

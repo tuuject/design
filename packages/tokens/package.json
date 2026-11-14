@@ -1,6 +1,6 @@
 {
   "name": "@tuuject/koi-tokens",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "type": "module",
   "description": "Koi design tokens: one source (src/tokens.json), outputs for CSS, Panda CSS and React Native.",
   "exports": {

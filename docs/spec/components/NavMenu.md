@@ -21,6 +21,7 @@ App navigation that renders the same items as a vertical sidebar or a horizontal
 - A parent shows a down chevron. Hovering with a mouse opens its panel below; moving away closes it after a short delay, so the pointer can travel into the panel. On touch, a tap opens it and another tap closes it.
 - Level-3 children cascade into a second panel beside the first, like the Windows Start menu, opened the same way.
 - A panel closes when an item is chosen, on Esc (focus returns to the parent), on a click outside, when its parent scrolls away (a page or container scroll that carries the nav with it, or the bar itself scrolling sideways) or when the window resizes. Scrolling the panel's own list leaves it open, and so does scrolling the page under a sticky or fixed bar that stays put: the panel follows its parent.
+- The bar's fade sits at the inline end (right in LTR, left in RTL), and the bar scrolls in that direction.
 - Keyboard: ↓ on a parent opens its panel and focuses the first item; → or Enter on a level-2 parent opens its side panel, and ← closes it.
 - Panels are `surface` with a `border` edge, `radius-xl` corners and `shadow-float`, 200 to 280px wide (`nav-menu.flyout-min-width` / `flyout-max-width`, both narrowed to the room left on a small viewport), and pop in on the spring curve. They render into `document.body`, so the scrolling bar never clips them. A branch taller than the room below its parent scrolls inside the panel.
 - A top-level parent whose branch holds the current page shows the current fill.
@@ -34,6 +35,8 @@ App navigation that renders the same items as a vertical sidebar or a horizontal
 - Items are `control-md` (36px) tall with 16px icons, `radius-xl` corners, an 8px (`space-2`) gap between icon and label, and `body` type (14px / 20px) in `nav-item-text`; flyout panels use the same size and `radius-lg`, concentric with the panel's `radius-xl` and 4px padding.
 - Hover fills `nav-item-hover`. The current item fills `nav-item-active` with bold `text`, and carries `aria-current="page"`.
 - Text reaches at least 9:1 on every fill in both themes.
+- Long labels: in the vertical sidebar a row grows to a second line instead of truncating the destination. The horizontal bar and the rail keep one row (the bar scrolls sideways instead). The brand keeps one line and ellipsizes, with its full name in a `title`.
+- Direction: the rail's and the bar's flyouts open toward the inline end, the submenu chevron mirrors, and indentation, gaps and the active fill all use logical properties.
 - The logo box defaults to `secondary-solid` with `on-secondary-solid` icons; pass an `<img>` as `logo` to use a picture instead.
 - The component has no background of its own, so place it on `page-bg`, `surface` or `surface-muted`.
 - Focus: a 2px `focus-ring` drawn just inside each item, so it isn't clipped when the horizontal bar scrolls.

@@ -7,7 +7,7 @@ A single chat or comment message: a soft panel whose fill and anchor corner tell
 **The consumer supplies:** the message as `children`, and `side`: `received` (default) or `sent`.
 
 **Styling:**
-- Shape: `radius-xl` (12px), with the anchor corner (bottom-left for `received`, bottom-right for `sent`) at `radius-sm` (6px) so a column of bubbles reads directionally.
+- Shape: `radius-xl` (12px), with the anchor corner at `radius-sm` (6px) so a column of bubbles reads directionally. The corner is at the block end and the sender's inline side: bottom-left for `received` and bottom-right for `sent` in LTR, mirrored in RTL.
 - `received`: a `surface-muted` fill, `text` color, no border.
 - `sent`: an `action` fill with `on-action` text.
 - Type: `body` (14px). Long words wrap (`overflow-wrap: break-word`); the bubble caps at 480px and never stretches to fill its row.

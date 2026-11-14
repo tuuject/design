@@ -58,11 +58,14 @@ export const tabs = defineSlotRecipe({
     },
     // Hidden (by Base UI) until the active tab is measured, so it appears in place instead of sliding in from 0.
     // Slides on the spring curve; global-css.ts stops it under reduced motion.
+    // The pill is anchored at the list's physical left and moved by the same physical measurement Base UI reports
+    // (`--active-tab-left`), so it lands on the active tab in RTL as well: a logical inset would anchor it at the other
+    // edge there while the offset still counted from the left.
     indicator: {
       position: 'absolute',
       zIndex: '-1',
       top: '0',
-      left: '0',
+      left: '0', // koi-physical: matches the measured offset above (headless.ts vars.activeTabLeft), correct both ways
       width: `[${vars.activeTabWidth}]`,
       height: `[${vars.activeTabHeight}]`,
       translate: `[${vars.activeTabLeft} ${vars.activeTabTop}]`,

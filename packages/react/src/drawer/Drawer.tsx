@@ -5,6 +5,7 @@ import { type DrawerSlot, drawer } from '@tuuject/koi-react/styled-system/recipe
 import { sizes } from '@tuuject/koi-tokens/dimensions';
 import type { MouseEvent } from 'react';
 import { IconButton } from '../button/Button.js';
+import { useDirectionAttr } from '../direction.js';
 import { CloseIcon } from '../icons.js';
 import { ShapeProvider } from '../shape.js';
 import { useStrings } from '../strings.js';
@@ -24,7 +25,7 @@ export interface DrawerProps extends DrawerOwnProps {
 export function Drawer({
   open,
   onOpenChange,
-  side = 'left',
+  side = 'left', // koi-physical: Drawer's default edge is the physical left one; `start`/`end` are opt-in
   title,
   description,
   children,
@@ -38,6 +39,9 @@ export function Drawer({
 }: DrawerProps) {
   const s = drawer({ side, hideTitle });
   const t = useStrings();
+  // The panel is portalled to <body>; the viewport carries the direction because it is what packs the panel to a
+  // side (`justify-content`) as well as giving the popup its text direction.
+  const dir = useDirectionAttr();
   // When an outside click doesn't close the drawer, a mousedown on the empty viewport would still blur the
   // focused control; Dialog keeps focus put the same way.
   const keepFocus = !dismissible
@@ -52,7 +56,7 @@ export function Drawer({
     <BaseDialog.Root open={open} onOpenChange={onOpenChange} disablePointerDismissal={!dismissible}>
       <BaseDialog.Portal>
         <BaseDialog.Backdrop className={cx(s.backdrop, classNames?.backdrop)} />
-        <BaseDialog.Viewport className={cx(s.viewport, classNames?.viewport)} onMouseDown={keepFocus}>
+        <BaseDialog.Viewport dir={dir} className={cx(s.viewport, classNames?.viewport)} onMouseDown={keepFocus}>
           <BaseDialog.Popup className={cx(s.popup, className)} aria-label={title == null ? label : undefined}>
             {title != null && <BaseDialog.Title className={cx(s.title, classNames?.title)}>{title}</BaseDialog.Title>}
             {description != null && (

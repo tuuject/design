@@ -3,6 +3,7 @@ import type { TooltipOwnProps } from '@tuuject/koi-core';
 import { tooltip } from '@tuuject/koi-react/styled-system/recipes';
 import { components } from '@tuuject/koi-tokens/dimensions';
 import { type ReactElement, Children, cloneElement, useId, useState } from 'react';
+import { useDirectionAttr } from '../direction.js';
 
 export type { TooltipSide } from '@tuuject/koi-core';
 
@@ -34,6 +35,7 @@ export function Tooltip({
 }: TooltipProps) {
   const s = tooltip();
   const autoId = useId();
+  const dir = useDirectionAttr();
   const popupId = `${autoId}tooltip`;
   const child = Children.only(children) as ReactElement<ChildProps>;
   const triggerId = child.props.id ?? `${autoId}trigger`;
@@ -64,7 +66,7 @@ export function Tooltip({
     >
       <BaseTooltip.Trigger id={triggerId} delay={delay} closeDelay={closeDelay} render={trigger} />
       <BaseTooltip.Portal>
-        <BaseTooltip.Positioner side={side} sideOffset={components.tooltip.offset} className={s.positioner}>
+        <BaseTooltip.Positioner dir={dir} side={side} sideOffset={components.tooltip.offset} className={s.positioner}>
           <BaseTooltip.Popup id={popupId} role="tooltip" className={s.popup}>
             {content}
           </BaseTooltip.Popup>

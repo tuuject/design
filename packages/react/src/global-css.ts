@@ -22,6 +22,12 @@ export const globalCss = defineGlobalStyles({
     appearance: 'none',
     margin: 0,
   },
+  // Icon mirroring: `Icon`'s `mirrored` (and Koi's own chevron/arrow icons) put this class on the <svg> itself, never
+  // on a page or a container. `:dir(rtl)` reads the direction the drawing inherits, so it flips under `<html dir>` and
+  // under a `DirectionProvider` alike. A transform is the only way: there is no logical "flip" property.
+  '.koi-mirror': {
+    '&:dir(rtl)': { transform: 'scaleX(-1)' },
+  },
   '@media (prefers-reduced-motion: reduce)': {
     // Spinner is left out: it slows down instead (recipes/spinner.ts). So is the indeterminate Progress bar: it
     // pulses in place instead of sliding (recipes/progress.ts).

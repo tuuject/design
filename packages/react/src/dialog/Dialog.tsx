@@ -6,6 +6,7 @@ import { type DialogSlot, dialog } from '@tuuject/koi-react/styled-system/recipe
 import { sizes } from '@tuuject/koi-tokens/dimensions';
 import { type MouseEvent, useRef } from 'react';
 import { IconButton } from '../button/Button.js';
+import { useDirectionAttr } from '../direction.js';
 import { CloseIcon } from '../icons.js';
 import { ShapeProvider } from '../shape.js';
 import { useStrings } from '../strings.js';
@@ -39,6 +40,8 @@ export function Dialog({
   const s = dialog({ size });
   const t = useStrings();
   const footerRef = useRef<HTMLDivElement>(null);
+  // Portalled to <body>: the viewport carries the direction (it lays the dialog out too), the popup inherits it.
+  const dir = useDirectionAttr();
   const alert = role === 'alertdialog';
   // WAI-ARIA alertdialog: focus the least destructive action. The footer's first button is cancel by convention;
   // without an enabled one, fall back to Base UI's default (first tabbable element).
@@ -60,7 +63,7 @@ export function Dialog({
   const portal = (
     <BaseDialog.Portal>
       <BaseDialog.Backdrop className={cx(s.backdrop, classNames?.backdrop)} />
-      <BaseDialog.Viewport className={cx(s.viewport, classNames?.viewport)} onMouseDown={keepFocus}>
+      <BaseDialog.Viewport dir={dir} className={cx(s.viewport, classNames?.viewport)} onMouseDown={keepFocus}>
         <BaseDialog.Popup className={cx(s.popup, className)} initialFocus={initialFocus}>
           {title != null && <BaseDialog.Title className={cx(s.title, classNames?.title)}>{title}</BaseDialog.Title>}
           {description != null && (

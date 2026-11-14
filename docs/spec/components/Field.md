@@ -13,5 +13,6 @@ A form row that wraps one control with its label, help text and error message, a
 - Help: `small` (12px) in `text-muted`.
 - Error: `small` (12px) in `error-text` with a 12px icon, so the meaning doesn't rely on color alone.
 - Spacing: 6px between the parts.
+- Long text: the label, the help text and the error message wrap inside the form column (the error keeps its icon beside the first line) and hyphenate when the page's `lang` allows it. Nothing is truncated.
 
 - Write errors as a fix, not a scolding: "邮箱格式不太对，请检查一下。"

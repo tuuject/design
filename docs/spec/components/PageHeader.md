@@ -10,7 +10,7 @@ The top of a page: its `h1`, an optional one-line description and an optional ma
 - Root: a `<header>`, a flex row with `space-between`, `align-items: flex-start`, wrapping, a `space-4` (16px) gap and `space-6` (24px) below it before the page content starts.
 - Title block: takes the leftover width (`flex: 1`) and may shrink (`min-width: 0`), a column with a `space-1` (4px) gap.
 - Title: `heading-1` in bold `text`, no margin. It sits in a row with the `info` mark, which keeps its size and never squeezes the title. A long unbroken title (an order number, an ID) breaks onto the next line instead of pushing the mark out of the header.
-- Description: `body` (14px) in `text-muted`, no margin. It wraps rather than pushing the actions off the row.
+- Description: `body` (14px) in `text-muted`, no margin. It wraps (and hyphenates with the page's `lang`) rather than pushing the actions off the row.
 - Actions: pinned right (`margin-inline-start: auto`), never shrunk, wrapping onto more lines when there are several controls, `space-2` (8px) apart.
 - Narrow: the header is its own container, and below ~480px of header width the actions take a full row under the title block. The width that matters is the header's, not the viewport's: the same header sits in a full-width page and in a form page's 768px column.
 

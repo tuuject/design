@@ -12,7 +12,7 @@ export const slider = defineSlotRecipe({
   base: {
     root: { display: 'flex', flexDirection: 'column', gap: '2', width: '100%', fontFamily: 'sans' },
     head: { display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '3' },
-    label: { textStyle: 'label', color: 'text', minWidth: '0' },
+    label: { textStyle: 'label', color: 'text', minWidth: '0', overflowWrap: 'anywhere' },
     value: {
       marginInlineStart: 'auto',
       textStyle: 'small',

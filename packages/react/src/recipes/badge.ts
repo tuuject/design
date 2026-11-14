@@ -11,13 +11,20 @@ export const badge = defineSlotRecipe({
       display: 'inline-flex',
       alignItems: 'center',
       gap: '1',
-      height: toPx(c.badge.height),
+      // A floor plus a content-based height: a label that doesn't fit (a translated status, a compound word) wraps
+      // and the badge grows, while `align-items: stretch` in a flex row can't pull it to a sibling's height.
+      minHeight: toPx(c.badge.height),
+      height: 'fit-content',
       px: toPx(c.badge.paddingX),
       boxSizing: 'border-box',
       borderRadius: 'full',
       fontFamily: 'sans',
       textStyle: 'caption',
-      whiteSpace: 'nowrap',
+      // `anywhere`, not `break-word`: the badge is content-sized, and only `anywhere` lets one unbreakable word
+      // count as shrinkable in its min-content width.
+      minWidth: '0',
+      whiteSpace: 'normal',
+      overflowWrap: 'anywhere',
     },
     dot: {
       flexShrink: '0',

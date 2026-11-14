@@ -5,6 +5,7 @@ import { cx } from '@tuuject/koi-react/styled-system/css';
 import { floatingPanel, type NavMenuSlot, navMenu } from '@tuuject/koi-react/styled-system/recipes';
 import { components, sizes, space } from '@tuuject/koi-tokens/dimensions';
 import { Fragment, type MouseEvent, type ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { useDirectionAttr } from '../direction.js';
 import { ChevronDownIcon, ChevronRightIcon } from '../icons.js';
 import { useStrings } from '../strings.js';
 import type { ChangeDetails, SlotClassNames } from '../types.js';
@@ -48,6 +49,8 @@ export function NavMenu({
   const panelS = navMenu({});
   const fp = floatingPanel();
   const baseId = useId();
+  // Every flyout is portalled to <body>, out of reach of the DirectionProvider's wrapper.
+  const dir = useDirectionAttr();
 
   // Controlled or not, the same way Base UI's own components do it: an undefined `value` leaves the state here.
   const [innerValue, setInnerValue] = useState(defaultValue);
@@ -221,7 +224,9 @@ export function NavMenu({
         </BaseMenu.SubmenuTrigger>
         <BaseMenu.Portal>
           <BaseMenu.Positioner
-            side="right"
+            dir={dir}
+            // A side panel opens toward the inline end, so it mirrors with the direction.
+            side="inline-end"
             align="start"
             sideOffset={components.popup.offset}
             className={fp.positioner}
@@ -238,7 +243,7 @@ export function NavMenu({
   };
 
   /** A parent in the horizontal bar or the rail: its row opens a Menu panel of its pages. */
-  const flyout = (item: NavItem, side: 'bottom' | 'right', rail: boolean) => {
+  const flyout = (item: NavItem, side: 'bottom' | 'inline-end', rail: boolean) => {
     const inPath = ancestors.includes(item.value);
     return (
       <BaseMenu.Root
@@ -256,10 +261,11 @@ export function NavMenu({
         </BaseMenu.Trigger>
         <BaseMenu.Portal>
           <BaseMenu.Positioner
+            dir={dir}
             side={side}
             align="start"
             // Beside the rail, the panel clears the nav's own 12px inset before the usual 4px gap.
-            sideOffset={side === 'right' ? components.popup.offset + space['3'] : components.popup.offset}
+            sideOffset={side === 'inline-end' ? components.popup.offset + space['3'] : components.popup.offset}
             className={fp.positioner}
           >
             <BaseMenu.Popup className={cx(fp.popup, panelS.panel, classNames?.panel)}>
@@ -280,7 +286,7 @@ export function NavMenu({
     }
     if (collapsed) {
       // A 72px rail has no room for an expanded tree: every parent opens its pages beside it instead.
-      return <li key={item.value}>{item.children?.length ? flyout(item, 'right', true) : leaf(item, 0)}</li>;
+      return <li key={item.value}>{item.children?.length ? flyout(item, 'inline-end', true) : leaf(item, 0)}</li>;
     }
     // Three levels at most: a level-3 item's own children are ignored, so it renders as a row.
     if (level < 2 && item.children?.length) {
@@ -313,10 +319,21 @@ export function NavMenu({
           {brand.logo}
         </span>
       )}
+      {/* The brand keeps one line; a name too long for the sidebar shortens in place and stays readable as a tooltip. */}
       <span className={cx(s.brandText, classNames?.brandText)}>
-        <span className={cx(s.brandTitle, classNames?.brandTitle)}>{brand.title}</span>
+        <span
+          className={cx(s.brandTitle, classNames?.brandTitle)}
+          title={typeof brand.title === 'string' ? brand.title : undefined}
+        >
+          {brand.title}
+        </span>
         {brand.subtitle != null && (
-          <span className={cx(s.brandSubtitle, classNames?.brandSubtitle)}>{brand.subtitle}</span>
+          <span
+            className={cx(s.brandSubtitle, classNames?.brandSubtitle)}
+            title={typeof brand.subtitle === 'string' ? brand.subtitle : undefined}
+          >
+            {brand.subtitle}
+          </span>
         )}
       </span>
     </>

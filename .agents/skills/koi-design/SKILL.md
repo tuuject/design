@@ -72,7 +72,8 @@ Before presenting a design or a diff:
 14. Could a Koi component replace something hand-styled?
 15. New role-on-background pair added to `contrast-pairs.json`?
 16. Looked at the rendered preview at desktop full width and phone width, in **both themes**, under the `rose` palette, and in each language the product ships (Chinese and English)?
-17. Consumer project: `designSystem` set, no `presets` / `staticCss` duplication, no `node_modules` in `include`, no import from `@tuuject/koi-react/src` or `packages/`, theme through `data-theme` rather than a `.dark` class?
+17. Direction and long text: any physical `left` / `right` / `ml` / `pr` / `textAlign: 'left'` where the reading direction decides (`pnpm check` flags it in Koi)? Directional icons `mirrored`, everything else not? Keys, ids, URLs and paths inside translated copy rendered as isolated LTR runs (`<bdi dir="ltr">`), not with invisible control characters? Labels wrap instead of overflowing or truncating away an action? Checked with `KOI_DIR=rtl pnpm shots`, `pnpm rtl-check` and the I18nStress stories?
+18. Consumer project: `designSystem` set, no `presets` / `staticCss` duplication, no `node_modules` in `include`, no import from `@tuuject/koi-react/src` or `packages/`, theme through `data-theme` rather than a `.dark` class?
 
 ## Verification
 

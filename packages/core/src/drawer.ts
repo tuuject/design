@@ -3,8 +3,11 @@ import type { ReactNode } from 'react';
 export interface DrawerOwnProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  /** Which edge it slides in from. Default 'left'. */
-  side?: 'left' | 'right' | 'top' | 'bottom';
+  /**
+   * Which edge it slides in from. Default 'left'. `left` and `right` are physical screen edges; `start` and `end`
+   * follow the reading direction (the inline start/end edge), so a navigation drawer opens on the right in RTL.
+   */
+  side?: 'left' | 'right' | 'start' | 'end' | 'top' | 'bottom';
   /** The panel's heading. Also its accessible name; with `hideTitle` it stays for screen readers only. */
   title?: ReactNode;
   description?: ReactNode;

@@ -14,6 +14,13 @@ export { Card, type CardProps } from './card/Card.js';
 export { ChatBubble, type ChatBubbleProps } from './chat-bubble/ChatBubble.js';
 export { Checkbox, type CheckboxProps } from './checkbox/Checkbox.js';
 export { Dialog, type DialogProps } from './dialog/Dialog.js';
+export {
+  type Direction,
+  DirectionProvider,
+  type DirectionProviderProps,
+  useDirection,
+  useDirectionAttr,
+} from './direction.js';
 export { Divider, type DividerProps } from './divider/Divider.js';
 export { Drawer, type DrawerProps } from './drawer/Drawer.js';
 export { DropZone, type DropZoneProps } from './drop-zone/DropZone.js';

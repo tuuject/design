@@ -28,8 +28,8 @@ export const alert = defineSlotRecipe({
     },
     // space-1 between title and body; the action sits space-3 below (gap + mt).
     content: { flex: '1', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '1' },
-    title: { m: '0', fontWeight: '700' },
-    body: { color: 'text', '& p': { m: '0' } },
+    title: { m: '0', fontWeight: '700', overflowWrap: 'break-word' },
+    body: { color: 'text', overflowWrap: 'break-word', '& p': { m: '0' } },
     action: { mt: '2', display: 'flex', flexWrap: 'wrap', gap: '2' },
     close: {
       position: 'absolute',

@@ -45,6 +45,8 @@ export function Breadcrumb({ items, label, className, classNames, ...rest }: Bre
               <Link
                 href={item.href}
                 variant="plain"
+                // The trail ellipsizes to stay in the topbar, so the full crumb stays reachable as a tooltip.
+                title={typeof item.label === 'string' ? item.label : undefined}
                 className={cx(s.label, classNames?.label, crumbFocus)}
                 onClick={(event) => {
                   // The DOM event, not React's synthetic one: a router wants to preventDefault the real anchor.
@@ -57,6 +59,7 @@ export function Breadcrumb({ items, label, className, classNames, ...rest }: Bre
             ) : (
               <span
                 aria-current={item.current ? 'page' : undefined}
+                title={typeof item.label === 'string' ? item.label : undefined}
                 className={cx(item.current ? current.label : s.label, classNames?.label)}
               >
                 {item.label}

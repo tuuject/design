@@ -31,7 +31,7 @@ export const pageHeader = defineSlotRecipe({
     },
     // The mark keeps its size; it never squeezes the title.
     info: { display: 'inline-flex', alignItems: 'center', flexShrink: '0', color: 'text-muted' },
-    description: { m: '0', textStyle: 'body', color: 'text-muted' },
+    description: { m: '0', textStyle: 'body', color: 'text-muted', overflowWrap: 'anywhere', hyphens: 'auto' },
     actions: {
       display: 'flex',
       flexWrap: 'wrap',

@@ -9,5 +9,5 @@ A 16px rounded-square checkbox with a label and an optional description.
 **Styling:**
 - Box: a 1.5px `border-control` edge, `radius-sm` corners and a `surface` fill.
 - Checked: filled `control-checked` with an `on-action` check mark, which pops in on Koi's springy curve (`cubic-bezier(.47,1.64,.41,.8)`).
-- Text: the label is `body` (14px), the description is `small` (12px) in `text-muted` `space-1` (4px) below it, both `space-2` from the box.
+- Text: the label is `body` (14px), the description is `small` (12px) in `text-muted` `space-1` (4px) below it, both `space-2` from the box. Both wrap, so a long or translated label grows the row instead of pushing the box out of its container.
 - The whole row is the click target.

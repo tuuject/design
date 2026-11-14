@@ -30,6 +30,10 @@
 | `toPx()` | recipe 里把尺寸数字写成 Panda 任意值：`toPx(16)` → `'[16px]'` |
 | `koi-web-only` | 行尾注释标记：只属于 web 的字面尺寸，允许留在源码里 |
 | `koi-allow-headless` / `koi-allow-core` | 对应检查的例外标记，必须写理由 |
+| `koi-physical` | 行尾（或上一行）注释标记：这条样式必须写物理方向（左侧、滑动、测量偏移），`check-logical-props.mjs` 放行，必须写理由 |
+| `DirectionProvider` / `Direction` | 阅读方向：core 的 `'ltr' \| 'rtl'`；web 的 provider 只给 context（转发 Base UI），**不渲染元素**，`dir` / `lang` 由应用写在 `<html>` 或子树根上（[web-components.md](web-components.md#方向与长文案)） |
+| `mirrored` 图标 | `Icon` 的 prop（`IconOwnProps.mirrored`）：画的方向跟阅读方向有关的图标在 RTL 翻转 |
+| I18nStress | Storybook 里用真实德语 / 阿拉伯语长文案压测布局的 story，`KOI_DIR=rtl pnpm shots` 是它的截图 |
 | `ShapeProvider` | 容器给内部按钮指定默认形状（整页包 pill → 博客风格；Dialog footer、TableCell → rounded） |
 | shots | `pnpm shots` 产出的 story 截图，用于视觉检查和像素比对（[verification.md](verification.md)） |
 | `createKoiConfig()` | `@tuuject/koi-native` 从 tokens 生成 Tamagui config 的函数（[native.md](native.md)） |

@@ -7,7 +7,7 @@ A small, non-interactive pill label for status or counts.
 **The consumer supplies:** a short label (one or two words, or a number), `tone` (`neutral`/`primary`/`accent`/`warning`/`error`/`solid`) and optionally `dot`.
 
 **Styling:**
-- Size: 22px tall with 10px side padding and `radius-full` corners. Text is `caption` type (12px bold).
+- Size: 22px tall (a floor) with 10px side padding and `radius-full` corners. Text is `caption` type (12px bold). A label too long for its slot wraps onto a second line rather than overflowing it.
 - Tones:
   - `neutral`: `surface-muted`
   - `primary`: `action-subtle`

@@ -17,4 +17,4 @@ A modal panel on a flat black scrim for decisions and short focused tasks.
 - Backdrop: `backdrop`, black at 60% opacity in both themes, with no blur. It fades in and out over 300ms, together with the panel.
 - Panel: `surface` with `radius-dialog` (32px) corners, `space-6` padding and `shadow-float`. It scales in from 96% around its center (no slide) over 300ms on the spring curve, and scales back out the same way when it closes.
 - Actions and the close button: rounded (`radius-lg`, 8px), not pills. The panel radius is that 8px plus the 24px padding, so the corners of the panel and of the bottom-right button are concentric. Change the padding or the button shape and the panel radius should follow.
-- Title: `heading-2` (20px). Description and body: `body` (14px).
+- Title: `heading-2` (20px). Description and body: `body` (14px). All three wrap and hyphenate with the page's `lang`; the footer wraps its buttons onto another row at phone widths instead of overflowing the panel.

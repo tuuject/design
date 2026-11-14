@@ -20,9 +20,9 @@ export const card = defineSlotRecipe({
     // Bleeds over the root's padding so the media sits flush with the rounded top edge.
     media: { mx: '-5', mt: '-5', '& > *': { display: 'block', width: '100%' } },
     head: { display: 'flex', flexDirection: 'column', gap: '1' },
-    title: { m: '0', textStyle: 'heading-3' },
-    description: { m: '0', textStyle: 'small', color: 'text-muted' },
-    body: { textStyle: 'body' },
+    title: { m: '0', textStyle: 'heading-3', overflowWrap: 'break-word' },
+    description: { m: '0', textStyle: 'small', color: 'text-muted', overflowWrap: 'break-word' },
+    body: { textStyle: 'body', overflowWrap: 'break-word' },
     footer: { display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end', gap: '2' },
   },
   variants: {

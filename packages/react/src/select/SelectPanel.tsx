@@ -20,9 +20,10 @@ import {
   useContext,
   useMemo,
 } from 'react';
-import { useStrings } from '../strings.js';
+import { useDirectionAttr } from '../direction.js';
 import { KoiFieldContext } from '../field/context.js';
 import { CheckIcon, ChevronDownIcon, SearchIcon } from '../icons.js';
+import { useStrings } from '../strings.js';
 
 export type { SelectOptionGroup } from '@tuuject/koi-core';
 
@@ -116,15 +117,23 @@ export function SelectPanel<I extends Entry = Entry>({
   const shownSearch = searchPlaceholder ?? t.search;
   const f = useContext(KoiFieldContext);
   const s = selectPanel({ size });
+  // The panel is portalled to <body>: the positioner carries the direction, so Floating UI mirrors `align="start"`
+  // there and the popup inherits it.
+  const dir = useDirectionAttr();
   const flat = useMemo(
     () => (items as readonly Entry[]).flatMap((e) => (isGroup(e) ? e.items : [e])) as OptionOf<I>[],
     [items],
   );
   const render: (items: I[]) => ReactNode = children ?? defaultRender;
 
+  // The trigger keeps its value on one line (a select's value is its label, not a paragraph), so the full text stays
+  // reachable as the native tooltip when it has to shorten. The title has to come from the value Base UI is showing:
+  // in an uncontrolled panel that changes as the reader picks, so deriving it from `value`/`defaultValue` would leave
+  // the tooltip on the first label (and `value={null}` would fall back to the default instead of meaning "none").
   const showValue = (v: string | null) => {
     const item = v == null ? undefined : flat.find((o) => o.value === v);
-    return item ? (renderValue ? renderValue(item) : item.label) : shownPlaceholder;
+    const text = item ? (renderValue ? renderValue(item) : item.label) : shownPlaceholder;
+    return <span title={rest.title == null && typeof text === 'string' ? text : undefined}>{text}</span>;
   };
   const root = {
     value,
@@ -170,7 +179,7 @@ export function SelectPanel<I extends Entry = Entry>({
       <Combobox.Root {...root} items={collection}>
         {trigger(Combobox)}
         <Combobox.Portal>
-          <Combobox.Positioner align="start" sideOffset={components.popup.offset} className={s.positioner}>
+          <Combobox.Positioner dir={dir} align="start" sideOffset={components.popup.offset} className={s.positioner}>
             <Combobox.Popup className={s.popup}>
               <div className={s.search}>
                 <SearchIcon />
@@ -195,6 +204,7 @@ export function SelectPanel<I extends Entry = Entry>({
       <BaseSelect.Portal>
         {/* Below the trigger like the searchable panel, not over it (Base UI's default for Select). */}
         <BaseSelect.Positioner
+          dir={dir}
           alignItemWithTrigger={false}
           align="start"
           sideOffset={components.popup.offset}

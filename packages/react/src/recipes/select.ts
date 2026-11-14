@@ -257,7 +257,7 @@ export const selectPanel = defineSlotRecipe({
       [`&${state.highlighted}` as const]: { bg: 'surface-muted' },
       [`&${state.disabled}` as const]: { color: 'text-disabled', cursor: 'not-allowed' },
     },
-    itemText: { flex: '1', minWidth: '0' },
+    itemText: { flex: '1', minWidth: '0', overflowWrap: 'anywhere' },
     itemIndicator: {
       display: 'inline-flex',
       flex: 'none',

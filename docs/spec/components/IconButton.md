@@ -8,6 +8,6 @@ A round, icon-only button, like the RSS and menu buttons in Koi's nav.
 
 **Styling:**
 - Shape: `radius-lg` (8px) corners by default, like Button. `shape="pill"` makes it a circle, to sit beside pill Buttons. Square at `control-sm` 28px, `control-md` 36px or `control-lg` 44px.
-- Icons: `icon` (16px), or `icon-sm` (14px) at `sm`.
+- Icons: `icon` (16px), or `icon-sm` (14px) at `sm`. A directional icon (`ChevronLeftIcon`, `ChevronRightIcon`, `ArrowRightIcon`) mirrors in RTL; `Icon`'s `mirrored` marks an app's own.
 - Default `secondary` `ghost`: a gray icon that gains a soft gray fill on hover.
 - Colors and variants use the same tokens as Button.

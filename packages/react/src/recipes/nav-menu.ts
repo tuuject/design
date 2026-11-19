@@ -215,7 +215,10 @@ export const navMenu = defineSlotRecipe({
           minHeight: '0',
           maxWidth: toPx(c.navMenu.maxWidth),
         },
-        body: { flex: '1', minHeight: '0', overflowY: 'auto' },
+        // The rows scroll here, inside the root's padding. Taking that padding back (negative margin) and padding the
+        // rows by the same 12px puts the scrollbar on the nav's own edge, with the inset between it and the rows,
+        // instead of 12px in from the edge with the rows pressed against it.
+        body: { flex: '1', minHeight: '0', overflowY: 'auto', mx: '-3', px: '3' },
         footer: { marginTop: 'auto' },
       },
       horizontal: {

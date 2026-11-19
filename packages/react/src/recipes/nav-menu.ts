@@ -186,9 +186,10 @@ export const navMenu = defineSlotRecipe({
       maxWidth: `min(${c.navMenu.flyoutMaxWidth}px, ${vars.availableWidth})`,
     },
     // Applied together with floatingPanel's body, which scrolls a branch taller than the room below the trigger.
-    panelList: { display: 'flex', flexDirection: 'column', gap: '0', m: '0', p: '0', listStyleType: 'none' },
-    // Inside the panel's radius-xl and 4px padding, radius-lg is the concentric corner. Rows keep their 36px when the
-    // list scrolls, rather than squeezing to fit the panel.
+    // No padding of its own: the body's 4px sits inside the scroll area, so the scrollbar stays on the panel's edge.
+    panelList: { display: 'flex', flexDirection: 'column', gap: '0', listStyleType: 'none' },
+    // Inside the panel's radius-xl and the body's 4px padding, radius-lg is the concentric corner. Rows keep their 36px
+    // when the list scrolls, rather than squeezing to fit the panel.
     panelItem: { flex: 'none', borderRadius: 'lg' },
     divider: {
       flex: 'none',

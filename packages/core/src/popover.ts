@@ -5,7 +5,7 @@ import type { FloatingPlacement } from './common.js';
 export interface PopoverOwnProps {
   /** The element that opens the panel; it must accept a ref and click/keyboard handlers. */
   trigger: ReactElement;
-  /** The panel's content. It sits in a panel with 12px inner padding (4px panel + 8px body). */
+  /** The panel's content. It sits in a panel with 12px inner padding. */
   children: ReactNode;
   /** Where the panel opens, before it flips to stay on screen. Default 'bottom-start'. */
   placement?: FloatingPlacement;

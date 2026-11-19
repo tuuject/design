@@ -36,8 +36,8 @@ export const floatingPanel = defineSlotRecipe({
       minWidth: `min(${c.floatingPanel.minWidth}px, ${vars.availableWidth})`,
       maxWidth: `min(${c.floatingPanel.maxWidth}px, ${vars.availableWidth})`,
       maxHeight: `min(${c.floatingPanel.maxHeight}px, ${vars.availableHeight})`,
+      // Clips the body's scrollbar to the rounded corners.
       overflow: 'hidden',
-      p: '1',
       bg: 'surface',
       borderWidth: `${c.stroke.hairline}px`,
       borderStyle: 'solid',
@@ -54,17 +54,16 @@ export const floatingPanel = defineSlotRecipe({
       [`&${state.entering}, &${state.exiting}` as const]: { opacity: '0', transform: 'scale(.96)' },
       [`&${state.exiting}` as const]: { transitionTimingFunction: 'out' },
     },
-    // Edge to edge: the negative margins cancel the popup's 4px padding on that side.
     header: {
       flex: 'none',
-      mx: '-1',
-      mt: '-1',
       px: '4',
       py: '3',
       borderBottomWidth: `${c.stroke.hairline}px`,
       borderBottomStyle: 'solid',
       borderBottomColor: 'divider',
     },
+    // The scroll container, edge to edge in the popup: the panel's inner padding is here, not on the popup, so the
+    // scrollbar runs along the panel's edge instead of 4px in from it.
     body: {
       flex: '1',
       minHeight: '0',
@@ -74,8 +73,6 @@ export const floatingPanel = defineSlotRecipe({
     },
     footer: {
       flex: 'none',
-      mx: '-1',
-      mb: '-1',
       px: '4',
       py: '3',
       borderTopWidth: `${c.stroke.hairline}px`,
@@ -93,6 +90,7 @@ export const floatingPanel = defineSlotRecipe({
       color: 'text-muted',
       userSelect: 'none',
     },
+    // Edge to edge: the negative margins cancel the body's 4px padding.
     separator: {
       height: `${c.stroke.hairline}px`,
       my: '1',
@@ -109,7 +107,7 @@ export const floatingPanel = defineSlotRecipe({
       height: 'fit-content',
       px: '3',
       py: '2',
-      // radius-lg (8px) inside the popup's radius-xl (12px) and 4px padding: concentric.
+      // radius-lg (8px) inside the popup's radius-xl (12px) and the body's 4px padding: concentric.
       borderRadius: 'lg',
       color: 'text',
       lineHeight: toPx(c.field.lineHeight),
@@ -148,10 +146,10 @@ export const floatingPanel = defineSlotRecipe({
   },
   variants: {
     content: {
-      // Menu rows carry their own side padding, so the body adds none.
-      list: { body: { p: '0' } },
+      // 4px around the rows: their radius-lg sits concentric in the panel's corners.
+      list: { body: { p: '1' } },
       // A Popover holds arbitrary markup: give it the panel's inner air.
-      panel: { body: { p: '2' } },
+      panel: { body: { p: '3' } },
     },
   },
   defaultVariants: { content: 'list' },

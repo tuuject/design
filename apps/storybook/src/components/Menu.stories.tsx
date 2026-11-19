@@ -30,6 +30,26 @@ const grouped = [
   },
 ];
 
+// Enough rows to pass the panel's 420px, so it scrolls.
+const long = [
+  {
+    label: '会话设置',
+    items: [
+      { value: 'active', label: '编辑活跃时间' },
+      { value: 'reply', label: '编辑主动回复概率' },
+      { value: 'group-memory', label: '编辑群聊记忆' },
+    ],
+  },
+  'separator' as const,
+  {
+    label: '打开相关页面',
+    items: ['提示词', '辞典', '记忆', '群聊记忆', '消息', '运行记录', '定时任务', '成员', '日志'].map((label) => ({
+      value: label,
+      label,
+    })),
+  },
+];
+
 const user = css({ display: 'flex', alignItems: 'center', gap: '3' });
 const userText = css({ display: 'flex', flexDirection: 'column', minWidth: '0' });
 const email = css({ textStyle: 'small', color: 'text-muted' });
@@ -94,6 +114,20 @@ export const HeaderFooter: Story = {
 export const Grouped: Story = {
   tags: ['shot-viewport'],
   args: { items: grouped, defaultOpen: true },
+};
+
+/** Past 420px the rows scroll inside the panel, and the scrollbar runs along the panel's edge, inside its corners. */
+export const LongList: Story = {
+  name: 'Long list',
+  tags: ['shot-viewport'],
+  args: { items: long, defaultOpen: true },
+};
+
+/** With a header and a footer, only the rows between them scroll. */
+export const LongListHeaderFooter: Story = {
+  name: 'Long list with header and footer',
+  tags: ['shot-viewport'],
+  args: { items: long, header, footer, defaultOpen: true },
 };
 
 /** `current` marks the row the page is on; `disabled` keeps a row visible but out of reach. */

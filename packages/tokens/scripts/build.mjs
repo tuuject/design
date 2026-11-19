@@ -62,8 +62,9 @@ const mixAlpha = (ref, a) => `color-mix(in oklch, ${ref} ${+(a * 100).toFixed(2)
     const m = v.match(REF_RE);
     return !m ? v : m[2] === undefined ? `var(--${m[1]})` : mixAlpha(`var(--${m[1]})`, +m[2]);
   };
-  const light = [],
-    dark = [];
+  // The browser's own colors (scrollbars, native <select> lists) follow the theme too.
+  const light = ['  color-scheme: light;'],
+    dark = ['  color-scheme: dark;'];
   for (const t of colorTokens) {
     light.push(`  --${t.name}: ${cssRef(rawValue(t, 'light'))};`);
     if (isThemed(t)) {

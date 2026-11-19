@@ -17,6 +17,10 @@ export const globalCss = defineGlobalStyles({
     // Let the browser add CJK/Latin spacing; never type the spaces by hand.
     textAutospace: 'normal',
   },
+  // The theme also picks the browser's own colors (scrollbars, a native <select>'s list, date pickers), or a dark page
+  // gets light scrollbars. Scoped like the theme's tokens, so a subtree with its own data-theme follows it too.
+  '[data-theme=light]': { colorScheme: 'light' },
+  '[data-theme=dark]': { colorScheme: 'dark' },
   // WebKit/Blink draw spin buttons inside number inputs that ignore Koi's input styling and crowd the text.
   'input::-webkit-outer-spin-button, input::-webkit-inner-spin-button': {
     appearance: 'none',

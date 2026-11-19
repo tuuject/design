@@ -8,7 +8,7 @@ Most apps get these through `@tuuject/koi-react` and its Panda design system. Us
 
 | Import | What |
 | --- | --- |
-| `@tuuject/koi-tokens/tokens.css` | Every token as a CSS variable. Light by default; `<html data-theme="dark">` and `data-palette="rose"` swap themes. |
+| `@tuuject/koi-tokens/tokens.css` | Every token as a CSS variable. Light by default; `<html data-theme="dark">` and `data-palette="rose"` swap themes. The theme also sets `color-scheme`, so scrollbars and native controls follow it. |
 | `@tuuject/koi-tokens/theme-init.js` | Inline in `<head>`: sets `data-theme` from the OS before first paint, follows OS changes, exposes `koiSetTheme`, `koiSetFont`, `koiSetPalette`. |
 | `@tuuject/koi-tokens/panda` | The Panda CSS preset (tokens, semantic tokens, text styles, keyframes). You do not need it when using `designSystem: '@tuuject/koi-react'`. |
 | `@tuuject/koi-tokens/dimensions` | Every size as a plain number in px, including per-component sizes. |

@@ -74,6 +74,7 @@ Koi 支持 RTL（阿拉伯语、希伯来语），也要求译文把文案撑长
 - Panda 不从 `.mdx` 里提取 `css()`。docs 页面上的样式块写在 `.tsx`（`Showcase.tsx`）里，并包在 `<Unstyled>` 里，否则 Storybook 的 docs 样式会渗进去。
 - `pnpm cssgen` 不是脚本。要看完整生成的 CSS：`npx panda cssgen --outfile .temp/<name>.css`。
 - 主题条件 `dark`（`[data-theme=dark] &`）对 semantic token 输出为 `[data-theme=dark] { --colors-… }`，符合预期。
+- `data-theme` 同时决定 `color-scheme`（`global-css.ts`；不用 Panda 的 `tokens.css` 里也有），滚动条、原生 `<select>` 的下拉列表、浏览器默认焦点环都跟着主题走。组件里不要再自己设 `color-scheme`。
 
 ## Base UI 的坑
 

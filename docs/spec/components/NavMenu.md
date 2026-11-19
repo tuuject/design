@@ -16,6 +16,7 @@ App navigation that renders the same items as a vertical sidebar or a horizontal
 - A parent shows a chevron that turns over on Koi's spring curve; clicking it expands or collapses its children in place.
 - Children are indented to line up with the parent's label (36px, level 2) and 16px further (level 3), without icons.
 - The current item's parents open on their own and show in bold, so the current page is never hidden.
+- A list taller than the sidebar scrolls between the brand and the footer. Its scrollbar sits on the nav's inline-end edge, with the rows' 12px inset between it and the rows.
 
 **Horizontal:** a single row with a smaller brand (36px logo, 14px title). Section labels are kept for screen readers only, and groups are separated by a 24px `divider` line. When items don't fit, the row scrolls sideways and its end fades out to hint at more, so put the most used items first.
 - A parent shows a down chevron. Hovering with a mouse opens its panel below; moving away closes it after a short delay, so the pointer can travel into the panel. On touch, a tap opens it and another tap closes it.

@@ -1,6 +1,8 @@
 import { Button, Dialog, type DialogProps, Field, Input } from '@tuuject/koi-react';
+import { css } from '@tuuject/koi-react/styled-system/css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { stack } from '../layout';
 
 function DeleteDialog({ initialOpen = false, ...args }: Partial<DialogProps> & { initialOpen?: boolean }) {
   const [open, setOpen] = useState(initialOpen);
@@ -92,6 +94,48 @@ function EditProfileDialog({ initialOpen = false, ...args }: Partial<DialogProps
   );
 }
 
+const releases = Array.from({ length: 12 }, (_, i) => ({
+  version: `0.${12 - i}.0`,
+  note: '修复了若干问题，提升了长列表的滚动性能，并调整了深色主题下部分文字的对比度。',
+}));
+
+/** More content than fits: the body scrolls between the fixed title and footer. */
+function ChangelogDialog({ initialOpen = false, ...args }: Partial<DialogProps> & { initialOpen?: boolean }) {
+  const [open, setOpen] = useState(initialOpen);
+  return (
+    <>
+      <Button color="secondary" variant="outline" onClick={() => setOpen(true)}>
+        更新日志
+      </Button>
+      <Dialog
+        footer={
+          <>
+            <Button color="secondary" variant="ghost" onClick={() => setOpen(false)}>
+              关闭
+            </Button>
+            <Button onClick={() => setOpen(false)}>知道了</Button>
+          </>
+        }
+        {...args}
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <div className={stack}>
+          <Field label="搜索版本">
+            <Input placeholder="例如 0.6.0" />
+          </Field>
+          {releases.map((r) => (
+            <section key={r.version}>
+              <h3 className={css({ m: '0', textStyle: 'heading-3' })}>{r.version}</h3>
+              <p className={css({ m: '0', color: 'text-muted' })}>{r.note}</p>
+            </section>
+          ))}
+        </div>
+      </Dialog>
+    </>
+  );
+}
+
 const meta = {
   title: 'Components/Dialog',
   component: Dialog,
@@ -163,4 +207,19 @@ export const NotDismissibleOpen: Story = {
     description: '点击对话框外面不会关闭它，按 Esc 或点「取消」才会。',
   },
   render: (args) => <EditProfileDialog {...args} initialOpen />,
+};
+
+const longArgs = { size: 'md', title: '更新日志', description: '最近 12 个版本的改动。' } as const;
+
+/** Long content: only the body scrolls, so the title, the × and the footer stay put and the scrollbar stays inside the panel's corners. */
+export const LongContent: Story = {
+  args: longArgs,
+  render: (args) => <ChangelogDialog {...args} />,
+};
+
+/** Long content, open on load (whole-viewport screenshot). */
+export const LongContentOpen: Story = {
+  tags: ['shot-viewport', '!autodocs'],
+  args: longArgs,
+  render: (args) => <ChangelogDialog {...args} initialOpen />,
 };

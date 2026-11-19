@@ -1,6 +1,11 @@
 import { components as c, space } from '@tuuject/koi-tokens/dimensions';
 import { defineSlotRecipe } from '@pandacss/dev/define';
+import { toPx } from './dimensions.js';
 import { state } from './headless.js';
+
+// The body scrolls on its own, so it clips what it holds; this much padding keeps a control's focus ring (drawn
+// outside it) visible at the body's top and bottom edges. Matching negative margins keep the spacing unchanged.
+const ringRoom = c.focusRing.width + c.focusRing.offset;
 
 // Port of .koi-dialog* in reference/legacy-web/components/bundle.css and docs/spec/components/Dialog.md.
 // Backdrop and Popup transition from `state.entering` when they open and to `state.exiting` when they close.
@@ -31,6 +36,8 @@ export const dialog = defineSlotRecipe({
       position: 'relative',
       width: '100%',
       maxHeight: `calc(100vh - ${2 * space[4]}px)`,
+      // Only the body scrolls (below). This is a fallback for a viewport too short even for the title and footer;
+      // it also clips the body's scrollbar to the rounded corners.
       overflow: 'auto',
       display: 'flex',
       flexDirection: 'column',
@@ -50,10 +57,24 @@ export const dialog = defineSlotRecipe({
     },
     // `hyphens`: a long translated title breaks at its syllables when the page's `lang` allows it, instead of
     // splitting a compound at an arbitrary letter.
-    title: { m: '0', pe: '8', textStyle: 'heading-2', overflowWrap: 'break-word', hyphens: 'auto' },
-    description: { m: '0', textStyle: 'body', color: 'text-muted', overflowWrap: 'break-word' },
-    body: { mt: '2', textStyle: 'body', overflowWrap: 'break-word', hyphens: 'auto' },
-    footer: { mt: '4', display: 'flex', gap: '2', justifyContent: 'flex-end', flexWrap: 'wrap' },
+    title: { flexShrink: '0', m: '0', pe: '8', textStyle: 'heading-2', overflowWrap: 'break-word', hyphens: 'auto' },
+    description: { flexShrink: '0', m: '0', textStyle: 'body', color: 'text-muted', overflowWrap: 'break-word' },
+    // The scroll container: long content scrolls between a fixed title and footer. It reaches out through the
+    // panel's side padding, so its scrollbar runs along the panel edge and side focus rings aren't clipped.
+    body: {
+      minHeight: '0',
+      overflowY: 'auto',
+      overscrollBehavior: 'contain',
+      mx: '-6',
+      px: '6',
+      mt: toPx(space[2] - ringRoom),
+      mb: toPx(-ringRoom),
+      py: toPx(ringRoom),
+      textStyle: 'body',
+      overflowWrap: 'break-word',
+      hyphens: 'auto',
+    },
+    footer: { flexShrink: '0', mt: '4', display: 'flex', gap: '2', justifyContent: 'flex-end', flexWrap: 'wrap' },
     close: { position: 'absolute', top: '4', insetInlineEnd: '4' },
   },
   variants: {

@@ -65,7 +65,7 @@ Biome 负责 lint 和格式，配置在根 `biome.json`。格式化风格与 `pl
 
 重构应当不改变外观。做法：
 
-1. 在改动之前，用当前 HEAD 截一套基线，复制到 `.temp/shots-base/`。代码已经改了的话，先 `git stash push -u` 截基线再 `git stash pop`，或用 `git worktree` 在临时目录里截。
+1. 在改动之前，用当前 HEAD 截一套基线，复制到 `.temp/shots-base/`。代码已经改了的话，在 `../design.worktrees/baseline/<feature 名>` 建一个钉在合并基点的 detached worktree，装依赖后在那里截，截完 `git worktree remove`（做法见 `tuu-create-feature` 的 `references/ui-acceptance.md`）。不要在当前 worktree 里 `git stash` 或切回旧提交，会打乱进行中的改动。
 2. 改动后重新 `pnpm shots`，逐张比较：`compare -metric AE <基线> <新图> null:`（ImageMagick；输出 0 表示逐像素相同）。
 3. 有差异时：`compare … -compose src <diff.png>`，再 `magick <diff.png> -trim info:` 定位差异区域。
 

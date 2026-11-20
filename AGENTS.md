@@ -74,7 +74,8 @@ koi-ui/
 
 前置：Node 版本见 `.nvmrc`（Panda v2 至少要 Node 22）；pnpm 版本见根 `package.json` 的 `packageManager`。像素比对要用 ImageMagick（`compare`、`magick`）。
 
-- `pnpm install`：安装依赖。
+- `pnpm install`：安装依赖；实际装了依赖时由 `postinstall` 顺带同步 Coding Agent Skill。
+- `pnpm skills:sync`：安装 `package.json` 的 `skills` 字段锁定的共用 skill，并把 `.agents/skills/` 下的 skill 链接进 `.claude/skills/`。细节见 [Coding Agent Skills](#coding-agent-skills)。
 - `pnpm tokens`：改完 `tokens.json` 后重建 token 输出。
 - `pnpm contrast`：检查每套 palette、两种主题下的对比度。
 - `pnpm codegen`：tokens + Panda codegen；改了 tokens、recipe 或 `panda.config.ts` 之后跑。
@@ -116,6 +117,20 @@ koi-ui/
 ## Agent Temporary Files
 
 agent 运行中产生的临时文件（截图基线、生成的 CSS、比对图、日志、临时脚本）统一放在仓库根目录的 `.temp/`（已 gitignore），不要写到仓库外或混进源码目录。
+
+## Coding Agent Skills
+
+- `.agents/skills/` 下的 `koi-design`、`port-component` 是本仓库自己的 skill，直接入库。
+- tuuject 各项目共用的开发流程 skill `tuu-create-feature`（worktree 开发、交付与 PR review）来自 [tuuject/skills](https://github.com/tuuject/skills)，在 `package.json` 的 `skills` 字段按 tag 锁定。`ref` 只能写 tag 或分支名，CLI 用 `git clone --branch` 拉取，不认 commit hash。要改流程本身就去那个仓库改，发了新 tag 再回来改 `ref`。
+- `pnpm skills:sync`（`scripts/skills-sync.mjs`）用精确锁版本的 `skills` CLI 把共用 skill 装进 `.agents/skills/`，内容哈希写进 `skills-lock.json`；然后把 `.agents/skills/` 下每个 skill 链接到 `.claude/skills/`。已安装且 `ref` 没变时不联网。
+- 装进来的共用 skill（`.agents/skills/tuu-*/`）和整个 `.claude/skills/` 是生成的，已 gitignore；`skills-lock.json` 随 `skills` 字段一起提交。`ref` 没变而哈希变了，说明上游改写了 tag，先审查再提交。
+- 作为 `postinstall` 运行时，CI 环境（`CI` 非空且不为 `0`/`false`）或没有 `.git` 的目录直接跳过；GitHub 不可达等问题只打印警告，不让 `pnpm install` 失败。手动的 `pnpm skills:sync` 总会执行，有问题时以非零码退出。pnpm 在依赖已是最新时不跑 `postinstall`，所以只改了 `skills` 字段或新增了本仓库 skill 时要手动同步。
+
+`tuu-create-feature` 在本仓库的取值：
+
+- 集成分支是 `main`：feature 从 `origin/main` 开，PR 合回 `main`。
+- 不写 devlog。
+- 界面截图：组件用 `pnpm shots`，改前基线与逐像素比对按 [verification.md](agent-doc/verification.md#像素比对重构必须做)。Admin 模板还没有截图脚本，第一次需要时按 skill 新建，并登记到这里。
 
 ## Design Invariants
 

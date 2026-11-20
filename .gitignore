@@ -10,3 +10,5 @@ playwright-report
 .idea
 .wrangler
 .temp
+.agents/skills/tuu-*/
+.claude/skills/

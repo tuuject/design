@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "skills": {
+    "tuu-create-feature": {
+      "source": "tuuject/skills",
+      "ref": "v0.3.0",
+      "sourceType": "github",
+      "skillPath": "skills/tuu-create-feature/SKILL.md",
+      "computedHash": "fa42591a7e4e6a026989aa6e1df0ed7743a093385c783b910d8276751ebb805c",
+      "via": "."
+    }
+  }
+}

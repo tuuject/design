@@ -28,12 +28,24 @@
     "check": "pnpm codegen && pnpm contrast && node scripts/check-raw-colors.mjs && node scripts/check-raw-sizes.mjs && node scripts/check-headless.mjs && node scripts/check-core.mjs && node scripts/check-logical-props.mjs && node scripts/check-dots.mjs && node scripts/check-versions.mjs && pnpm typecheck",
     "pack:packages": "pnpm build:packages && node scripts/pack-packages.mjs",
     "version:bump": "node scripts/version-bump.mjs",
-    "version:check": "node scripts/check-versions.mjs"
+    "version:check": "node scripts/check-versions.mjs",
+    "skills:sync": "node scripts/skills-sync.mjs",
+    "postinstall": "node scripts/skills-sync.mjs --postinstall"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.15",
     "@pandacss/dev": "^2.1.2",
     "@pandacss/preset-base": "^2.1.2",
+    "skills": "1.7.2",
     "typescript": "^7.0.2"
-  }
+  },
+  "skills": [
+    {
+      "source": "tuuject/skills",
+      "ref": "v0.3.0",
+      "skills": [
+        "tuu-create-feature"
+      ]
+    }
+  ]
 }
